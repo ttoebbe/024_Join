@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
@@ -15,11 +15,9 @@
     <title>Projekt-Startvorlage</title>
   </head>
   <body>
-
     <header>
       <div class="header-content">
         <div class="header-left">
-
           <h1>Projekt-Start</h1>
         </div>
         <div class="header-right">
@@ -29,13 +27,70 @@
     </header>
 
     <main>
-      <div>
-        <button class="button-styling" type="button" onclick="uploadSampleTasks()">laden</button>
-        <button class="button-styling" type="button" onclick="fetchAndLogSampleTasks()">anzeigen</button>
-        <button class="button-styling" type="button" onclick="deleteSampleTask()">löschen</button>
+      <div class="test-section">
+        <button
+          class="button-styling"
+          type="button"
+          onclick="uploadSampleTasks()"
+        >
+          laden
+        </button>
+        <button
+          class="button-styling"
+          type="button"
+          onclick="fetchAndLogSampleTasks()"
+        >
+          anzeigen
+        </button>
+        <button
+          class="button-styling"
+          type="button"
+          onclick="deleteSampleTask()"
+        >
+          löschen
+        </button>
+      </div>
+
+      <div class="test-section">
+        <button class="button-styling" type="button" onclick="uploadUserList()">
+          User laden
+        </button>
 
       </div>
 
+      <div>
+        </button>
+
+        <div class="login-form">
+          <div class="input-group">
+            <label for="username">Benutzername:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Benutzername eingeben"
+              required="true"
+            />
+          </div>
+          <div class="input-group">
+            <label for="password">Passwort:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Passwort eingeben"
+              required="true"
+            />
+          </div>
+          <button
+            class="button-styling"
+            type="button"
+            onclick="validateUserForm()"
+          >
+            User validieren
+          </button>
+        </div>
+      </div>
     </main>
 
     <footer>
