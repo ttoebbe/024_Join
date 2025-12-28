@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles/node_modules/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="./styles/standard.css" />
     <link rel="stylesheet" href="./styles/assets.css" />
-    <link rel="stylesheet" href="./styles/project.css" />
 
     <link
       rel="icon"
@@ -17,16 +14,12 @@
 
     <title>Projekt-Startvorlage</title>
   </head>
-  <body onload="initPage()">
+  <body>
 
     <header>
       <div class="header-content">
         <div class="header-left">
-          <img
-            src="./assets/icons/favicon-pokedex.png"
-            alt="Logo"
-            class="header-logo"
-          />
+
           <h1>Projekt-Start</h1>
         </div>
         <div class="header-right">
@@ -36,30 +29,13 @@
     </header>
 
     <main>
-      <section class="hero">
-        <div class="hero-content">
-          <p class="eyebrow">Startklar</p>
-          <h2>Leeres Grundgerüst für neue Webprojekte</h2>
-          <p>
-            Nutze diese Vorlage als Ausgangspunkt. Header, Footer und Basis-Styling sind bereits vorbereitet. Ergänze deine Inhalte einfach in project.css und script/main.js.
-          </p>
-          <div class="hero-actions">
-            <button class="button-styling" type="button" onclick="addDemoCard()">Beispielkarte hinzufügen</button>
-            <button class="ghost-button" type="button" onclick="clearCards()">Karten leeren</button>
-          </div>
-        </div>
-        <div class="hero-aside">
-          <div class="placeholder-illustration">Baue hier deine Idee aus.</div>
-        </div>
-      </section>
+      <div>
+        <button class="button-styling" type="button" onclick="uploadSampleTasks()">laden</button>
+        <button class="button-styling" type="button" onclick="fetchAndLogSampleTasks()">anzeigen</button>
+        <button class="button-styling" type="button" onclick="deleteSampleTask()">löschen</button>
 
-      <section class="card-section">
-        <div class="section-head">
-          <h3>Inhaltliche Module</h3>
-          <p class="section-subtitle">Beispielhafte Karten, die du ersetzen oder erweitern kannst.</p>
-        </div>
-        <div id="card-grid" class="card-grid"></div>
-      </section>
+      </div>
+
     </main>
 
     <footer>
@@ -67,5 +43,6 @@
     </footer>
   </body>
 
-  <script src="./script/main.js"></script>
+  <script src="./js/main.js"></script>
+  <script src="./js/firebase.js"></script>
 </html>
