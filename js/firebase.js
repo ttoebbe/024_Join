@@ -37,6 +37,10 @@ const userList = {
 const BASE_URL =
   "https://remotestorage-67778-default-rtdb.europe-west1.firebasedatabase.app/";
 
+
+
+
+
 /**
  * Zentraler Firebase-Request mit gemeinsamer Fehlerbehandlung.
  * @param {string} path
@@ -62,15 +66,15 @@ async function firebaseRequest(
   try {
     response = await fetch(url, opts);
   } catch (err) {
-    throw new Error(`Netzwerkfehler: ${err.message}`);
+    console.log(`Netzwerkfehler: ${err.message}`);
+    return null;
   }
 
   if (!response.ok) {
     const text = await response.text().catch(() => "");
     console.log(response);
-    throw new Error(
-      `Fehler (${response.status}): ${text || response.statusText}`
-    );
+    console.log(`Fehler (${response.status}): ${text || response.statusText}`);
+    return null;
   }
 
   const ct = response.headers.get("Content-Type") || ""; // Inhaltstyp prüfen und nur bei JSON parsen, andernfalls wird ein leerer String zurückgeben
@@ -131,6 +135,24 @@ async function deleteSampleTask() {
   const tasksAfterDeletion = await getData("tasks");
   console.table(tasksAfterDeletion);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**************************************************************************** */
+
 
 // Benutzerverwaltung
 /**
