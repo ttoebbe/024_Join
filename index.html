@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles/assets.css" />
 
-    <link
-      rel="icon"
-      href="./assets/icons/favicon-pokedex.png"
-      type="image/png"
-      sizes="32x32"
-    />
+
 
     <title>Projekt-Startvorlage</title>
   </head>
@@ -59,9 +54,7 @@
       </div>
 
       <div>
-        </button>
-
-        <div class="login-form">
+        <form class="login-form" onsubmit="event.preventDefault(); validateUserForm();">
           <div class="input-group">
             <label for="username">Benutzername:</label>
             <input
@@ -69,6 +62,7 @@
               id="username"
               name="username"
               placeholder="Benutzername eingeben"
+              autocomplete="username"
               required="true"
             />
           </div>
@@ -79,17 +73,17 @@
               id="password"
               name="password"
               placeholder="Passwort eingeben"
+              autocomplete="current-password"
               required="true"
             />
           </div>
           <button
             class="button-styling"
-            type="button"
-            onclick="validateUserForm()"
+            type="submit"
           >
             User validieren
           </button>
-        </div>
+        </form>
       </div>
     </main>
 
