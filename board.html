@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join | Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="./styles/standard.css" />
+  <link rel="stylesheet" href="./styles/assets.css" />
+  <link rel="stylesheet" href="./styles/board.css" />
+</head>
+
+<body class="page-board">
+  <div class="app">
+    <!-- SIDEBAR (1:1 als wiederverwendbarer Block; später ggf. teamweit kopieren) -->
+    <aside class="sidebar">
+      <div class="sidebar__top">
+        <a class="sidebar__logo" href="./summary.html" aria-label="Join">
+          <img src="./assets/img/logo_join.svg" alt="Join" />
+        </a>
+
+        <nav class="sidebar__nav">
+          <a class="sidebar__link" href="./summary.html">
+            <span class="sidebar__icon"></span>
+            <span>Summary</span>
+          </a>
+          <a class="sidebar__link" href="./add_task.html">
+            <span class="sidebar__icon"></span>
+            <span>Add Task</span>
+          </a>
+          <a class="sidebar__link is-active" href="./board.html">
+            <span class="sidebar__icon"></span>
+            <span>Board</span>
+          </a>
+          <a class="sidebar__link" href="./contacts.html">
+            <span class="sidebar__icon"></span>
+            <span>Contacts</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar__bottom">
+        <a class="sidebar__legal" href="#">Privacy Policy</a>
+        <a class="sidebar__legal" href="#">Legal notice</a>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar__title">Kanban Project Management Tool</div>
+
+        <div class="topbar__right">
+          <button class="topbar__help" type="button" aria-label="Help">
+            <img src="./assets/img/icon_help.svg" alt="" />
+          </button>
+
+          <button class="topbar__user" type="button" aria-label="User menu">
+            <span class="topbar__initials">SM</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- BOARD HEADER -->
+      <section class="board-header">
+        <h1 class="board-header__headline">Board</h1>
+
+        <div class="board-header__actions">
+          <!-- Search -->
+          <div class="search">
+            <input
+              class="search__input"
+              type="text"
+              placeholder="Find Task"
+              aria-label="Find Task"
+              id="boardSearch"
+            />
+            <button class="search__btn" type="button" aria-label="Search">
+              <img src="./assets/img/icon_search.svg" alt="" />
+            </button>
+          </div>
+
+          <!-- Add task -->
+          <button class="btn btn--primary" type="button" id="btnOpenAddOverlay">
+            Add task <span class="btn__plus">+</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- BOARD COLUMNS -->
+      <section class="board" aria-label="Board Columns">
+        <!-- TO DO -->
+        <div class="column" data-status="todo">
+          <div class="column__head">
+            <h2 class="column__title">To do</h2>
+            <button class="column__add" type="button" aria-label="Add task to To do">
+              <img src="./assets/img/icon_plus_small.svg" alt="" />
+            </button>
+          </div>
+
+          <div class="column__body" id="colTodo">
+            <!-- Empty state -->
+            <div class="empty-state">No tasks To do</div>
+
+            <!-- Example Card (User Story) -->
+            <article class="card card--clickable" tabindex="0" role="button" aria-label="Open task">
+              <div class="card__label card__label--userstory">User Story</div>
+              <h3 class="card__title">Kochwelt Page &amp; Recipe Recommender</h3>
+              <p class="card__desc">Build start page with recipe recommendation...</p>
+
+              <!-- Subtasks progress (optional block) -->
+              <div class="progress">
+                <div class="progress__top">
+                  <span class="progress__text">1/2 Subtasks</span>
+                </div>
+                <div class="progress__bar">
+                  <div class="progress__fill" style="width: 50%;"></div>
+                </div>
+              </div>
+
+              <div class="card__footer">
+                <div class="avatars">
+                  <span class="avatar avatar--orange">AM</span>
+                  <span class="avatar avatar--purple">MB</span>
+                  <span class="avatar avatar--blue">SM</span>
+                </div>
+
+                <div class="prio">
+                  <img src="./assets/img/icon_prio_medium.svg" alt="Priority Medium" />
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- IN PROGRESS -->
+        <div class="column" data-status="inprogress">
+          <div class="column__head">
+            <h2 class="column__title">In progress</h2>
+            <button class="column__add" type="button" aria-label="Add task to In progress">
+              <img src="./assets/img/icon_plus_small.svg" alt="" />
+            </button>
+          </div>
+
+          <div class="column__body" id="colInProgress">
+            <div class="empty-state">No tasks In progress</div>
+          </div>
+        </div>
+
+        <!-- AWAIT FEEDBACK -->
+        <div class="column" data-status="awaitfeedback">
+          <div class="column__head">
+            <h2 class="column__title">Await feedback</h2>
+            <button class="column__add" type="button" aria-label="Add task to Await feedback">
+              <img src="./assets/img/icon_plus_small.svg" alt="" />
+            </button>
+          </div>
+
+          <div class="column__body" id="colAwaitFeedback">
+            <div class="empty-state">No tasks Await feedback</div>
+          </div>
+        </div>
+
+        <!-- DONE -->
+        <div class="column" data-status="done">
+          <div class="column__head">
+            <h2 class="column__title">Done</h2>
+            <button class="column__add" type="button" aria-label="Add task to Done">
+              <img src="./assets/img/icon_plus_small.svg" alt="" />
+            </button>
+          </div>
+
+          <div class="column__body" id="colDone">
+            <div class="empty-state">No tasks Done</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- OVERLAY: TASK DETAILS (öffnet bei Karten-Klick) -->
+  <div class="overlay d-none" id="taskOverlay" aria-hidden="true">
+    <div class="overlay__backdrop" data-close="true"></div>
+
+    <div class="overlay__panel" role="dialog" aria-modal="true" aria-label="Task details">
+      <button class="overlay__close" type="button" aria-label="Close" data-close="true">
+        <img src="./assets/img/icon_close.svg" alt="" />
+      </button>
+
+      <div class="task-view">
+        <div class="task-view__label task-view__label--userstory">User Story</div>
+
+        <h2 class="task-view__title">Kochwelt Page &amp; Recipe Recommender</h2>
+
+        <p class="task-view__text">
+          Build start page with recipe recommendation.
+        </p>
+
+        <div class="task-view__row">
+          <span class="task-view__key">Due date:</span>
+          <span class="task-view__val">10/05/2023</span>
+        </div>
+
+        <div class="task-view__row">
+          <span class="task-view__key">Priority:</span>
+          <span class="task-view__val task-view__prio">
+            Medium <img src="./assets/img/icon_prio_medium.svg" alt="" />
+          </span>
+        </div>
+
+        <div class="task-view__assigned">
+          <div class="task-view__key">Assigned To:</div>
+          <div class="assigned-list">
+            <div class="assigned-item">
+              <span class="avatar avatar--teal">EM</span>
+              <span>Emmanuel Mauer</span>
+            </div>
+            <div class="assigned-item">
+              <span class="avatar avatar--purple">MB</span>
+              <span>Marcel Bauer</span>
+            </div>
+            <div class="assigned-item">
+              <span class="avatar avatar--orange">AM</span>
+              <span>Anton Mayer</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="task-view__subtasks">
+          <div class="task-view__key">Subtasks</div>
+          <div class="subtask-list">
+            <label class="subtask-item">
+              <input type="checkbox" />
+              <span>Implement Recipe Recommendation</span>
+            </label>
+            <label class="subtask-item">
+              <input type="checkbox" />
+              <span>Start Page Layout</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="task-view__actions">
+          <button class="icon-btn" type="button" aria-label="Delete">
+            <img src="./assets/img/icon_delete.svg" alt="" />
+            <span>Delete</span>
+          </button>
+          <button class="icon-btn" type="button" aria-label="Edit">
+            <img src="./assets/img/icon_edit.svg" alt="" />
+            <span>Edit</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERLAY: ADD TASK (öffnet bei Board Add Button) -->
+  <div class="overlay d-none" id="addTaskOverlay" aria-hidden="true">
+    <div class="overlay__backdrop" data-close="true"></div>
+
+    <div class="overlay__panel overlay__panel--wide" role="dialog" aria-modal="true" aria-label="Add task">
+      <button class="overlay__close" type="button" aria-label="Close" data-close="true">
+        <img src="./assets/img/icon_close.svg" alt="" />
+      </button>
+
+      <div class="add-overlay">
+        <h2 class="add-overlay__title">Add Task</h2>
+
+        <form class="add-form">
+          <div class="add-grid">
+            <!-- LEFT -->
+            <div class="add-col">
+              <label class="field">
+                <span class="field__label">Title<span class="req">*</span></span>
+                <input class="field__input" type="text" placeholder="Enter a title" required />
+              </label>
+
+              <label class="field">
+                <span class="field__label">Description</span>
+                <textarea class="field__textarea" rows="5" placeholder="Enter a Description"></textarea>
+              </label>
+
+              <label class="field">
+                <span class="field__label">Due date<span class="req">*</span></span>
+                <input class="field__input" type="date" required />
+              </label>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- RIGHT -->
+            <div class="add-col">
+              <div class="field">
+                <span class="field__label">Priority</span>
+                <div class="prio-buttons">
+                  <button class="prio-btn" type="button">Urgent</button>
+                  <button class="prio-btn is-active" type="button">Medium</button>
+                  <button class="prio-btn" type="button">Low</button>
+                </div>
+              </div>
+
+              <label class="field">
+                <span class="field__label">Assigned to</span>
+                <select class="field__select">
+                  <option>Select contacts to assign</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="field__label">Category<span class="req">*</span></span>
+                <select class="field__select" required>
+                  <option value="">Select task category</option>
+                  <option>User Story</option>
+                  <option>Technical Task</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="field__label">Subtasks</span>
+                <input class="field__input" type="text" placeholder="Add new subtask" />
+              </label>
+
+              <div class="hint">
+                <span class="hint__text d-none" id="reqHint">This field is required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="add-actions">
+            <button class="btn btn--ghost" type="reset">Clear</button>
+            <button class="btn btn--primary" type="submit">
+              Create Task <span class="btn__plus">✓</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS später: overlay open/close, render tasks, etc. -->
+  <!-- <script src="./js/board.js"></script> -->
+</body>
+</html>
