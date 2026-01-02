@@ -1,3 +1,11 @@
+/**************************************************************************** */
+// Firebase dummy data and utility functions
+/**************************************************************************** */
+
+/**
+ * Dummy data Users
+ * id description: u0 --> u = user, 0 = ID
+ */
 const users = [
   {
     id: "u0",
@@ -15,6 +23,10 @@ const users = [
   },
 ];
 
+/**
+ * Dummy data Contacts
+ * id description: c0 --> c = contact, 0 = ID
+ */
 const contacts = [
   {
     id: "c0",
@@ -39,6 +51,10 @@ const contacts = [
   },
 ];
 
+/**
+ * Dummy data Tasks
+ * id description: t0 --> t = task, 0 = ID
+ */
 const tasks = [
   {
     id: "t0",
@@ -96,11 +112,11 @@ const BASE_URL =
   "https://remotestorage-67778-default-rtdb.europe-west1.firebasedatabase.app/";
 
 /**
- * Erstellt Request-Optionen für Firebase-Anfragen.
- * @param {string} method - HTTP-Methode
- * @param {any} data - Zu sendende Daten
- * @param {Object} headers - Zusätzliche Header
- * @returns {Object} Request-Optionen
+ * Creates request options for Firebase requests.
+ * @param {string} method - HTTP method
+ * @param {any} data - Data to send
+ * @param {Object} headers - Additional headers
+ * @returns {Object} Request options
  */
 function createRequestOptions(method, data, headers) {
   const options = {
@@ -116,29 +132,34 @@ function createRequestOptions(method, data, headers) {
 }
 
 /**
- * Behandelt Response-Verarbeitung für Firebase-Anfragen.
- * @param {Response} response - Fetch Response-Objekt
- * @returns {Promise<any|null>} Verarbeitete Antwort oder null
+ * Handles response processing for Firebase requests.
+ * @param {Response} response - Fetch Response object
+ * @returns {Promise<any|null>} Processed response or null
  */
 async function processFirebaseResponse(response) {
   if (!response.ok) {
     const text = await response.text().catch(() => "");
     console.log(response);
-    console.log(`Fehler (${response.status}): ${text || response.statusText}`);
+    console.log(`Error (${response.status}): ${text || response.statusText}`);
     return null;
   }
 
   const contentType = response.headers.get("Content-Type") || "";
-  return contentType.includes("application/json") ? await response.json() : null;
+  return contentType.includes("application/json")
+    ? await response.json()
+    : null;
 }
 
 /**
- * Zentraler Firebase-Request mit gemeinsamer Fehlerbehandlung.
- * @param {string} path - Firebase-Pfad
- * @param {{method?: string, data?: any, headers?: Object}} options - Request-Optionen
- * @returns {Promise<any|null>} Response-Daten oder null
+ * Central Firebase request with shared error handling.
+ * @param {string} path - Firebase path
+ * @param {{method?: string, data?: any, headers?: Object}} options - Request options
+ * @returns {Promise<any|null>} Response data or null
  */
-async function firebaseRequest(path = "", { method = "GET", data, headers } = {}) {
+async function firebaseRequest(
+  path = "",
+  { method = "GET", data, headers } = {}
+) {
   const url = `${BASE_URL}${path}.json`;
   const requestOptions = createRequestOptions(method, data, headers);
 
@@ -146,23 +167,23 @@ async function firebaseRequest(path = "", { method = "GET", data, headers } = {}
     const response = await fetch(url, requestOptions);
     return await processFirebaseResponse(response);
   } catch (err) {
-    console.log(`Netzwerkfehler: ${err.message}`);
+    console.log(`Network error: ${err.message}`);
     return null;
   }
 }
 
 /**
- * Lädt Daten auf den angegebenen Firebase-Pfad.
- * @param {string} path - Zielpfad relativ zur Datenbankwurzel.
- * @param {Object} data - Zu speichernde Daten.
- * @returns {Promise<Object>} Serverantwort als JSON.
+ * Uploads data to the specified Firebase path.
+ * @param {string} path - Target path relative to database root.
+ * @param {Object} data - Data to store.
+ * @returns {Promise<Object>} Server response as JSON.
  */
 async function uploadData(path = "", data = {}) {
   return firebaseRequest(path, { method: "PUT", data });
 }
 
 /**
- * Lädt die vordefinierten Tasks in Firebase.
+ * Uploads the predefined tasks to Firebase.
  * @returns {Promise<void>}
  */
 function uploadTasks() {
@@ -170,7 +191,7 @@ function uploadTasks() {
 }
 
 /**
- * Lädt die vordefinierten Kontakte in Firebase.
+ * Uploads the predefined contacts to Firebase.
  * @returns {Promise<void>}
  */
 function uploadContacts() {
@@ -178,7 +199,7 @@ function uploadContacts() {
 }
 
 /**
- * Lädt die vordefinierten Benutzer in Firebase.
+ * Uploads the predefined users to Firebase.
  * @returns {Promise<void>}
  */
 function uploadUsers() {
@@ -186,7 +207,7 @@ function uploadUsers() {
 }
 
 /**
- * Lädt alle Dummy-Daten (users, contacts, tasks) in Firebase.
+ * Uploads all dummy data (users, contacts, tasks) to Firebase.
  * @returns {Promise<void>}
  */
 async function uploadAllData() {
@@ -196,16 +217,16 @@ async function uploadAllData() {
 }
 
 /**
- * Ruft Daten von Firebase ab.
- * @param {string} path - Pfad relativ zur Datenbankwurzel.
- * @returns {Promise<Object>} Empfangene JSON-Daten.
+ * Retrieves data from Firebase.
+ * @param {string} path - Path relative to database root.
+ * @returns {Promise<Object>} Received JSON data.
  */
 async function getData(path = "") {
   return firebaseRequest(path, { method: "GET" });
 }
 
 /**
- * Holt alle Tasks und schreibt sie in die Konsole.
+ * Fetches all tasks and logs them to console.
  * @returns {Promise<void>}
  */
 async function fetchAndLogAllData() {
@@ -221,37 +242,37 @@ async function fetchAndLogAllData() {
 }
 
 /**
- * Löscht Daten von einem Firebase-Pfad.
- * @param {string} path - Pfad relativ zur Datenbankwurzel.
- * @returns {Promise<any>} Serverantwort.
+ * Deletes data from a Firebase path.
+ * @param {string} path - Path relative to database root.
+ * @returns {Promise<any>} Server response.
  */
 async function deleteData(path = "") {
   return firebaseRequest(path, { method: "DELETE" });
 }
 
 /**
- * Ermittelt den Datentyp anhand der ID.
- * @param {string} id - Element-ID
- * @returns {string|null} Datentyp oder null bei ungültiger ID
+ * Determines data type based on ID.
+ * @param {string} id - Element ID
+ * @returns {string|null} Data type or null for invalid ID
  */
 function determineDataTypeFromId(id) {
   if (!id || typeof id !== "string") {
-    console.error("Eine gültige ID muss angegeben werden");
+    console.error("A valid ID must be provided");
     return null;
   }
 
   if (id.startsWith("t")) return "tasks";
   if (id.startsWith("c")) return "contacts";
 
-  console.error("ID muss mit 't' (Task) oder 'c' (Contact) beginnen");
+  console.error("ID must start with 't' (Task) or 'c' (Contact)");
   return null;
 }
 
 /**
- * Sucht Index eines Elements im Datenarray anhand der ID.
- * @param {Array} dataArray - Array der Daten
- * @param {string} id - Gesuchte ID
- * @returns {number} Index oder -1 wenn nicht gefunden
+ * Searches for element index in data array by ID.
+ * @param {Array} dataArray - Data array
+ * @param {string} id - Searched ID
+ * @returns {number} Index or -1 if not found
  */
 function findElementIndex(dataArray, id) {
   for (let i = 0; i < dataArray.length; i++) {
@@ -263,18 +284,18 @@ function findElementIndex(dataArray, id) {
 }
 
 /**
- * Entfernt Element aus Datenarray und lädt aktualisierte Daten hoch.
- * @param {string} dataType - Datentyp (tasks/contacts)
- * @param {Array} dataArray - Datenarray
- * @param {number} elementIndex - Index des zu löschenden Elements
- * @param {string} id - Element-ID
- * @returns {Promise<boolean>} Erfolg der Operation
+ * Removes element from data array and uploads updated data.
+ * @param {string} dataType - Data type (tasks/contacts)
+ * @param {Array} dataArray - Data array
+ * @param {number} elementIndex - Index of element to delete
+ * @param {string} id - Element ID
+ * @returns {Promise<boolean>} Success of operation
  */
 async function removeElementAndUpdate(dataType, dataArray, elementIndex, id) {
   dataArray.splice(elementIndex, 1);
   await uploadData(dataType, dataArray);
 
-  console.log(`${dataType.slice(0, -1)} mit ID '${id}' erfolgreich gelöscht`);
+  console.log(`${dataType.slice(0, -1)} with ID '${id}' successfully deleted`);
 
   const updatedData = await getData(dataType);
   console.table(updatedData);
@@ -283,9 +304,9 @@ async function removeElementAndUpdate(dataType, dataArray, elementIndex, id) {
 }
 
 /**
- * Sucht und löscht einen Task oder Contact anhand der ID.
- * @param {string} id - Die ID des zu löschenden Elements
- * @returns {Promise<boolean>} true wenn erfolgreich gelöscht
+ * Searches and deletes a task or contact by ID.
+ * @param {string} id - ID of element to delete
+ * @returns {Promise<boolean>} true if successfully deleted
  */
 async function deleteById(id) {
   const dataType = determineDataTypeFromId(id);
@@ -294,7 +315,7 @@ async function deleteById(id) {
   try {
     const data = await getData(dataType);
     if (!data) {
-      console.error(`Keine ${dataType} gefunden`);
+      console.error(`No ${dataType} found`);
       return false;
     }
 
@@ -302,30 +323,30 @@ async function deleteById(id) {
     const elementIndex = findElementIndex(dataArray, id);
 
     if (elementIndex === -1) {
-      console.error(`${dataType.slice(0, -1)} mit ID '${id}' nicht gefunden`);
+      console.error(`${dataType.slice(0, -1)} with ID '${id}' not found`);
       return false;
     }
 
     return await removeElementAndUpdate(dataType, dataArray, elementIndex, id);
   } catch (error) {
-    console.error("Fehler beim Löschen:", error);
+    console.error("Error during deletion:", error);
     return false;
   }
 }
 
 /**
- * Löscht einen Task anhand der ID.
- * @param {string} taskId - Die ID des zu löschenden Tasks (z.B. "t0")
- * @returns {Promise<boolean>} true wenn erfolgreich gelöscht
+ * Deletes a task by ID.
+ * @param {string} taskId - ID of task to delete (e.g. "t0")
+ * @returns {Promise<boolean>} true if successfully deleted
  */
 async function deleteTaskById(taskId) {
   return await deleteById(taskId);
 }
 
 /**
- * Löscht einen Contact anhand der ID.
- * @param {string} contactId - Die ID des zu löschenden Contacts (z.B. "c0")
- * @returns {Promise<boolean>} true wenn erfolgreich gelöscht
+ * Deletes a contact by ID.
+ * @param {string} contactId - ID of contact to delete (e.g. "c0")
+ * @returns {Promise<boolean>} true if successfully deleted
  */
 async function deleteContactById(contactId) {
   return await deleteById(contactId);
@@ -333,10 +354,10 @@ async function deleteContactById(contactId) {
 
 /**************************************************************************** */
 
-// Benutzerverwaltung
+// User management
 /**
- * Liest Benutzerdaten aus HTML-Formular.
- * @returns {{username: string, password: string}|null} Benutzerdaten oder null
+ * Reads user data from HTML form.
+ * @returns {{username: string, password: string}|null} User data or null
  */
 function getUserCredentialsFromForm() {
   const username = document.getElementById("username").value;
@@ -351,11 +372,11 @@ function getUserCredentialsFromForm() {
 }
 
 /**
- * Sucht Benutzer in Firebase-Daten.
- * @param {Array} users - Benutzer-Array
- * @param {string} username - Benutzername
- * @param {string} password - Passwort
- * @returns {boolean} true wenn Benutzer gefunden
+ * Searches for user in Firebase data.
+ * @param {Array} users - User array
+ * @param {string} username - Username
+ * @param {string} password - Password
+ * @returns {boolean} true if user found
  */
 function findUserInData(users, username, password) {
   for (const user of users) {
@@ -367,7 +388,7 @@ function findUserInData(users, username, password) {
 }
 
 /**
- * Validiert einen Benutzer mit Daten aus dem HTML-Formular.
+ * Validates a user with data from HTML form.
  * @returns {Promise<void>}
  */
 async function validateUserForm() {
@@ -376,17 +397,21 @@ async function validateUserForm() {
 
   try {
     const users = await getData("users");
-    const isValid = findUserInData(users, credentials.username, credentials.password);
+    const isValid = findUserInData(
+      users,
+      credentials.username,
+      credentials.password
+    );
 
     if (isValid) {
-      console.log("Benutzer validiert");
+      console.log("User validated");
       alert("Benutzer validiert");
     } else {
-      console.log("Benutzername oder Passwort falsch");
+      console.log("Username or password incorrect");
       alert("Benutzername oder Passwort falsch");
     }
   } catch (error) {
-    console.error("Fehler bei der Validierung:", error);
+    console.error("Error during validation:", error);
     alert("Fehler bei der Validierung: " + error.message);
   }
 }
