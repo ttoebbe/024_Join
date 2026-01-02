@@ -372,13 +372,13 @@ function getUserCredentialsFromForm() {
 }
 
 /**
- * Searches for user in Firebase data.
+ * Checks if user exists in data.
  * @param {Array} users - User array
  * @param {string} username - Username
  * @param {string} password - Password
- * @returns {boolean} true if user found
+ * @returns {boolean} true if user is valid
  */
-function findUserInData(users, username, password) {
+function isUserValid(users, username, password) {
   for (const user of users) {
     if (user.name === username && user.password === password) {
       return true;
@@ -388,16 +388,32 @@ function findUserInData(users, username, password) {
 }
 
 /**
+ * Reads user credentials from form.
+ * @returns {{username: string, password: string}|null} User data or null
+ */
+function getUserFromForm() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  if (!username || !password) {
+    alert("Bitte beide Felder ausfüllen!");
+    return null;
+  }
+
+  return { username, password };
+}
+
+/**
  * Validates a user with data from HTML form.
  * @returns {Promise<void>}
  */
 async function validateUserForm() {
-  const credentials = getUserCredentialsFromForm();
+  const credentials = getUserFromForm();
   if (!credentials) return;
 
   try {
     const users = await getData("users");
-    const isValid = findUserInData(
+    const isValid = isUserValid(
       users,
       credentials.username,
       credentials.password
