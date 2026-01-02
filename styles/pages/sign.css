@@ -1,0 +1,169 @@
+.homepage-image {
+    width: 100px;
+    height: 122px;
+    position: absolute;
+    top: 80px;
+    left: 77px;
+    transform: translate(0, 0) scale(1);
+}
+
+main {
+    max-width: 598px;
+    max-height: 630px;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+section {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 11px;
+
+}
+
+.form-decoration-top-left {
+    position: absolute;
+    top: 66px;
+    left: 66px;
+    width: 32px;
+    height: 32px;
+    border-top-left-radius: 30px;
+    border-bottom-right-radius: 75px;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form img {
+    width: 24px;
+    height: 24px;
+}
+
+.form-header {
+    font-style: normal;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-header h1 {
+    font-size: 61px;
+    margin: 0;
+}
+
+.underline_div {
+    width: 90px;
+    height: 3px;
+    background-color: #29ABE2;
+    margin-top: 16px;
+}
+
+.input-fields {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 422px;
+}
+
+.position {
+    position: absolute;
+}
+
+.input-icon-username {
+    top: 0px;
+    right: 15px;
+}
+
+.input-icon-email {
+    top: 40px;
+    right: 15px;
+}
+
+.input-icon-password {
+    top: 80px;
+    right: 15px;
+}
+
+.input-icon-confirm-password {
+    top: 120px;
+    right: 15px;
+}
+
+.form-buttons button {
+    
+    height: 48px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 21px;
+    font-weight: 700;
+    font-style: bold;
+}
+
+.btn-left {
+    width: 110px;
+    background-color: #2A3647;
+    color: white;
+    padding: 0;
+}
+
+.label_link {
+    text-decoration: none;
+    color: #29ABE2;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 246px;
+    height: 35px;
+    gap: 8px;
+    position: absolute;
+    bottom: 20px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+footer a {
+    text-decoration: none;
+    color: #A8A8A8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.footer_left {
+    width: 121px;
+    height: 35px;
+}
+
+.footer_right {
+    width: 109px;
+    height: 35px;
+}
