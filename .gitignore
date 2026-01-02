@@ -16,6 +16,7 @@ pnpm-debug.log*
 # Editor and system files
 .vscode/
 .DS_Store
+.github
 Thumbs.db
 
 # Env and secrets
@@ -23,4 +24,5 @@ Thumbs.db
 
 # helpdesk files
 helpdesk/
-copilot-instructions.md
+
+
