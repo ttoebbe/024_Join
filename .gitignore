@@ -16,13 +16,13 @@ pnpm-debug.log*
 # Editor and system files
 .vscode/
 .DS_Store
-.github
+.github/
 Thumbs.db
 
 # Env and secrets
 .env*
 
 # helpdesk files
-helpdesk/
+.helpdesk/
 
 
