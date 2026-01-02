@@ -3,17 +3,16 @@
    ========================= */
 
 .page-board {
-  margin: 0;            /* überschreibt body margin: 0 auto */
+  margin: 0;            
   min-height: 100vh;
   background: #f6f7f8;  /* Join Hintergrund */
 }
 
-/* neutralisiert eure generischen Layout-Regeln */
 .page-board main {
-  max-width: none;      /* überschreibt main max-width: var(--content-width) */
+  max-width: none;      
   margin: 0;
   padding: 0;
-  align-items: stretch; /* überschreibt align-items:center */
+  align-items: stretch; 
   width: auto;
 }
 
@@ -579,24 +578,4 @@
   justify-content: flex-end;
   gap: 12px;
   padding-top: 14px;
-}
-
-/* ========== RESPONSIVE (Mobile Board: Spalten untereinander) ========== */
-@media (max-width: 980px) {
-  .topbar { padding: 0 20px; }
-  .board-header { padding: 24px 20px 8px; }
-  .board { padding: 12px 20px 40px; }
-  .sidebar { width: 80px; }
-  .overlay__panel--wide { width: 520px; }
-  .add-grid { grid-template-columns: 1fr; }
-  .divider { display: none; }
-}
-
-@media (max-width: 600px) {
-  .app { flex-direction: column; }
-  .sidebar { width: 100%; height: 80px; flex-direction: row; }
-  .board { flex-direction: column; overflow-x: visible; }
-  .column { width: 100%; flex: 1; }
-  .search__input { width: 160px; }
-  .board-header__headline { font-size: 40px; }
 }
