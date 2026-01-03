@@ -3,15 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contacts</title>
+    <title>Kontakte | Join</title>
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
     <link rel="stylesheet" href="/styles/components.css" />
+    <link rel="stylesheet" href="/styles/pages/contacts.css" />
   </head>
 
   <body>
-    <div id="nav-bar-placeholder"></div>
-    <div class="content"></div>
-  </body>
+    <div class="app-shell">
+      <aside id="nav-bar-placeholder"></aside>
+      <main class="contacts-page">
+        <section class="contacts-header">
+          <div class="contacts-title">
+            <p class="contacts-tagline">Gemeinsam gelingt Organisation besser</p>
+            <h1>Kontakte</h1>
+          </div>
+          <button class="primary-button add-contact-btn">
+            <span class="button-icon">+</span>
+            <span>Neuen Kontakt anlegen</span>
+          </button>
+        </section>
 
-  <script src="/js/components.js"></script>
-  <!-- Einbinden der NavBar / diese wird in im components.js geladen  und in components.html gepflegt -->
+        <div class="contacts-main">
+          <section class="contact-list-panel">
+            <button class="list-add-button add-contact-btn">
+              <span class="button-icon">+</span>
+              <span>Neuen Kontakt anlegen</span>
+            </button>
+            <div class="contact-list" aria-live="polite"></div>
+          </section>
+
+          <section class="contact-detail-panel">
+            <header class="detail-header">
+              <div>
+                <p class="detail-kicker">Kontaktdetails</p>
+                <h2>Gemeinsam produktiv bleiben</h2>
+              </div>
+              <div class="detail-actions">
+                <button class="secondary-button" aria-label="Kontakt bearbeiten">Bearbeiten</button>
+                <button class="secondary-button" aria-label="Kontakt löschen">Löschen</button>
+              </div>
+            </header>
+            <div class="contact-detail">
+              <p class="detail-placeholder">Bitte einen Kontakt auswählen.</p>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script src="/js/components.js"></script>
+    <script src="/js/contacts.js"></script>
+  </body>
 </html>
