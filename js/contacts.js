@@ -1,3 +1,18 @@
+/**
+ * New Code
+ */
+
+
+
+
+
+
+
+
+
+/**
+ * Demo Code
+ */
 const demoContacts = [
 	{ id: 'bz', firstName: 'Benedikt', lastName: 'Ziegler', email: 'benedikt@gmail.com', phone: '+49 221 0123456', color: '#7C5DFA' },
 	{ id: 'de', firstName: 'David', lastName: 'Eisenberg', email: 'davideberg@gmail.com', phone: '+49 221 2345678', color: '#FF86C6' },
