@@ -48,6 +48,7 @@ img {
   height: auto;
 }
 
+/** --> ggf in die components.css verschieben <--?
 header {
   width: 100%;
   padding: 14px 20px;
@@ -85,6 +86,7 @@ header h1 {
   margin: 0;
   letter-spacing: 0.5px;
 }
+*/
 
 main {
   flex: 1;
