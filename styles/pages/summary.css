@@ -1,0 +1,316 @@
+body{
+  justify-content: flex-start;
+  align-items: stretch;
+  background: #F6F7F8;
+}
+
+
+.content{
+  background: #F6F7F8;
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  max-width: 1900px;         
+}
+
+
+.nav_links nav a.nav-active{
+  background: #091931;
+}
+
+
+.nav_bar .footer_links a,
+.nav_bar .footer_links a:visited{
+  color: #A8A8A8;            
+  text-decoration: none;
+}
+
+.nav_bar .footer_links a:hover{
+  color: #29ABE2;          
+  text-decoration: none;
+}
+
+
+.nav_bar .footer_links a:active,
+.nav_bar .footer_links a:focus{
+  color: #29ABE2;
+  outline: none;
+}
+
+
+.topbar{
+  height: 96px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #D1D1D1;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
+  padding: 0 72px;
+  box-sizing: border-box;
+
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar-title{
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  color: #2A3647;
+  text-align: center;
+}
+
+.topbar-actions{
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-help{
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #A8A8A8;
+  color: #A8A8A8;
+  text-decoration: none;
+
+  display: grid;
+  place-items: center;
+
+  font-size: 14px;
+  line-height: 1;
+}
+
+.topbar-user{
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid #2A3647;
+  background: #FFFFFF;
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+#userInitials{
+  font-weight: 700;
+  color: #29ABE2;
+}
+
+
+.summary-body{
+  padding: 48px 72px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 72px;
+}
+
+.summary-left{
+  display: flex;
+  flex-direction: column;
+}
+
+
+.summary-headline{
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.summary-h1{
+  margin: 0;
+  font-size: 64px;
+  font-weight: 700;
+  color: #2A3647;
+}
+
+.summary-line{
+  width: 3px;
+  height: 56px;
+  background: #29ABE2;
+  border-radius: 2px;
+}
+
+.summary-sub{
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  color: #2A3647;
+}
+
+.greeting{
+  margin-top: 82px; 
+}
+
+#greetingText{
+  margin: 0;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.15;
+  color: #2A3647;
+}
+
+#userName{
+  margin: 8px 0 0;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: #29ABE2;
+}
+
+
+.summary-kpis{
+  width: 560px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 28px;
+}
+
+
+.kpi-card{
+  background: #FFFFFF;
+  border-radius: 30px;
+  box-shadow: 0 0 14px rgba(0,0,0,0.06);
+  text-decoration: none;
+  color: #2A3647;
+
+  transition: transform 110ms ease, box-shadow 110ms ease;
+}
+
+.kpi-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+}
+
+.kpi-top{
+  grid-column: span 3;
+  height: 168px;
+  padding: 24px 28px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.kpi-icon{
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+
+  display: grid;
+  place-items: center;
+}
+
+.kpi-icon img{
+  width: 64px;
+  height: 64px;
+  display: block;
+}
+
+.kpi-stack{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kpi-number{
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.kpi-label{
+  font-size: 18px;
+}
+
+
+.kpi-wide{
+  grid-column: 1 / -1;
+  height: 168px;
+  padding: 24px 28px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.kpi-wide-left{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.kpi-divider{
+  width: 1px;
+  height: 80px;
+  background: #D1D1D1;
+}
+
+.kpi-wide-right{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
+}
+
+.kpi-date{
+  font-size: 20px;
+  font-weight: 700;
+  color: #2A3647;
+}
+
+.kpi-sub{
+  font-size: 16px;
+  color: #2A3647;
+}
+
+
+.kpi-bottom{
+  grid-column: span 2;
+  height: 150px;
+  padding: 22px 18px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+.kpi-icon--stack{
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.kpi-icon--stack .icon-bg{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.kpi-icon--stack .icon-fg{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 58%;
+  height: auto;
+  object-fit: contain;
+}

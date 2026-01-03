@@ -1,20 +1,129 @@
 <!DOCTYPE html>
-<html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Summary</title>
-    <link rel="stylesheet" href="/styles/components.css" />
-  </head>
+<html lang="en">
 
-  <body>
-    <div id="nav-bar-placeholder"></div>
-    <div class="content page-content">
-      <div id="header-placeholder"></div>
-      <main class="page-body"></main>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join | Summary</title>
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="shortcut icon" href="/imgs/homepage_join.png" type="image/x-icon">
+  <link rel="stylesheet" href="/styles/pages/style.css">
+  <link rel="stylesheet" href="/styles/pages/summary.css">
+</head>
+</head>
+
+<body>
+  <div id="nav-bar-placeholder"></div>
+ 
+
+    <main class="page-body"></main>
+  </div>
+
+  
+
+  <main class="content">
+
+
+    <header class="topbar">
+      <div></div>
+
+      <p class="topbar-title">Kanban Project Management Tool</p>
+
+      <div class="topbar-actions">
+        <a class="topbar-help" href="/pages/help.html" aria-label="Help">?</a>
+        <button class="topbar-user" type="button" aria-label="User">
+          <span id="userInitials">G</span>
+        </button>
+      </div>
+    </header>
+
+
+    <div class="summary-body">
+
+      <div class="summary-left">
+        <div class="summary-headline">
+          <h1 class="summary-h1">Join 360</h1>
+          <div class="summary-line"></div>
+          <p class="summary-sub">Key Metrics at a Glance</p>
+        </div>
+
+        <section class="summary-kpis">
+
+          <a href="/pages/board.html" class="kpi-card kpi-top">
+            <div class="kpi-icon">
+
+              <img src="/imgs/icons/Frame 59.png" alt="">
+            </div>
+            <div class="kpi-stack">
+              <div class="kpi-number" id="countTodo">0</div>
+              <div class="kpi-label">To-do</div>
+            </div>
+          </a>
+
+          <a href="/pages/board.html" class="kpi-card kpi-top">
+            <div class="kpi-icon">
+
+              <img src="/imgs/icons/Group 7.png" alt="">
+            </div>
+            <div class="kpi-stack">
+              <div class="kpi-number" id="countDone">0</div>
+              <div class="kpi-label">Done</div>
+            </div>
+          </a>
+
+
+          <a href="/pages/board.html" class="kpi-card kpi-wide">
+            <div class="kpi-wide-left">
+              <div class="kpi-icon kpi-icon--stack">
+                <img class="icon-bg" src="/imgs/icons/Ellipse 4.png" alt="">
+                <img class="icon-fg" src="/imgs/icons/Prio alta.png" alt="">
+              </div>
+
+
+              <div class="kpi-stack">
+                <div class="kpi-number" id="countUrgent">0</div>
+                <div class="kpi-label">Urgent</div>
+              </div>
+            </div>
+
+            <div class="kpi-divider"></div>
+
+            <div class="kpi-wide-right">
+              <div class="kpi-date" id="nextDeadlineDate">—</div>
+              <div class="kpi-sub">Upcoming Deadline</div>
+            </div>
+          </a>
+
+
+          <a href="/pages/board.html" class="kpi-card kpi-bottom">
+            <div class="kpi-number" id="countBoard">0</div>
+            <div class="kpi-label">Tasks in Board</div>
+          </a>
+
+          <a href="/pages/board.html" class="kpi-card kpi-bottom">
+            <div class="kpi-number" id="countInProgress">0</div>
+            <div class="kpi-label">Tasks In Progress</div>
+          </a>
+
+          <a href="/pages/board.html" class="kpi-card kpi-bottom">
+            <div class="kpi-number" id="countAwaiting">0</div>
+            <div class="kpi-label">Awaiting Feedback</div>
+          </a>
+        </section>
+      </div>
+
+
+      <section class="greeting">
+        <p id="greetingText">Good morning,</p>
+        <h2 id="userName">Guest</h2>
+      </section>
+
     </div>
-  </body>
+  </main>
+    <script src="/js/script.js"></script>
+    <script src="/js/storage.js"></script>
+    <script src="/js/summary.js"></script>
+    <script src="/js/components.js"></script>
+</body>
 
-  <script src="/js/components.js"></script>
-  <!-- Einbinden der NavBar / diese wird in im components.js geladen  und in components.html gepflegt -->
 </html>
