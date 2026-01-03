@@ -13,15 +13,17 @@
   <body>
     <div class="app-shell">
       <aside id="nav-bar-placeholder"></aside>
-      <main class="contacts-page">
+      <div class="page-column">
+        <div id="header-placeholder"></div>
+        <main class="contacts-page">
         <section class="contacts-header">
           <div class="contacts-title">
-            <p class="contacts-tagline">Gemeinsam gelingt Organisation besser</p>
-            <h1>Kontakte</h1>
+            <p class="contacts-tagline">Better with a team</p>
+            <h1>Contacts</h1>
           </div>
           <button class="primary-button add-contact-btn">
             <span class="button-icon">+</span>
-            <span>Neuen Kontakt anlegen</span>
+            <span>Add New Contact</span>
           </button>
         </section>
 
@@ -29,7 +31,7 @@
           <section class="contact-list-panel">
             <button class="list-add-button add-contact-btn">
               <span class="button-icon">+</span>
-              <span>Neuen Kontakt anlegen</span>
+              <span>Add New Contact</span>
             </button>
             <div class="contact-list" aria-live="polite"></div>
           </section>
@@ -37,20 +39,21 @@
           <section class="contact-detail-panel">
             <header class="detail-header">
               <div>
-                <p class="detail-kicker">Kontaktdetails</p>
-                <h2>Gemeinsam produktiv bleiben</h2>
+                <p class="detail-kicker">Contact Details</p>
+                <h2>Stay productive together</h2>
               </div>
               <div class="detail-actions">
-                <button class="secondary-button" aria-label="Kontakt bearbeiten">Bearbeiten</button>
-                <button class="secondary-button" aria-label="Kontakt löschen">Löschen</button>
+                <button class="secondary-button" aria-label="Edit Contact">Edit</button>
+                <button class="secondary-button" aria-label="Delete Contact">Delete</button>
               </div>
             </header>
             <div class="contact-detail">
-              <p class="detail-placeholder">Bitte einen Kontakt auswählen.</p>
+              <p class="detail-placeholder">Please select a contact.</p>
             </div>
           </section>
         </div>
-      </main>
+        </main>
+      </div>
     </div>
     <script src="/js/components.js"></script>
     <script src="/js/contacts.js"></script>
