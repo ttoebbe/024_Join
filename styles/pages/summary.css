@@ -4,32 +4,30 @@ body{
   background: #F6F7F8;
 }
 
-
 .content{
   background: #F6F7F8;
   width: 100%;
   height: 100vh;
   overflow: auto;
-  max-width: 1900px;         
+  max-width: 1900px;
 }
 
-
+/* Sidebar active state */
 .nav_links nav a.nav-active{
   background: #091931;
 }
 
-
+/* Footer Links Farbe fix */
 .nav_bar .footer_links a,
 .nav_bar .footer_links a:visited{
-  color: #A8A8A8;            
+  color: #A8A8A8;
   text-decoration: none;
 }
 
 .nav_bar .footer_links a:hover{
-  color: #29ABE2;          
+  color: #29ABE2;
   text-decoration: none;
 }
-
 
 .nav_bar .footer_links a:active,
 .nav_bar .footer_links a:focus{
@@ -37,7 +35,7 @@ body{
   outline: none;
 }
 
-
+/* ===== Topbar ===== */
 .topbar{
   height: 96px;
   background: #FFFFFF;
@@ -103,7 +101,7 @@ body{
   color: #29ABE2;
 }
 
-
+/* ===== Layout below topbar ===== */
 .summary-body{
   padding: 48px 72px;
   box-sizing: border-box;
@@ -118,7 +116,7 @@ body{
   flex-direction: column;
 }
 
-
+/* Headline "Join 360 | Key Metrics..." */
 .summary-headline{
   display: flex;
   align-items: center;
@@ -147,8 +145,9 @@ body{
   color: #2A3647;
 }
 
+/* Greeting (rechts) */
 .greeting{
-  margin-top: 82px; 
+  margin-top: 82px;
 }
 
 #greetingText{
@@ -167,7 +166,7 @@ body{
   color: #29ABE2;
 }
 
-
+/* ===== KPI grid: 2–1–3 Layout ===== */
 .summary-kpis{
   width: 560px;
   display: grid;
@@ -175,7 +174,7 @@ body{
   gap: 28px;
 }
 
-
+/* base card */
 .kpi-card{
   background: #FFFFFF;
   border-radius: 30px;
@@ -191,6 +190,7 @@ body{
   box-shadow: 0 10px 24px rgba(0,0,0,0.10);
 }
 
+/* top cards */
 .kpi-top{
   grid-column: span 3;
   height: 168px;
@@ -233,7 +233,7 @@ body{
   font-size: 18px;
 }
 
-
+/* wide card (urgent + deadline) */
 .kpi-wide{
   grid-column: 1 / -1;
   height: 168px;
@@ -276,7 +276,7 @@ body{
   color: #2A3647;
 }
 
-
+/* bottom cards */
 .kpi-bottom{
   grid-column: span 2;
   height: 150px;
@@ -290,7 +290,7 @@ body{
   text-align: center;
 }
 
-
+/* Urgent Icon Stack */
 .kpi-icon--stack{
   position: relative;
   width: 64px;
@@ -314,3 +314,299 @@ body{
   height: auto;
   object-fit: contain;
 }
+
+@media (max-width: 1100px){
+  .summary-body{
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .greeting{
+    margin-top: 0;
+  }
+
+  .summary-kpis{
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px){
+
+  
+  .content{
+    max-width: none;
+    padding-bottom: 96px; 
+  }
+
+  .summary-body{
+    padding: 28px 20px;
+    gap: 18px;
+    flex-direction: column;
+  }
+
+  
+  .greeting{ display: none; }
+
+
+  .summary-headline{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .summary-h1{
+    font-size: 52px;
+    line-height: 1.05;
+  }
+
+  .summary-sub{ font-size: 18px; }
+
+  .summary-line{
+    width: 90px;
+    height: 3px;
+    border-radius: 2px;
+    margin-top: 6px;
+  }
+
+ 
+  .summary-kpis{
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto; 
+    gap: 16px;
+  }
+
+
+  .kpi-top{
+    height: 140px;
+    padding: 18px 18px;
+    border-radius: 26px;
+    gap: 14px;
+  }
+
+  .kpi-wide{
+    height: 140px;
+    padding: 18px 18px;
+    border-radius: 26px;
+    gap: 16px;
+  }
+
+  .kpi-bottom{
+    height: 124px;
+    padding: 16px 12px;
+    border-radius: 26px;
+  }
+
+  .kpi-icon{
+    width: 56px;
+    height: 56px;
+  }
+
+  .kpi-icon img{
+    width: 56px;
+    height: 56px;
+  }
+
+  .kpi-icon--stack{
+    width: 56px;
+    height: 56px;
+  }
+
+  .kpi-number{ font-size: 54px; }
+  .kpi-label{ font-size: 16px; }
+  .kpi-date{ font-size: 17px; }
+  .kpi-sub{ font-size: 14px; }
+
+ 
+  .topbar{
+    height: 80px;
+    padding: 0 16px;
+    grid-template-columns: auto 1fr auto;
+  }
+  .topbar-title{ display: none; }
+  .topbar-help{ display: none; }
+
+  .topbar > div:first-child{
+    width: 32px;
+    height: 40px;
+    background: url("/imgs/homepage_join.png") no-repeat center / contain;
+  }
+
+  .nav_bar{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    max-width: none;
+    height: 88px;
+
+    padding: 0;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+    background: #2A3647;
+  }
+
+  .nav_logo{ display: none; }
+  .footer_links{ display: none; }
+
+  .nav_links{
+    height: auto;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav_links nav{
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: 0;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .nav_links nav a{
+    width: auto;
+    padding: 10px 14px;
+    gap: 6px;
+    border-radius: 16px;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav_links nav img{
+    width: 26px;
+    height: 26px;
+  }
+
+  .nav_links nav p{
+    font-size: 12px;
+    margin: 0;
+  }
+
+  .nav_links nav a.nav-active{
+    background: #091931;
+  }
+}
+
+
+@media (max-width: 380px){
+
+  .summary-body{
+    padding: 18px 12px;
+  }
+
+
+  .summary-h1{
+    font-size: 40px;
+  }
+
+  .summary-sub{
+    font-size: 15px;
+  }
+
+ 
+  .summary-kpis{
+    gap: 12px;
+  }
+
+
+  .kpi-top{
+    height: 112px;
+    padding: 14px 12px;
+    gap: 10px;
+    border-radius: 22px;
+  }
+
+  .kpi-number{
+    font-size: 38px;
+  }
+
+  .kpi-label{
+    font-size: 13px;
+    line-height: 1.1;
+  }
+
+  .kpi-icon{
+    width: 42px;
+    height: 42px;
+  }
+
+  .kpi-icon img{
+    width: 42px;
+    height: 42px;
+  }
+
+  .kpi-icon--stack{
+    width: 42px;
+    height: 42px;
+  }
+
+ 
+  .kpi-wide{
+    height: auto;                 
+    padding: 14px 12px;
+    border-radius: 22px;
+    gap: 12px;
+  }
+
+  .kpi-divider{
+    height: 44px;
+  }
+
+  .kpi-wide-right{
+    min-width: 0;
+  }
+
+  .kpi-date{
+    font-size: 14px;
+  }
+
+  .kpi-sub{
+    font-size: 12px;
+  }
+
+
+  .kpi-bottom{
+    height: 104px;
+    padding: 12px 8px;
+    border-radius: 22px;
+  }
+
+  .kpi-bottom .kpi-number{
+    font-size: 34px;
+  }
+
+  .kpi-bottom .kpi-label{
+    font-size: 12px;
+    line-height: 1.1;
+    word-break: break-word;       
+  }
+
+ 
+  .nav_links nav p{
+    font-size: 11px;
+  }
+
+  .nav_links nav img{
+    width: 24px;
+    height: 24px;
+  }
+
+  .nav_bar{
+    height: 84px;
+  }
+
+  .content{
+    padding-bottom: 92px;
+  }
+}
+
