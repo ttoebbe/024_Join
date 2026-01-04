@@ -23,23 +23,23 @@
                     <h1>Sign Up</h1>
                     <div class="underline_div"></div>
                 </div>
-                <form onsubmit="">
+                <form id="signupForm">
                     <div class="input-fields">
-                        <input type="text" id="username" name="username" placeholder="Username" required>
+                        <input type="text" id="suName" name="username" placeholder="Username" required>
                         <img src="/imgs/icons/person.png" alt="" class="input-icon-username position">
-                        <input type="email" id="email" name="email" placeholder="Email" required>
+                        <input type="email" id="suEmail" name="email" placeholder="Email" required>
                         <img src="/imgs/icons/mail.png" alt="" class="input-icon-email position">
-                        <input type="password" id="password" name="password" placeholder="Password" required>
+                        <input type="password" id="suPw" name="password" placeholder="Password" required>
                         <img src="/imgs/icons/lock.png" alt="" class="input-icon-password position">
-                        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+                        <input type="password" id="suPw2" name="confirm_password" placeholder="Confirm Password" required>
                         <img src="/imgs/icons/lock.png" alt="" class="input-icon-confirm-password position">
                     </div>
-                    <label for="">
-                        <input type="checkbox" id="terms" name="terms" required >
+                    <label>
+                        <input type="checkbox" id="suPolicy" name="terms" required >
                         I agree to the <a href="/pages/privacy_policy.html" class="footer_left label_link">Privacy Policy</a>
                     </label>
                     <div class="form-buttons">
-                        <button type="submit" class="btn-left">Sign Up</button>
+                        <button disabled type="submit" class="btn-left" id="btnSignup">Sign Up</button>
                     </div>
                 </form>
             </section>
