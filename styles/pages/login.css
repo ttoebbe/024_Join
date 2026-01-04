@@ -72,15 +72,6 @@ header {
     padding: 0;
 }
 
-/* .header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: absolute;
-    top: 67px;
-    right: 20px;
-} */
-
 header p {
     font-style: normal;
     font-weight: 400;
@@ -103,13 +94,19 @@ header button {
     cursor: pointer;
     font-size: 16px;
     font-weight: 700;
-    font-style: bold;
     padding: 0;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 header button a {
     text-decoration: none;
     color: white;
+}
+
+header button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    background-color: #29ABE2;
 }
 
 main {
@@ -179,16 +176,43 @@ form img {
     margin-bottom: 40px;
     width: 100%;
     max-width: 422px;
+    max-height: 152px;
+}
+
+input::placeholder {
+    color: #999;
+    /* Optional: Farbe des Platzhalters ändern */
+    padding-left: 10px;
+    /* Abstand des Textes vom linken Rand des Feldes */
+}
+
+.input-fields input {
+    width: 100%;
+    height: 48px;
+    padding: 0 12px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    font-style: normal;
+    transition: border-color 0.3s ease;
+}
+
+.input-fields input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
 .input-icon-email {
     position: absolute;
-    top: 0px;
+    top: 15px;
     right: 0px;
 }
+
 .input-icon-password {
     position: absolute;
-    top: 40px;
+    top: 85px;
     right: 0px;
 }
 
@@ -202,7 +226,6 @@ form img {
 }
 
 .form-buttons button {
-    
     height: 48px;
     border: none;
     border-radius: 8px;
@@ -210,6 +233,7 @@ form img {
     font-size: 21px;
     font-weight: 700;
     font-style: bold;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .btn-left {
@@ -219,12 +243,25 @@ form img {
     padding: 0;
 }
 
+.btn-left:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    background-color: #29ABE2;
+}
+
 .btn-right {
     width: 177px;
     background-color: white;
     color: black;
     padding: 0;
-    border: 2px solid #2A3647 !important; 
+    border: 2px solid #2A3647 !important;
+}
+
+.btn-right:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    color: #29ABE2;
+    border-color: #29ABE2 !important;
 }
 
 footer {
@@ -250,6 +287,13 @@ footer a {
     align-items: center;
     justify-content: center;
     flex-grow: 1;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+footer a:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    color: #29ABE2;
 }
 
 .footer_left {

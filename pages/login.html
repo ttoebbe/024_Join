@@ -10,17 +10,16 @@
     <link rel="stylesheet" href="/styles/pages/login.css">
     <link rel="stylesheet" href="/styles/pages/style.css">
     <script src="/js/script.js"></script>
+    <script type="module" src="/js/auth.js"></script>
 </head>
 
-<body onload="init()">
+<body>
     <div class="wrapper max-width-1440">
         <div class="background-overlay" id="bg"></div>
-        <img src="/imgs/homepage_join.png" alt="" class="homepage-image" id="img_animation">
+        <a href="/pages/login.html"><img src="/imgs/homepage_join.png" alt="" class="homepage-image" id="img_animation"> </a>
         <header>
-            <!-- <div class="header-left"> -->
             <p>Not a Join user? </p>
-            <button><a href="sign_up.html">Sign Up</a></button>
-            <!-- </div> -->
+            <button><a href="/pages/sign_up.html">Sign Up</a></button>
         </header>
 
         <main>
@@ -29,7 +28,7 @@
                     <h1>Log in</h1>
                     <div class="underline_div"></div>
                 </div>
-                <form onsubmit="">
+                <form id="loginForm">
                     <div class="input-fields">
                         <input type="email" id="email" name="email" placeholder="Email" required>
                         <img src="/imgs/icons/mail.png" alt="" class="input-icon-email">
@@ -37,8 +36,8 @@
                         <img src="/imgs/icons/lock.png" alt="" class="input-icon-password">
                     </div>
                     <div class="form-buttons">
-                        <button type="submit" class="btn-left">Log In</button>
-                        <button class="btn-right">Guest Log In</button>
+                        <button type="submit" class="btn-left" id="btnLogin">Log In</button>
+                        <button class="btn-right" id="btnGuest">Guest Log In</button>
                     </div>
                 </form>
             </section>
@@ -48,7 +47,7 @@
             <a href="/pages/legal_notice.html" class="footer_right">Legacy notice</a>
         </footer>
     </div>
-    <script type="module" src="./auth.js"></script>
+    <p id="formMsg"></p>
 </body>
 
 </html>
