@@ -12,32 +12,32 @@ function renderNavBar() {
   host.innerHTML = `
     <div class="nav_bar">
       <div class="nav_logo">
-        <img class="nav_img" src="/imgs/homepage_join.png" alt="Join Logo" />
+        <img class="nav_img" src="../imgs/homepage_join.png" alt="Join Logo" />
       </div>
 
       <div class="nav_links">
         <nav>
-          <a href="/pages/summary.html" data-route="summary">
-            <img src="/imgs/icons/summary.png" alt="" />
+          <a href="summary.html" data-route="summary">
+            <img src="../imgs/icons/summary.png" alt="" />
             <p>Summary</p>
           </a>
-          <a href="/pages/add_task.html" data-route="add_task">
-            <img src="/imgs/icons/add_task.png" alt="" />
+          <a href="add_task.html" data-route="add_task">
+            <img src="../imgs/icons/addtasks.png" alt="" />
             <p>Add Tasks</p>
           </a>
-          <a href="/pages/board.html" data-route="board">
-            <img src="/imgs/icons/board.png" alt="" />
+          <a href="board.html" data-route="board">
+            <img src="../imgs/icons/board.png" alt="" />
             <p>Board</p>
           </a>
-          <a href="/pages/contacts.html" data-route="contacts">
-            <img src="/imgs/icons/contacts.png" alt="" />
+          <a href="contacts.html" data-route="contacts">
+            <img src="../imgs/icons/contact.png" alt="" />
             <p>Contacts</p>
           </a>
         </nav>
 
         <div class="footer_links">
-          <a href="/pages/privacy_policy.html">Privacy Policy</a>
-          <a href="/pages/legal_notice.html">Legal notice</a>
+          <a href="privacy_policy.html">Privacy Policy</a>
+          <a href="legal_notice.html">Legal notice</a>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@ function renderHeader() {
       <p class="topbar-title">Kanban Project Management Tool</p>
 
       <div class="topbar-actions">
-        <a class="topbar-help" href="/pages/help.html" aria-label="Help">?</a>
+        <a class="topbar-help" href="help.html" aria-label="Help">?</a>
 
         <button class="topbar-user" type="button" aria-label="User">
           <span id="userInitials">G</span>
