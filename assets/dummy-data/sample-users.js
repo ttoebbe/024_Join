@@ -1,0 +1,20 @@
+/**
+ * Dummy data Users
+ * id description: u0 --> u = user, 0 = ID
+ */
+const users = [
+  {
+    id: "u0",
+    name: "admin",
+    password: "admin",
+    email: "admin@admin.de",
+    color: "#FF7A00",
+  },
+  {
+    id: "u1",
+    name: "Team Member",
+    password: "teamMember",
+    email: "team@example.com",
+    color: "#29ABE2",
+  },
+];
