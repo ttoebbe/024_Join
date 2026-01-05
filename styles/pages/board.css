@@ -1,0 +1,251 @@
+/* =========================
+   Board Page (namespaced)
+   ========================= */
+
+.page-column {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Der Content-Bereich soll nicht "content { background: #2a3647 }" erben */
+.board-page {
+  width: 100%;
+  padding: 40px 56px;
+  background: #f6f7f8;
+  min-height: calc(100vh - 96px);
+  box-sizing: border-box;
+}
+
+.board-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.board-title {
+  margin: 0;
+  font-size: 61px;
+  font-weight: 700;
+  color: #000;
+}
+
+.board-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.board-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid #d1d1d1;
+  background: #fff;
+  border-radius: 10px;
+}
+
+.board-search-input {
+  border: none;
+  outline: none;
+  width: 240px;
+  font-size: 16px;
+  background: transparent;
+}
+
+.board-search-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.board-add-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #2a3647;
+  color: #fff;
+}
+
+.board-add-btn:hover {
+  background: #1f2a3a;
+}
+
+.board-add-plus {
+  font-weight: 900;
+}
+
+/* Columns */
+.board-columns {
+  display: flex;
+  gap: 26px;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 12px;
+}
+
+.board-column {
+  width: 252px;
+  flex: 0 0 252px;
+}
+
+.board-column-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.board-column-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #42526e;
+}
+
+.board-column-add {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid #2a3647;
+  background: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.board-column-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Empty state */
+.board-empty {
+  border: 1px dashed #a8a8a8;
+  border-radius: 10px;
+  padding: 16px;
+  color: #a8a8a8;
+  background: #e7e7e7;
+  text-align: center;
+}
+
+/* Card */
+.board-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+  cursor: pointer;
+}
+
+.board-card-label {
+  display: inline-flex;
+  padding: 4px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.board-card-label--userstory { background: #0038ff; }
+.board-card-label--technical { background: #1fd7c1; }
+
+.board-card-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+}
+
+.board-card-desc {
+  margin: 0 0 12px;
+  color: #a8a8a8;
+  font-size: 14px;
+}
+
+.board-progress {
+  margin: 8px 0 14px;
+}
+
+.board-progress-text {
+  font-size: 12px;
+  color: #2a3647;
+}
+
+.board-progress-bar {
+  height: 8px;
+  background: #f4f4f4;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.board-progress-fill {
+  height: 100%;
+  background: #29abe2;
+}
+
+.board-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.board-avatars {
+  display: flex;
+  align-items: center;
+}
+
+.board-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #fff;
+  margin-left: -8px;
+}
+
+.board-avatar:first-child { margin-left: 0; }
+.board-avatar--orange { background: #ff7a00; }
+.board-avatar--purple { background: #9327ff; }
+.board-avatar--blue { background: #1f7cff; }
+
+/* Responsive (Mobile: Spalten untereinander) */
+@media (max-width: 980px) {
+  .board-page {
+    padding: 24px 20px;
+  }
+
+  .board-title {
+    font-size: 40px;
+  }
+
+  .board-search-input {
+    width: 180px;
+  }
+}
+
+@media (max-width: 700px) {
+  .board-columns {
+    flex-direction: column;
+    overflow-x: visible;
+  }
+
+  .board-column {
+    width: 100%;
+    flex: 1;
+  }
+}
