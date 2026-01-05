@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../styles/pages/contacts.css" />
   </head>
 
-  <body>
+  <body onload="initContactsPage()">
     <div class="app-shell">
       <aside id="nav-bar-placeholder"></aside>
       <div class="page-column">
@@ -18,17 +18,6 @@
 
 <!-- ab hier der content der seite -->
         <main class="contacts-page">
-        <section class="contacts-header">
-          <div class="contacts-title">
-            <p class="contacts-tagline">Better with a team</p>
-            <h1>Contacts</h1>
-          </div>
-          <button class="primary-button add-contact-btn">
-            <span class="button-icon">+</span>
-            <span>Add New Contact</span>
-          </button>
-        </section>
-
         <div class="contacts-main">
           <section class="contact-list-panel">
             <button class="list-add-button add-contact-btn">
@@ -39,6 +28,16 @@
           </section>
 
           <section class="contact-detail-panel">
+            <section class="contacts-header">
+              <div class="contacts-title">
+                <p class="contacts-tagline">Better with a team</p>
+                <h1>Contacts</h1>
+              </div>
+              <button class="primary-button add-contact-btn">
+                <span class="button-icon">+</span>
+                <span>Add New Contact</span>
+              </button>
+            </section>
             <header class="detail-header">
               <div>
                 <p class="detail-kicker">Contact Details</p>
@@ -61,6 +60,7 @@
       </div>
     </div>
     <script src="../js/components.js"></script>
+    <script src="../assets/dummy-data/sample-contacts.js"></script>
     <script src="../js/contacts.js"></script>
   </body>
 </html>

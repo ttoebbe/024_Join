@@ -12,7 +12,7 @@ function renderNavBar() {
   host.innerHTML = `
     <div class="nav_bar">
       <div class="nav_logo">
-        <img class="nav_img" src="../imgs/homepage_join.png" alt="Join Logo" />
+        <img class="nav_img" src="../imgs/Capa 2.png" alt="Join Logo" />
       </div>
 
       <div class="nav_links">
