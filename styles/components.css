@@ -1,68 +1,150 @@
-:root {
-	--contacts-bg: #f6f7fb;
-	--contacts-panel: #ffffff;
-	--contacts-primary: #4589ff;
-	--contacts-accent: #2a3647;
-	--contacts-text: #0b1736;
+:root{
+  --bg: #F6F7F8;
+  --card: #FFFFFF;
+  --text: #2A3647;
+  --accent: #29ABE2;
+  --line: #D1D1D1;
+  --muted: #A8A8A8;
+
+  --nav: #2A3647;
+  --nav-hover: #2A3D59;
+  --nav-active: #091931;
 }
 
-body {
-  font-family: Arial, sans-serif;
+*{ box-sizing: border-box; }
+
+body{
   margin: 0;
-  background-color: #f4f4f4;
-  height: 100%;
-  width: 100%;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+}
+
+/* ===== App Layout ===== */
+.app-shell{
+  min-height: 100vh;
   display: flex;
+  width: 100%;
 }
 
-.max-width-1440 {
-  max-width: 1440px;
+#nav-bar-placeholder{
+  flex: 0 0 232px;
 }
 
-.app-shell {
-	display: flex;
-	min-height: 100vh;
-	background: var(--contacts-bg);
-	font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
-	color: var(--contacts-text);
+.page-column{
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
 }
 
-#nav-bar-placeholder {
-	flex: 0 0 280px;
-	background: var(--contacts-accent);
-} */
+/* Standard main wrapper (falls du es benutzt) */
+.content,
+.page-body{
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  background: var(--bg);
+}
 
+/* ===== Topbar (GLOBAL wie Summary / Bild 2) ===== */
+.topbar{
+  height: 96px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
 
-/** Navigation Bar */
-.nav_bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
+  padding: 0 72px;
+
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* links (Desktop leer, Mobile zeigt Logo) */
+.topbar-logo{
+  width: 0;
+  height: 0;
+}
+
+.topbar-title{
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text);
+  text-align: center;
+}
+
+.topbar-actions{
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-help{
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+  text-decoration: none;
+
+  display: grid;
+  place-items: center;
+
+  font-size: 14px;
+  line-height: 1;
+}
+
+.topbar-user{
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid var(--text);
+  background: var(--card);
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+#userInitials{
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ===== Navigation Bar ===== */
+.nav_bar{
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #2a3647;
+  background: var(--nav);
   color: #fff;
 
   padding: 64px 0 40px;
 
   height: 100vh;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 232px;
+  width: 232px;
 }
 
-.nav_logo {
+.nav_logo{
   width: 100%;
   display: flex;
   justify-content: center;
-
   margin-bottom: 72px;
 }
 
-.nav_img {
+.nav_img{
   width: 100px;
   height: 122px;
 }
 
-.nav_links {
+.nav_links{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,16 +153,15 @@ body {
   width: 100%;
 }
 
-.nav_links nav {
+.nav_links nav{
   display: flex;
   flex-direction: column;
   align-items: baseline;
   width: 100%;
-
   gap: 12px;
 }
 
-.nav_links nav a {
+.nav_links nav a{
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -88,68 +169,83 @@ body {
 
   width: 100%;
   padding: 10px 24px;
-  box-sizing: border-box;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
 }
 
-.nav_links nav img {
+.nav_links nav img{
   width: 30px;
   height: 30px;
 }
 
-.nav_links nav p {
+.nav_links nav p{
   margin: 0;
 }
 
-.nav_links nav a:hover {
-  background-color: #2a3d59;
+.nav_links nav a:hover{
+  background: var(--nav-hover);
 }
 
-.footer_links {
+.nav_links nav a.nav-active{
+  background: var(--nav-active);
+}
+
+/* Footer Links */
+.footer_links{
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-
   padding-bottom: 8px;
 }
 
 .footer_links a,
-.footer_links a:visited {
-  color: #a8a8a8;
+.footer_links a:visited{
+  color: var(--muted);
   text-decoration: none;
   font-size: 16px;
 }
 
-.footer_links a:hover {
-  color: #29abe2;
+.footer_links a:hover{
+  color: var(--accent);
 }
 
-.content {
-  background-color: #2a3647;
-  width: 100%;
-  height: 100%;
-  max-width: 1900px;
-}
+/* ===== Mobile ===== */
+@media (max-width: 700px){
 
-@media (max-width: 700px) {
-  body {
-    flex-direction: column;
-  }
-
-  .content {
+  /* Platz schaffen für fixed Bottom-Nav */
+  .page-column{
     padding-bottom: 96px;
   }
 
-  .nav_bar {
+  /* Topbar Mobile wie Figma */
+  .topbar{
+    height: 80px;
+    padding: 0 16px;
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .topbar-title{ display: none; }
+  .topbar-help{ display: none; }
+
+  .topbar-logo{
+    width: 32px;
+    height: 40px;
+    background: url("/imgs/homepage_join.png") no-repeat center / contain;
+  }
+
+  /* Navbar wird Bottom-Bar */
+  #nav-bar-placeholder{
+    flex: 0 0 auto;
+  }
+
+  .nav_bar{
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
 
     width: 100%;
-    max-width: none;
     height: 88px;
 
     padding: 0;
@@ -158,175 +254,63 @@ body {
     align-items: center;
 
     z-index: 999;
-    background: #2a3647;
+    background: var(--nav);
   }
 
-  .nav_logo {
-    display: none;
-  }
-  .footer_links {
-    display: none;
-  }
+  .nav_logo{ display: none; }
+  .footer_links{ display: none; }
 
-  .nav_links {
+  .nav_links{
     height: auto;
     width: 100%;
     justify-content: center;
   }
 
-  .nav_links nav {
+  .nav_links nav{
     width: 100%;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
     padding: 0 8px;
-    box-sizing: border-box;
     gap: 0;
   }
 
-  .nav_links nav a {
+  .nav_links nav a{
     width: auto;
     padding: 10px 14px;
     border-radius: 16px;
 
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 6px;
   }
 
-  .nav_links nav img {
+  .nav_links nav img{
     width: 26px;
     height: 26px;
   }
 
-  .nav_links nav p {
+  .nav_links nav p{
     font-size: 12px;
-    margin: 0;
   }
 }
 
-@media (max-width: 360px) {
-  .nav_links nav img {
+@media (max-width: 360px){
+  .nav_links nav img{
     width: 24px;
     height: 24px;
   }
 
-  .nav_links nav p {
+  .nav_links nav p{
     font-size: 11px;
   }
 
-  .nav_bar {
+  .nav_bar{
     height: 84px;
   }
 
-  .content {
+  .page-column{
     padding-bottom: 92px;
-  }
-}
-
-
-/**
-  * Header Styling
-  */
-.app-header {
-  width: 100%;
-  padding: 20px 40px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.header-kicker {
-  margin: 0;
-  font-size: 21px;
-  font-weight: 400;
-  color: #2A3647;
-}
-
-.header-right {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px;
-}
-
-.header-help {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background-color: #2A3647;
-  color: #ffffff;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.header-help:hover {
-  background-color: #29ABE2;
-}
-
-.header-user-badge {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: #2A3647;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #29ABE2;
-}
-
-@media (max-width: 768px) {
-  .app-header {
-    padding: 16px 20px;
-  }
-
-  .header-kicker {
-    font-size: 18px;
-  }
-
-  .header-help {
-    width: 36px;
-    height: 36px;
-    font-size: 18px;
-  }
-
-  .header-user-badge {
-    width: 42px;
-    height: 42px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .app-header {
-    padding: 12px 16px;
-  }
-
-  .header-kicker {
-    font-size: 16px;
-  }
-
-  .header-right {
-    gap: 12px;
   }
 }
