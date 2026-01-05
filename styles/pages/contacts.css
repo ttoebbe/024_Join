@@ -6,7 +6,7 @@
 	--contacts-text: #0b1736;
 }
 
-.app-shell {
+/* .app-shell {
 	display: flex;
 	min-height: 100vh;
 	background: var(--contacts-bg);
@@ -17,7 +17,7 @@
 #nav-bar-placeholder {
 	flex: 0 0 280px;
 	background: var(--contacts-accent);
-}
+} */
 
 .contacts-page {
 	flex: 1;

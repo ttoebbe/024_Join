@@ -1,3 +1,11 @@
+:root {
+	--contacts-bg: #f6f7fb;
+	--contacts-panel: #ffffff;
+	--contacts-primary: #4589ff;
+	--contacts-accent: #2a3647;
+	--contacts-text: #0b1736;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -10,6 +18,19 @@ body {
 .max-width-1440 {
   max-width: 1440px;
 }
+
+.app-shell {
+	display: flex;
+	min-height: 100vh;
+	background: var(--contacts-bg);
+	font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+	color: var(--contacts-text);
+}
+
+#nav-bar-placeholder {
+	flex: 0 0 280px;
+	background: var(--contacts-accent);
+} */
 
 
 /** Navigation Bar */
