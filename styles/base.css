@@ -48,45 +48,7 @@ img {
   height: auto;
 }
 
-/** --> ggf in die components.css verschieben <--?
-header {
-  width: 100%;
-  padding: 14px 20px;
-  background-color: var(--accent);
-  color: #fff;
-  box-shadow: var(--shadow-sm);
-  position: sticky;
-  top: 0;
-  z-index: 13;
-}
 
-.header-content {
-  max-width: var(--content-width);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.header-logo {
-  height: 48px;
-  width: 48px;
-  object-fit: contain;
-}
-
-header h1 {
-  font-size: 1.9rem;
-  margin: 0;
-  letter-spacing: 0.5px;
-}
-*/
 
 main {
   flex: 1;

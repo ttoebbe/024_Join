@@ -1,11 +1,4 @@
-/* Header & buttons */
-/*header ist in den components.css verschoben*/
-/* .header-right {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-} */
+
 
 .ghost-button {
   padding: 10px 14px;
