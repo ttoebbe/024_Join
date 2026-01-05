@@ -18,3 +18,12 @@ const users = [
     color: "#29ABE2",
   },
 ];
+
+
+
+/**aktuelle angemeldeter User */
+let currentUserName = null;
+let currentUserId = null;
+
+/** Boolean, "istGuest oder nicht" */
+let isGuest = true;
