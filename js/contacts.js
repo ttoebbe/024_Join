@@ -7,6 +7,7 @@ function initContactsPage() {
     return;
   }
   renderContactList(listElement, getContactData());
+  setupAddContactOverlay(listElement);
 }
 
 /**
@@ -155,4 +156,129 @@ function getContactDetailTemplate(contact) {
       </div>
     </div>
   `;
+}
+
+/**
+ * Sets up overlay open/close behavior and submission handling.
+ * @param {HTMLElement} listElement
+ */
+function setupAddContactOverlay(listElement) {
+  const overlay = document.getElementById("contact-overlay");
+  const openButton = document.querySelector(".list-add-button");
+  const cancelButton = document.getElementById("contact-cancel");
+  const closeButton = document.querySelector("[data-overlay-close]");
+  const form = document.getElementById("contact-form");
+
+  if (!overlay || !openButton || !form) {
+    return;
+  }
+
+  openButton.addEventListener("click", () => openOverlay(overlay));
+  cancelButton?.addEventListener("click", () => closeOverlay(overlay, form));
+  closeButton?.addEventListener("click", () => closeOverlay(overlay, form));
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) {
+      closeOverlay(overlay, form);
+    }
+  });
+
+  form.addEventListener("submit", (event) =>
+    handleNewContactSubmit(event, overlay, form, listElement)
+  );
+}
+
+/**
+ * Opens the add contact overlay.
+ * @param {HTMLElement} overlay
+ */
+function openOverlay(overlay) {
+  overlay.classList.add("is-visible");
+  overlay.setAttribute("aria-hidden", "false");
+}
+
+/**
+ * Closes the add contact overlay and clears the form.
+ * @param {HTMLElement} overlay
+ * @param {HTMLFormElement} form
+ */
+function closeOverlay(overlay, form) {
+  overlay.classList.remove("is-visible");
+  overlay.setAttribute("aria-hidden", "true");
+  form?.reset();
+}
+
+/**
+ * Handles creation of a new contact from the overlay form.
+ * @param {SubmitEvent} event
+ * @param {HTMLElement} overlay
+ * @param {HTMLFormElement} form
+ * @param {HTMLElement} listElement
+ */
+function handleNewContactSubmit(event, overlay, form, listElement) {
+  event.preventDefault();
+
+  const formData = new FormData(form);
+  const name = (formData.get("name") || "").toString().trim();
+  const email = (formData.get("email") || "").toString().trim();
+  const phone = (formData.get("phone") || "").toString().trim();
+
+  if (!name || !email || !phone) {
+    return;
+  }
+
+  const newContact = {
+    id: getNextContactId(),
+    name,
+    email,
+    phone,
+    color: getRandomContactColor(),
+  };
+
+  if (Array.isArray(contacts)) {
+    contacts.push(newContact);
+  }
+
+  renderContactList(listElement, getContactData());
+  closeOverlay(overlay, form);
+
+  const newEntry = document.querySelector(`[data-contact-id="${newContact.id}"]`);
+  if (newEntry) {
+    selectContact(newContact, newEntry);
+  }
+}
+
+/**
+ * Generates the next contact id based on existing entries.
+ * @returns {string}
+ */
+function getNextContactId() {
+  if (!Array.isArray(contacts) || !contacts.length) {
+    return "c0";
+  }
+  const highest = contacts.reduce((max, contact) => {
+    const numericPart = parseInt(String(contact.id || "").replace(/\D/g, ""), 10);
+    return Number.isFinite(numericPart) ? Math.max(max, numericPart) : max;
+  }, -1);
+  return `c${highest + 1}`;
+}
+
+/**
+ * Provides a random accent color for new contacts.
+ * @returns {string}
+ */
+function getRandomContactColor() {
+  const palette = [
+    "#FF7A00",
+    "#29ABE2",
+    "#FF5EB3",
+    "#9B51E0",
+    "#2ECC71",
+    "#F2994A",
+    "#EB5757",
+    "#56CCF2",
+    "#6FCF97",
+    "#BB6BD9",
+  ];
+  const index = Math.floor(Math.random() * palette.length);
+  return palette[index];
 }

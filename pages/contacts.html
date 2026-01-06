@@ -20,7 +20,7 @@
         <main class="contacts-page">
           <div class="contacts-main">
             <section class="contact-list-panel">
-              <button class="list-add-button">
+              <button class="list-add-button" type="button" aria-controls="contact-overlay">
                 <span class="button-icon">+</span>
                 <span>Add New Contact </span>
               </button>
@@ -37,6 +37,113 @@
             </section>
           </div>
         </main>
+
+        <section id="contact-overlay" class="contact-overlay" aria-hidden="true">
+          <div
+            class="contact-overlay-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contact-overlay-title"
+          >
+            <button
+              type="button"
+              class="overlay-close-button"
+              data-overlay-close
+              aria-label="Close add contact dialog"
+            >
+              X
+            </button>
+            <div class="overlay-panel overlay-panel-left">
+              <div class="overlay-brand">
+                <div class="overlay-logo">
+                  <div class="overlay-logo-mark">
+                    <span class="logo-bar logo-bar-primary"></span>
+                    <span class="logo-bar logo-bar-secondary"></span>
+                    <span class="logo-dot"></span>
+                  </div>
+                  <span class="overlay-logo-text">Join</span>
+                </div>
+                <h2 id="contact-overlay-title">Add contact</h2>
+                <p class="overlay-tagline">Tasks are better with a team!</p>
+                <span class="overlay-underline"></span>
+              </div>
+            </div>
+
+            <div class="overlay-panel overlay-panel-right">
+              <div class="overlay-avatar">
+                <div class="avatar-circle">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" />
+                  </svg>
+                </div>
+              </div>
+              <form id="contact-form" class="overlay-form">
+                <label class="sr-only" for="contact-name">Name</label>
+                <div class="input-with-icon">
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    placeholder="Name"
+                    required
+                    autocomplete="name"
+                  />
+                  <span class="input-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5z" />
+                      <path d="M4 21c0-4.4 3.6-6.5 8-6.5s8 2.1 8 6.5" />
+                    </svg>
+                  </span>
+                </div>
+
+                <label class="sr-only" for="contact-email">Email</label>
+                <div class="input-with-icon">
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                    required
+                    autocomplete="email"
+                  />
+                  <span class="input-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M4 6h16v12H4z" />
+                      <path d="M4 8l8 5 8-5" />
+                    </svg>
+                  </span>
+                </div>
+
+                <label class="sr-only" for="contact-phone">Phone</label>
+                <div class="input-with-icon">
+                  <input
+                    id="contact-phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="Phone"
+                    required
+                    autocomplete="tel"
+                  />
+                  <span class="input-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M6.6 4.6 9 3l2 3-1.8 1.3a9.7 9.7 0 0 0 5.5 5.5L16 11l3 2-1.6 2.4a1.8 1.8 0 0 1-1.6.8A11.8 11.8 0 0 1 5 7.8a1.8 1.8 0 0 1 .8-1.6Z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+
+                <div class="overlay-actions">
+                  <button type="button" id="contact-cancel" class="overlay-btn overlay-btn-secondary">
+                    Cancel
+                  </button>
+                  <button type="submit" class="overlay-btn overlay-btn-primary">Create contact</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
 
         <!-- content der Seite endet hier -->
       </div>

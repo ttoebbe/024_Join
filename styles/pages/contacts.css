@@ -335,3 +335,271 @@ main {
     align-items: flex-start;
   }
 }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.contact-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 24px;
+  z-index: 20;
+}
+
+.contact-overlay.is-visible {
+  display: flex;
+}
+
+.contact-overlay-dialog {
+  width: min(1040px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.16);
+}
+
+.overlay-close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  font-weight: 600;
+  color: #42526e;
+  cursor: pointer;
+}
+
+.overlay-panel {
+  padding: 40px 36px;
+}
+
+.overlay-panel-left {
+  background: var(--contacts-accent);
+  color: #fff;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.overlay-brand {
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.overlay-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+
+.overlay-logo-mark {
+  position: relative;
+  width: 24px;
+  height: 30px;
+}
+
+.logo-bar {
+  position: absolute;
+  width: 8px;
+  border-radius: 6px;
+}
+
+.logo-bar-primary {
+  height: 28px;
+  background: #2aaae2;
+  left: 0;
+  bottom: 0;
+}
+
+.logo-bar-secondary {
+  height: 20px;
+  background: #4589ff;
+  right: 0;
+  bottom: 0;
+}
+
+.logo-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  right: -6px;
+  top: 0;
+}
+
+.overlay-logo-text {
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.overlay-brand h2 {
+  margin: 0;
+  font-size: 44px;
+}
+
+.overlay-tagline {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.overlay-underline {
+  display: inline-block;
+  width: 72px;
+  height: 3px;
+  background: #29abe2;
+  border-radius: 2px;
+}
+
+.overlay-panel-right {
+  background: #f8f8fb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.overlay-avatar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.avatar-circle {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  background: #e8eaf1;
+  display: grid;
+  place-items: center;
+}
+
+.avatar-circle svg {
+  width: 52px;
+  height: 52px;
+  fill: none;
+  stroke: #8f9bb3;
+  stroke-width: 1.8;
+}
+
+.overlay-form {
+  width: min(360px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding: 12px 44px 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #d5d9e6;
+  background: #fff;
+  font-size: 16px;
+  outline: none;
+}
+
+.input-with-icon input:focus {
+  border-color: var(--contacts-primary);
+  box-shadow: 0 0 0 3px rgba(69, 137, 255, 0.2);
+}
+
+.input-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #98a1b2;
+}
+
+.input-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.overlay-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.overlay-btn {
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.overlay-btn-primary {
+  background: var(--contacts-accent);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(42, 54, 71, 0.25);
+}
+
+.overlay-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 36px rgba(42, 54, 71, 0.3);
+}
+
+.overlay-btn-secondary {
+  background: #fff;
+  color: var(--contacts-text);
+  border-color: #d5d9e6;
+}
+
+.overlay-btn-secondary:hover {
+  background: #f1f3f8;
+}
+
+@media (max-width: 900px) {
+  .contact-overlay-dialog {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .overlay-panel-left {
+    display: none;
+  }
+
+  .overlay-panel {
+    padding: 32px 24px;
+  }
+}
