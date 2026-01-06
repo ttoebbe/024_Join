@@ -64,7 +64,7 @@ header {
     height: 49px;
     position: absolute;
     top: 67px;
-    left: calc(100% - 279px - 70px);
+    right: 100px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -304,4 +304,24 @@ footer a:hover {
 .footer_right {
     width: 109px;
     height: 35px;
+}
+
+
+
+@media (max-width: 768px) {
+    header p, header button {
+        text-align: center;
+        width: 100%;
+    }
+
+    main {
+        max-width: 90%;
+        width: 100%;
+        margin: 20px auto;
+    }
+
+    footer {
+        flex-direction: column;
+        width: auto;
+    }
 }
