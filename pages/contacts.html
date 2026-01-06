@@ -16,29 +16,33 @@
       <div class="page-column">
         <div id="header-placeholder"></div>
 
-<!-- ab hier der content der seite -->
+        <!-- ab hier der content der seite -->
         <main class="contacts-page">
-        <div class="contacts-main">
-          <section class="contact-list-panel">
-            <button class="list-add-button ">
-              <span class="button-icon">+</span>
-              <span>Add New Contact</span>
-            </button>
-            <div class="contact-list" aria-live="polite"></div>
-          </section>
-
-          <section class="contact-detail-panel">
-            <section class="contacts-header">
-              <div class="contacts-title">
-                <p class="contacts-tagline">Better with a team</p>
-                <h1>Contacts</h1>
-              </div>
-              <button class="primary-button add-contact-btn">
+          <div class="contacts-main">
+            <section class="contact-list-panel">
+              <button class="list-add-button">
                 <span class="button-icon">+</span>
                 <span>Add New Contact</span>
               </button>
+              <div class="contact-list" aria-live="polite"></div>
             </section>
-            <header class="detail-header">
+
+            <section class="contact-detail-panel">
+              <section class="contacts-header">
+                <!-- <div class="contacts-title"> -->
+
+                <h1>Contacts</h1>
+                <p class="content-border">|</p>
+                <p class="contacts-tagline">Better with a team</p>
+                <!-- </div> -->
+                <!-- <button class="primary-button add-contact-btn">
+                <span class="button-icon">+</span>
+                <span>Add New Contact</span>
+              </button> -->
+              </section>
+              <section id="contact-detail-injection"> html injection via js</section>
+
+              <!-- <header class="detail-header">
               <div>
                 <p class="detail-kicker">Contact Details</p>
                 <h2>Stay productive together</h2>
@@ -50,13 +54,12 @@
             </header>
             <div class="contact-detail">
               <p class="detail-placeholder">Please select a contact.</p>
-            </div>
-          </section>
-        </div>
+            </div> -->
+            </section>
+          </div>
         </main>
 
-<!-- content der Seite endet hier -->
-
+        <!-- content der Seite endet hier -->
       </div>
     </div>
     <script src="../js/components.js"></script>
