@@ -4,129 +4,167 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Board</title>
+
+    <!-- Global components + page styles -->
     <link rel="stylesheet" href="/styles/components.css" />
     <link rel="stylesheet" href="/styles/pages/board.css" />
+    <link rel="stylesheet" href="/styles/pages/overlay.css" />
+
   </head>
 
-  <link rel="stylesheet" href="../styles/components.css" />
-</head>
+  <body>
+    <div class="app-shell">
+      <aside id="nav-bar-placeholder"></aside>
 
-<body>
-  <div class="app-shell">
-    <aside id="nav-bar-placeholder"></aside>
+      <div class="page-column">
+        <div id="header-placeholder"></div>
 
-    <div class="page-column">
-      <div id="header-placeholder"></div>
+        <main class="content">
+          <!-- ab hier der content der seite -->
+          <section class="board-page">
+            <!-- Board header row -->
+            <div class="board-head">
+              <h1 class="board-title">Board</h1>
 
-      <main class="content">
-        <!-- ab hier der content der seite -->
-        <section class="board-page">
-  <div class="board-head">
-    <h1 class="board-title">Board</h1>
+              <div class="board-actions">
+                <!-- Search -->
+                <div class="board-search">
+                  <input
+                    id="boardSearchInput"
+                    class="board-search-input"
+                    type="text"
+                    placeholder="Find Task"
+                  />
 
-    <div class="board-actions">
-      <div class="board-search">
-        <input class="board-search-input" type="text" placeholder="Find Task" />
-        <button class="board-search-btn" type="button" aria-label="Search">
-          <img src="/imgs/icons/search.png" alt="" />
-        </button>
+                  <!-- Search icon button (optional UI-only) -->
+                  <button
+                    id="boardSearchBtn"
+                    class="board-search-btn"
+                    type="button"
+                    aria-label="Search"
+                  >
+                    <img src="/imgs/icons/search.png" alt="" />
+                  </button>
+                </div>
+
+                <!-- Add Task (opens overlay) -->
+                <button id="boardAddTaskBtn" class="board-add-btn" type="button">
+                  Add task <span class="board-add-plus">+</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- No results message (shown only if search has no matches) -->
+            <p id="boardNoResults" class="board-no-results" hidden>
+              Keine Ergebnisse gefunden
+            </p>
+
+            <!-- Board columns -->
+            <div class="board-columns">
+              <!-- To do -->
+              <section class="board-column" data-status="todo">
+                <div class="board-column-head">
+                  <h2 class="board-column-title">To do</h2>
+                  <button
+                    class="board-column-add"
+                    type="button"
+                    aria-label="Add task to To do"
+                  ><img src="/imgs/icons/plus button.png" alt=""></button>
+                </div>
+
+                <!-- IMPORTANT: data-board-body must be on the column body -->
+                <div class="board-column-body" data-board-body>
+                  <div class="board-empty">No tasks To do</div>
+
+                  <!-- Beispielkarte (nur für Layout-Test; später entfernen) -->
+                  <!--
+                  <article class="board-card" tabindex="0" role="button">
+                    <div class="board-card-label board-card-label--userstory">User Story</div>
+                    <h3 class="board-card-title">Kochwelt Page &amp; Recipe Recommender</h3>
+                    <p class="board-card-desc">Build start page with recipe recommendation...</p>
+
+                    <div class="board-progress">
+                      <div class="board-progress-text">1/2 Subtasks</div>
+                      <div class="board-progress-bar">
+                        <div class="board-progress-fill" style="width: 50%"></div>
+                      </div>
+                    </div>
+
+                    <div class="board-card-footer">
+                      <div class="board-avatars">
+                        <span class="board-avatar board-avatar--orange">AM</span>
+                        <span class="board-avatar board-avatar--purple">MB</span>
+                        <span class="board-avatar board-avatar--blue">SM</span>
+                      </div>
+                      <div class="board-prio">
+                        <img src="/imgs/icons/Prio alta.png" alt="Priority" />
+                      </div>
+                    </div>
+                  </article>
+                  -->
+                </div>
+              </section>
+
+              <!-- In progress -->
+              <section class="board-column" data-status="inprogress">
+                <div class="board-column-head">
+                  <h2 class="board-column-title">In progress</h2>
+                  <button
+                    class="board-column-add"
+                    type="button"
+                    aria-label="Add task to In progress"
+                  ><img src="/imgs/icons/plus button.png" alt=""></button>
+                </div>
+
+                <div class="board-column-body" data-board-body>
+                  <div class="board-empty">No tasks In progress</div>
+                </div>
+              </section>
+
+              <!-- Await feedback -->
+              <section class="board-column" data-status="awaitfeedback">
+                <div class="board-column-head">
+                  <h2 class="board-column-title">Await feedback</h2>
+                  <button
+                    class="board-column-add"
+                    type="button"
+                    aria-label="Add task to Await feedback"
+                  ><img src="/imgs/icons/plus button.png" alt=""></button>
+                </div>
+
+                <div class="board-column-body" data-board-body>
+                  <div class="board-empty">No tasks Await feedback</div>
+                </div>
+              </section>
+
+              <!-- Done (NO plus button allowed here) -->
+              <section class="board-column" data-status="done">
+                <div class="board-column-head">
+                  <h2 class="board-column-title">Done</h2>
+                  <!-- no add button in done -->
+                </div>
+
+                <div class="board-column-body" data-board-body>
+                  <div class="board-empty">No tasks Done</div>
+                </div>
+              </section>
+            </div>
+          </section>
+          <!-- content der Seite endet hier -->
+        </main>
       </div>
-
-      <button class="board-add-btn" type="button">
-        Add task <span class="board-add-plus">+</span>
-      </button>
     </div>
-  </div>
 
-  <div class="board-columns">
-    <!-- To do -->
-    <section class="board-column" data-status="todo">
-      <div class="board-column-head">
-        <h2 class="board-column-title">To do</h2>
-        <button class="board-column-add" type="button" aria-label="Add task to To do">
-          <img src="/imgs/icons/plus button.png" alt="" />
-        </button>
-      </div>
+<div id="overlayRoot" class="overlay-root hidden" aria-hidden="true"></div>
 
-      <div class="board-column-body">
-        <div class="board-empty">No tasks To do</div>
+    <!-- Scripts (order matters!) -->
+   <script src="../js/storage.js" defer></script>
+<script src="../js/components.js" defer></script>
 
-        <!-- Beispielkarte (später per JS) -->
-        <article class="board-card" tabindex="0" role="button">
-          <div class="board-card-label board-card-label--userstory">User Story</div>
-          <h3 class="board-card-title">Kochwelt Page &amp; Recipe Recommender</h3>
-          <p class="board-card-desc">Build start page with recipe recommendation...</p>
+<script src="../js/addTaskForm.js" defer></script>
+<script src="../js/addTaskOverlay.js" defer></script>
 
-          <div class="board-progress">
-            <div class="board-progress-text">1/2 Subtasks</div>
-            <div class="board-progress-bar">
-              <div class="board-progress-fill" style="width: 50%"></div>
-            </div>
-          </div>
+<script src="../js/board.js" defer></script>
 
-          <div class="board-card-footer">
-            <div class="board-avatars">
-              <span class="board-avatar board-avatar--orange">AM</span>
-              <span class="board-avatar board-avatar--purple">MB</span>
-              <span class="board-avatar board-avatar--blue">SM</span>
-            </div>
-            <div class="board-prio">
-              <img src="/imgs/icons/Prio alta.png" alt="Priority Medium" />
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- In progress -->
-    <section class="board-column" data-status="inprogress">
-      <div class="board-column-head">
-        <h2 class="board-column-title">In progress</h2>
-        <button class="board-column-add" type="button" aria-label="Add task to In progress">
-          <img src="/imgs/icons/plus button.png" alt="" />
-        </button>
-      </div>
-
-      <div class="board-column-body">
-        <div class="board-empty">No tasks In progress</div>
-      </div>
-    </section>
-
-    <!-- Await feedback -->
-    <section class="board-column" data-status="awaitfeedback">
-      <div class="board-column-head">
-        <h2 class="board-column-title">Await feedback</h2>
-        <button class="board-column-add" type="button" aria-label="Add task to Await feedback">
-          <img src="/imgs/icons/plus button.png" alt="" />
-        </button>
-      </div>
-
-      <div class="board-column-body">
-        <div class="board-empty">No tasks Await feedback</div>
-      </div>
-    </section>
-
-    <!-- Done -->
-    <section class="board-column" data-status="done">
-      <div class="board-column-head">
-        <h2 class="board-column-title">Done</h2>
-        <button class="board-column-add" type="button" aria-label="Add task to Done">
-          <img src="/imgs/icons/plus button.png" alt="" />
-        </button>
-      </div>
-
-      <div class="board-column-body">
-        <div class="board-empty">No tasks Done</div>
-      </div>
-    </section>
-  </div>
-</section>
-
-        <!-- content der Seite endet hier -->
-      </div>
-    </div>
-  </div>
-
-  <script src="../js/components.js"></script>
-</body>
+  </body>
 </html>

@@ -13,6 +13,51 @@
       <div class="page-column">
         <div id="header-placeholder"></div>
         <!-- ab hier der content der seite -->
+         <form id="addTaskForm">
+  <!-- status preset vom Board -->
+  <input type="hidden" id="taskStatusPreset" value="todo" />
+
+  <div class="addtask-grid">
+    <div>
+      <label>Title<span class="req">*</span></label>
+      <input id="taskTitle" type="text" placeholder="Enter a title" />
+      
+      <label>Description</label>
+      <textarea id="taskDescription" placeholder="Enter a Description"></textarea>
+
+      <label>Due date<span class="req">*</span></label>
+      <input id="taskDueDate" type="text" placeholder="dd/mm/yyyy" />
+    </div>
+
+    <div>
+      <label>Priority</label>
+      <div class="prio-row">
+        <button type="button" class="prio-btn" data-prio="urgent">Urgent</button>
+        <button type="button" class="prio-btn is-active" data-prio="medium">Medium</button>
+        <button type="button" class="prio-btn" data-prio="low">Low</button>
+      </div>
+
+      <label>Assigned to</label>
+      <div class="dropdown" id="assignedDropdown"></div>
+
+      <label>Category<span class="req">*</span></label>
+      <div class="dropdown" id="categoryDropdown"></div>
+
+      <label>Subtasks</label>
+      <div class="subtask-row">
+        <input id="subtaskInput" type="text" placeholder="Add new subtask" />
+        <button type="button" id="subtaskAddBtn">+</button>
+      </div>
+      <div id="subtaskList"></div>
+    </div>
+  </div>
+
+  <div class="addtask-footer">
+    <button type="button" id="clearBtn">Clear</button>
+    <button type="submit" id="createBtn">Create Task</button>
+  </div>
+</form>
+
 
 
         
