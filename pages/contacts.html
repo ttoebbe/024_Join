@@ -19,7 +19,11 @@
         <main class="contacts-page">
           <div class="contacts-main">
             <section class="contact-list-panel">
-              <button class="list-add-button" type="button" aria-controls="contact-overlay">
+              <button
+                class="list-add-button"
+                type="button"
+                aria-controls="contact-overlay"
+              >
                 <span class="button-icon">+</span>
                 <span>Add New Contact </span>
               </button>
@@ -32,12 +36,18 @@
                 <p class="content-border">|</p>
                 <p class="contacts-tagline">Better with a team</p>
               </section>
-              <section id="contact-detail-injection"> html injection via js</section>
+              <section id="contact-detail-injection">
+                html injection via js
+              </section>
             </section>
           </div>
         </main>
 
-        <section id="contact-overlay" class="contact-overlay" aria-hidden="true">
+        <section
+          id="contact-overlay"
+          class="contact-overlay"
+          aria-hidden="true"
+        >
           <div
             class="contact-overlay-dialog"
             role="dialog"
@@ -55,12 +65,16 @@
             <div class="overlay-panel overlay-panel-left">
               <div class="overlay-brand">
                 <div class="overlay-logo">
-                  <div class="overlay-logo-mark">
+                  <!-- <div class="overlay-logo-mark">
                     <span class="logo-bar logo-bar-primary"></span>
                     <span class="logo-bar logo-bar-secondary"></span>
                     <span class="logo-dot"></span>
                   </div>
-                  <span class="overlay-logo-text">Join</span>
+                  <span class="overlay-logo-text">Join</span> -->
+                  <img
+                    src="../assets/img/Capa 1.png"
+                    alt="Join logo"
+                  />
                 </div>
                 <h2 id="contact-overlay-title">Add contact</h2>
                 <p class="overlay-tagline">Tasks are better with a team!</p>
@@ -71,10 +85,10 @@
             <div class="overlay-panel overlay-panel-right">
               <div class="overlay-avatar">
                 <div class="avatar-circle">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <circle cx="12" cy="8" r="4" />
-                    <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" />
-                  </svg>
+                  <img
+                    src="../assets/img/icons/Group 13.svg"
+                    alt="User avatar"
+                  />
                 </div>
               </div>
               <form id="contact-form" class="overlay-form">
@@ -89,10 +103,7 @@
                     autocomplete="name"
                   />
                   <span class="input-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5z" />
-                      <path d="M4 21c0-4.4 3.6-6.5 8-6.5s8 2.1 8 6.5" />
-                    </svg>
+                    <img src="../assets/img/icons/person.png" alt="User name" />
                   </span>
                 </div>
 
@@ -107,10 +118,7 @@
                     autocomplete="email"
                   />
                   <span class="input-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M4 6h16v12H4z" />
-                      <path d="M4 8l8 5 8-5" />
-                    </svg>
+                    <img src="../assets/img/icons/mail.png" alt="User email" />
                   </span>
                 </div>
 
@@ -125,19 +133,21 @@
                     autocomplete="tel"
                   />
                   <span class="input-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path
-                        d="M6.6 4.6 9 3l2 3-1.8 1.3a9.7 9.7 0 0 0 5.5 5.5L16 11l3 2-1.6 2.4a1.8 1.8 0 0 1-1.6.8A11.8 11.8 0 0 1 5 7.8a1.8 1.8 0 0 1 .8-1.6Z"
-                      />
-                    </svg>
+                    <img src="../assets/img/icons/call.png" alt="User phone" />
                   </span>
                 </div>
 
                 <div class="overlay-actions">
-                  <button type="button" id="contact-cancel" class="overlay-btn overlay-btn-secondary">
+                  <button
+                    type="button"
+                    id="contact-cancel"
+                    class="overlay-btn overlay-btn-secondary"
+                  >
                     Cancel
                   </button>
-                  <button type="submit" class="overlay-btn overlay-btn-primary">Create contact</button>
+                  <button type="submit" class="overlay-btn overlay-btn-primary">
+                    Create contact
+                  </button>
                 </div>
               </form>
             </div>
