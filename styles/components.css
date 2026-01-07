@@ -26,9 +26,18 @@ body{
   width: 100%;
 }
 
+
 #nav-bar-placeholder{
-  flex: 0 0 232px;
+  position: sticky;
+   flex: 0 0 232px;
+  top: 0;
+  height: 100vh;
+  align-self: flex-start;
+  background: var(--nav); 
 }
+
+
+
 
 .page-column{
   flex: 1;
@@ -38,7 +47,7 @@ body{
   background: var(--bg);
 }
 
-/* Standard main wrapper (falls du es benutzt) */
+
 .content,
 .page-body{
   flex: 1;
@@ -47,7 +56,7 @@ body{
   background: var(--bg);
 }
 
-/* ===== Topbar (GLOBAL wie Summary / Bild 2) ===== */
+
 .topbar{
   height: 96px;
   background: var(--card);
@@ -64,7 +73,7 @@ body{
   z-index: 10;
 }
 
-/* links (Desktop leer, Mobile zeigt Logo) */
+
 .topbar-logo{
   width: 0;
   height: 0;
@@ -118,7 +127,7 @@ body{
   color: var(--accent);
 }
 
-/* ===== Navigation Bar ===== */
+
 .nav_bar{
   display: flex;
   flex-direction: column;
@@ -190,7 +199,7 @@ body{
   background: var(--nav-active);
 }
 
-/* Footer Links */
+
 .footer_links{
   display: flex;
   flex-direction: column;
@@ -209,16 +218,30 @@ body{
 .footer_links a:hover{
   color: var(--accent);
 }
+/* Desktop only: Sidebar bleibt sichtbar + keine Leerstelle */
+@media (min-width: 801px){
+  #nav-bar-placeholder{
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    align-self: flex-start;
+    background: var(--nav);
+  }
 
-/* ===== Mobile ===== */
-@media (max-width: 700px){
+  #nav-bar-placeholder > .nav_bar{
+    height: 100%;
+  }
+}
 
-  /* Platz schaffen für fixed Bottom-Nav */
+
+@media (max-width: 800px){
+
+
   .page-column{
     padding-bottom: 96px;
   }
 
-  /* Topbar Mobile wie Figma */
+
   .topbar{
     height: 80px;
     padding: 0 16px;
@@ -234,9 +257,13 @@ body{
     background: url("/imgs/homepage_join.png") no-repeat center / contain;
   }
 
-  /* Navbar wird Bottom-Bar */
+
   #nav-bar-placeholder{
     flex: 0 0 auto;
+    position: static;
+    height: auto;
+    background: transparent;
+    align-self: stretch;
   }
 
   .nav_bar{
