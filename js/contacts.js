@@ -131,13 +131,13 @@ function getContactDetailTemplate(contact) {
       <div class="contact-info">
         <h2>${contact.name}</h2>
         <div class="detail-actions">
-          <button class="secondary-button">✏️ Bearbeiten</button>
-          <button class="secondary-button">🗑️ Löschen</button>
+          <button class="secondary-button">✏️ Edit</button>
+          <button class="secondary-button">🗑️ Delete</button>
         </div>
       </div>
     </div>
     <div class="contact-details">
-      <h4>Kontakt Information</h4>
+      <h4>Contact Information</h4>
       <div class="detail-row">
         <span class="detail-label">Email</span>
         <a href="mailto:${contact.email}">${contact.email}</a>
