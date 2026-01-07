@@ -8,6 +8,8 @@ function setText(id, txt) {
   if (el) el.textContent = txt || "";
 }
 
+let currentEditId = null;
+
 /**
  * Initializes the contact list once the page is ready.
  */
@@ -113,6 +115,7 @@ function renderContactDetail(contact) {
   const container = document.getElementById("contact-detail-injection");
   if (!container) return;
   container.innerHTML = getContactDetailTemplate(contact);
+  setupDetailActions(contact?.id);
 }
 
 /**
@@ -151,6 +154,79 @@ function getContactDetailTemplate(contact) {
 }
 
 /**
+ * Wires up edit/delete actions for the detail view.
+ * @param {string} contactId
+ */
+function setupDetailActions(contactId) {
+  const container = document.getElementById("contact-detail-injection");
+  if (!container || !contactId) return;
+  const actionButtons = container.querySelectorAll(
+    ".detail-actions .secondary-button"
+  );
+  const editButton = actionButtons[0];
+  const deleteButton = actionButtons[1];
+  editButton?.addEventListener("click", () => openEditContact(contactId));
+  deleteButton?.addEventListener("click", () => deleteContact(contactId));
+}
+
+/**
+ * Opens the contact overlay for editing.
+ * @param {string} contactId
+ */
+function openEditContact(contactId) {
+  const contact = getContactById(contactId);
+  const overlay = document.getElementById("contact-overlay");
+  const form = document.getElementById("contact-form");
+  if (!contact || !overlay || !form) return;
+
+  const nameInput = document.getElementById("contact-name");
+  const emailInput = document.getElementById("contact-email");
+  const phoneInput = document.getElementById("contact-phone");
+
+  nameInput.value = contact.name || "";
+  emailInput.value = contact.email || "";
+  phoneInput.value = contact.phone || "";
+  setOverlayMode(form, true);
+  currentEditId = contactId;
+  openOverlay(overlay);
+}
+
+/**
+ * Deletes a contact and refreshes the UI.
+ * @param {string} contactId
+ */
+function deleteContact(contactId) {
+  if (!Array.isArray(contacts)) return;
+  const index = contacts.findIndex((contact) => contact.id === contactId);
+  if (index === -1) return;
+  contacts.splice(index, 1);
+  const listElement = document.querySelector(".contact-list");
+  if (listElement) {
+    renderContactList(listElement, getContactData());
+  }
+  clearContactDetail();
+}
+
+/**
+ * Resets the detail panel when no contact is selected.
+ */
+function clearContactDetail() {
+  const container = document.getElementById("contact-detail-injection");
+  if (!container) return;
+  container.textContent = "Select a contact to see details.";
+}
+
+/**
+ * Finds a contact by id.
+ * @param {string} contactId
+ * @returns {Object|null}
+ */
+function getContactById(contactId) {
+  if (!Array.isArray(contacts)) return null;
+  return contacts.find((contact) => contact.id === contactId) || null;
+}
+
+/**
  * Sets up overlay open/close behavior and submission handling.
  * @param {HTMLElement} listElement
  */
@@ -174,7 +250,10 @@ function setupAddContactOverlay(listElement) {
   emailInput?.addEventListener("input", clearErrorMsg);
   phoneInput?.addEventListener("input", clearErrorMsg);
 
-  openButton.addEventListener("click", () => openOverlay(overlay));
+  openButton.addEventListener("click", () => {
+    setOverlayMode(form, false);
+    openOverlay(overlay);
+  });
   cancelButton?.addEventListener("click", () => closeOverlay(overlay, form));
   closeButton?.addEventListener("click", () => closeOverlay(overlay, form));
   overlay.addEventListener("click", (event) => {
@@ -205,7 +284,27 @@ function openOverlay(overlay) {
 function closeOverlay(overlay, form) {
   overlay.classList.remove("is-visible");
   overlay.setAttribute("aria-hidden", "true");
+  setOverlayMode(form, false);
   form?.reset();
+}
+
+/**
+ * Updates overlay text and mode for add vs edit.
+ * @param {HTMLFormElement} form
+ * @param {boolean} isEdit
+ */
+function setOverlayMode(form, isEdit) {
+  const title = document.getElementById("contact-overlay-title");
+  const submitButton = form?.querySelector('button[type="submit"]');
+  if (title) {
+    title.textContent = isEdit ? "Edit contact" : "Add contact";
+  }
+  if (submitButton) {
+    submitButton.textContent = isEdit ? "Save changes" : "Create contact";
+  }
+  if (!isEdit) {
+    currentEditId = null;
+  }
 }
 
 /**
@@ -246,6 +345,24 @@ function handleNewContactSubmit(event, overlay, form, listElement) {
 
   if (!isValidPhone(phone)) {
     return setText("contactFormMsg", "Please enter a valid phone number.");
+  }
+
+  if (currentEditId) {
+    const existing = getContactById(currentEditId);
+    if (existing) {
+      existing.name = name;
+      existing.email = email;
+      existing.phone = phone;
+      renderContactList(listElement, getContactData());
+      closeOverlay(overlay, form);
+      const updatedEntry = document.querySelector(
+        `[data-contact-id="${existing.id}"]`
+      );
+      if (updatedEntry) {
+        selectContact(existing, updatedEntry);
+      }
+      return;
+    }
   }
 
   const newContact = {
@@ -338,3 +455,4 @@ function isValidPhone(phone) {
   const phonePattern = /^[0-9+\-\s()]+$/;
   return phonePattern.test(trimmed);
 }
+
