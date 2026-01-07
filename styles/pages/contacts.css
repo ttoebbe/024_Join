@@ -589,6 +589,16 @@ main {
   background: #f1f3f8;
 }
 
+/* Form validation message */
+.form-msg {
+  min-height: 20px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  color: #ff3d00;
+  font-size: 14px;
+  text-align: center;
+}
+
 @media (max-width: 900px) {
   .contact-overlay-dialog {
     grid-template-columns: 1fr;

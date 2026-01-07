@@ -1,4 +1,14 @@
 /**
+ * Helper function to set text content of an element by ID.
+ * @param {string} id
+ * @param {string} txt
+ */
+function setText(id, txt) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = txt || "";
+}
+
+/**
  * Initializes the contact list once the page is ready.
  */
 function initContactsPage() {
@@ -35,25 +45,6 @@ function renderContactList(container, data) {
   container.innerHTML = data.map(getContactTemplate).join("");
 }
 
-// /**
-//  * Builds the HTML template for a single contact entry.
-//  * @param {Object} contact
-//  * @returns {string}
-//  */
-// function getContactTemplate(contact) {
-//   const initials = getInitials(contact.name);
-//   const avatarColor = contact.color || "#2a3647";
-//   return /* html */ `<article class="contact-entry" 
-//   data-contact-id="${contact.id}">
-//   <span class="contact-avatar" 
-//   style="background:${avatarColor}">
-//   ${initials}</span>
-//   <div class="contact-meta"><p 
-//   class="contact-name">${contact.name}</p>
-//   <p class="contact-email">${contact.email}</p>
-//   </div></article>`;
-// }
-
 /**
  * Calculates initials for a given name.
  * @param {string} name
@@ -81,7 +72,7 @@ function getInitials(name) {
 function getContactTemplate(contact) {
   const initials = getInitials(contact.name);
   const avatarColor = contact.color || "#2a3647";
-  const contactData = JSON.stringify(contact).replace(/"/g, '&quot;');
+  const contactData = JSON.stringify(contact).replace(/"/g, "&quot;");
   return /* html */ `<article class="contact-entry" 
   data-contact-id="${contact.id}"
   onclick="selectContact(${contactData}, this)">
@@ -96,12 +87,12 @@ function getContactTemplate(contact) {
 
 /**
  * Handles contact selection and updates UI state.
- * @param {Object} contact 
- * @param {HTMLElement} element 
+ * @param {Object} contact
+ * @param {HTMLElement} element
  */
 function selectContact(contact, element) {
   removeActiveStates();
-  element.classList.add('is-active');
+  element.classList.add("is-active");
   renderContactDetail(contact);
 }
 
@@ -109,23 +100,24 @@ function selectContact(contact, element) {
  * Removes active state from all contact entries.
  */
 function removeActiveStates() {
-  document.querySelectorAll('.contact-entry')
-    .forEach(entry => entry.classList.remove('is-active'));
+  document
+    .querySelectorAll(".contact-entry")
+    .forEach((entry) => entry.classList.remove("is-active"));
 }
 
 /**
  * Renders contact detail view in injection area.
- * @param {Object} contact 
+ * @param {Object} contact
  */
 function renderContactDetail(contact) {
-  const container = document.getElementById('contact-detail-injection');
+  const container = document.getElementById("contact-detail-injection");
   if (!container) return;
   container.innerHTML = getContactDetailTemplate(contact);
 }
 
 /**
  * Creates HTML template for contact detail view.
- * @param {Object} contact 
+ * @param {Object} contact
  * @returns {string}
  */
 function getContactDetailTemplate(contact) {
@@ -168,10 +160,19 @@ function setupAddContactOverlay(listElement) {
   const cancelButton = document.getElementById("contact-cancel");
   const closeButton = document.querySelector("[data-overlay-close]");
   const form = document.getElementById("contact-form");
+  const nameInput = document.getElementById("contact-name");
+  const emailInput = document.getElementById("contact-email");
+  const phoneInput = document.getElementById("contact-phone");
 
   if (!overlay || !openButton || !form) {
     return;
   }
+
+  // Clear error message on input
+  const clearErrorMsg = () => setText("contactFormMsg", "");
+  nameInput?.addEventListener("input", clearErrorMsg);
+  emailInput?.addEventListener("input", clearErrorMsg);
+  phoneInput?.addEventListener("input", clearErrorMsg);
 
   openButton.addEventListener("click", () => openOverlay(overlay));
   cancelButton?.addEventListener("click", () => closeOverlay(overlay, form));
@@ -208,11 +209,12 @@ function closeOverlay(overlay, form) {
 }
 
 /**
- * Handles creation of a new contact from the overlay form.
- * @param {SubmitEvent} event
- * @param {HTMLElement} overlay
- * @param {HTMLFormElement} form
- * @param {HTMLElement} listElement
+ * handles new contact form submission with validation.
+ * @param {SubmitEvent} event 
+ * @param {HTMLElement} overlay 
+ * @param {HTMLFormElement} form 
+ * @param {HTMLElement} listElement 
+ * @returns 
  */
 function handleNewContactSubmit(event, overlay, form, listElement) {
   event.preventDefault();
@@ -222,8 +224,28 @@ function handleNewContactSubmit(event, overlay, form, listElement) {
   const email = (formData.get("email") || "").toString().trim();
   const phone = (formData.get("phone") || "").toString().trim();
 
-  if (!name || !email || !phone) {
-    return;
+  // Clear previous error
+  setText("contactFormMsg", "");
+
+  // Validation
+  if (!name) {
+    return setText("contactFormMsg", "Please enter a name.");
+  }
+
+  if (!email) {
+    return setText("contactFormMsg", "Please enter an email address.");
+  }
+
+  if (!isValidEmail(email)) {
+    return setText("contactFormMsg", "Please enter a valid email address.");
+  }
+
+  if (!phone) {
+    return setText("contactFormMsg", "Please enter a phone number.");
+  }
+
+  if (!isValidPhone(phone)) {
+    return setText("contactFormMsg", "Please enter a valid phone number.");
   }
 
   const newContact = {
@@ -241,7 +263,9 @@ function handleNewContactSubmit(event, overlay, form, listElement) {
   renderContactList(listElement, getContactData());
   closeOverlay(overlay, form);
 
-  const newEntry = document.querySelector(`[data-contact-id="${newContact.id}"]`);
+  const newEntry = document.querySelector(
+    `[data-contact-id="${newContact.id}"]`
+  );
   if (newEntry) {
     selectContact(newContact, newEntry);
   }
@@ -256,7 +280,10 @@ function getNextContactId() {
     return "c0";
   }
   const highest = contacts.reduce((max, contact) => {
-    const numericPart = parseInt(String(contact.id || "").replace(/\D/g, ""), 10);
+    const numericPart = parseInt(
+      String(contact.id || "").replace(/\D/g, ""),
+      10
+    );
     return Number.isFinite(numericPart) ? Math.max(max, numericPart) : max;
   }, -1);
   return `c${highest + 1}`;
@@ -281,4 +308,33 @@ function getRandomContactColor() {
   ];
   const index = Math.floor(Math.random() * palette.length);
   return palette[index];
+}
+
+/** Cancel Inputs or create new Contact to sample-contacts.js*/
+
+/**
+ * Validates email format (checks for @ and . after @).
+ * @param {string} email
+ * @returns {boolean}
+ */
+function isValidEmail(email) {
+  const trimmed = (email || "").trim();
+  if (!trimmed.includes("@")) return false;
+  const parts = trimmed.split("@");
+  if (parts.length !== 2) return false;
+  if (!parts[0] || !parts[1] || !parts[1].includes(".")) return false;
+  return true;
+}
+
+/**
+ * Validates phone format (allows digits, spaces, +, -, (, )).
+ * @param {string} phone
+ * @returns {boolean}
+ */
+function isValidPhone(phone) {
+  const trimmed = (phone || "").trim();
+  if (!trimmed) return false;
+  // Allow digits, spaces, +, -, (, )
+  const phonePattern = /^[0-9+\-\s()]+$/;
+  return phonePattern.test(trimmed);
 }
