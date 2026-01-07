@@ -86,12 +86,12 @@ main {
   display: flex;
   flex-direction: column;
   gap: 16px;
-
   background: var(--contacts-panel);
-  /* border-radius: 32px; */
   padding: 24px;
-  /* padding-left: 0px; */
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.08);
+  height: calc(100vh - 180px);
+  min-height: 420px;
+  overflow: hidden;
 }
 
 .list-add-button {
@@ -114,8 +114,10 @@ main {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 8px;
 }
 
@@ -611,7 +613,7 @@ main {
 }
 
 @media (max-width: 900px) {
-  .contact-overlay-dialog {
+  .contact-overlay_dialog {
     grid-template-columns: 1fr;
     height: auto;
   }
