@@ -1,5 +1,21 @@
+ (() => {
+  /* ================== ANIMATION ================== */
+  function initAnimation() {
+    setTimeout(startAnimation, 200);
+  }
 
-(() => {
+  function startAnimation() {
+    const homepageImage = document.getElementById("img_animation");
+    const bg = document.getElementById("bg");
+
+    homepageImage?.classList.add("animiert");
+    bg?.classList.add("bg-animiert");
+
+    setTimeout(() => {
+      if (bg) bg.style.display = "none";
+    }, 500);
+  }
+ /* ================== KONSTANTEN ================== */
   const LS_CURRENT = "join_current_user";
   const LS_USERS = "join_users";
   const REDIRECT_AFTER_LOGIN = "./summary.html";
@@ -13,11 +29,7 @@
 
   function isEmailLike(v) {
     const s = (v || "").trim();
-    if (!s.includes("@")) return false;
-    const parts = s.split("@");
-    if (parts.length !== 2) return false;
-    if (!parts[0] || !parts[1] || !parts[1].includes(".")) return false;
-    return true;
+    return s.includes("@") && s.includes(".");
   }
 
   function loadUsers() {
@@ -41,9 +53,10 @@
     if (!t) return;
     t.textContent = msg;
     t.classList.add("show");
-    window.setTimeout(() => t.classList.remove("show"), 1800);
+    setTimeout(() => t.classList.remove("show"), 1800);
   }
 
+  /* ================== LOGIN ================== */
   function initLogin() {
     const form = $("loginForm");
     if (!form) return;
@@ -54,67 +67,48 @@
     const btnGuest = $("btnGuest");
 
     function updateBtn() {
-      const email = (emailEl?.value || "").trim();
-      const pw = (pwEl?.value || "").trim();
-      if (btnLogin) btnLogin.disabled = !(email && pw);
+      btnLogin.disabled = !(emailEl.value && pwEl.value);
     }
-
-    function loginNormal() {
-      const email = (emailEl?.value || "").trim();
-      const pw = (pwEl?.value || "").trim();
-
-      if (!email || !pw) return setText("formMsg", "Please fill in email and password.");
-      if (!isEmailLike(email)) return setText("formMsg", "Please enter a valid email address.");
-
-     
-      const users = loadUsers();
-      const found = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
-
-      const nameFromEmail = email
-        .split("@")[0]
-        .replace(/[._-]+/g, " ")
-        .replace(/\b\w/g, (m) => m.toUpperCase())
-        .trim();
-
-      const name = (found?.name || nameFromEmail || "User").trim();
-
-      saveCurrentUser({ name, email, guest: false });
-      window.location.href = REDIRECT_AFTER_LOGIN;
-    }
-
-    function loginGuest() {
-      saveCurrentUser({ name: "Guest", email: "guest@join.local", guest: true });
-      window.location.href = REDIRECT_AFTER_LOGIN;
-    }
-
-    emailEl?.addEventListener("input", () => {
-      setText("formMsg", "");
-      updateBtn();
-    });
-
-    pwEl?.addEventListener("input", () => {
-      setText("formMsg", "");
-      updateBtn();
-    });
-
-    updateBtn();
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      setText("formMsg", "");
-      loginNormal();
+
+      const email = emailEl.value.trim();
+      const pw = pwEl.value.trim();
+
+      if (!isEmailLike(email)) {
+        setText("formMsg", "Invalid email");
+        return;
+      }
+
+      const users = loadUsers();
+      const found = users.find(
+        (u) => u.email.toLowerCase() === email.toLowerCase()
+      );
+
+      const name =
+        found?.name ||
+        email.split("@")[0].replace(/[_\-.]/g, " ");
+
+      saveCurrentUser({ name, email, guest: false });
+      window.location.href = REDIRECT_AFTER_LOGIN;
     });
 
     btnGuest?.addEventListener("click", (e) => {
       e.preventDefault();
-      setText("formMsg", "");
-      loginGuest();
+      saveCurrentUser({ name: "Guest", email: "guest@join.local", guest: true });
+      window.location.href = REDIRECT_AFTER_LOGIN;
     });
+
+    emailEl.addEventListener("input", updateBtn);
+    pwEl.addEventListener("input", updateBtn);
+    updateBtn();
   }
 
+  /* ================== SIGNUP ================== */
   function initSignup() {
     const form = $("signupForm");
-    if (!form) return; 
+    if (!form) return;
 
     const nameEl = $("suName");
     const emailEl = $("suEmail");
@@ -124,63 +118,54 @@
     const btn = $("btnSignup");
 
     function updateBtn() {
-      const name = (nameEl?.value || "").trim();
-      const email = (emailEl?.value || "").trim();
-      const pw = (pwEl?.value || "").trim();
-      const pw2 = (pw2El?.value || "").trim();
-      const ok = policyEl?.checked && name && email && pw && pw2;
-      if (btn) btn.disabled = !ok;
+      btn.disabled = !(
+        nameEl.value &&
+        emailEl.value &&
+        pwEl.value &&
+        pw2El.value &&
+        policyEl.checked
+      );
     }
-
-    function signup() {
-      const name = (nameEl?.value || "").trim();
-      const email = (emailEl?.value || "").trim();
-      const pw = (pwEl?.value || "").trim();
-      const pw2 = (pw2El?.value || "").trim();
-
-      setText("suMsg", "");
-
-      if (!name || !email || !pw || !pw2) return setText("suMsg", "Please fill in all fields.");
-      if (!isEmailLike(email)) return setText("suMsg", "Please enter a valid email address.");
-      if (pw.length < 6) return setText("suMsg", "Password must be at least 6 characters.");
-      if (pw !== pw2) return setText("suMsg", "Passwords do not match.");
-      if (!policyEl?.checked) return setText("suMsg", "Please accept the privacy policy.");
-
-      const users = loadUsers();
-      const exists = users.some((u) => u.email.toLowerCase() === email.toLowerCase());
-      if (exists) return setText("suMsg", "This email is already registered.");
-
-      users.push({ name, email, pw });
-      saveUsers(users);
-
-      showToast("You Signed Up successfully");
-
-  
-      window.setTimeout(() => {
-        window.location.href = "./index.html";
-      }, 900);
-    }
-
-    [nameEl, emailEl, pwEl, pw2El, policyEl].forEach((el) => {
-      el?.addEventListener("input", () => {
-        setText("suMsg", "");
-        updateBtn();
-      });
-      el?.addEventListener("change", () => {
-        setText("suMsg", "");
-        updateBtn();
-      });
-    });
-
-    updateBtn();
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      signup();
+
+      if (pwEl.value !== pw2El.value) {
+        setText("suMsg", "Passwords do not match");
+        return;
+      }
+
+      const users = loadUsers();
+      if (users.some(u => u.email === emailEl.value)) {
+        setText("suMsg", "Email already exists");
+        return;
+      }
+
+      users.push({
+        name: nameEl.value.trim(),
+        email: emailEl.value.trim(),
+        pw: pwEl.value.trim()
+      });
+
+      saveUsers(users);
+      showToast("Sign Up successful");
+
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 800);
     });
+
+    [nameEl, emailEl, pwEl, pw2El, policyEl].forEach(el => {
+      el.addEventListener("input", updateBtn);
+      el.addEventListener("change", updateBtn);
+    });
+
+    updateBtn();
   }
 
+  /* ================== GLOBAL INIT ================== */
   document.addEventListener("DOMContentLoaded", () => {
+    initAnimation();
     initLogin();
     initSignup();
   });
