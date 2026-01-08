@@ -1,6 +1,6 @@
 :root {
   --contacts-bg: #f6f7fb;
-  --contacts-panel: #ffffff;
+  --contact-list-panel-color: #ffffff;
   --contacts-primary: #4589ff;
   --contacts-accent: #2a3647;
   --contacts-text: #0b1736;
@@ -87,6 +87,7 @@ main {
   display: flex;
   flex: 1;
   min-height: 0;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -103,7 +104,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: var(--contacts-panel);
+  background: var(--contact-list-panel-color);
   padding: 24px;
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.08);
   min-height: 0;
@@ -205,12 +206,13 @@ main {
 
 .contact-detail-panel {
   flex: 1;
-  background: var(--contacts-panel);
+  background: var(--contact-list-panel-color);
   padding: 40px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.08);
   min-height: 0;
+  width: 100vh;
   overflow: hidden;
 }
 
