@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../styles/pages/style.css">
     <!-- <script src="../js/script.js"></script> -->
     <script type="module" src="../js/auth.js"></script>
+    <script src="/js/script.js"></script>
 </head>
 
 <body>
@@ -19,7 +20,7 @@
         <a href="index.html"><img src="../img/homepage_join.png" alt="" class="homepage-image" id="img_animation"> </a>
         <header>
             <p>Not a Join user? </p>
-            <button><a href="sign_up.html">Sign Up</a></button>
+            <button><a href="/pages/sign_up.html">Sign Up</a></button>
         </header>
 
         <main>
@@ -31,11 +32,23 @@
                 <form id="loginForm">
                     <!-- <p id="formMsg" class="form-message"></p> -->
                     <div class="input-fields">
-                        <input type="email" id="email" name="email" placeholder="Email" required>
+                        <input type="email" id="email" name="email" placeholder="Email" required autocomplete="email">
                         <img src="../img/icons/mail.png" alt="" class="input-icon-email">
-                        <input type="password" id="password" name="password" placeholder="Password" required>
-                        <img src="../img/icons/lock.png" alt="" class="input-icon-password">
+
+                        <div class="input-fields">
+                            <input type="password" id="password" name="password" placeholder="Password" required
+                                autocomplete="current-password">
+
+                            <!-- Schloss-Icon -->
+                            <img id="passwordLock" src="../img/icons/lock.png" alt="" class="input-icon-password">
+
+                            <!-- Sichtbarkeit-Button -->
+                            <img id="visibilityImg" class="visibilty-btn d-none" src="/img/icons/visibility_off.png"
+                                alt="visibility_off">
+                        </div>
+
                     </div>
+
                     <div class="form-buttons">
                         <button type="submit" class="btn-left" id="btnLogin">Log In</button>
                         <button class="btn-right" id="btnGuest">Guest Log In</button>
@@ -44,8 +57,8 @@
             </section>
         </main>
         <footer>
-            <a href="privacy_policy.html" class="footer_left">Privacy Policy</a>
-            <a href="legal_notice.html" class="footer_right">Legacy notice</a>
+            <a href="/pages/privacy_policy.html" class="footer_left">Privacy Policy</a>
+            <a href="/pages/legal_notice.html" class="footer_right">Legacy notice</a>
         </footer>
     </div>
 </body>

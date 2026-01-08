@@ -184,3 +184,44 @@
 //     initSignup();
 //   });
 // })();
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const passwordField = document.getElementById('password');
+    const passwordLock = document.getElementById('passwordLock');
+    const visibilityBtn = document.getElementById('visibilityImg');
+
+    // Klick ins Passwort-Feld → Schloss weg, Visibility-Icon erscheint
+    passwordField.addEventListener('click', (event) => {
+        event.stopPropagation();
+        passwordLock.classList.add('d-none');           // Schloss verstecken
+        visibilityBtn.classList.remove('d-none');       // Visibility-Icon zeigen
+        visibilityBtn.classList.add('input-icon-password'); // Position anpassen
+        visibilityBtn.src = '/img/icons/visibility_off.png'; // Standard Icon
+    });
+
+    // Klick auf Visibility-Icon → Passwort anzeigen / verstecken
+    visibilityBtn.addEventListener('click', (event) => {
+        event.stopPropagation(); // Bubbling verhindern
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';                   // Passwort anzeigen
+            visibilityBtn.src = '/img/icons/visibility.png'; // Icon ändern
+            visibilityBtn.classList.add('input-icon-password'); // Position anpassen
+        } else {
+            passwordField.type = 'password';               // Passwort verstecken
+            visibilityBtn.src = '/img/icons/visibility_off.png'; // Icon zurücksetzen
+            visibilityBtn.classList.add('input-icon-password'); // Position anpassen
+        }
+    });
+
+    // Optional: Schloss-Icon Klick stoppt Bubbling (falls parent click hat)
+    passwordLock.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+});
+

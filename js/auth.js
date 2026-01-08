@@ -18,7 +18,7 @@
  /* ================== KONSTANTEN ================== */
   const LS_CURRENT = "join_current_user";
   const LS_USERS = "join_users";
-  const REDIRECT_AFTER_LOGIN = "./summary.html";
+  const REDIRECT_AFTER_LOGIN = "/pages/summary.html";
 
   const $ = (id) => document.getElementById(id);
 
@@ -151,7 +151,7 @@
       showToast("Sign Up successful");
 
       setTimeout(() => {
-        window.location.href = "login.html";
+        window.location.href = "/index.html";
       }, 800);
     });
 
