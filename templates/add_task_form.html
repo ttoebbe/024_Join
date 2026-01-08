@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Task</title>
-    <link rel="stylesheet" href="../styles/components.css" />
-    <link rel="stylesheet" href="../styles/pages/add_task.css" />
-  </head>
-
-  <body>
-    <div class="app-shell">
-      <aside id="nav-bar-placeholder"></aside>
-      <div class="page-column">
-        <div id="header-placeholder"></div>
-        <!-- ab hier der content der seite -->
-         <form id="addTaskForm" class="addtask-form">
-  <!-- status preset vom Board -->
+<form id="addTaskForm" class="addtask-form">
   <input type="hidden" id="taskStatusPreset" value="todo" />
   <input type="hidden" id="taskCategoryValue" value="" />
 
@@ -23,7 +6,7 @@
     <div>
       <label>Title<span class="req">*</span></label>
       <input id="taskTitle" type="text" placeholder="Enter a title" />
-      
+
       <label>Description</label>
       <textarea id="taskDescription" placeholder="Enter a Description"></textarea>
 
@@ -104,13 +87,3 @@
     <button type="submit" id="createBtn">Create Task</button>
   </div>
 </form>
-
-
-
-        
-        <!-- content der Seite endet hier -->
-      </div>
-    </div>
-    <script src="../js/components.js"></script>
-  </body>
-</html>

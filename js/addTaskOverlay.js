@@ -31,7 +31,7 @@ async function openAddTaskOverlay(status = "todo") {
     <div class="overlay-backdrop" data-overlay-close></div>
     <div class="overlay-panel" role="dialog" aria-modal="true" aria-label="Add Task">
       <button class="overlay-close" type="button" data-overlay-close aria-label="Close">×</button>
-      <h2 style="margin:0 0 16px 0;">Add Task</h2>
+      <h2>Add Task</h2>
       ${formHtml}
     </div>
   `;

@@ -1,0 +1,255 @@
+/* =========================
+   Add Task (page + overlay)
+   ========================= */
+
+.addtask-form {
+  display: block;
+}
+
+.addtask-form h2 {
+  margin: 0 0 24px;
+}
+
+.addtask-form label {
+  display: block;
+  font-weight: 700;
+  color: #2a3647;
+  margin: 16px 0 6px;
+}
+
+.addtask-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 48px;
+}
+
+.addtask-grid > div:last-child {
+  border-left: 1px solid #d1d1d1;
+  padding-left: 48px;
+}
+
+.addtask-grid input,
+.addtask-grid textarea,
+.addtask-grid .dropdown,
+.dropdown-toggle {
+  width: 100%;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 16px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.addtask-grid textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.addtask-grid input::placeholder,
+.addtask-grid textarea::placeholder {
+  color: #d1d1d1;
+}
+
+.req {
+  color: #ff3d00;
+  margin-left: 4px;
+}
+
+.prio-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.prio-btn {
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  padding: 12px 8px;
+  background: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.prio-btn.is-active {
+  background: #ff8a00;
+  border-color: #ff8a00;
+  color: #fff;
+}
+
+.dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #2a3647;
+}
+
+.dropdown--select {
+  position: relative;
+  border: none;
+  padding: 0;
+}
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: #fff;
+}
+
+.dropdown-toggle:focus {
+  outline: 2px solid #29abe2;
+  outline-offset: 2px;
+}
+
+.dropdown-placeholder {
+  color: #d1d1d1;
+}
+
+.dropdown--select.has-value .dropdown-placeholder {
+  color: #2a3647;
+}
+
+.dropdown-caret {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #2a3647;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  padding: 6px;
+  z-index: 2;
+}
+
+.dropdown-item {
+  width: 100%;
+  border: none;
+  background: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dropdown-item:hover {
+  background: #f6f7f8;
+}
+
+.dropdown-item--assigned {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.assigned-check {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  color: #fff;
+  background: transparent;
+}
+
+.dropdown-item.is-selected .assigned-check {
+  background: #2a3647;
+  border-color: #2a3647;
+}
+
+.subtask-row {
+  display: flex;
+  gap: 8px;
+}
+
+.subtask-row input {
+  flex: 1;
+}
+
+#subtaskAddBtn {
+  width: 44px;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.req-note {
+  margin: 20px 0 0;
+  color: #2a3647;
+  font-size: 14px;
+}
+
+.addtask-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+#clearBtn {
+  border: 1px solid #2a3647;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#createBtn {
+  border: none;
+  background: #d1d1d1;
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#createBtn:disabled {
+  cursor: not-allowed;
+}
+
+#createBtn.is-active {
+  background: #2a3647;
+}
+
+/* Overlay header */
+.overlay-panel h2 {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+@media (max-width: 980px) {
+  .addtask-grid {
+    grid-template-columns: 1fr;
+    row-gap: 24px;
+  }
+
+  .addtask-grid > div:last-child {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .overlay-panel {
+    padding: 24px;
+  }
+}

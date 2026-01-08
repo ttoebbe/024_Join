@@ -1,202 +1,408 @@
-/* =========================
-   Board (Join) – Firebase based
-   - Renders 4 columns
-   - Empty state per column
+/* =========================================================
+   Board (Join) – Clean rebuild (Render-focused)
+   - Load tasks via storage.js (getData)
+   - Normalize Firebase data (object/array -> array)
+   - Render 4 columns
+   - Empty-state per column
    - Live search (title + description)
-   - No results message
-   - Drag & Drop desktop (rotation + dashed highlight)
-   - Mobile move menu (arrow/popup replacement)
-   ========================= */
+   - Card rendering:
+     - Category pill
+     - Title + description preview
+     - Subtasks progress (x/y + bar)
+     - Footer: assigned initials (+N) + prio icon
+   ========================================================= */
 
-let boardTasks = [];
-let boardContacts = [];
-let boardQuery = "";
-let draggedTaskId = null;
-let selectedTaskId = null;
-
+/** Toggle to see helpful logs. */
+const DEBUG = false;
 
 /**
- * Entry point for board page.
- * Call this after components are loaded.
+ * Single source of truth for the board page.
+ */
+const boardState = {
+  tasks: [],
+  query: "",
+  draggingTaskId: null,
+};
+
+/** Entry point */
+document.addEventListener("DOMContentLoaded", initBoard);
+
+/**
+ * Initializes the board once.
+ * - Wire UI events
+ * - Load tasks
+ * - Render board
  */
 async function initBoard() {
   wireBoardUi();
-  await loadBoardData();
+  wireDragAndDrop();
+  await loadTasks();
   renderBoard();
 }
 
-/** Wires UI events for search and buttons. */
+/**
+ * Wires UI events (currently only search).
+ * Keep wiring separate from rendering.
+ */
 function wireBoardUi() {
   const input = document.getElementById("boardSearchInput");
-  const addBtn = document.getElementById("boardAddTaskBtn");
+  if (input) {
+    input.addEventListener("input", (e) => {
+      boardState.query = String(e.target.value || "").trim().toLowerCase();
+      renderBoard();
+    });
+  }
 
-  if (input) input.addEventListener("input", onBoardSearchInput);
-  if (addBtn) addBtn.addEventListener("click", () => openAddTaskOverlay());
-
-  wireColumnPlusButtons();
-  wireDnD();
-  wireCardClicks();
+  wireAddTaskButtons();
 }
 
-/** Handles live search input. */
-function onBoardSearchInput(e) {
-  boardQuery = (e.target.value || "").trim().toLowerCase();
-  renderBoard();
+/**
+ * Wires the main and column add-task buttons to open the overlay.
+ */
+function wireAddTaskButtons() {
+  const mainBtn = document.getElementById("boardAddTaskBtn");
+  if (mainBtn) {
+    mainBtn.addEventListener("click", () => openOverlayWithStatus("todo"));
+  }
+
+  document.querySelectorAll(".board-column-add").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const column = btn.closest(".board-column");
+      const status = column?.dataset?.status || "todo";
+      openOverlayWithStatus(status);
+    });
+  });
 }
 
-/** Opens add task overlay (global hook). */
-function openAddTaskOverlay(status) {
-  window.dispatchEvent(
-    new CustomEvent("join:openAddTaskOverlay", { detail: { status: status || null } })
-  );
+function openOverlayWithStatus(status) {
+  if (typeof openAddTaskOverlay !== "function") {
+    console.warn("[board] openAddTaskOverlay() not found");
+    return;
+  }
+  openAddTaskOverlay(status);
 }
 
-/** Opens task detail overlay (global hook). */
-function openAddTaskOverlay(status) {
-  window.dispatchEvent(
-    new CustomEvent("join:openAddTaskOverlay", {
-      detail: { status: status || null },
-    })
-  );
+/**
+ * Loads tasks from storage.
+ * Requires: getData("tasks") from storage.js
+ */
+async function loadTasks() {
+  try {
+    const raw = await getData("tasks");
+    boardState.tasks = normalizeToArray(raw);
+
+    if (DEBUG) {
+      console.log(`[board] loaded tasks: ${boardState.tasks.length}`);
+      console.log("[board] status sample:", boardState.tasks.map((t) => t?.status));
+    }
+  } catch (err) {
+    console.error("[board] loadTasks failed:", err);
+    boardState.tasks = [];
+  }
 }
 
-/** Loads tasks & contacts from Firebase via storage.js */
-async function loadBoardData() {
-  const [tasksRaw, contactsRaw] = await Promise.all([getData("tasks"), getData("contacts")]);
-  boardTasks = normalizeToArray(tasksRaw);
-  boardContacts = normalizeToArray(contactsRaw);
-}
-
-/** Normalizes Firebase object/array into array. */
+/**
+ * Normalizes Firebase-like data into an array.
+ * - arrays stay arrays (filtered)
+ * - objects become Object.values(...)
+ */
 function normalizeToArray(data) {
   if (!data) return [];
-  if (Array.isArray(data)) return data.filter(Boolean);
-  if (typeof data === "object") return Object.values(data).filter(Boolean);
+
+  if (Array.isArray(data)) {
+    return data.filter(Boolean);
+  }
+
+  if (typeof data === "object") {
+    return Object.values(data).filter(Boolean);
+  }
+
   return [];
 }
 
-/** Main render: columns + no-results. */
+/**
+ * Main render function.
+ * - Apply search filter
+ * - Toggle "no results" message
+ * - Render each column
+ */
 function renderBoard() {
-  const filtered = filterTasks(boardTasks, boardQuery);
-  renderNoResults(filtered.length === 0 && boardQuery.length > 0);
+  const filtered = filterTasks(boardState.tasks, boardState.query);
+
+  renderNoResults(boardState.query.length > 0 && filtered.length === 0);
+
   renderColumn("todo", filtered);
   renderColumn("inprogress", filtered);
   renderColumn("awaitfeedback", filtered);
   renderColumn("done", filtered);
 }
 
-/** Filters tasks by title/description query. */
-function filterTasks(tasks, q) {
-  if (!q) return tasks;
-  return tasks.filter(t => getSearchHaystack(t).includes(q));
+/**
+ * Filters tasks by query (title + description).
+ */
+function filterTasks(tasks, query) {
+  if (!query) return tasks;
+
+  return tasks.filter((t) => getSearchHaystack(t).includes(query));
 }
 
-/** Builds searchable string (title + description). */
+/**
+ * Searchable string from task (title + description).
+ * Supports field aliases to be robust across datasets.
+ */
 function getSearchHaystack(task) {
-  const title = (task.title || task.name || "").toLowerCase();
-  const desc = (task.description || task.desc || "").toLowerCase();
+  const title = String(task?.title || task?.name || "").toLowerCase();
+  const desc = String(task?.description || task?.desc || "").toLowerCase();
   return `${title} ${desc}`.trim();
 }
 
-/** Shows/hides no-results message. */
+/**
+ * Shows/hides no-results message.
+ */
 function renderNoResults(show) {
   const el = document.getElementById("boardNoResults");
   if (!el) return;
   el.hidden = !show;
 }
 
-/** Renders one column by status. */
+/**
+ * Renders one column by status.
+ * - Removes old cards
+ * - Filters tasks for this column
+ * - Toggles empty-state
+ * - Appends new cards
+ */
 function renderColumn(status, tasks) {
-  const body = document.querySelector(`.board-column[data-status="${status}"] [data-board-body]`);
+  const body = document.querySelector(
+    `.board-column[data-status="${status}"] [data-board-body]`
+  );
   if (!body) return;
 
   removeOldCards(body);
-  const inCol = tasks.filter(t => normalizeStatus(t.status) === status);
-  toggleEmptyState(body, inCol.length === 0);
 
-  inCol.forEach(task => body.appendChild(createCard(task)));
+  const tasksInCol = tasks.filter((t) => normalizeStatus(t?.status) === status);
+
+  toggleEmptyState(body, tasksInCol.length === 0);
+
+  tasksInCol.forEach((task) => body.appendChild(createCard(task)));
 }
 
-/** Removes all cards in a column body. */
+/**
+ * Removes previously rendered cards only (keeps empty-state element).
+ */
 function removeOldCards(body) {
-  body.querySelectorAll(".board-card").forEach(el => el.remove());
+  body.querySelectorAll(".board-card").forEach((el) => el.remove());
 }
 
-/** Shows empty state only if no tasks. */
+/**
+ * Shows empty state only when there are no tasks in the column.
+ */
 function toggleEmptyState(body, show) {
   const empty = body.querySelector(".board-empty");
   if (!empty) return;
   empty.style.display = show ? "block" : "none";
 }
 
-/** Normalizes status values. */
-function normalizeStatus(s) {
-  const v = (s || "").toLowerCase();
-  if (v === "to do" || v === "todo") return "todo";
-  if (v === "in progress" || v === "inprogress") return "inprogress";
-  if (v === "await feedback" || v === "awaitfeedback") return "awaitfeedback";
-  if (v === "done") return "done";
+/**
+ * Normalizes many possible status strings to our column keys.
+ * Handles hyphens/underscores/spaces robustly.
+ */
+function normalizeStatus(value) {
+  const v = String(value || "").trim().toLowerCase();
+  const unified = v.replace(/[\s_-]+/g, "-"); // e.g. "in progress" -> "in-progress"
+
+  if (unified === "todo" || unified === "to-do") return "todo";
+  if (unified === "in-progress" || unified === "inprogress") return "inprogress";
+  if (unified === "await-feedback" || unified === "awaitfeedback") return "awaitfeedback";
+  if (unified === "done") return "done";
+
+  // Safe fallback: tasks without/unknown status go to "todo"
   return "todo";
 }
 
-/** Creates a task card element. */
+/* =========================================================
+   Card Rendering (2A + 2B + 2C)
+   ========================================================= */
+
+/**
+ * Creates a task card element.
+ * Uses your existing CSS classes from board.css.
+ */
 function createCard(task) {
   const el = document.createElement("article");
   el.className = "board-card";
   el.setAttribute("role", "button");
   el.tabIndex = 0;
   el.draggable = true;
-  el.dataset.taskId = task.id;
 
+  // Helpful for later steps (DnD, detail overlay)
+  if (task?.id) el.dataset.taskId = String(task.id);
+  wireCardDragHandlers(el);
+
+  // 2A: Category pill
   el.appendChild(createCategoryPill(task));
-  el.appendChild(createCardTitle(task));
-  el.appendChild(createCardDesc(task));
-  el.appendChild(createSubtaskProgress(task));
+
+  // 2A: Title
+  const title = document.createElement("h3");
+  title.className = "board-card-title";
+  title.textContent = task?.title || task?.name || "(No title)";
+  el.appendChild(title);
+
+  // 2A: Description preview
+  const desc = document.createElement("p");
+  desc.className = "board-card-desc";
+  desc.textContent = task?.description || task?.desc || "";
+  el.appendChild(desc);
+
+  // 2B: Subtasks progress (only visible if subtasks exist)
+  const progress = createSubtaskProgress(task);
+  if (progress) el.appendChild(progress);
+
+  // 2C: Footer (assigned + prio)
   el.appendChild(createCardFooter(task));
 
   return el;
 }
 
-/** Category pill (User Story / Technical Task). */
-function createCategoryPill(task) {
-  const cat = normalizeCategory(task.category);
-  const d = document.createElement("div");
-  d.className = `board-card-label ${cat === "technical" ? "board-card-label--technical" : "board-card-label--userstory"}`;
-  d.textContent = cat === "technical" ? "Technical Task" : "User Story";
-  return d;
+/* =========================================================
+   Drag & Drop
+   ========================================================= */
+
+/**
+ * Wires drag/drop handlers for columns once.
+ */
+function wireDragAndDrop() {
+  document.querySelectorAll(".board-column").forEach((column) => {
+    column.addEventListener("dragover", handleColumnDragOver);
+    column.addEventListener("dragenter", handleColumnDragEnter);
+    column.addEventListener("dragleave", handleColumnDragLeave);
+    column.addEventListener("drop", handleColumnDrop);
+  });
 }
 
-/** Normalizes category values. */
-function normalizeCategory(c) {
-  const v = (c || "").toLowerCase();
+/**
+ * Adds drag handlers to a card.
+ */
+function wireCardDragHandlers(card) {
+  card.addEventListener("dragstart", handleCardDragStart);
+  card.addEventListener("dragend", handleCardDragEnd);
+}
+
+function handleCardDragStart(e) {
+  const card = e.currentTarget;
+  const taskId = card?.dataset?.taskId || "";
+  if (taskId) {
+    e.dataTransfer?.setData("text/plain", taskId);
+    e.dataTransfer.effectAllowed = "move";
+    boardState.draggingTaskId = taskId;
+  }
+  card.classList.add("is-dragging");
+}
+
+function handleCardDragEnd(e) {
+  const card = e.currentTarget;
+  card.classList.remove("is-dragging");
+  boardState.draggingTaskId = null;
+  clearDropTargets();
+}
+
+function handleColumnDragOver(e) {
+  e.preventDefault();
+  if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
+}
+
+function handleColumnDragEnter(e) {
+  const column = e.currentTarget;
+  column.classList.add("is-drop-target");
+}
+
+function handleColumnDragLeave(e) {
+  const column = e.currentTarget;
+  const related = e.relatedTarget;
+
+  if (related && column.contains(related)) return;
+  column.classList.remove("is-drop-target");
+}
+
+function handleColumnDrop(e) {
+  e.preventDefault();
+  const column = e.currentTarget;
+  column.classList.remove("is-drop-target");
+
+  const status = column.dataset.status;
+  const taskId =
+    e.dataTransfer?.getData("text/plain") || boardState.draggingTaskId;
+
+  if (!status || !taskId) return;
+  updateTaskStatus(taskId, status);
+}
+
+function clearDropTargets() {
+  document
+    .querySelectorAll(".board-column.is-drop-target")
+    .forEach((col) => col.classList.remove("is-drop-target"));
+}
+
+/**
+ * Updates task status, renders immediately, then persists.
+ */
+async function updateTaskStatus(taskId, status) {
+  const task = boardState.tasks.find(
+    (t) => String(t?.id || "") === String(taskId)
+  );
+  if (!task) return;
+
+  const previous = task.status;
+  if (normalizeStatus(previous) === status) return;
+
+  task.status = status;
+  renderBoard();
+
+  const result = await uploadData("tasks", boardState.tasks);
+  if (result === null) {
+    console.error("[board] failed to persist drag/drop status change");
+    task.status = previous;
+    renderBoard();
+  }
+}
+
+/**
+ * Category pill: "User Story" or "Technical Task"
+ */
+function createCategoryPill(task) {
+  const category = normalizeCategory(task?.category);
+
+  const pill = document.createElement("div");
+  pill.className =
+    "board-card-label " +
+    (category === "technical"
+      ? "board-card-label--technical"
+      : "board-card-label--userstory");
+
+  pill.textContent = category === "technical" ? "Technical Task" : "User Story";
+  return pill;
+}
+
+/**
+ * Normalizes category into "technical" or "userstory".
+ */
+function normalizeCategory(value) {
+  const v = String(value || "").toLowerCase();
   if (v.includes("technical")) return "technical";
   return "userstory";
 }
 
-/** Card title element. */
-function createCardTitle(task) {
-  const h = document.createElement("h3");
-  h.className = "board-card-title";
-  h.textContent = task.title || task.name || "(No title)";
-  return h;
-}
-
-/** Card description preview element. */
-function createCardDesc(task) {
-  const p = document.createElement("p");
-  p.className = "board-card-desc";
-  p.textContent = task.description || task.desc || "";
-  return p;
-}
-
-/** Subtask progress bar + tooltip. */
+/**
+ * Subtasks progress block (x/y + bar).
+ * Returns null if there are no subtasks.
+ */
 function createSubtaskProgress(task) {
-  const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
-  if (subtasks.length === 0) return document.createElement("div");
+  const subtasks = getSubtasks(task);
+  if (subtasks.length === 0) return null;
 
-  const done = subtasks.filter(s => !!s.done).length;
+  const done = subtasks.filter((s) => isSubtaskDone(s)).length;
   const total = subtasks.length;
-  const percent = Math.round((done / total) * 100);
+  const percent = total === 0 ? 0 : Math.round((done / total) * 100);
 
   const wrap = document.createElement("div");
   wrap.className = "board-progress";
@@ -216,315 +422,167 @@ function createSubtaskProgress(task) {
   bar.appendChild(fill);
   wrap.appendChild(text);
   wrap.appendChild(bar);
+
   return wrap;
 }
 
-/** Footer with assigned + prio + mobile move menu button. */
-function createCardFooter(task) {
-  const f = document.createElement("div");
-  f.className = "board-card-footer";
+/**
+ * Reads subtasks in a robust way.
+ * Supports:
+ * - task.subtasks (array)
+ * - task.subTasks (array)
+ */
+function getSubtasks(task) {
+  const a = task?.subtasks;
+  const b = task?.subTasks;
 
-  f.appendChild(createAssignedAvatars(task));
-  f.appendChild(createPrioAndMove(task));
-
-  return f;
+  if (Array.isArray(a)) return a;
+  if (Array.isArray(b)) return b;
+  return [];
 }
 
-/** Assigned bubbles (+N). */
+/**
+ * Determines if a subtask is done (robust).
+ */
+function isSubtaskDone(subtask) {
+  if (!subtask || typeof subtask !== "object") return false;
+  return Boolean(subtask.done || subtask.completed || subtask.isDone);
+}
+
+/**
+ * Card footer container:
+ * left: assigned avatars
+ * right: priority icon
+ */
+function createCardFooter(task) {
+  const footer = document.createElement("div");
+  footer.className = "board-card-footer";
+
+  footer.appendChild(createAssignedAvatars(task));
+  footer.appendChild(createPrioBlock(task));
+
+  return footer;
+}
+
+/**
+ * Assigned avatars (max 4 +N).
+ * Supports assigned values as:
+ * - [{ name, color }]
+ * - ["Max Mustermann", ...]
+ */
 function createAssignedAvatars(task) {
   const wrap = document.createElement("div");
   wrap.className = "board-avatars";
 
-  const assigned = Array.isArray(task.assigned) ? task.assigned : [];
+  const assigned = getAssigned(task);
   const shown = assigned.slice(0, 4);
 
-  shown.forEach(a => wrap.appendChild(createAvatarBubble(a)));
-  if (assigned.length > 4) wrap.appendChild(createMoreBubble(assigned.length - 4));
+  shown.forEach((a) => wrap.appendChild(createAvatarBubble(a)));
+
+  if (assigned.length > 4) {
+    wrap.appendChild(createMoreBubble(assigned.length - 4));
+  }
 
   return wrap;
 }
 
-/** Single avatar bubble. */
-function createAvatarBubble(a) {
+/**
+ * Extract assigned list in a robust way.
+ */
+function getAssigned(task) {
+  const raw = task?.assigned ?? task?.assignees ?? [];
+  if (!Array.isArray(raw)) return [];
+
+  // Normalize each entry into { name, color }
+  return raw
+    .map((item) => {
+      if (!item) return null;
+
+      if (typeof item === "string") {
+        return { name: item, color: null };
+      }
+
+      if (typeof item === "object") {
+        const name = item.name || item.fullName || item.username || "";
+        const color = item.color || null;
+        return { name, color };
+      }
+
+      return null;
+    })
+    .filter((x) => x && String(x.name || "").trim().length > 0);
+}
+
+/**
+ * Single avatar bubble with initials.
+ */
+function createAvatarBubble(person) {
   const s = document.createElement("span");
   s.className = "board-avatar";
-  const name = a.name || a.fullName || "";
+
+  const name = String(person?.name || "").trim();
   s.textContent = getInitials(name);
-  if (a.color) s.style.background = a.color;
+
+  // Fallback color if no color exists in dataset
+  s.style.background = person?.color || "#2a3647";
+
   return s;
 }
 
-/** +N bubble. */
+/**
+ * +N bubble when more than 4 assigned users exist.
+ */
 function createMoreBubble(n) {
   const s = document.createElement("span");
   s.className = "board-avatar";
   s.textContent = `+${n}`;
+  s.style.background = "#2a3647";
   return s;
 }
 
-/** Initials helper. */
+/**
+ * Initials helper: "Max Mustermann" -> "MM"
+ */
 function getInitials(name) {
-  const parts = (name || "").trim().split(/\s+/).filter(Boolean);
+  const parts = String(name || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
   if (parts.length === 0) return "";
+
   const a = parts[0][0] || "";
   const b = (parts[parts.length - 1][0] || "");
   return (a + b).toUpperCase();
 }
 
-/** Prio icon + move menu button (mobile alternative). */
-function createPrioAndMove(task) {
+/**
+ * Priority block (icon).
+ * Uses your existing assets naming:
+ * - /imgs/icons/Prio alta.png
+ * - /imgs/icons/Prio media.png
+ * - /imgs/icons/Prio baja.png
+ */
+function createPrioBlock(task) {
   const wrap = document.createElement("div");
-  wrap.style.display = "flex";
-  wrap.style.alignItems = "center";
-  wrap.style.gap = "10px";
+  wrap.className = "board-prio";
 
-  const prio = document.createElement("div");
-  prio.className = "board-prio";
-  prio.appendChild(createPrioIcon(task.prio));
+  const img = document.createElement("img");
+  img.alt = "Priority";
+  img.src = mapPrioToIcon(task?.prio);
 
-  const move = document.createElement("button");
-  move.type = "button";
-  move.className = "board-move-btn";
-  move.setAttribute("aria-label", "Move task");
-  move.textContent = "▾";
-  move.addEventListener("click", (e) => {
-    e.stopPropagation();
-    openMoveMenu(move, task.id);
-  });
-
-  wrap.appendChild(prio);
-  wrap.appendChild(move);
+  wrap.appendChild(img);
   return wrap;
 }
 
-/** Creates prio icon element (placeholder if you map icons later). */
-function createPrioIcon(prio) {
-  const img = document.createElement("img");
-  img.alt = "Priority";
-  img.src = mapPrioToIcon(prio);
-  return img;
-}
-
-/** Maps prio to icon path (adjust to your real assets). */
+/**
+ * Maps priority value to an icon path.
+ * Supports: urgent/high/alta, medium/media, low/baja
+ */
 function mapPrioToIcon(prio) {
-  const v = (prio || "medium").toLowerCase();
-  if (v === "urgent") return "/imgs/icons/Prio alta.png";
-  if (v === "low") return "/imgs/icons/Prio baja.png";
-  return "/imgs/icons/Prio media.png";
+  const v = String(prio || "medium").trim().toLowerCase();
+
+  if (v === "urgent" || v === "high" || v === "alta") return "/imgs/icons/Prio-alta.png";
+  if (v === "low" || v === "baja") return "/imgs/icons/Prio-baja.png";
+  return "/imgs/icons/Prio-media.png";
 }
-
-/** Column plus buttons: open add overlay with preselected status (except done). */
-function wireColumnPlusButtons() {
-  document.querySelectorAll(".board-column-add").forEach((btn) => {
-    const col = btn.closest(".board-column");
-    const status = col?.dataset?.status;
-    if (!status) return;
-
-    // Done hat keinen Plus-Button (sicherheitscheck)
-    if (status === "done") {
-      btn.remove();
-      return;
-    }
-
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      openAddTaskOverlay(status); // Status der Spalte vorgeben
-    });
-  });
-}
-
-
-/** Card click opens detail overlay. */
-function wireCardClicks() {
-  document.addEventListener("click", (e) => {
-    const card = e.target.closest(".board-card");
-    if (!card) return;
-
-    // Klick auf Move-Button oder Menü soll NICHT selektieren
-    if (e.target.closest(".board-move-btn") || e.target.closest("#boardMoveMenu")) return;
-
-    selectCard(card.dataset.taskId);
-  });
-}
-
-function selectCard(taskId) {
-  selectedTaskId = taskId || null;
-
-  document.querySelectorAll(".board-card").forEach(c => c.classList.remove("is-selected"));
-  const selectedEl = document.querySelector(`.board-card[data-task-id="${CSS.escape(taskId)}"]`);
-  if (selectedEl) selectedEl.classList.add("is-selected");
-}
-
-/** Drag & Drop wiring for desktop. */
-function wireDnD() {
-  document.addEventListener("dragstart", onDragStart);
-  document.addEventListener("dragend", onDragEnd);
-
-  document.querySelectorAll(".board-column").forEach(col => {
-    col.addEventListener("dragover", (e) => onDragOver(e, col));
-    col.addEventListener("dragleave", () => col.classList.remove("is-drop-target"));
-    col.addEventListener("drop", (e) => onDrop(e, col));
-  });
-}
-
-/** Drag start handler. */
-function onDragStart(e) {
-  const card = e.target.closest(".board-card");
-  if (!card) return;
-  draggedTaskId = card.dataset.taskId;
-  card.classList.add("is-dragging");
-  e.dataTransfer?.setData("text/plain", draggedTaskId || "");
-}
-
-/** Drag end handler. */
-function onDragEnd(e) {
-  const card = e.target.closest(".board-card");
-  if (card) card.classList.remove("is-dragging");
-  draggedTaskId = null;
-  document.querySelectorAll(".board-column").forEach(c => c.classList.remove("is-drop-target"));
-}
-
-/** Drag over: show dashed highlight. */
-function onDragOver(e, col) {
-  e.preventDefault();
-  col.classList.add("is-drop-target");
-}
-
-/** Drop: update status in Firebase and re-render. */
-async function onDrop(e, col) {
-  e.preventDefault();
-  col.classList.remove("is-drop-target");
-
-  const status = col.dataset.status;
-  const id = draggedTaskId || e.dataTransfer?.getData("text/plain");
-  if (!status || !id) return;
-
-  await updateTaskStatus(id, status);
-  await loadBoardData();
-  renderBoard();
-}
-
-/** Updates one task status and PUTs tasks back (array). */
-async function updateTaskStatus(taskId, status) {
-  const idx = boardTasks.findIndex(t => t.id === taskId);
-  if (idx === -1) return;
-  boardTasks[idx] = { ...boardTasks[idx], status };
-  await uploadData("tasks", boardTasks);
-}
-
-/** Mobile move menu (popup). */
-function openMoveMenu(anchor, taskId) {
-  closeMoveMenu();
-  const menu = buildMoveMenu(taskId);
-  positionMenu(menu, anchor);
-  document.body.appendChild(menu);
-  setTimeout(() => document.addEventListener("click", closeMoveMenu, { once: true }), 0);
-}
-
-/** Builds move menu element. */
-function buildMoveMenu(taskId) {
-  const menu = document.createElement("div");
-  menu.id = "boardMoveMenu";
-  menu.style.position = "absolute";
-  menu.style.zIndex = "9999";
-  menu.style.background = "#fff";
-  menu.style.border = "1px solid #d1d1d1";
-  menu.style.borderRadius = "10px";
-  menu.style.padding = "6px";
-  menu.style.boxShadow = "0 8px 20px rgba(0,0,0,0.12)";
-
-  addMoveOption(menu, taskId, "todo", "To do");
-  addMoveOption(menu, taskId, "inprogress", "In progress");
-  addMoveOption(menu, taskId, "awaitfeedback", "Await feedback");
-  addMoveOption(menu, taskId, "done", "Done");
-
-  return menu;
-}
-
-/** Adds a single move option. */
-function addMoveOption(menu, taskId, status, label) {
-  const b = document.createElement("button");
-  b.type = "button";
-  b.textContent = label;
-  b.style.display = "block";
-  b.style.width = "100%";
-  b.style.textAlign = "left";
-  b.style.border = "none";
-  b.style.background = "transparent";
-  b.style.padding = "8px 10px";
-  b.style.cursor = "pointer";
-  b.addEventListener("click", async (e) => {
-    e.stopPropagation();
-    await updateTaskStatus(taskId, status);
-    await loadBoardData();
-    renderBoard();
-    closeMoveMenu();
-  });
-  menu.appendChild(b);
-}
-
-/** Positions menu under anchor. */
-function positionMenu(menu, anchor) {
-  const r = anchor.getBoundingClientRect();
-  menu.style.left = `${Math.round(r.left + window.scrollX)}px`;
-  menu.style.top = `${Math.round(r.bottom + window.scrollY + 6)}px`;
-}
-
-/** Closes move menu. */
-function closeMoveMenu() {
-  document.getElementById("boardMoveMenu")?.remove();
-}
-
-/* Start board after DOM ready */
-document.addEventListener("DOMContentLoaded", initBoard);
-
-function wireBoardAddButtons() {
-  // Top right add button
-  document.getElementById("boardAddTaskBtn")
-    ?.addEventListener("click", () => openAddTaskOverlay("todo"));
-
-  // Column plus buttons
-  document.querySelectorAll(".board-column-add").forEach(btn => {
-    const col = btn.closest(".board-column");
-    const status = col?.dataset?.status;
-    if (!status || status === "done") return;
-
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      openAddTaskOverlay(status);
-    });
-  });
-}
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("[board] wiring overlay buttons");
-
-  document.addEventListener("click", (e) => {
-    // Top right Add task
-    if (e.target.closest("#boardAddTaskBtn")) {
-      if (typeof openAddTaskOverlay !== "function") {
-        console.error("openAddTaskOverlay is not available");
-        return;
-      }
-      openAddTaskOverlay("todo");
-      return;
-    }
-
-    // Column plus buttons
-    const btn = e.target.closest(".board-column-add");
-    if (!btn) return;
-
-    const col = btn.closest(".board-column");
-    const status = col?.dataset?.status;
-    if (!status || status === "done") return;
-
-    if (typeof openAddTaskOverlay !== "function") {
-      console.error("openAddTaskOverlay is not available");
-      return;
-    }
-    openAddTaskOverlay(status);
-  });
-});
-
-
