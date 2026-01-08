@@ -299,6 +299,25 @@
     font-size: 40px;
   }
 
+  .board-head {
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .board-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .board-search {
+    width: 100%;
+  }
+
+  .board-search-input {
+    width: 100%;
+  }
+
   .board-search-input {
     width: 180px;
   }
@@ -313,6 +332,24 @@
   .board-column {
     width: 100%;
     flex: 1;
+  }
+
+  .board-head {
+    flex-direction: column;
+  }
+
+  .board-actions {
+    width: 100%;
+  }
+
+  .board-add-btn {
+    width: 100%;
+    justify-content: center;
+    background: #2a3647;
+  }
+
+  .board-add-plus {
+    font-size: 18px;
   }
 }
 
