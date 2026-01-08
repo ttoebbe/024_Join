@@ -98,9 +98,22 @@
 }
 
 .prio-btn.is-active {
+  color: #fff;
+}
+
+.prio-btn.is-active[data-prio="urgent"] {
+  background: #ff3d00;
+  border-color: #ff3d00;
+}
+
+.prio-btn.is-active[data-prio="medium"] {
   background: #ff8a00;
   border-color: #ff8a00;
-  color: #fff;
+}
+
+.prio-btn.is-active[data-prio="low"] {
+  background: #7ae229;
+  border-color: #7ae229;
 }
 
 .dropdown--select {
