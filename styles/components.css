@@ -218,6 +218,45 @@ body{
 .footer_links a:hover{
   color: var(--accent);
 }
+
+/* ===== Privacy Policy ===== */
+.policy-page{
+  padding: 40px 72px 64px;
+}
+
+.policy-card{
+  max-width: 980px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 14px 36px rgba(42, 54, 71, 0.08);
+  padding: 40px 48px;
+}
+
+.policy-header{
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+}
+
+.policy-title{
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.policy-content{
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.policy-content p{
+  margin: 0;
+}
 /* Desktop only: Sidebar bleibt sichtbar + keine Leerstelle */
 @media (min-width: 801px){
   #nav-bar-placeholder{
@@ -235,6 +274,18 @@ body{
 
 
 @media (max-width: 800px){
+  .policy-page{
+    padding: 24px 16px 40px;
+  }
+
+  .policy-card{
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
+
+  .policy-title{
+    font-size: 24px;
+  }
 
 
   .page-column{
