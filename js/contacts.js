@@ -1,3 +1,12 @@
+/**###############################*/
+/** Globals */
+/**###############################*/
+let currentEditId = null;
+let contacts = [];
+
+/**###############################*/
+/** Basic Helpers */
+/**###############################*/
 /**
  * Helper function to set text content of an element by ID.
  * @param {string} id
@@ -6,45 +15,6 @@
 function setText(id, txt) {
   const el = document.getElementById(id);
   if (el) el.textContent = txt || "";
-}
-
-let currentEditId = null;
-
-/**
- * Initializes the contact list once the page is ready.
- */
-function initContactsPage() {
-  const listElement = document.querySelector(".contact-list");
-  if (!listElement) {
-    return;
-  }
-  renderContactList(listElement, getContactData());
-  setupAddContactOverlay(listElement);
-}
-
-/**
- * Returns available contacts from the dummy dataset.
- * @returns {Array<Object>}
- */
-function getContactData() {
-  if (typeof contacts !== "undefined" && Array.isArray(contacts)) {
-    return contacts;
-  }
-  console.warn("Keine Kontaktdaten verfügbar.");
-  return [];
-}
-
-/**
- * Renders all contacts into the target container.
- * @param {HTMLElement} container
- * @param {Array<Object>} data
- */
-function renderContactList(container, data) {
-  if (!Array.isArray(data) || !data.length) {
-    container.innerHTML = "";
-    return;
-  }
-  container.innerHTML = data.map(getContactTemplate).join("");
 }
 
 /**
@@ -64,7 +34,205 @@ function getInitials(name) {
     .join("");
 }
 
-/** Contact Detail Functions */
+/**
+ * Validates email format (checks for @ and . after @).
+ * @param {string} email
+ * @returns {boolean}
+ */
+function isValidEmail(email) {
+  const trimmed = (email || "").trim();
+  if (!trimmed.includes("@")) return false;
+  const parts = trimmed.split("@");
+  if (parts.length !== 2) return false;
+  if (!parts[0] || !parts[1] || !parts[1].includes(".")) return false;
+  return true;
+}
+
+/**
+ * Validates phone format (allows digits, spaces, +, -, (, )).
+ * @param {string} phone
+ * @returns {boolean}
+ */
+function isValidPhone(phone) {
+  const trimmed = (phone || "").trim();
+  if (!trimmed) return false;
+  const phonePattern = /^[0-9+\-\s()]+$/;
+  return phonePattern.test(trimmed);
+}
+
+/**###############################*/
+/** Initialization */
+/**###############################*/
+/**
+ * Initializes the contact list once the page is ready.
+ */
+async function initContactsPage() {
+  const listElement = document.querySelector(".contact-list");
+  if (!listElement) {
+    return;
+  }
+  await loadContactsFromFirebase();
+  renderContactList(listElement, getContactData());
+  setupAddContactOverlay(listElement);
+}
+
+/**###############################*/
+/** Data (Local + Firebase) */
+/**###############################*/
+/**
+ * Returns available contacts from the dataset.
+ * @returns {Array<Object>}
+ */
+function getContactData() {
+  if (typeof contacts !== "undefined" && Array.isArray(contacts)) {
+    return contacts;
+  }
+  console.warn("Keine Kontaktdaten verfugbar.");
+  return [];
+}
+
+/**
+ * Loads contacts from Firebase and normalizes them into an array.
+ * @returns {Promise<Array<Object>>}
+ */
+async function loadContactsFromFirebase() {
+  if (typeof getData !== "function") {
+    console.warn("Firebase helper getData nicht verfugbar.");
+    contacts = [];
+    return contacts;
+  }
+
+  const data = await getData("contacts");
+  contacts = normalizeContacts(data);
+  return contacts;
+}
+
+/**
+ * Normalizes Firebase contact data into a sorted array.
+ * @param {any} data
+ * @returns {Array<Object>}
+ */
+function normalizeContacts(data) {
+  if (!data) return [];
+  if (Array.isArray(data)) {
+    return data.filter(Boolean);
+  }
+  const values = Object.values(data).filter(Boolean);
+  values.sort((a, b) => getContactSortValue(a) - getContactSortValue(b));
+  return values;
+}
+
+/**
+ * Returns sortable numeric contact id value.
+ * @param {Object} contact
+ * @returns {number}
+ */
+function getContactSortValue(contact) {
+  const numericPart = parseInt(
+    String(contact?.id || "").replace(/\D/g, ""),
+    10
+  );
+  return Number.isFinite(numericPart) ? numericPart : Number.MAX_SAFE_INTEGER;
+}
+
+/**
+ * Saves current contacts array to Firebase.
+ * @returns {Promise<void>}
+ */
+async function saveContactsToFirebase() {
+  if (typeof uploadData !== "function") {
+    console.warn("Firebase helper uploadData nicht verfugbar.");
+    return;
+  }
+  await uploadData("contacts", contacts);
+}
+
+/**
+ * Finds a contact by id.
+ * @param {string} contactId
+ * @returns {Object|null}
+ */
+function getContactById(contactId) {
+  if (!Array.isArray(contacts)) return null;
+  return contacts.find((contact) => contact.id === contactId) || null;
+}
+
+/**
+ * Checks whether contacts array has entries.
+ * @returns {boolean}
+ */
+function hasContacts() {
+  return Array.isArray(contacts) && contacts.length > 0;
+}
+
+/**
+ * Extracts numeric id part from a contact.
+ * @param {Object} contact
+ * @returns {number}
+ */
+function getContactIdNumber(contact) {
+  const rawId = String(contact?.id || "");
+  const numericPart = parseInt(rawId.replace(/\D/g, ""), 10);
+  return Number.isFinite(numericPart) ? numericPart : -1;
+}
+
+/**
+ * Returns the highest numeric contact id.
+ * @returns {number}
+ */
+function getHighestContactNumber() {
+  return contacts.reduce((max, contact) => {
+    const numericPart = getContactIdNumber(contact);
+    return Math.max(max, numericPart);
+  }, -1);
+}
+
+/**
+ * Generates the next contact id based on existing entries.
+ * @returns {string}
+ */
+function getNextContactId() {
+  if (!hasContacts()) return "c0";
+  const highest = getHighestContactNumber();
+  return `c${highest + 1}`;
+}
+
+/**
+ * Provides a random accent color for new contacts.
+ * @returns {string}
+ */
+function getRandomContactColor() {
+  const palette = [
+    "#FF7A00",
+    "#29ABE2",
+    "#FF5EB3",
+    "#9B51E0",
+    "#2ECC71",
+    "#F2994A",
+    "#EB5757",
+    "#56CCF2",
+    "#6FCF97",
+    "#BB6BD9",
+  ];
+  const index = Math.floor(Math.random() * palette.length);
+  return palette[index];
+}
+
+/**###############################*/
+/** Rendering + Templates */
+/**###############################*/
+/**
+ * Renders all contacts into the target container.
+ * @param {HTMLElement} container
+ * @param {Array<Object>} data
+ */
+function renderContactList(container, data) {
+  if (!Array.isArray(data) || !data.length) {
+    container.innerHTML = "";
+    return;
+  }
+  container.innerHTML = data.map(getContactTemplate).join("");
+}
 
 /**
  * Builds the HTML template for a single contact entry.
@@ -87,6 +255,44 @@ function getContactTemplate(contact) {
   </div></article>`;
 }
 
+/**
+ * Creates HTML template for contact detail view.
+ * @param {Object} contact
+ * @returns {string}
+ */
+function getContactDetailTemplate(contact) {
+  const initials = getInitials(contact.name);
+  return /* html */ `
+    <div class="contact-hero">
+      <div class="contact-avatar contact-avatar-large" 
+           style="background-color: ${contact.color}">
+        ${initials}
+      </div>
+      <div class="contact-info">
+        <h2>${contact.name}</h2>
+        <div class="detail-actions">
+          <button class="secondary-button">Edit</button>
+          <button class="secondary-button">Delete</button>
+        </div>
+      </div>
+    </div>
+    <div class="contact-details">
+      <h4>Contact Information</h4>
+      <div class="detail-row">
+        <span class="detail-label">Email</span>
+        <a href="mailto:${contact.email}">${contact.email}</a>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Telefon</span>
+        <span>${contact.phone}</span>
+      </div>
+    </div>
+  `;
+}
+
+/**###############################*/
+/** Detail View + Actions */
+/**###############################*/
 /**
  * Handles contact selection and updates UI state.
  * @param {Object} contact
@@ -119,41 +325,6 @@ function renderContactDetail(contact) {
 }
 
 /**
- * Creates HTML template for contact detail view.
- * @param {Object} contact
- * @returns {string}
- */
-function getContactDetailTemplate(contact) {
-  const initials = getInitials(contact.name);
-  return /* html */ `
-    <div class="contact-hero">
-      <div class="contact-avatar contact-avatar-large" 
-           style="background-color: ${contact.color}">
-        ${initials}
-      </div>
-      <div class="contact-info">
-        <h2>${contact.name}</h2>
-        <div class="detail-actions">
-          <button class="secondary-button">✏️ Edit</button>
-          <button class="secondary-button">🗑️ Delete</button>
-        </div>
-      </div>
-    </div>
-    <div class="contact-details">
-      <h4>Contact Information</h4>
-      <div class="detail-row">
-        <span class="detail-label">Email</span>
-        <a href="mailto:${contact.email}">${contact.email}</a>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Telefon</span>
-        <span>${contact.phone}</span>
-      </div>
-    </div>
-  `;
-}
-
-/**
  * Wires up edit/delete actions for the detail view.
  * @param {string} contactId
  */
@@ -170,40 +341,85 @@ function setupDetailActions(contactId) {
 }
 
 /**
+ * Collects overlay elements used for contact editing.
+ * @returns {{overlay: HTMLElement, form: HTMLFormElement, nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement}|null}
+ */
+function getContactOverlayElements() {
+  const overlay = document.getElementById("contact-overlay");
+  const form = document.getElementById("contact-form");
+  const nameInput = document.getElementById("contact-name");
+  const emailInput = document.getElementById("contact-email");
+  const phoneInput = document.getElementById("contact-phone");
+  if (!overlay || !form || !nameInput || !emailInput || !phoneInput) {
+    return null;
+  }
+  return { overlay, form, nameInput, emailInput, phoneInput };
+}
+
+/**
+ * Fills the contact form with existing values.
+ * @param {Object} elements
+ * @param {Object} contact
+ */
+function fillContactForm(elements, contact) {
+  elements.nameInput.value = contact.name || "";
+  elements.emailInput.value = contact.email || "";
+  elements.phoneInput.value = contact.phone || "";
+}
+
+/**
  * Opens the contact overlay for editing.
  * @param {string} contactId
  */
 function openEditContact(contactId) {
   const contact = getContactById(contactId);
-  const overlay = document.getElementById("contact-overlay");
-  const form = document.getElementById("contact-form");
-  if (!contact || !overlay || !form) return;
-
-  const nameInput = document.getElementById("contact-name");
-  const emailInput = document.getElementById("contact-email");
-  const phoneInput = document.getElementById("contact-phone");
-
-  nameInput.value = contact.name || "";
-  emailInput.value = contact.email || "";
-  phoneInput.value = contact.phone || "";
-  setOverlayMode(form, true);
+  if (!contact) return;
+  const elements = getContactOverlayElements();
+  if (!elements) return;
+  fillContactForm(elements, contact);
+  setOverlayMode(elements.form, true);
   currentEditId = contactId;
-  openOverlay(overlay);
+  openOverlay(elements.overlay);
+}
+
+/**
+ * Finds the contact index by id.
+ * @param {string} contactId
+ * @returns {number}
+ */
+function getContactIndex(contactId) {
+  if (!Array.isArray(contacts)) return -1;
+  return contacts.findIndex((contact) => contact.id === contactId);
+}
+
+/**
+ * Removes a contact at the given index.
+ * @param {number} index
+ */
+function removeContactAtIndex(index) {
+  contacts.splice(index, 1);
+}
+
+/**
+ * Rerenders the contact list if it exists.
+ */
+function updateContactList() {
+  const listElement = document.querySelector(".contact-list");
+  if (listElement) {
+    renderContactList(listElement, getContactData());
+  }
 }
 
 /**
  * Deletes a contact and refreshes the UI.
  * @param {string} contactId
  */
-function deleteContact(contactId) {
-  if (!Array.isArray(contacts)) return;
-  const index = contacts.findIndex((contact) => contact.id === contactId);
+async function deleteContact(contactId) {
+  const index = getContactIndex(contactId);
   if (index === -1) return;
-  contacts.splice(index, 1);
-  const listElement = document.querySelector(".contact-list");
-  if (listElement) {
-    renderContactList(listElement, getContactData());
-  }
+  removeContactAtIndex(index);
+  await saveContactsToFirebase();
+  updateContactList();
   clearContactDetail();
 }
 
@@ -216,55 +432,115 @@ function clearContactDetail() {
   container.textContent = "Select a contact to see details.";
 }
 
-/**
- * Finds a contact by id.
- * @param {string} contactId
- * @returns {Object|null}
- */
-function getContactById(contactId) {
-  if (!Array.isArray(contacts)) return null;
-  return contacts.find((contact) => contact.id === contactId) || null;
-}
-
+/**###############################*/
+/** Overlay + Form */
+/**###############################*/
 /**
  * Sets up overlay open/close behavior and submission handling.
  * @param {HTMLElement} listElement
  */
 function setupAddContactOverlay(listElement) {
-  const overlay = document.getElementById("contact-overlay");
+  const elements = getOverlaySetupElements();
+  if (!elements) return;
+  wireOverlayEvents(elements, listElement);
+}
+
+/**
+ * Collects overlay setup elements.
+ * @returns {Object|null}
+ */
+function getOverlaySetupElements() {
+  const base = getContactOverlayElements();
   const openButton = document.querySelector(".list-add-button");
   const cancelButton = document.getElementById("contact-cancel");
   const closeButton = document.querySelector("[data-overlay-close]");
-  const form = document.getElementById("contact-form");
-  const nameInput = document.getElementById("contact-name");
-  const emailInput = document.getElementById("contact-email");
-  const phoneInput = document.getElementById("contact-phone");
+  if (!base || !openButton) return null;
+  return { ...base, openButton, cancelButton, closeButton };
+}
 
-  if (!overlay || !openButton || !form) {
-    return;
-  }
+/**
+ * Wires up all overlay events.
+ * @param {Object} elements
+ * @param {HTMLElement} listElement
+ */
+function wireOverlayEvents(elements, listElement) {
+  registerOverlayInputHandlers(elements);
+  registerOverlayButtons(elements, listElement);
+  registerOverlayBackdropClick(elements);
+}
 
-  // Clear error message on input
+/**
+ * Registers input handlers for validation cleanup.
+ * @param {Object} elements
+ */
+function registerOverlayInputHandlers(elements) {
   const clearErrorMsg = () => setText("contactFormMsg", "");
-  nameInput?.addEventListener("input", clearErrorMsg);
-  emailInput?.addEventListener("input", clearErrorMsg);
-  phoneInput?.addEventListener("input", clearErrorMsg);
+  elements.nameInput?.addEventListener("input", clearErrorMsg);
+  elements.emailInput?.addEventListener("input", clearErrorMsg);
+  elements.phoneInput?.addEventListener("input", clearErrorMsg);
+}
 
-  openButton.addEventListener("click", () => {
-    setOverlayMode(form, false);
-    openOverlay(overlay);
+/**
+ * Registers button handlers for the overlay.
+ * @param {Object} elements
+ * @param {HTMLElement} listElement
+ */
+function registerOverlayButtons(elements, listElement) {
+  registerOverlayOpenButton(elements);
+  registerOverlayCloseButtons(elements);
+  registerOverlaySubmit(elements, listElement);
+}
+
+/**
+ * Registers the open button handler.
+ * @param {Object} elements
+ */
+function registerOverlayOpenButton(elements) {
+  elements.openButton.addEventListener("click", () => {
+    setOverlayMode(elements.form, false);
+    openOverlay(elements.overlay);
   });
-  cancelButton?.addEventListener("click", () => closeOverlay(overlay, form));
-  closeButton?.addEventListener("click", () => closeOverlay(overlay, form));
-  overlay.addEventListener("click", (event) => {
-    if (event.target === overlay) {
-      closeOverlay(overlay, form);
+}
+
+/**
+ * Registers close handlers for cancel and close buttons.
+ * @param {Object} elements
+ */
+function registerOverlayCloseButtons(elements) {
+  elements.cancelButton?.addEventListener("click", () =>
+    closeOverlay(elements.overlay, elements.form)
+  );
+  elements.closeButton?.addEventListener("click", () =>
+    closeOverlay(elements.overlay, elements.form)
+  );
+}
+
+/**
+ * Registers form submit handler.
+ * @param {Object} elements
+ * @param {HTMLElement} listElement
+ */
+function registerOverlaySubmit(elements, listElement) {
+  elements.form.addEventListener("submit", async (event) => {
+    await handleNewContactSubmit(
+      event,
+      elements.overlay,
+      elements.form,
+      listElement
+    );
+  });
+}
+
+/**
+ * Registers backdrop click handler.
+ * @param {Object} elements
+ */
+function registerOverlayBackdropClick(elements) {
+  elements.overlay.addEventListener("click", (event) => {
+    if (event.target === elements.overlay) {
+      closeOverlay(elements.overlay, elements.form);
     }
   });
-
-  form.addEventListener("submit", (event) =>
-    handleNewContactSubmit(event, overlay, form, listElement)
-  );
 }
 
 /**
@@ -308,151 +584,141 @@ function setOverlayMode(form, isEdit) {
 }
 
 /**
- * handles new contact form submission with validation.
- * @param {SubmitEvent} event 
- * @param {HTMLElement} overlay 
- * @param {HTMLFormElement} form 
- * @param {HTMLElement} listElement 
- * @returns 
+ * Reads contact values from the form.
+ * @param {HTMLFormElement} form
+ * @returns {{name: string, email: string, phone: string}}
  */
-function handleNewContactSubmit(event, overlay, form, listElement) {
-  event.preventDefault();
-
+function getContactFormValues(form) {
   const formData = new FormData(form);
-  const name = (formData.get("name") || "").toString().trim();
-  const email = (formData.get("email") || "").toString().trim();
-  const phone = (formData.get("phone") || "").toString().trim();
-
-  // Clear previous error
-  setText("contactFormMsg", "");
-
-  // Validation
-  if (!name) {
-    return setText("contactFormMsg", "Please enter a name.");
-  }
-
-  if (!email) {
-    return setText("contactFormMsg", "Please enter an email address.");
-  }
-
-  if (!isValidEmail(email)) {
-    return setText("contactFormMsg", "Please enter a valid email address.");
-  }
-
-  if (!phone) {
-    return setText("contactFormMsg", "Please enter a phone number.");
-  }
-
-  if (!isValidPhone(phone)) {
-    return setText("contactFormMsg", "Please enter a valid phone number.");
-  }
-
-  if (currentEditId) {
-    const existing = getContactById(currentEditId);
-    if (existing) {
-      existing.name = name;
-      existing.email = email;
-      existing.phone = phone;
-      renderContactList(listElement, getContactData());
-      closeOverlay(overlay, form);
-      const updatedEntry = document.querySelector(
-        `[data-contact-id="${existing.id}"]`
-      );
-      if (updatedEntry) {
-        selectContact(existing, updatedEntry);
-      }
-      return;
-    }
-  }
-
-  const newContact = {
-    id: getNextContactId(),
-    name,
-    email,
-    phone,
-    color: getRandomContactColor(),
+  return {
+    name: (formData.get("name") || "").toString().trim(),
+    email: (formData.get("email") || "").toString().trim(),
+    phone: (formData.get("phone") || "").toString().trim(),
   };
+}
 
-  if (Array.isArray(contacts)) {
-    contacts.push(newContact);
+/**
+ * Returns a validation error message or an empty string.
+ * @param {{name: string, email: string, phone: string}} values
+ * @returns {string}
+ */
+function getContactValidationError(values) {
+  if (!values.name) return "Please enter a name.";
+  if (!values.email) return "Please enter an email address.";
+  if (!isValidEmail(values.email)) {
+    return "Please enter a valid email address.";
   }
+  if (!values.phone) return "Please enter a phone number.";
+  if (!isValidPhone(values.phone)) {
+    return "Please enter a valid phone number.";
+  }
+  return "";
+}
 
+/**
+ * Updates an existing contact and refreshes UI.
+ * @param {{name: string, email: string, phone: string}} values
+ * @param {HTMLElement} overlay
+ * @param {HTMLFormElement} form
+ * @param {HTMLElement} listElement
+ * @returns {Promise<boolean>}
+ */
+async function updateExistingContact(values, overlay, form, listElement) {
+  const existing = getContactById(currentEditId);
+  if (!existing) return false;
+  applyContactValues(existing, values);
+  await saveContactsToFirebase();
   renderContactList(listElement, getContactData());
   closeOverlay(overlay, form);
-
-  const newEntry = document.querySelector(
-    `[data-contact-id="${newContact.id}"]`
-  );
-  if (newEntry) {
-    selectContact(newContact, newEntry);
-  }
-}
-
-/**
- * Generates the next contact id based on existing entries.
- * @returns {string}
- */
-function getNextContactId() {
-  if (!Array.isArray(contacts) || !contacts.length) {
-    return "c0";
-  }
-  const highest = contacts.reduce((max, contact) => {
-    const numericPart = parseInt(
-      String(contact.id || "").replace(/\D/g, ""),
-      10
-    );
-    return Number.isFinite(numericPart) ? Math.max(max, numericPart) : max;
-  }, -1);
-  return `c${highest + 1}`;
-}
-
-/**
- * Provides a random accent color for new contacts.
- * @returns {string}
- */
-function getRandomContactColor() {
-  const palette = [
-    "#FF7A00",
-    "#29ABE2",
-    "#FF5EB3",
-    "#9B51E0",
-    "#2ECC71",
-    "#F2994A",
-    "#EB5757",
-    "#56CCF2",
-    "#6FCF97",
-    "#BB6BD9",
-  ];
-  const index = Math.floor(Math.random() * palette.length);
-  return palette[index];
-}
-
-/** Cancel Inputs or create new Contact to sample-contacts.js*/
-
-/**
- * Validates email format (checks for @ and . after @).
- * @param {string} email
- * @returns {boolean}
- */
-function isValidEmail(email) {
-  const trimmed = (email || "").trim();
-  if (!trimmed.includes("@")) return false;
-  const parts = trimmed.split("@");
-  if (parts.length !== 2) return false;
-  if (!parts[0] || !parts[1] || !parts[1].includes(".")) return false;
+  selectContactById(existing.id);
   return true;
 }
 
 /**
- * Validates phone format (allows digits, spaces, +, -, (, )).
- * @param {string} phone
- * @returns {boolean}
+ * Applies contact values to an existing object.
+ * @param {Object} target
+ * @param {{name: string, email: string, phone: string}} values
  */
-function isValidPhone(phone) {
-  const trimmed = (phone || "").trim();
-  if (!trimmed) return false;
-  // Allow digits, spaces, +, -, (, )
-  const phonePattern = /^[0-9+\-\s()]+$/;
-  return phonePattern.test(trimmed);
+function applyContactValues(target, values) {
+  target.name = values.name;
+  target.email = values.email;
+  target.phone = values.phone;
 }
 
+/**
+ * Selects a contact entry by id if available.
+ * @param {string} contactId
+ */
+function selectContactById(contactId) {
+  const entry = document.querySelector(`[data-contact-id="${contactId}"]`);
+  const contact = getContactById(contactId);
+  if (entry && contact) {
+    selectContact(contact, entry);
+  }
+}
+
+/**
+ * Creates a new contact, stores it, and refreshes UI.
+ * @param {{name: string, email: string, phone: string}} values
+ * @param {HTMLElement} overlay
+ * @param {HTMLFormElement} form
+ * @param {HTMLElement} listElement
+ */
+async function createNewContact(values, overlay, form, listElement) {
+  const newContact = buildNewContact(values);
+  addContact(newContact);
+  await saveContactsToFirebase();
+  renderContactList(listElement, getContactData());
+  closeOverlay(overlay, form);
+  selectContactById(newContact.id);
+}
+
+/**
+ * Builds a contact object from form values.
+ * @param {{name: string, email: string, phone: string}} values
+ * @returns {Object}
+ */
+function buildNewContact(values) {
+  return {
+    id: getNextContactId(),
+    name: values.name,
+    email: values.email,
+    phone: values.phone,
+    color: getRandomContactColor(),
+  };
+}
+
+/**
+ * Adds a contact to the in-memory list.
+ * @param {Object} contact
+ */
+function addContact(contact) {
+  if (Array.isArray(contacts)) {
+    contacts.push(contact);
+  }
+}
+
+/**
+ * Handles new contact form submission with validation.
+ * @param {SubmitEvent} event
+ * @param {HTMLElement} overlay
+ * @param {HTMLFormElement} form
+ * @param {HTMLElement} listElement
+ */
+async function handleNewContactSubmit(event, overlay, form, listElement) {
+  event.preventDefault();
+  setText("contactFormMsg", "");
+  const values = getContactFormValues(form);
+  const error = getContactValidationError(values);
+  if (error) return setText("contactFormMsg", error);
+  if (currentEditId) {
+    const updated = await updateExistingContact(
+      values,
+      overlay,
+      form,
+      listElement
+    );
+    if (updated) return;
+  }
+  await createNewContact(values, overlay, form, listElement);
+}
