@@ -29,6 +29,12 @@ main {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-height: 0;
+}
+
+.page-column {
+  height: 100vh;
+  overflow: hidden;
 }
 
 .contacts-page {
@@ -37,6 +43,8 @@ main {
   flex-direction: column;
   gap: 32px;
   background: var(--contacts-bg);
+  min-height: 0;
+  overflow: hidden;
 }
 
 .contacts-header {
@@ -77,25 +85,36 @@ main {
 
 .contacts-main {
   display: flex;
-  /* gap: 32px; */
   flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
+/* .contacts-main {
+	display: flex;
+	flex: 1;
+	min-height: 0;
+	height: calc(100vh - 200px);
+} */
+
 .contact-list-panel {
-  flex: 0 0 320px;
+  flex: 0 0 352px;
+  min-width: 320px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   background: var(--contacts-panel);
   padding: 24px;
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.08);
-  height: calc(100vh - 180px);
-  min-height: 420px;
-  overflow: hidden;
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .list-add-button {
-  width: 352px;
+  width: 100%;
+  max-width: 352px;
   height: 56px;
   border: 1px;
   border-radius: 10px;
@@ -108,6 +127,7 @@ main {
   font-weight: 700;
   color: white;
   background-color: var(--contacts-accent);
+  flex-shrink: 0;
 }
 
 .contact-list {
@@ -116,8 +136,7 @@ main {
   gap: 12px;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: visible;
   padding-right: 8px;
 }
 
@@ -145,17 +164,26 @@ main {
 .contact-meta {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .contact-name {
   margin: 0;
   font-weight: 600;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .contact-email {
   margin: 0;
   color: #7d8da6;
   font-size: 14px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .contact-avatar {
@@ -166,6 +194,7 @@ main {
   font-weight: 600;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
 }
 
 .contact-avatar-large {
@@ -177,11 +206,12 @@ main {
 .contact-detail-panel {
   flex: 1;
   background: var(--contacts-panel);
-  /* border-radius: 32px; */
   padding: 40px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.08);
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* UNGENUTZT - .detail-header, .detail-kicker existieren nicht */
@@ -311,10 +341,17 @@ main {
 
   .contact-list-panel {
     flex: 1;
+    min-width: 100%;
   }
 
   .contact-detail-panel {
     padding: 32px;
+  }
+}
+
+@media (max-width: 900px) {
+  .contact-list-panel {
+    min-width: 100%;
   }
 }
 
@@ -335,6 +372,10 @@ main {
   .contacts-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .contact-list-panel {
+    padding: 16px;
   }
 }
 
