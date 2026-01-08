@@ -112,6 +112,19 @@
         <!-- content der Seite endet hier -->
       </div>
     </div>
+    <script src="../js/storage.js"></script>
     <script src="../js/components.js"></script>
+    <script src="../js/addTaskForm.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        if (typeof initAddTaskForm === "function") {
+          initAddTaskForm({
+            onClose: () => {
+              window.location.href = "board.html";
+            },
+          });
+        }
+      });
+    </script>
   </body>
 </html>

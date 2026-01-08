@@ -209,6 +209,32 @@
   cursor: pointer;
 }
 
+#subtaskList {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: #2a3647;
+}
+
+.subtask-remove {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 700;
+  color: #2a3647;
+}
+
 .req-note {
   margin: 20px 0 0;
   color: #2a3647;

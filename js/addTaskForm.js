@@ -6,10 +6,14 @@ function initAddTaskForm({ onClose, mode = "create", task } = {}) {
   let selectedPrio = "medium";
   let selectedCategory = "";
   let selectedAssigned = [];
+  let selectedSubtasks = [];
   const createBtn = document.getElementById("createBtn");
   const titleInput = document.getElementById("taskTitle");
   const dueDateInput = document.getElementById("taskDueDate");
   const categoryInput = document.getElementById("taskCategoryValue");
+  const subtaskInput = document.getElementById("subtaskInput");
+  const subtaskAddBtn = document.getElementById("subtaskAddBtn");
+  const subtaskList = document.getElementById("subtaskList");
   setDueDateMin(dueDateInput);
   form.querySelectorAll(".prio-btn").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -25,6 +29,7 @@ function initAddTaskForm({ onClose, mode = "create", task } = {}) {
 
   const resetCategoryUi = initCategoryDropdown();
   const resetAssignedUi = initAssignedDropdown();
+  initSubtasks();
   wireCreateButtonState();
   updateCreateButtonState();
 
@@ -36,9 +41,11 @@ function initAddTaskForm({ onClose, mode = "create", task } = {}) {
     if (statusField) statusField.value = statusField.value || "todo";
     selectedCategory = "";
     selectedAssigned = [];
+    selectedSubtasks = [];
     if (categoryInput) categoryInput.value = "";
     resetCategoryUi?.();
     resetAssignedUi?.();
+    renderSubtasks();
     updateCreateButtonState();
   });
 
@@ -73,7 +80,7 @@ function initAddTaskForm({ onClose, mode = "create", task } = {}) {
           prio: selectedPrio,
           assigned: selectedAssigned,
           dueDate,
-          subtasks: Array.isArray(current?.subtasks) ? current.subtasks : [],
+          subtasks: selectedSubtasks,
         };
       }
     } else {
@@ -85,7 +92,7 @@ function initAddTaskForm({ onClose, mode = "create", task } = {}) {
         category,
         prio: selectedPrio,
         assigned: selectedAssigned,
-        subtasks: [],
+        subtasks: selectedSubtasks,
         dueDate
       };
       arr.push(newTask);
@@ -327,6 +334,8 @@ function initAddTaskForm({ onClose, mode = "create", task } = {}) {
     });
 
     selectedAssigned = normalizeAssignedFromTask(taskData.assigned);
+    selectedSubtasks = normalizeSubtasksFromTask(taskData.subtasks);
+    renderSubtasks();
   }
 
   function normalizeDueDateForInput(value) {
@@ -356,5 +365,74 @@ function initAddTaskForm({ onClose, mode = "create", task } = {}) {
         return null;
       })
       .filter((x) => x && x.name);
+  }
+
+  function initSubtasks() {
+    if (!subtaskInput || !subtaskAddBtn || !subtaskList) return;
+
+    subtaskAddBtn.addEventListener("click", addSubtaskFromInput);
+    subtaskInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        addSubtaskFromInput();
+      }
+    });
+
+    renderSubtasks();
+  }
+
+  function addSubtaskFromInput() {
+    if (!subtaskInput) return;
+    const value = subtaskInput.value.trim();
+    if (!value) return;
+
+    selectedSubtasks.push({ title: value, done: false });
+    subtaskInput.value = "";
+    renderSubtasks();
+  }
+
+  function renderSubtasks() {
+    if (!subtaskList) return;
+    subtaskList.innerHTML = "";
+
+    selectedSubtasks.forEach((subtask, index) => {
+      const row = document.createElement("div");
+      row.className = "subtask-item";
+
+      const text = document.createElement("span");
+      text.textContent = subtask.title || "Subtask";
+
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "subtask-remove";
+      removeBtn.textContent = "x";
+      removeBtn.addEventListener("click", () => {
+        selectedSubtasks.splice(index, 1);
+        renderSubtasks();
+      });
+
+      row.appendChild(text);
+      row.appendChild(removeBtn);
+      subtaskList.appendChild(row);
+    });
+  }
+
+  function normalizeSubtasksFromTask(raw) {
+    if (!Array.isArray(raw)) return [];
+    return raw
+      .map((item) => {
+        if (!item) return null;
+        if (typeof item === "string") {
+          return { title: item, done: false };
+        }
+        if (typeof item === "object") {
+          return {
+            title: item.title || item.name || item.text || "",
+            done: Boolean(item.done || item.completed || item.isDone),
+          };
+        }
+        return null;
+      })
+      .filter((x) => x && x.title);
   }
 }

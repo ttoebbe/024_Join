@@ -407,14 +407,16 @@ function createSubtasksSection(task) {
     empty.textContent = "No subtasks";
     list.appendChild(empty);
   } else {
-    subtasks.forEach((s) => {
+    subtasks.forEach((s, index) => {
       const row = document.createElement("label");
       row.className = "task-detail-subtask";
 
       const cb = document.createElement("input");
       cb.type = "checkbox";
       cb.checked = isSubtaskDone(s);
-      cb.disabled = true;
+      cb.addEventListener("change", () => {
+        updateSubtaskDone(task?.id, index, cb.checked);
+      });
 
       const text = document.createElement("span");
       text.textContent = s.title || s.name || s.text || "Subtask";
@@ -480,6 +482,34 @@ function closeTaskOverlay() {
   root.classList.add("hidden");
   root.setAttribute("aria-hidden", "true");
   root.innerHTML = "";
+}
+
+async function updateSubtaskDone(taskId, index, done) {
+  if (!taskId && taskId !== 0) return;
+  const task = boardState.tasks.find(
+    (t) => String(t?.id || "") === String(taskId)
+  );
+  if (!task) return;
+
+  const subtasks = getSubtasks(task);
+  if (!Array.isArray(subtasks) || !subtasks[index]) return;
+
+  setSubtaskDone(subtasks[index], done);
+  task.subtasks = subtasks;
+
+  renderBoard();
+
+  const result = await uploadData("tasks", boardState.tasks);
+  if (result === null) {
+    console.error("[board] failed to persist subtask update");
+  }
+}
+
+function setSubtaskDone(subtask, done) {
+  if (!subtask || typeof subtask !== "object") return;
+  subtask.done = Boolean(done);
+  subtask.completed = Boolean(done);
+  subtask.isDone = Boolean(done);
 }
 
 function ensureOverlayRoot() {
