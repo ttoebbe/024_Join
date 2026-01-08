@@ -42,7 +42,7 @@
     }
 
     100% {
-        top: 80px;
+        top: 73px;
         /* oben */
         left: 77px;
         /* links */
@@ -63,7 +63,7 @@ header {
     width: 279px;
     height: 49px;
     position: absolute;
-    top: 67px;
+    top: 60px;
     right: 100px;
     display: flex;
     justify-content: flex-end;
@@ -308,10 +308,14 @@ footer a:hover {
 
 
 
+
+
 @media (max-width: 768px) {
-    header p, header button {
+
+    header p,
+    header button {
         text-align: center;
-        width: 100%;
+       
     }
 
     main {
@@ -323,5 +327,121 @@ footer a:hover {
     footer {
         flex-direction: column;
         width: auto;
+    }
+}
+
+
+@media screen and (min-width: 481px) and (max-width: 720px) {
+
+    /* ================= BACKGROUND ================= */
+    .background-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(255, 255, 255, 1);
+        z-index: 1;
+    }
+
+    .bg-animiert {
+        animation: backgroundFadeOutMobile 500ms ease-in-out forwards;
+    }
+
+    @keyframes backgroundFadeOut {
+        0% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    /* ================= LOGO ================= */
+    .homepage-image {
+        width: 40px;
+        height: auto;
+        position: absolute;
+        z-index: 2;
+    }
+
+    /* Logo startet NACH dem Background */
+    .animiert {
+        animation-delay: 500ms;
+        /* exakt nach Background */
+        animation: startAnimationMobile 1000ms linear forwards;
+    }
+
+    @keyframes startAnimationMobile {
+        0% {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2);
+        }
+
+        100% {
+            top: 30px;
+            left: 30px;
+            transform: translate(0, 0) scale(1);
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    /* ================= BACKGROUND ================= */
+    .background-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(255, 255, 255, 1);
+        z-index: 1;
+    }
+
+    .bg-animiert {
+        animation: backgroundFadeOutMobile 500ms ease-in-out forwards;
+    }
+
+    @keyframes backgroundFadeOut {
+        0% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    /* ================= LOGO ================= */
+    .homepage-image {
+        width: 40px;
+        height: auto;
+        position: absolute;
+        z-index: 2;
+    }
+
+    /* Logo startet NACH dem Background */
+    .animiert {
+        animation-delay: 500ms;
+        /* exakt nach Background */
+        animation: startAnimationMobile 1000ms linear forwards;
+    }
+
+    @keyframes startAnimationMobile {
+        0% {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2);
+        }
+
+        100% {
+            top: 30px;
+            left: 30px;
+            transform: translate(0, 0) scale(1);
+        }
+    }
+
+    header{
+        position: absolute;
+        top: 85%;
+        transform: translateX(50%);
+        right: 50%;
     }
 }
