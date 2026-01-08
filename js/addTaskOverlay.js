@@ -1,5 +1,3 @@
-console.log("[overlay] addTaskOverlay.js loaded");
-
 let presetStatus = "todo";
 
 async function openAddTaskOverlay(status = "todo") {
