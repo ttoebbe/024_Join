@@ -13,7 +13,11 @@
   padding: 40px 56px;
   background: #f6f7f8;
   min-height: calc(100vh - 96px);
+  height: calc(100vh - 96px);
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .board-head {
@@ -97,11 +101,16 @@
   align-items: flex-start;
   overflow-x: auto;
   padding-bottom: 12px;
+  flex: 1;
+  min-height: 0;
 }
 
 .board-column {
   width: 252px;
   flex: 0 0 252px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .board-column-head {
@@ -134,6 +143,9 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 6px;
 }
 
 /* Empty state */
@@ -327,11 +339,13 @@
   .board-columns {
     flex-direction: column;
     overflow-x: visible;
+    flex: initial;
   }
 
   .board-column {
     width: 100%;
     flex: 1;
+    height: auto;
   }
 
   .board-head {
@@ -350,6 +364,16 @@
 
   .board-add-plus {
     font-size: 18px;
+  }
+
+  .board-page {
+    height: auto;
+    overflow: visible;
+  }
+
+  .board-column-body {
+    overflow-y: visible;
+    padding-right: 0;
   }
 }
 
@@ -520,6 +544,8 @@
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   padding: 6px;
   z-index: 2;
+  max-height: 240px;
+  overflow-y: auto;
 }
 
 .dropdown-item {
