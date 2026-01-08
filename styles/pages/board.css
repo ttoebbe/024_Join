@@ -355,133 +355,214 @@
 
 
 /* =========================
-   add_task.html styles
+   Add Task (page + overlay)
    ========================= */
+
+.addtask-form {
+  display: block;
+  margin-left: 14px !important;
+}
+
+.addtask-page .page-column {
+  background: #f6f7f8;
+}
+
+.addtask-page .content {
+  padding: 56px 64px;
+}
+
+.addtask-page-title {
+  margin-left: 14px;
+  font-size: 48px;
+  font-weight: 700;
+  color: #000;
+}
+
+.addtask-page .addtask-form {
+  max-width: 980px;
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+.addtask-form h2 {
+  margin: 0 0 24px;
+}
+
+.addtask-form label {
+  display: block;
+  font-weight: 700;
+  color: #2a3647;
+  margin: 16px 0 6px;
+}
 
 .addtask-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin-bottom: 32px;
+  column-gap: 48px;
 }
 
-.addtask-grid label {
-  display: block;
-  font-size: 16px;
-  font-weight: 600;
-  color: #2a3647;
-  margin: 16px 0 8px 0;
+.addtask-grid > div:last-child {
+  border-left: 1px solid #d1d1d1;
+  padding-left: 48px;
 }
 
-.addtask-grid label:first-of-type {
-  margin-top: 0;
-}
-
-.req {
-  color: #ff8190;
-  margin-left: 2px;
-}
-
-.addtask-grid input[type="text"],
-.addtask-grid textarea {
+.addtask-grid input,
+.addtask-grid textarea,
+.dropdown-toggle,
+.subtask-row input {
   width: 100%;
-  padding: 12px 16px;
   border: 1px solid #d1d1d1;
   border-radius: 10px;
+  padding: 12px 14px;
   font-size: 16px;
-  font-family: inherit;
   background: #fff;
   box-sizing: border-box;
 }
 
-.addtask-grid input[type="text"]:focus,
-.addtask-grid textarea:focus {
-  outline: none;
-  border-color: #29abe2;
+.addtask-grid textarea {
+  min-height: 110px;
+  resize: vertical;
 }
 
-.addtask-grid textarea {
-  resize: vertical;
-  min-height: 80px;
+.addtask-grid input::placeholder,
+.addtask-grid textarea::placeholder {
+  color: #d1d1d1;
+}
+
+.req {
+  color: #ff3d00;
+  margin-left: 4px;
 }
 
 .prio-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
-  margin-bottom: 16px;
+  margin-top: 4px;
 }
 
 .prio-btn {
-  flex: 1;
-  padding: 12px 16px;
   border: 1px solid #d1d1d1;
   border-radius: 10px;
+  padding: 12px 8px;
   background: #fff;
-  font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
 }
 
-.prio-btn[data-prio="urgent"] {
-  color: #ff3d00;
-}
-
-.prio-btn[data-prio="medium"] {
-  color: #ffa800;
-}
-
-.prio-btn[data-prio="low"] {
-  color: #7ae229;
+.prio-btn.is-active {
+  color: #fff;
 }
 
 .prio-btn.is-active[data-prio="urgent"] {
   background: #ff3d00;
-  color: #fff;
   border-color: #ff3d00;
 }
 
 .prio-btn.is-active[data-prio="medium"] {
-  background: #ffa800;
-  color: #fff;
-  border-color: #ffa800;
+  background: #ff8a00;
+  border-color: #ff8a00;
 }
 
 .prio-btn.is-active[data-prio="low"] {
   background: #7ae229;
-  color: #fff;
   border-color: #7ae229;
 }
 
-.dropdown {
+.dropdown--select {
   position: relative;
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
-  background: #fff;
-  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.dropdown-toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 48px;
-  box-sizing: border-box;
+  cursor: pointer;
+  background: #fff;
 }
 
-.dropdown::after {
-  content: "▼";
+.dropdown-toggle:focus {
+  outline: 2px solid #29abe2;
+  outline-offset: 2px;
+}
+
+.dropdown-placeholder {
+  color: #d1d1d1;
+}
+
+.dropdown--select.has-value .dropdown-placeholder {
+  color: #2a3647;
+}
+
+.dropdown-caret {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #2a3647;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  padding: 6px;
+  z-index: 2;
+}
+
+.dropdown-item {
+  width: 100%;
+  border: none;
+  background: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dropdown-item:hover {
+  background: #f6f7f8;
+}
+
+.dropdown-item--assigned {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.assigned-check {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
   font-size: 12px;
-  color: #666;
+  color: #fff;
+  background: transparent;
+}
+
+.dropdown-item.is-selected .assigned-check {
+  background: #2a3647;
+  border-color: #2a3647;
 }
 
 .subtask-row {
   display: flex;
   gap: 8px;
-  align-items: center;
 }
 
 .subtask-row input {
@@ -489,82 +570,107 @@
 }
 
 #subtaskAddBtn {
-  width: 48px;
-  height: 48px;
+  width: 44px;
   border: 1px solid #d1d1d1;
   border-radius: 10px;
   background: #fff;
-  font-size: 20px;
-  font-weight: 600;
-  color: #2a3647;
+  font-size: 22px;
   cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-#subtaskAddBtn:hover {
-  background: #f6f7f8;
 }
 
 #subtaskList {
-  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: #2a3647;
+}
+
+.subtask-remove {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 700;
+  color: #2a3647;
+}
+
+.req-note {
+  margin: 20px 0 0;
+  color: #2a3647;
+  font-size: 14px;
 }
 
 .addtask-footer {
   display: flex;
-  align-items: center;
   justify-content: flex-end;
   gap: 16px;
-  padding-top: 20px;
-  border-top: 1px solid #d1d1d1;
+  margin-top: 24px;
 }
 
 #clearBtn {
-  padding: 12px 24px;
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
+  border: 1px solid #2a3647;
   background: #fff;
-  color: #2a3647;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-#clearBtn:hover {
-  background: #f6f7f8;
 }
 
 #createBtn {
-  padding: 12px 24px;
   border: none;
-  border-radius: 10px;
-  background: #2a3647;
+  background: #d1d1d1;
   color: #fff;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-#createBtn:hover {
-  background: #1f2a3a;
+#createBtn:disabled {
+  cursor: not-allowed;
 }
 
-@media (max-width: 768px) {
+#createBtn.is-active {
+  background: #2a3647;
+}
+
+/* Overlay header */
+.overlay-panel h2 {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+@media (max-width: 980px) {
+  .addtask-page .content {
+    padding: 32px 24px;
+  }
+
+  .addtask-page-title {
+    font-size: 40px;
+  }
+
   .addtask-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    row-gap: 24px;
   }
-  
-  .prio-row {
-    flex-direction: column;
+
+  .addtask-grid > div:last-child {
+    border-left: none;
+    padding-left: 0;
   }
-  
-  .addtask-footer {
-    flex-direction: column-reverse;
-  }
-  
-  .addtask-footer button {
-    width: 100%;
+
+  .overlay-panel {
+    padding: 24px;
   }
 }
