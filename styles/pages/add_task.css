@@ -4,6 +4,7 @@
 
 .addtask-form {
   display: block;
+  margin-left: 14px !important;
 }
 
 .addtask-page .page-column {
@@ -15,7 +16,7 @@
 }
 
 .addtask-page-title {
-  margin: 0 0 24px;
+  margin-left: 14px;
   font-size: 48px;
   font-weight: 700;
   color: #000;
