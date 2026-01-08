@@ -796,9 +796,9 @@ function getInitials(name) {
 /**
  * Priority block (icon).
  * Uses your existing assets naming:
- * - /imgs/icons/Prio alta.png
- * - /imgs/icons/Prio media.png
- * - /imgs/icons/Prio baja.png
+ * - /img/icons/Prio alta.png
+ * - /img/icons/Prio media.png
+ * - /img/icons/Prio baja.png
  */
 function createPrioBlock(task) {
   const wrap = document.createElement("div");
@@ -809,7 +809,7 @@ function createPrioBlock(task) {
   img.src = mapPrioToIcon(task?.prio);
   img.onerror = () => {
     img.onerror = null;
-    img.src = "/imgs/icons/Prio-medium.png";
+    img.src = "/img/icons/Prio-medium.png";
   };
 
   wrap.appendChild(img);
@@ -829,13 +829,13 @@ function mapPrioToIcon(prio) {
     simple.includes("high") ||
     simple.includes("alta")
   ) {
-    return "/imgs/icons/Prio-Urgent.png";
+    return "/img/icons/Prio-Urgent.png";
   }
   if (simple.includes("low") || simple.includes("baja")) {
-    return "/imgs/icons/Prio-Low.png";
+    return "/img/icons/Prio-Low.png";
   }
   if (simple.includes("medium") || simple.includes("media")) {
-    return "/imgs/icons/Prio-medium.png";
+    return "/img/icons/Prio-medium.png";
   }
-  return "/imgs/icons/Prio-medium.png";
+  return "/img/icons/Prio-medium.png";
 }
