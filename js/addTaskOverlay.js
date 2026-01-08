@@ -3,9 +3,17 @@ console.log("[overlay] addTaskOverlay.js loaded");
 let presetStatus = "todo";
 
 async function openAddTaskOverlay(status = "todo") {
-  console.log("[overlay] openAddTaskOverlay()", status);
   presetStatus = status;
+  return renderTaskOverlay({ mode: "create", status: presetStatus });
+}
 
+async function openEditTaskOverlay(task) {
+  const status = task?.status || "todo";
+  presetStatus = status;
+  return renderTaskOverlay({ mode: "edit", status: presetStatus, task });
+}
+
+async function renderTaskOverlay({ mode, status, task }) {
   const root = ensureOverlayRoot();
   root.classList.remove("hidden");
   root.setAttribute("aria-hidden", "false");
@@ -22,16 +30,18 @@ async function openAddTaskOverlay(status = "todo") {
       <div style="padding:16px; border:1px dashed #d1d1d1; border-radius:12px;">
         <p style="margin:0 0 8px 0;"><strong>Template fehlt oder lädt nicht.</strong></p>
         <p style="margin:0;">Erwartet: <code>/templates/add_task_form.html</code></p>
-        <p style="margin:8px 0 0 0;">Preset Status: <strong>${presetStatus}</strong></p>
+        <p style="margin:8px 0 0 0;">Preset Status: <strong>${status}</strong></p>
       </div>
     `;
   }
 
+  const title = mode === "edit" ? "Edit Task" : "Add Task";
+
   root.innerHTML = `
     <div class="overlay-backdrop" data-overlay-close></div>
-    <div class="overlay-panel" role="dialog" aria-modal="true" aria-label="Add Task">
+    <div class="overlay-panel" role="dialog" aria-modal="true" aria-label="${title}">
       <button class="overlay-close" type="button" data-overlay-close aria-label="Close">×</button>
-      <h2>Add Task</h2>
+      <h2>${title}</h2>
       ${formHtml}
     </div>
   `;
@@ -40,13 +50,21 @@ async function openAddTaskOverlay(status = "todo") {
     el.addEventListener("click", closeAddTaskOverlay)
   );
 
-  // Wenn du später ein hidden field im Template hast:
   const statusField = root.querySelector("#taskStatusPreset");
-  if (statusField) statusField.value = presetStatus;
+  if (statusField) statusField.value = status;
 
-  // Falls initAddTaskForm existiert: initialisieren
+  const createBtn = root.querySelector("#createBtn");
+  if (createBtn && mode === "edit") {
+    createBtn.textContent = "Save";
+  }
+
   if (typeof initAddTaskForm === "function") {
-    initAddTaskForm({ onClose: closeAddTaskOverlay, status: presetStatus });
+    initAddTaskForm({
+      onClose: closeAddTaskOverlay,
+      status,
+      mode,
+      task,
+    });
   }
 }
 
@@ -72,4 +90,5 @@ function ensureOverlayRoot() {
 
 // Optional: im Notfall global sichtbar machen
 window.openAddTaskOverlay = openAddTaskOverlay;
+window.openEditTaskOverlay = openEditTaskOverlay;
 window.closeAddTaskOverlay = closeAddTaskOverlay;

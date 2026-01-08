@@ -1,4 +1,4 @@
-function initAddTaskForm({ onClose }) {
+function initAddTaskForm({ onClose, mode = "create", task } = {}) {
   const form = document.getElementById("addTaskForm");
   if (!form) return;
 
@@ -10,6 +10,7 @@ function initAddTaskForm({ onClose }) {
   const titleInput = document.getElementById("taskTitle");
   const dueDateInput = document.getElementById("taskDueDate");
   const categoryInput = document.getElementById("taskCategoryValue");
+  setDueDateMin(dueDateInput);
   form.querySelectorAll(".prio-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       form.querySelectorAll(".prio-btn").forEach(b => b.classList.remove("is-active"));
@@ -17,6 +18,10 @@ function initAddTaskForm({ onClose }) {
       selectedPrio = btn.dataset.prio;
     });
   });
+
+  if (mode === "edit" && task) {
+    applyTaskDefaults(task);
+  }
 
   const resetCategoryUi = initCategoryDropdown();
   const resetAssignedUi = initAssignedDropdown();
@@ -52,22 +57,40 @@ function initAddTaskForm({ onClose }) {
       return;
     }
 
-    const newTask = {
-      id: "t" + Date.now(),
-      title,
-      description,
-      status,
-      category,
-      prio: selectedPrio,
-      assigned: selectedAssigned,
-      subtasks: [],
-      dueDate
-    };
-
-    // Speichern (Array-Variante wie bei dir)
     const existing = await getData("tasks");
     const arr = existing ? Object.values(existing) : [];
-    arr.push(newTask);
+
+    if (mode === "edit" && task?.id) {
+      const index = arr.findIndex((t) => String(t?.id) === String(task.id));
+      if (index !== -1) {
+        const current = arr[index];
+        arr[index] = {
+          ...current,
+          title,
+          description,
+          status,
+          category,
+          prio: selectedPrio,
+          assigned: selectedAssigned,
+          dueDate,
+          subtasks: Array.isArray(current?.subtasks) ? current.subtasks : [],
+        };
+      }
+    } else {
+      const newTask = {
+        id: "t" + Date.now(),
+        title,
+        description,
+        status,
+        category,
+        prio: selectedPrio,
+        assigned: selectedAssigned,
+        subtasks: [],
+        dueDate
+      };
+      arr.push(newTask);
+    }
+
     await uploadData("tasks", arr);
 
     if (typeof loadTasks === "function") {
@@ -110,6 +133,14 @@ function initAddTaskForm({ onClose }) {
         updateCreateButtonState();
       });
     });
+
+    if (selectedCategory) {
+      const label =
+        selectedCategory === "technical" ? "Technical Task" : "User Story";
+      if (categoryInput) categoryInput.value = selectedCategory;
+      if (valueEl) valueEl.textContent = label;
+      dropdown.classList.add("has-value");
+    }
 
     return () => {
       if (valueEl) valueEl.textContent = "Select task category";
@@ -175,6 +206,14 @@ function initAddTaskForm({ onClose }) {
       const check = document.createElement("span");
       check.className = "assigned-check";
 
+      const isSelected = selectedAssigned.some((a) =>
+        a.id ? a.id === contact.id : a.name === contact.name
+      );
+      if (isSelected) {
+        item.classList.add("is-selected");
+        check.textContent = "x";
+      }
+
       item.appendChild(label);
       item.appendChild(check);
 
@@ -184,6 +223,8 @@ function initAddTaskForm({ onClose }) {
 
       menu.appendChild(item);
     });
+
+    updateAssignedLabel(valueEl, dropdown);
   }
 
   function toggleAssignedContact(contact, item, check, valueEl, dropdown) {
@@ -258,5 +299,62 @@ function initAddTaskForm({ onClose }) {
     );
     createBtn.disabled = !isReady;
     createBtn.classList.toggle("is-active", isReady);
+  }
+
+  function setDueDateMin(input) {
+    if (!input) return;
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    input.min = `${yyyy}-${mm}-${dd}`;
+  }
+
+  function applyTaskDefaults(taskData) {
+    if (titleInput) titleInput.value = taskData.title || "";
+    const descInput = document.getElementById("taskDescription");
+    if (descInput) descInput.value = taskData.description || "";
+
+    const normalizedDate = normalizeDueDateForInput(taskData.dueDate);
+    if (dueDateInput && normalizedDate) dueDateInput.value = normalizedDate;
+
+    selectedCategory = String(taskData.category || "").toLowerCase();
+    if (categoryInput) categoryInput.value = selectedCategory;
+
+    selectedPrio = String(taskData.prio || "medium").toLowerCase();
+    form.querySelectorAll(".prio-btn").forEach((btn) => {
+      btn.classList.toggle("is-active", btn.dataset.prio === selectedPrio);
+    });
+
+    selectedAssigned = normalizeAssignedFromTask(taskData.assigned);
+  }
+
+  function normalizeDueDateForInput(value) {
+    if (!value) return "";
+    const v = String(value).trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
+    const match = v.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (match) return `${match[3]}-${match[2]}-${match[1]}`;
+    return "";
+  }
+
+  function normalizeAssignedFromTask(raw) {
+    if (!Array.isArray(raw)) return [];
+    return raw
+      .map((item) => {
+        if (!item) return null;
+        if (typeof item === "string") {
+          return { id: "", name: item, color: null };
+        }
+        if (typeof item === "object") {
+          return {
+            id: item.id || "",
+            name: item.name || item.fullName || item.username || "",
+            color: item.color || null,
+          };
+        }
+        return null;
+      })
+      .filter((x) => x && x.name);
   }
 }

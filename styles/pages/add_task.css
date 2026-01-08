@@ -30,8 +30,8 @@
 
 .addtask-grid input,
 .addtask-grid textarea,
-.addtask-grid .dropdown,
-.dropdown-toggle {
+.dropdown-toggle,
+.subtask-row input {
   width: 100%;
   border: 1px solid #d1d1d1;
   border-radius: 10px;
@@ -76,13 +76,6 @@
   background: #ff8a00;
   border-color: #ff8a00;
   color: #fff;
-}
-
-.dropdown {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #2a3647;
 }
 
 .dropdown--select {

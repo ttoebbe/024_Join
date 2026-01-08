@@ -40,3 +40,102 @@
   display: grid;
   place-items: center;
 }
+
+.overlay-panel--detail {
+  width: min(520px, calc(100vw - 40px));
+  padding: 28px 28px 20px;
+}
+
+.task-detail-title {
+  margin: 12px 0 8px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #000;
+}
+
+.task-detail-desc {
+  margin: 0 0 16px;
+  color: #2a3647;
+  font-size: 16px;
+}
+
+.task-detail-meta {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.task-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-detail-key {
+  color: #42526e;
+  font-weight: 700;
+  min-width: 90px;
+}
+
+.task-detail-value {
+  color: #2a3647;
+}
+
+.task-detail-prio-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.task-detail-section {
+  margin-bottom: 14px;
+}
+
+.task-detail-assigned,
+.task-detail-subtasks {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+}
+
+.task-detail-assignee {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #2a3647;
+}
+
+.task-detail-subtask {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #2a3647;
+}
+
+.task-detail-subtask input {
+  width: 16px;
+  height: 16px;
+}
+
+.task-detail-empty {
+  color: #a8a8a8;
+  font-size: 14px;
+}
+
+.task-detail-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.task-detail-btn {
+  border: none;
+  background: transparent;
+  color: #2a3647;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.task-detail-btn:hover {
+  color: #29abe2;
+}
