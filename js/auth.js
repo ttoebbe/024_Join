@@ -1,4 +1,4 @@
- (() => {
+(() => {
   /* ================== ANIMATION ================== */
   function initAnimation() {
     setTimeout(startAnimation, 200);
@@ -15,46 +15,55 @@
       if (bg) bg.style.display = "none";
     }, 500);
   }
- /* ================== KONSTANTEN ================== */
+
+  /* ================== KONSTANTEN ================== */
   const LS_CURRENT = "join_current_user";
   const LS_USERS = "join_users";
   const REDIRECT_AFTER_LOGIN = "/pages/summary.html";
-
   const $ = (id) => document.getElementById(id);
 
-  function setText(id, txt) {
-    const el = $(id);
-    if (el) el.textContent = txt || "";
+  /* ================== PASSWORD TOGGLE ================== */
+  function setupPasswordToggle(inputId, lockId, eyeId) {
+    const input = document.getElementById(inputId);
+    const lock = document.getElementById(lockId);
+    const eye = document.getElementById(eyeId);
+
+    if (!input || !lock || !eye) return;
+
+    // Initialzustand
+    eye.classList.add("d-none");
+    lock.classList.remove("d-none");
+    input.type = "password";
+
+    // 👇 Eye erst anzeigen, wenn etwas eingegeben wurde
+    input.addEventListener("input", () => {
+      if (input.value.length > 0) {
+        lock.classList.add("d-none");
+        eye.classList.remove("d-none");
+        eye.src = "../img/icons/visibility_off.png";
+      } else {
+        lock.classList.remove("d-none");
+        eye.classList.add("d-none");
+        input.type = "password";
+      }
+    });
+
+    // 👁 Toggle nur wenn Eye sichtbar ist
+    eye.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      if (input.type === "password") {
+        input.type = "text";
+        eye.src = "../img/icons/visibility.png";
+      } else {
+        input.type = "password";
+        eye.src = "../img/icons/visibility_off.png";
+      }
+    });
+
+    lock.addEventListener("click", (e) => e.stopPropagation());
   }
 
-  function isEmailLike(v) {
-    const s = (v || "").trim();
-    return s.includes("@") && s.includes(".");
-  }
-
-  function loadUsers() {
-    try {
-      return JSON.parse(localStorage.getItem(LS_USERS)) || [];
-    } catch {
-      return [];
-    }
-  }
-
-  function saveUsers(users) {
-    localStorage.setItem(LS_USERS, JSON.stringify(users));
-  }
-
-  function saveCurrentUser(user) {
-    localStorage.setItem(LS_CURRENT, JSON.stringify(user));
-  }
-
-  function showToast(msg) {
-    const t = $("toast");
-    if (!t) return;
-    t.textContent = msg;
-    t.classList.add("show");
-    setTimeout(() => t.classList.remove("show"), 1800);
-  }
 
   /* ================== LOGIN ================== */
   function initLogin() {
@@ -72,31 +81,13 @@
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-
-      const email = emailEl.value.trim();
-      const pw = pwEl.value.trim();
-
-      if (!isEmailLike(email)) {
-        setText("formMsg", "Invalid email");
-        return;
-      }
-
-      const users = loadUsers();
-      const found = users.find(
-        (u) => u.email.toLowerCase() === email.toLowerCase()
-      );
-
-      const name =
-        found?.name ||
-        email.split("@")[0].replace(/[_\-.]/g, " ");
-
-      saveCurrentUser({ name, email, guest: false });
+      saveCurrentUser({ email: emailEl.value });
       window.location.href = REDIRECT_AFTER_LOGIN;
     });
 
     btnGuest?.addEventListener("click", (e) => {
       e.preventDefault();
-      saveCurrentUser({ name: "Guest", email: "guest@join.local", guest: true });
+      saveCurrentUser({ name: "Guest", guest: true });
       window.location.href = REDIRECT_AFTER_LOGIN;
     });
 
@@ -131,28 +122,18 @@
       e.preventDefault();
 
       if (pwEl.value !== pw2El.value) {
-        setText("suMsg", "Passwords do not match");
         return;
       }
 
-      const users = loadUsers();
-      if (users.some(u => u.email === emailEl.value)) {
-        setText("suMsg", "Email already exists");
-        return;
-      }
-
+      const users = JSON.parse(localStorage.getItem(LS_USERS)) || [];
       users.push({
         name: nameEl.value.trim(),
         email: emailEl.value.trim(),
         pw: pwEl.value.trim()
       });
 
-      saveUsers(users);
-      showToast("Sign Up successful");
-
-      setTimeout(() => {
-        window.location.href = "/index.html";
-      }, 800);
+      localStorage.setItem(LS_USERS, JSON.stringify(users));
+      setTimeout(() => window.location.href = "/index.html", 800);
     });
 
     [nameEl, emailEl, pwEl, pw2El, policyEl].forEach(el => {
@@ -161,6 +142,10 @@
     });
 
     updateBtn();
+
+    // 🔐 PASSWORD TOGGLES
+    setupPasswordToggle("suPw", "lockPw", "eyePw");
+    setupPasswordToggle("suPw2", "lockPw2", "eyePw2");
   }
 
   /* ================== GLOBAL INIT ================== */
@@ -169,4 +154,5 @@
     initLogin();
     initSignup();
   });
+
 })();

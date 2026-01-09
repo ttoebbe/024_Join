@@ -330,7 +330,6 @@ footer a:hover {
     main {
         max-width: 90%;
         width: 100%;
-        margin: 20px auto;
     }
 
     footer {
@@ -451,5 +450,10 @@ footer a:hover {
         top: 85%;
         transform: translateX(50%);
         right: 50%;
+        justify-content: space-around;
+    }
+
+    footer{
+        bottom: 10px;
     }
 }
