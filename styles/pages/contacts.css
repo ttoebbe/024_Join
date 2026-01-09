@@ -22,9 +22,9 @@
 
 main {
   flex: 1;
-  width: 100%; 
-  max-width: var(--content-width); 
-  margin: 0 auto; 
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@ main {
   background: var(--contact-list-panel-color);
   min-height: 0;
   overflow: hidden;
-  margin: 0;  
+  margin: 0;
   max-width: none;
   width: 100%;
   align-items: stretch;
@@ -221,6 +221,39 @@ main {
   overflow: hidden;
 }
 
+.contact-detail-top {
+  display: none;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.contact-back-button,
+.contact-menu-button {
+  border: none;
+  background: transparent;
+  color: var(--contacts-accent);
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.contact-back-button svg {
+  width: 22px;
+  height: 22px;
+}
+
+.contact-menu-button svg {
+  width: 4px;
+  height: 16px;
+}
+
 /* UNGENUTZT - .detail-header, .detail-kicker existieren nicht */
 .detail-header {
   display: flex;
@@ -373,16 +406,126 @@ main {
   }
 
   .contacts-page {
-    padding: 32px 20px;
+    padding: 0;
+    gap: 0;
+    background: var(--contacts-detail-panel);
+  }
+
+  .contacts-main {
+    flex-direction: column;
   }
 
   .contacts-header {
     flex-direction: column;
     align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .contacts-header h1 {
+    font-size: 32px;
+  }
+
+  .content-border {
+    display: none;
+  }
+
+  .contacts-tagline {
+    text-transform: none;
+    letter-spacing: 0;
   }
 
   .contact-list-panel {
-    padding: 16px;
+    order: 0;
+    padding: 24px 20px 120px;
+    box-shadow: none;
+  }
+
+  .contact-detail-panel {
+    order: -1;
+    padding: 24px 20px 16px;
+    box-shadow: none;
+    width: 100%;
+    align-items: flex-start;
+    overflow: visible;
+  }
+
+  .contacts-page:not(.is-detail-open) #contact-detail-injection {
+    display: none;
+  }
+
+  .contacts-page.is-detail-open .contact-list-panel {
+    display: none;
+  }
+
+  .contacts-page.is-detail-open .contact-detail-panel {
+    flex: 1;
+    padding-bottom: 40px;
+    overflow-y: auto;
+  }
+
+  .contacts-page.is-detail-open .list-add-button {
+    display: none;
+  }
+
+  .list-add-button {
+    position: fixed;
+    right: 20px;
+    bottom: 88px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    padding: 0;
+    gap: 0;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
+    z-index: 5;
+  }
+
+  .list-add-button span:not(.button-icon) {
+    display: none;
+  }
+
+  .button-icon {
+    font-size: 28px;
+  }
+
+  .contact-detail-top {
+    display: flex;
+  }
+
+  .detail-actions {
+    display: none;
+  }
+
+  .contact-hero {
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .contact-avatar-large {
+    width: 64px;
+    height: 64px;
+    font-size: 20px;
+  }
+
+  .contact-info h2 {
+    font-size: 24px;
+  }
+
+  .contact-details h4 {
+    font-size: 16px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  .detail-label {
+    min-width: 0;
+    width: auto;
+    font-size: 14px;
   }
 }
 
@@ -626,7 +769,8 @@ main {
   font-weight: 600;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+  transition: transform 0.1s ease, box-shadow 0.2s ease, background 0.2s ease,
+    color 0.2s ease;
 }
 
 .overlay-btn-primary {

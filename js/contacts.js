@@ -260,9 +260,41 @@ function getContactTemplate(contact) {
  * @param {Object} contact
  * @returns {string}
  */
+
+//TODO: svg viewBoxen beseitigen
+
 function getContactDetailTemplate(contact) {
   const initials = getInitials(contact.name);
   return /* html */ `
+    <div class="contact-detail-top">
+      <button
+        type="button"
+        class="contact-back-button"
+        aria-label="Back to contacts"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path
+            d="M15 6l-6 6 6 6"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="contact-menu-button"
+        aria-label="Edit contact"
+      >
+        <svg viewBox="0 0 4 16" aria-hidden="true" focusable="false">
+          <circle cx="2" cy="2" r="1.5" fill="currentColor" />
+          <circle cx="2" cy="8" r="1.5" fill="currentColor" />
+          <circle cx="2" cy="14" r="1.5" fill="currentColor" />
+        </svg>
+      </button>
+    </div>
     <div class="contact-hero">
       <div class="contact-avatar contact-avatar-large" 
            style="background-color: ${contact.color}">
@@ -302,6 +334,7 @@ function selectContact(contact, element) {
   removeActiveStates();
   element.classList.add("is-active");
   renderContactDetail(contact);
+  openMobileDetailView();
 }
 
 /**
@@ -314,6 +347,40 @@ function removeActiveStates() {
 }
 
 /**
+ * Returns true when the mobile layout is active.
+ * @returns {boolean}
+ */
+function isMobileLayout() {
+  return window.matchMedia("(max-width: 768px)").matches;
+}
+
+/**
+ * Toggles the mobile detail view state.
+ * @param {boolean} isActive
+ */
+function setMobileDetailState(isActive) {
+  const page = document.querySelector(".contacts-page");
+  if (!page) return;
+  page.classList.toggle("is-detail-open", isActive);
+}
+
+/**
+ * Opens the detail view on mobile layouts.
+ */
+function openMobileDetailView() {
+  if (isMobileLayout()) {
+    setMobileDetailState(true);
+  }
+}
+
+/**
+ * Closes the detail view on mobile layouts.
+ */
+function closeMobileDetailView() {
+  setMobileDetailState(false);
+}
+
+/**
  * Renders contact detail view in injection area.
  * @param {Object} contact
  */
@@ -322,6 +389,7 @@ function renderContactDetail(contact) {
   if (!container) return;
   container.innerHTML = getContactDetailTemplate(contact);
   setupDetailActions(contact?.id);
+  setupMobileDetailButtons(contact?.id);
 }
 
 /**
@@ -338,6 +406,19 @@ function setupDetailActions(contactId) {
   const deleteButton = actionButtons[1];
   editButton?.addEventListener("click", () => openEditContact(contactId));
   deleteButton?.addEventListener("click", () => deleteContact(contactId));
+}
+
+/**
+ * Wires up mobile-specific detail buttons.
+ * @param {string} contactId
+ */
+function setupMobileDetailButtons(contactId) {
+  const container = document.getElementById("contact-detail-injection");
+  if (!container || !contactId) return;
+  const backButton = container.querySelector(".contact-back-button");
+  const menuButton = container.querySelector(".contact-menu-button");
+  backButton?.addEventListener("click", closeMobileDetailView);
+  menuButton?.addEventListener("click", () => openEditContact(contactId));
 }
 
 /**
@@ -430,6 +511,7 @@ function clearContactDetail() {
   const container = document.getElementById("contact-detail-injection");
   if (!container) return;
   container.textContent = "Select a contact to see details.";
+  closeMobileDetailView();
 }
 
 /**###############################*/
