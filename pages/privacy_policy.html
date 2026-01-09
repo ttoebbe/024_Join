@@ -11,22 +11,23 @@
   </head>
 
   <body>
-   
-
     <div class="app-shell">
       <aside id="nav-bar-placeholder"></aside>
 
       <div class="page-column">
         <div id="header-placeholder"></div>
 
-        <main id="main-content" class="page-body policy-page">
+        <main class="page-body policy-page">
           <article class="policy policy--paper">
             <header class="policy__header">
               <div>
                 <h1 class="policy__title">Privacy Policy</h1>
+
                 <p class="policy__meta">
                   Last updated:
                   <time datetime="2026-01-09">09 Jan 2026</time>
+                  <span aria-hidden="true"> · </span>
+                  <a href="./legal_notice.html">Legal Notice</a>
                 </p>
               </div>
 
@@ -37,47 +38,85 @@
               <h2>1. Overview</h2>
               <p>
                 This Privacy Policy explains how we process personal data when you visit this website ("Online Offering").
-                We only process data that is technically necessary to provide and secure the website, and data you send to us when contacting us.
+                We only process (a) data that is technically necessary to operate and secure the website and
+                (b) data you provide to us when contacting us.
               </p>
             </section>
 
+            <nav class="policy__toc" aria-label="Table of contents">
+              <h2>Table of Contents</h2>
+              <ul>
+                <li><a href="#preamble">1. Overview</a></li>
+                <li><a href="#controller">2. Controller</a></li>
+                <li><a href="#legal-bases">3. Legal bases</a></li>
+                <li><a href="#hosting">4. Hosting &amp; server log files</a></li>
+                <li><a href="#cookies">5. Cookies &amp; local storage</a></li>
+                <li><a href="#contact">6. Contact</a></li>
+                <li><a href="#rights">7. Your rights</a></li>
+                <li><a href="#complaints">8. Supervisory authority</a></li>
+                <li><a href="#changes">9. Changes to this policy</a></li>
+              </ul>
+            </nav>
+
+            <section id="controller" class="policy__section">
+              <h2>2. Controller</h2>
+              <p>The controller responsible for data processing is:</p>
+
+              <address class="policy__address">
+                 Name: Thomas Többe, Luis Fernando Cun Ramirez, Fatih Yalcin and Onur Bayram<br />
+
+                Email: <a href="mailto:[your-email]">[toebbe.thomas@outlook.de]</a><br />
+                Email: <a href="mailto:[your-email]">[fernando13pa@hotmail.com]</a><br />
+                Email: <a href="mailto:[your-email]">[Yalcin_fatih@web.de]</a><br />
+                Email: <a href="mailto:[your-email]">[onur-bayram@hotmail.de]</a><br />
+              </address>
+            </section>
+
             <section id="legal-bases" class="policy__section">
-              <h2>2. Legal bases</h2>
+              <h2>3. Legal bases</h2>
               <p>
-                If you are in the EEA/UK, we process personal data only if a legal basis applies. The most relevant bases for this website are:
+                If you are located in the EEA/UK, we process personal data only if a legal basis applies. For this website, the most relevant bases are:
               </p>
               <ul>
                 <li><strong>Legitimate interests</strong> (Art. 6(1)(f) GDPR) – operating and securing the website</li>
                 <li><strong>Contract / pre-contractual steps</strong> (Art. 6(1)(b) GDPR) – if your request relates to a service/contract</li>
-                <li><strong>Consent</strong> (Art. 6(1)(a) GDPR) – only if we explicitly ask for it (e.g., future non-essential cookies)</li>
+                <li><strong>Consent</strong> (Art. 6(1)(a) GDPR) – only if we explicitly ask for it</li>
               </ul>
             </section>
 
             <section id="hosting" class="policy__section">
-              <h2>3. Hosting &amp; server log files</h2>
+              <h2>4. Hosting &amp; server log files</h2>
               <p>
                 When you access this website, the hosting provider processes technical data to deliver the content and ensure security.
-                This may include IP address, date/time of access, requested page/file, referrer URL, browser/OS information, and status codes.
+                This may include IP address, date/time of access, requested page/file, referrer URL, browser and operating system information, and status codes.
               </p>
+
+              <h3>Purpose</h3>
               <ul>
-                <li><strong>Purpose:</strong> delivery of content, stability, troubleshooting, abuse prevention</li>
-                <li><strong>Legal basis:</strong> legitimate interests (Art. 6(1)(f) GDPR)</li>
-                <li><strong>Retention:</strong> typically [7–30] days (depending on host), then deletion or anonymization</li>
+                <li>Delivery of content</li>
+                <li>Stability and troubleshooting</li>
+                <li>Security and abuse prevention</li>
               </ul>
+
+              <h3>Legal basis</h3>
+              <p>Legitimate interests (Art. 6(1)(f) GDPR).</p>
+
+              <h3>Retention</h3>
+              <p>Typically <strong>[7–30]</strong> days (depending on the host), then deletion or anonymization.</p>
 
               <h3>Hosting provider</h3>
               <p>
                 Hosted by: <strong>[Hosting provider name]</strong><br />
-                Country: [Country]<br />
-                (If applicable) Processing agreement: [Yes/No]
+                Country: [Country]
               </p>
             </section>
 
             <section id="cookies" class="policy__section">
-              <h2>4. Cookies &amp; local storage</h2>
+              <h2>5. Cookies &amp; local storage</h2>
               <p>
-                We do not use cookies for advertising or tracking. The website may use strictly necessary browser storage
-                (e.g., to remember basic UI settings). This storage remains on your device and can be deleted in your browser settings.
+                We do not use cookies for advertising or tracking.
+                The website may use strictly necessary browser storage (e.g., localStorage/sessionStorage) to remember basic UI settings.
+                This storage remains on your device and can be deleted in your browser settings.
               </p>
               <p>
                 If we introduce non-essential cookies in the future, we will request your consent beforehand.
@@ -85,19 +124,32 @@
             </section>
 
             <section id="contact" class="policy__section">
-              <h2>5. Contact</h2>
+              <h2>6. Contact</h2>
               <p>
                 If you contact us (e.g., by email), we process the information you provide (such as your email address and message content)
                 to respond to your request.
               </p>
+
+              <h3>Data processed</h3>
               <ul>
-                <li><strong>Legal basis:</strong> Art. 6(1)(b) GDPR (contract-related) or Art. 6(1)(f) GDPR (general communication)</li>
-                <li><strong>Retention:</strong> until the request is completed, plus a reasonable period for follow-up; longer if required by law</li>
+                <li>Contact details (e.g., email address, name if provided)</li>
+                <li>Message content</li>
+                <li>Metadata (e.g., time of contact)</li>
               </ul>
+
+              <h3>Legal basis</h3>
+              <p>
+                Art. 6(1)(b) GDPR (contract-related) or Art. 6(1)(f) GDPR (general communication).
+              </p>
+
+              <h3>Retention</h3>
+              <p>
+                Until the request is completed, plus a reasonable period for follow-up; longer if required by law.
+              </p>
             </section>
 
             <section id="rights" class="policy__section">
-              <h2>6. Your rights</h2>
+              <h2>7. Your rights</h2>
               <p>
                 If you are located in the EEA/UK, you may have the following rights (depending on the applicable law):
               </p>
@@ -107,16 +159,17 @@
                 <li>Right to erasure (Art. 17 GDPR)</li>
                 <li>Right to restriction of processing (Art. 18 GDPR)</li>
                 <li>Right to data portability (Art. 20 GDPR)</li>
-                <li>Right to object (Art. 21 GDPR), especially against processing based on legitimate interests</li>
+                <li>Right to object (Art. 21 GDPR)</li>
                 <li>Right to withdraw consent at any time (Art. 7(3) GDPR), if processing is based on consent</li>
               </ul>
+
               <p>
                 To exercise your rights, contact us using the details in section “Controller”.
               </p>
             </section>
 
             <section id="complaints" class="policy__section">
-              <h2>7. Supervisory authority</h2>
+              <h2>8. Supervisory authority</h2>
               <p>
                 You have the right to lodge a complaint with a data protection supervisory authority, in particular in the EU member state
                 of your habitual residence, place of work, or place of the alleged infringement.
@@ -124,11 +177,24 @@
             </section>
 
             <section id="changes" class="policy__section">
-              <h2>8. Changes to this policy</h2>
+              <h2>9. Changes to this policy</h2>
               <p>
                 We may update this Privacy Policy from time to time. The “Last updated” date at the top indicates the latest version.
               </p>
             </section>
+
+            <footer class="policy__footer" aria-label="Policy footer">
+              <p>
+                <span aria-hidden="true"> · </span>
+              </p>
+            </footer>
+            <p class="policy__footnote">
+  Erstellt mit kostenlosem
+  <a href="https://datenschutz-generator.de/" target="_blank" rel="noopener noreferrer">
+    Datenschutz-Generator.de von Dr. Thomas Schwenke
+  </a>.
+</p>
+
           </article>
         </main>
       </div>
