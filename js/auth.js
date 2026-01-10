@@ -1,6 +1,3 @@
-(() => {
-  "use strict";
-
   /* ================== KONSTANTEN ================== */
   const LS_CURRENT = "join_current_user";
   const LS_USERS = "join_users";
@@ -206,4 +203,3 @@
     initLogin();
     initSignup();
   });
-})();
