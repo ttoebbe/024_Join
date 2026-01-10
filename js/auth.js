@@ -64,6 +64,7 @@ function setupPasswordToggle(inputId, lockId, eyeId) {
     if (input.value.length > 0) {
       lock.classList.add("d-none");
       eye.classList.remove("d-none");
+      eye.classList.add('input-icon-password');
       eye.src = "../img/icons/visibility_off.png";
     } else {
       lock.classList.remove("d-none");
@@ -97,6 +98,7 @@ function initLogin() {
   const pwEl = $("password");
   const btnLogin = $("btnLogin");
   const btnGuest = $("btnGuest");
+
 
   if (!emailEl || !pwEl || !btnLogin) return;
 
@@ -133,7 +135,8 @@ function initLogin() {
   pwEl.addEventListener("input", updateBtn);
   updateBtn();
 
-  setupPasswordToggle("suPw", "lockPw", "eyePw");
+  setupPasswordToggle("password", "passwordLock", "visibilityImg");
+
   // Falls du auch im Login Eye/Lock hast, IDs hier eintragen:
   // setupPasswordToggle("password", "lockPwLogin", "eyePwLogin");
 }
