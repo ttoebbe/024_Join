@@ -1,7 +1,7 @@
 "use strict";
 
 const LS_CURRENT_USER = "join_current_user";
-const LOGIN_URL = "/pages/login.html";
+const LOGIN_URL = "../index.html";
 const $id = (id) => document.getElementById(id);
 
 function setText(id, value) {

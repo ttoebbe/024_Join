@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderHeader();
   setActiveNavLink();
   renderUserInitials();
+  initUserMenu();
 });
 
 function renderNavBar() {
@@ -57,9 +58,17 @@ function renderHeader() {
       <div class="topbar-actions">
         <a class="topbar-help" href="help.html" aria-label="Help">?</a>
 
-        <button class="topbar-user" type="button" aria-label="User">
-          <span id="userInitials">G</span>
-        </button>
+        <div class="user-menu-wrap" id="userMenuWrap">
+          <button class="topbar-user" id="userMenuBtn" type="button" aria-label="User menu" aria-haspopup="menu" aria-expanded="false">
+            <span id="userInitials">G</span>
+          </button>
+
+          <div class="user-dropdown" id="userDropdown" role="menu" hidden>
+            <a class="user-dropdown__item" href="legal_notice.html" role="menuitem">Legal Notice</a>
+            <a class="user-dropdown__item" href="privacy_policy.html" role="menuitem">Privacy Policy</a>
+            <button class="user-dropdown__item user-dropdown__logout" type="button" id="userLogout" role="menuitem">Log out</button>
+          </div>
+        </div>
       </div>
     </header>
   `;
@@ -81,26 +90,82 @@ function setActiveNavLink() {
   if (match) match.classList.add('nav-active');
 }
 
+function getInitials(name) {
+  const parts = String(name || '')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (parts.length === 0) return 'G';
+  if (parts.length === 1) return parts[0][0].toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
 function renderUserInitials() {
   const el = document.getElementById('userInitials');
   if (!el) return;
 
-  // gleiche Logik wie in summary.js (Index in users-Array)
-  const currentUser = localStorage.getItem('currentUser');
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-
-  if (!currentUser || currentUser === "0" || !users[currentUser]) {
-    el.textContent = 'G';
-    return;
+  // Neue Logik: join_current_user (gleich wie summary.js)
+  let current = null;
+  try {
+    current = JSON.parse(localStorage.getItem('join_current_user'));
+  } catch (_) {
+    current = null;
   }
 
-  const user = users[currentUser];
-  const first = (user.firstName || user.firstname || '').trim();
-  const last  = (user.lastName || user.lastname || '').trim();
+  const label = current?.name || current?.email || (current?.guest ? 'Guest' : '') || 'G';
+  el.textContent = getInitials(label);
+}
 
-  const initials =
-    (first ? first[0] : '') +
-    (last ? last[0] : '');
+function initUserMenu() {
+  const wrap = document.getElementById('userMenuWrap');
+  const btn = document.getElementById('userMenuBtn');
+  const dropdown = document.getElementById('userDropdown');
+  const logoutBtn = document.getElementById('userLogout');
 
-  el.textContent = (initials || 'U').toUpperCase();
+  if (!wrap || !btn || !dropdown) return;
+
+  // Active state im Dropdown (je nach aktueller Seite)
+  const path = window.location.pathname.toLowerCase();
+  dropdown.querySelectorAll('a.user-dropdown__item').forEach(a => {
+    const href = (a.getAttribute('href') || '').toLowerCase();
+    if (href && path.endsWith(href)) a.classList.add('is-active');
+  });
+
+  const open = () => {
+    dropdown.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    requestAnimationFrame(() => dropdown.classList.add('open'));
+  };
+
+  const close = () => {
+    dropdown.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    setTimeout(() => { dropdown.hidden = true; }, 120);
+  };
+
+  const toggle = (e) => {
+    e.stopPropagation();
+    dropdown.hidden ? open() : close();
+  };
+
+  btn.addEventListener('click', toggle);
+
+  // Klick außerhalb schließt
+  document.addEventListener('click', (e) => {
+    if (dropdown.hidden) return;
+    if (wrap.contains(e.target)) return;
+    close();
+  });
+
+  // ESC schließt
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !dropdown.hidden) close();
+  });
+
+  // Logout
+  logoutBtn?.addEventListener('click', () => {
+    localStorage.removeItem('join_current_user');
+    window.location.href = '../index.html';
+  });
 }
