@@ -575,6 +575,7 @@ main {
   align-items: stretch;
   gap: 0;
   padding: 40px 36px;
+  position: relative;
 }
 
 .overlay-brand {
@@ -674,6 +675,7 @@ main {
   display: flex;
   justify-content: flex-start;
   flex: 0 0 auto;
+  margin-top: -72px;
 }
 
 .avatar-circle {
@@ -683,6 +685,7 @@ main {
   background: #e8eaf1;
   display: grid;
   place-items: center;
+  border: 6px solid #fff;
 }
 
 .avatar-circle svg {
@@ -706,7 +709,7 @@ main {
 }
 
 .input-with-icon input {
-  padding: 12px 48px 12px 88px;
+  padding: 12px 48px 12px 12px;
   border-radius: 10px;
   border: 1px solid #d5d9e6;
   background: #fff;
@@ -714,7 +717,7 @@ main {
   outline: none;
 }
 
-.input-prefix {
+/* .input-prefix {
   position: absolute;
   left: 16px;
   top: 50%;
@@ -722,7 +725,7 @@ main {
   color: #7d8da6;
   font-weight: 600;
   letter-spacing: 0.6px;
-}
+} */
 
 .input-icon {
   position: absolute;
@@ -801,9 +804,9 @@ main {
     height: auto;
   }
 
-  .overlay-panel-top {
+  /* .overlay-panel-top {
     display: none;
-  }
+  } */
 
   .overlay-panel-bottom {
     padding: 32px 24px;
