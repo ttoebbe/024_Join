@@ -7,7 +7,9 @@
   --contacts-detail-panel: #f6f7f8;
 }
 
-/* .app-shell {
+/* Layout */
+
+.app-shell {
 	display: flex;
 	min-height: 100vh;
 	background: var(--contacts-bg);
@@ -18,7 +20,7 @@
 #nav-bar-placeholder {
 	flex: 0 0 280px;
 	background: var(--contacts-accent);
-} */
+}
 
 main {
   flex: 1;
@@ -36,6 +38,8 @@ main {
   height: 100vh;
   overflow: hidden;
 }
+
+/* Listenpanel */
 
 .contacts-page {
   flex: 1;
@@ -65,13 +69,6 @@ main {
   color: var(--contacts-text);
 }
 
-/* UNGENUTZT - .contacts-title existiert nicht im HTML */
-.contacts-title h1 {
-  margin: 4px 0 0;
-  font-size: 48px;
-  letter-spacing: -1px;
-}
-
 .content-border {
   margin: 0;
   font-size: 48px;
@@ -94,13 +91,6 @@ main {
   width: 100%;
   overflow: hidden;
 }
-
-/* .contacts-main {
-	display: flex;
-	flex: 1;
-	min-height: 0;
-	height: calc(100vh - 200px);
-} */
 
 .contact-list-panel {
   flex: 0 0 352px;
@@ -208,8 +198,10 @@ main {
   font-size: 28px;
 }
 
+/* Detailpanel */
+
 .contact-detail-panel {
-  flex: 1;
+  flex: 1;;
   background: var(--contacts-detail-panel);
   padding: 40px;
   display: flex;
@@ -217,7 +209,8 @@ main {
   align-items: center;
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.08);
   min-height: 0;
-  width: 100vh;
+  /* width: 100vh; */
+  width: 100%;
   overflow: hidden;
 }
 
@@ -254,22 +247,6 @@ main {
   height: 16px;
 }
 
-/* UNGENUTZT - .detail-header, .detail-kicker existieren nicht */
-.detail-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 32px;
-}
-
-.detail-kicker {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #9da9c4;
-  font-size: 12px;
-}
-
 .detail-placeholder {
   margin: auto;
   color: #97a3c2;
@@ -277,7 +254,7 @@ main {
   text-align: center;
 }
 
-/* UNGENUTZT - .detail-subline, .detail-info existieren nicht */
+/* .detail-subline, .detail-info existieren nicht */
 .detail-subline {
   margin: 6px 0 0;
   color: #7d8da6;
@@ -374,6 +351,8 @@ main {
   line-height: 1;
 }
 
+/* Responsive */
+
 @media (max-width: 1200px) {
   .contacts-main {
     flex-direction: column;
@@ -385,7 +364,11 @@ main {
   }
 
   .contact-detail-panel {
+    align-items: center;
     padding: 32px;
+    width: 100%;
+    max-width: 766px;
+    margin: 0 auto;
   }
 }
 
@@ -445,7 +428,7 @@ main {
     padding: 24px 20px 16px;
     box-shadow: none;
     width: 100%;
-    align-items: flex-start;
+    align-items: center;
     overflow: visible;
   }
 
@@ -529,17 +512,7 @@ main {
   }
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
+/* Overlay */
 
 .contact-overlay {
   position: fixed;
@@ -559,7 +532,8 @@ main {
 .contact-overlay-dialog {
   width: min(1040px, 100%);
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
   background: #fff;
   border-radius: 24px;
   overflow: hidden;
@@ -569,26 +543,38 @@ main {
 
 .overlay-close-button {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
   border: none;
-  background: transparent;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--contacts-accent);
   font-size: 18px;
-  font-weight: 600;
-  color: #42526e;
+  display: grid;
+  place-items: center;
   cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
-.overlay-panel {
-  padding: 40px 36px;
-}
-
-.overlay-panel-left {
+.overlay-panel-top {
   background: var(--contacts-accent);
   color: #fff;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
+  padding: 48px 40px;
+  min-height: 220px;
+}
+
+.overlay-panel-bottom {
+  background: #f8f8fb;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 40px 36px;
 }
 
 .overlay-brand {
@@ -807,14 +793,15 @@ main {
 @media (max-width: 900px) {
   .contact-overlay_dialog {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
     height: auto;
   }
 
-  .overlay-panel-left {
+  .overlay-panel-top {
     display: none;
   }
 
-  .overlay-panel {
+  .overlay-panel-bottom {
     padding: 32px 24px;
   }
 
@@ -827,4 +814,18 @@ main {
     justify-content: center;
     width: 100%;
   }
+}
+
+/* Utilities */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
