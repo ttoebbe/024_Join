@@ -166,6 +166,6 @@ function initUserMenu() {
   // Logout
   logoutBtn?.addEventListener('click', () => {
     localStorage.removeItem('join_current_user');
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
   });
 }
