@@ -160,6 +160,27 @@
   padding-right: 8px;
 }
 
+.contact-group-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0 4px;
+  color: var(--contacts-accent);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.contact-group-header::after {
+  content: "";
+  height: 1px;
+  width: 100%;
+  background: #d5d9e6;
+}
+
+.contact-group-letter {
+  font-size: 18px;
+}
+
 .contact-list-panel {
   flex: 0 0 352px;
   min-width: 320px;

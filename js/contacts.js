@@ -231,7 +231,45 @@ function renderContactList(container, data) {
     container.innerHTML = "";
     return;
   }
-  container.innerHTML = data.map(getContactTemplate).join("");
+  const sorted = [...data].sort((a, b) =>
+    (a?.name || "").localeCompare(b?.name || "", "de", { sensitivity: "base" })
+  );
+  let currentGroup = "";
+  const markup = [];
+  sorted.forEach((contact) => {
+    const groupKey = getContactGroupKey(contact?.name);
+    if (groupKey !== currentGroup) {
+      currentGroup = groupKey;
+      markup.push(getContactGroupHeaderTemplate(groupKey));
+    }
+    markup.push(getContactTemplate(contact));
+  });
+  container.innerHTML = markup.join("");
+}
+
+/**
+ * Extracts a grouping key based on the contact's name.
+ * @param {string} name
+ * @returns {string}
+ */
+function getContactGroupKey(name) {
+  const trimmed = (name || "").trim();
+  if (!trimmed) return "#";
+  const firstChar = trimmed[0].toUpperCase();
+  return /[A-Z]/.test(firstChar) ? firstChar : "#";
+}
+
+/**
+ * Returns the markup for a group header in the contact list.
+ * @param {string} letter
+ * @returns {string}
+ */
+function getContactGroupHeaderTemplate(letter) {
+  return /* html */ `
+    <div class="contact-group-header">
+      <span class="contact-group-letter">${letter}</span>
+    </div>
+  `;
 }
 
 /**
