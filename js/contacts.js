@@ -316,6 +316,19 @@ function getContactDetailTemplate(contact) {
           height="32"
         />
       </button>
+      <button
+        type="button"
+        class="contact-menu-button"
+        aria-label="Edit contact"
+      >
+        <img
+          src="../img/icons/Menu Contact options.png"
+          alt=""
+          aria-hidden="true"
+          width="32"
+          height="32"
+        />
+      </button>
     </div>
     <div class="contact-hero">
       <div class="contact-avatar contact-avatar-large" 
@@ -341,19 +354,6 @@ function getContactDetailTemplate(contact) {
         <span>${contact.phone}</span>
       </div>
     </div>
-    <button
-      type="button"
-      class="contact-menu-button"
-      aria-label="Edit contact"
-    >
-      <img
-        src="../img/icons/Menu Contact options.png"
-        alt=""
-        aria-hidden="true"
-        width="32"
-        height="32"
-      />
-    </button>
   `;
 }
 
