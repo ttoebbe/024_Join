@@ -303,21 +303,6 @@ function getContactTemplate(contact) {
 function getContactDetailTemplate(contact) {
   const initials = getInitials(contact.name);
   return /* html */ `
-    <div class="contact-detail-top">
-      <button
-        type="button"
-        class="contact-menu-button"
-        aria-label="Edit contact"
-      >
-        <img
-          src="../img/icons/Menu Contact options.png"
-          alt=""
-          aria-hidden="true"
-          width="32"
-          height="32"
-        />
-      </button>
-    </div>
     <div class="contact-hero">
       <div class="contact-avatar contact-avatar-large" 
            style="background-color: ${contact.color}">
@@ -342,6 +327,19 @@ function getContactDetailTemplate(contact) {
         <span>${contact.phone}</span>
       </div>
     </div>
+    <button
+      type="button"
+      class="contact-menu-button"
+      aria-label="Edit contact"
+    >
+      <img
+        src="../img/icons/Menu Contact options.png"
+        alt=""
+        aria-hidden="true"
+        width="32"
+        height="32"
+      />
+    </button>
   `;
 }
 

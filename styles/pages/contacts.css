@@ -75,11 +75,16 @@
   height: 22px;
 }
 
+.contact-menu-button {
+  display: none;
+}
+
 .contact-detail-panel {
   flex: 1 1 0;
   min-width: 0;
   background: var(--contacts-detail-panel);
   padding: 40px;
+  position: relative;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.08);
@@ -104,13 +109,6 @@
   margin: 0 0 16px;
   font-size: 18px;
   font-weight: 600;
-}
-
-.contact-detail-top {
-  display: none;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
 }
 
 .contact-entry {
@@ -653,8 +651,12 @@ main {
     overflow: visible;
   }
 
-  .contact-detail-top {
-    display: flex;
+  .contact-menu-button {
+    display: inline-flex;
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    z-index: 2;
   }
 
   .contact-details h4 {
