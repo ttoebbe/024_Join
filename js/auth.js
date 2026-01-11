@@ -29,6 +29,29 @@ function loadUsers() {
   return readJSON(LS_USERS, []);
 }
 
+/**
+ * Holt alle User von Firebase und speichert sie in LocalStorage.
+ * Verwendet bestehende Funktionen: firebaseRequest und writeJSON
+ */
+async function fetchUsersFromFirebaseToLocal() {
+  // Firebase-Daten holen
+  const data = await firebaseRequest("users", { method: "GET" });
+
+  if (!data) {
+    console.log("Keine User von Firebase erhalten.");
+    return;
+  }
+
+  // Firebase liefert ein Objekt mit zufälligen Keys → Array erstellen
+  const usersArray = Object.values(data);
+
+  // In LocalStorage speichern (bestehende Funktion writeJSON)
+  writeJSON(LS_USERS, usersArray);
+
+  // console.log("Users von Firebase in LocalStorage gespeichert:", usersArray);
+}
+
+
 /* ================== ANIMATION ================== */
 function initAnimation() {
   setTimeout(startAnimation, 200);
@@ -221,6 +244,8 @@ function initSignup() {
       return;
     }
 
+
+
     users.push({
       name: nameEl.value.trim(),
       email,
@@ -244,8 +269,10 @@ function initSignup() {
 }
 
 /* ================== GLOBAL INIT ================== */
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   initAnimation();
   initLogin();
   initSignup();
+  // Firebase → LocalStorage
+  await fetchUsersFromFirebaseToLocal();
 });
