@@ -654,15 +654,12 @@ function closeOverlay(overlay, form) {
 function setOverlayMode(form, isEdit) {
   const title = document.getElementById("contact-overlay-title");
   const submitButton = form?.querySelector('button[type="submit"]');
-  if (title) {
-    title.textContent = isEdit ? "Edit contact" : "Add contact";
-  }
-  if (submitButton) {
+  const overlayLogo = document.querySelector(".overlay-logo");
+  if (title) title.textContent = isEdit ? "Edit contact" : "Add contact";
+  if (submitButton)
     submitButton.textContent = isEdit ? "Save changes" : "Create contact";
-  }
-  if (!isEdit) {
-    currentEditId = null;
-  }
+  if (overlayLogo) overlayLogo.style.display = isEdit ? "none" : "flex";
+  if (!isEdit) currentEditId = null;
 }
 
 /**
