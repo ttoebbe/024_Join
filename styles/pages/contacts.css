@@ -625,7 +625,7 @@ main {
   border: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .app-shell {
     flex-direction: column;
   }
@@ -795,7 +795,7 @@ main {
     align-items: center;
     padding: 32px;
     max-width: 766px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
   }
 }
 
