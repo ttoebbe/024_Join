@@ -299,8 +299,6 @@ function getContactTemplate(contact) {
  * @returns {string}
  */
 
-//TODO: svg viewBoxen beseitigen
-
 function getContactDetailTemplate(contact) {
   const initials = getInitials(contact.name);
   return /* html */ `
@@ -310,27 +308,13 @@ function getContactDetailTemplate(contact) {
         class="contact-back-button"
         aria-label="Back to contacts"
       >
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path
-            d="M15 6l-6 6 6 6"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </button>
-      <button
-        type="button"
-        class="contact-menu-button"
-        aria-label="Edit contact"
-      >
-        <svg viewBox="0 0 4 16" aria-hidden="true" focusable="false">
-          <circle cx="2" cy="2" r="1.5" fill="currentColor" />
-          <circle cx="2" cy="8" r="1.5" fill="currentColor" />
-          <circle cx="2" cy="14" r="1.5" fill="currentColor" />
-        </svg>
+        <img
+          src="../img/icons/Property 1=Default.png"
+          alt=""
+          aria-hidden="true"
+          width="32"
+          height="32"
+        />
       </button>
     </div>
     <div class="contact-hero">
@@ -357,6 +341,19 @@ function getContactDetailTemplate(contact) {
         <span>${contact.phone}</span>
       </div>
     </div>
+    <button
+      type="button"
+      class="contact-menu-button"
+      aria-label="Edit contact"
+    >
+      <img
+        src="../img/icons/Menu Contact options.png"
+        alt=""
+        aria-hidden="true"
+        width="32"
+        height="32"
+      />
+    </button>
   `;
 }
 
