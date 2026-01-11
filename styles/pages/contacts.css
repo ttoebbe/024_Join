@@ -71,12 +71,26 @@
 }
 
 .contact-back-button svg {
-  width: 22px;
-  height: 22px;
+  width: 32px;
+  height: 32px;
+}
+
+.contact-back-button img {
+  width: 32px;
+  height: 32px;
+}
+
+.contacts-header .contact-back-button {
+  display: none;
 }
 
 .contact-menu-button {
   display: none;
+}
+
+.contact-menu-button img {
+  width: 64px;
+  height: 64px;
 }
 
 .contact-detail-panel {
@@ -654,8 +668,8 @@ main {
   .contact-menu-button {
     display: inline-flex;
     position: absolute;
-    right: 24px;
-    bottom: 24px;
+    right: 20px;
+    bottom: 8px;
     z-index: 2;
   }
 
@@ -745,7 +759,7 @@ main {
   .list-add-button {
     position: fixed;
     right: 20px;
-    bottom: 88px;
+    bottom: 94px;
     width: 56px;
     height: 56px;
     border-radius: 50%;
@@ -757,6 +771,12 @@ main {
 
   .list-add-button span:not(.button-icon) {
     display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .contacts-header .contact-back-button {
+    display: inline-flex;
   }
 }
 

@@ -336,8 +336,6 @@ function getContactDetailTemplate(contact) {
         src="../img/icons/Menu Contact options.png"
         alt=""
         aria-hidden="true"
-        width="32"
-        height="32"
       />
     </button>
   `;
@@ -372,7 +370,7 @@ function removeActiveStates() {
  * @returns {boolean}
  */
 function isMobileLayout() {
-  return window.matchMedia("(max-width: 768px)").matches;
+  return window.matchMedia("(max-width: 800px)").matches;
 }
 
 /**
