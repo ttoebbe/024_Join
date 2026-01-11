@@ -146,6 +146,28 @@ input::placeholder {
 
 }
 
+.error-signup-msg {
+    position: absolute;
+    /* überlagert, nimmt keinen Platz */
+    top: 100%;
+    /* direkt unter den Inputs */
+    left: 0;
+    color: red;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    display: none;
+    margin-top: 8px;
+    /* Standard: unsichtbar */
+    z-index: 10;
+}
+
+.input-error {
+    border: 1px solid red !important;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+
 .form-buttons button {
     height: 48px;
     border: none;
@@ -245,6 +267,11 @@ footer a:hover {
 
     footer {
         width: auto;
+    }
+
+    .error-signup-msg {
+        font-size: 0.75rem;
+        word-wrap: break-word;
     }
 }
 

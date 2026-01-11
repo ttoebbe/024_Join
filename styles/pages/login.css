@@ -183,7 +183,7 @@ form img {
 input::placeholder {
     color: #999;
     /* Optional: Farbe des Platzhalters ändern */
-   
+
     /* Abstand des Textes vom linken Rand des Feldes */
 }
 
@@ -223,6 +223,26 @@ input::placeholder {
 
 .visibilty-btn.d-none {
     display: none;
+}
+
+.input-error {
+    border: 1px solid red !important;
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.error-msg {
+    position: absolute;
+    top: 100%;
+    /* direkt unter dem Passwortfeld */
+    left: 0;
+    color: red;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    display: none;
+    margin-top: 8px;
+    /* Standard: unsichtbar */
 }
 
 .form-buttons {
@@ -453,7 +473,12 @@ footer a:hover {
         justify-content: space-around;
     }
 
-    footer{
+    footer {
         bottom: 10px;
+    }
+
+    .error-msg {
+        font-size: 0.75rem;
+        word-wrap: break-word;
     }
 }

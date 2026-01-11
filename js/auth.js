@@ -106,6 +106,26 @@ function initLogin() {
     btnLogin.disabled = !(emailEl.value.trim() && pwEl.value.trim());
   }
 
+  /* ================= ERROR MSG ================= */
+
+  function showErrorState() {
+    document.getElementById("errorMsg").style.display = "block";
+    emailEl.classList.add("input-error");
+    pwEl.classList.add("input-error");
+  }
+
+  function clearErrorState() {
+    document.getElementById("errorMsg").style.display = "none";
+    emailEl.classList.remove("input-error");
+    pwEl.classList.remove("input-error");
+  }
+
+
+  // 👉 EINMAL registrieren
+  emailEl.addEventListener("input", clearErrorState);
+  pwEl.addEventListener("input", clearErrorState);
+
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -117,9 +137,10 @@ function initLogin() {
     const found = users.find((u) => u.email === email && u.pw === pw);
 
     if (!found) {
-      alert("Email oder Passwort ist falsch.");
+      showErrorState();
       return;
     }
+
 
     saveCurrentUser({ name: found.name, email: found.email, guest: false });
     window.location.href = REDIRECT_AFTER_LOGIN;
@@ -152,6 +173,7 @@ function initSignup() {
   const pw2El = $("suPw2");
   const policyEl = $("suPolicy");
   const btn = $("btnSignup");
+  const errorMsg = $("errorSignupMsg"); // Fehlermeldung
 
   if (!nameEl || !emailEl || !pwEl || !pw2El || !policyEl || !btn) return;
 
@@ -165,11 +187,29 @@ function initSignup() {
     );
   }
 
+  function showErrorState() {
+    const errorMsg = document.getElementById("errorSignupMsg");
+    errorMsg.style.display = "block";
+    pwEl.classList.add("input-error");
+    pw2El.classList.add("input-error");
+  }
+
+  function clearErrorState() {
+    const errorMsg = document.getElementById("errorSignupMsg");
+    errorMsg.style.display = "none";
+    pwEl.classList.remove("input-error");
+    pw2El.classList.remove("input-error");
+  }
+
+  // Inputs, bei denen Tippfehler die Meldung entfernt
+  pwEl.addEventListener("input", clearErrorState);
+  pw2El.addEventListener("input", clearErrorState);
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (pwEl.value !== pw2El.value) {
-      alert("Passwörter stimmen nicht überein.");
+      showErrorState();
       return;
     }
 
