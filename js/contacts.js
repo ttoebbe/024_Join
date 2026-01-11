@@ -440,7 +440,13 @@ function setupDetailActions(contactId) {
   const editButton = actionButtons[0];
   const deleteButton = actionButtons[1];
   editButton?.addEventListener("click", () => openEditContact(contactId));
-  deleteButton?.addEventListener("click", () => deleteContact(contactId));
+  deleteButton?.addEventListener("click", () => {
+    const confirmed = window.confirm(
+      "Do you really want to delete this contact?"
+    );
+    if (!confirmed) return;
+    deleteContact(contactId);
+  });
 }
 
 /**
@@ -569,10 +575,10 @@ function setupAddContactOverlay(listElement) {
 function getOverlaySetupElements() {
   const base = getContactOverlayElements();
   const openButton = document.querySelector(".list-add-button");
-  const cancelButton = document.getElementById("contact-cancel");
+  const deleteButton = document.getElementById("contact-delete");
   const closeButton = document.querySelector("[data-overlay-close]");
   if (!base || !openButton) return null;
-  return { ...base, openButton, cancelButton, closeButton };
+  return { ...base, openButton, deleteButton, closeButton };
 }
 
 /**
@@ -605,6 +611,7 @@ function registerOverlayInputHandlers(elements) {
 function registerOverlayButtons(elements, listElement) {
   registerOverlayOpenButton(elements);
   registerOverlayCloseButtons(elements);
+  registerOverlayDeleteButton(elements, listElement);
   registerOverlaySubmit(elements, listElement);
 }
 
@@ -624,12 +631,26 @@ function registerOverlayOpenButton(elements) {
  * @param {Object} elements
  */
 function registerOverlayCloseButtons(elements) {
-  elements.cancelButton?.addEventListener("click", () =>
-    closeOverlay(elements.overlay, elements.form)
-  );
   elements.closeButton?.addEventListener("click", () =>
     closeOverlay(elements.overlay, elements.form)
   );
+}
+
+/**
+ * Registers delete handler for edit mode.
+ * @param {Object} elements
+ * @param {HTMLElement} listElement
+ */
+function registerOverlayDeleteButton(elements, listElement) {
+  elements.deleteButton?.addEventListener("click", async () => {
+    if (!currentEditId) return;
+    const confirmed = window.confirm(
+      "Do you really want to delete this contact?"
+    );
+    if (!confirmed) return;
+    await deleteContact(currentEditId);
+    closeOverlay(elements.overlay, elements.form);
+  });
 }
 
 /**
@@ -689,11 +710,13 @@ function closeOverlay(overlay, form) {
 function setOverlayMode(form, isEdit) {
   const title = document.getElementById("contact-overlay-title");
   const submitButton = form?.querySelector('button[type="submit"]');
+  const deleteButton = document.getElementById("contact-delete");
   const overlayLogo = document.querySelector(".overlay-logo");
   if (title) title.textContent = isEdit ? "Edit contact" : "Add contact";
   if (submitButton)
     submitButton.textContent = isEdit ? "Save changes" : "Create contact";
   if (overlayLogo) overlayLogo.style.display = isEdit ? "none" : "flex";
+  if (deleteButton) deleteButton.style.display = isEdit ? "inline-flex" : "none";
   if (!isEdit) currentEditId = null;
 }
 
