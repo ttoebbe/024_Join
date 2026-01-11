@@ -74,6 +74,7 @@ async function initContactsPage() {
   await loadContactsFromFirebase();
   renderContactList(listElement, getContactData());
   setupAddContactOverlay(listElement);
+  setupHeaderBackButton();
 }
 
 /**###############################*/
@@ -305,19 +306,6 @@ function getContactDetailTemplate(contact) {
     <div class="contact-detail-top">
       <button
         type="button"
-        class="contact-back-button"
-        aria-label="Back to contacts"
-      >
-        <img
-          src="../img/icons/Property 1=Default.png"
-          alt=""
-          aria-hidden="true"
-          width="32"
-          height="32"
-        />
-      </button>
-      <button
-        type="button"
         class="contact-menu-button"
         aria-label="Edit contact"
       >
@@ -456,10 +444,19 @@ function setupDetailActions(contactId) {
 function setupMobileDetailButtons(contactId) {
   const container = document.getElementById("contact-detail-injection");
   if (!container || !contactId) return;
-  const backButton = container.querySelector(".contact-back-button");
   const menuButton = container.querySelector(".contact-menu-button");
-  backButton?.addEventListener("click", closeMobileDetailView);
   menuButton?.addEventListener("click", () => openEditContact(contactId));
+}
+
+/**
+ * Wires the header back button to close the detail view.
+ */
+function setupHeaderBackButton() {
+  const headerBackButton = document.querySelector(
+    ".contacts-header .contact-back-button"
+  );
+  if (!headerBackButton) return;
+  headerBackButton.addEventListener("click", closeMobileDetailView);
 }
 
 /**

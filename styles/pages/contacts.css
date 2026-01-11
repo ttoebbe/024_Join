@@ -90,8 +90,14 @@
 .contacts-header {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 32px;
   margin-bottom: 32px;
+}
+
+.contacts-title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .contact-details h4 {
