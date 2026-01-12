@@ -321,7 +321,6 @@ footer a {
 
 footer a:hover {
     transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
     color: #29ABE2;
 }
 
