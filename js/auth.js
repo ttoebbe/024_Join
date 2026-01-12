@@ -25,23 +25,23 @@ async function loadUsers() {
  * Holt alle User von Firebase und speichert sie in LocalStorage.
  * Verwendet bestehende Funktionen: firebaseRequest und writeJSON
  */
-async function fetchUsersFromFirebaseToLocal() {
-  // Firebase-Daten holen
-  const data = await firebaseRequest("users", { method: "GET" });
+// async function fetchUsersFromFirebaseToLocal() {
+//   // Firebase-Daten holen
+//   const data = await firebaseRequest("users", { method: "GET" });
 
-  if (!data) {
-    console.log("Keine User von Firebase erhalten.");
-    return;
-  }
+//   if (!data) {
+//     console.log("Keine User von Firebase erhalten.");
+//     return;
+//   }
 
-  // Firebase liefert ein Objekt mit zufälligen Keys → Array erstellen
-  const usersArray = Object.values(data);
+//   // Firebase liefert ein Objekt mit zufälligen Keys → Array erstellen
+//   const usersArray = Object.values(data);
 
-  // In LocalStorage speichern (bestehende Funktion writeJSON)
-  writeJSON(LS_USERS, usersArray);
+//   // In LocalStorage speichern (bestehende Funktion writeJSON)
+//   writeJSON(LS_USERS, usersArray);
 
-  // console.log("Users von Firebase in LocalStorage gespeichert:", usersArray);
-}
+//   // console.log("Users von Firebase in LocalStorage gespeichert:", usersArray);
+// }
 
 
 /* ================== ANIMATION ================== */
