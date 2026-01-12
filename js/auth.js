@@ -1,17 +1,14 @@
 /* ================== IMPORTS ================== */
 import { ROUTES } from './core/constants.js';
 import { UserService, getCurrentUser, setCurrentUser } from './core/firebase-service.js';
-import { getElementById, isValidEmail } from './core/utils.js';
+import { getElementById, isValidEmail, generateRandomColor, generateNextUserId } from './core/utils.js';
 
 /* ================== HELPERS ================== */
 const $ = (id) => getElementById(id);
 
 async function saveCurrentUser(user) {
   setCurrentUser(user);
-  // Optional: Also save to Firebase for persistence
-  if (user && !user.guest) {
-    await UserService.create(user);
-  }
+  // No Firebase save here - just session storage
 }
 
 async function loadUsers() {
@@ -159,7 +156,7 @@ function initLogin() {
       return;
     }
 
-    await saveCurrentUser({ name: found.name, email: found.email, guest: false });
+    await saveCurrentUser(found);  // Kompletten User übergeben
     window.location.href = ROUTES.SUMMARY;
   });
 
@@ -239,9 +236,11 @@ function initSignup() {
     }
 
     const newUser = {
+      id: generateNextUserId(users),
       name: nameEl.value.trim(),
       email,
       pw: pwEl.value.trim(),
+      color: generateRandomColor(),
     };
 
     await UserService.create(newUser);

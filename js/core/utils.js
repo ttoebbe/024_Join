@@ -105,3 +105,49 @@ export function debounce(func, delay) {
 export function generateId() {
   return Math.random().toString(36).substr(2, 9);
 }
+
+/**
+ * Generates a random user ID with 'u' prefix.
+ * @returns {string} - User ID like 'u123456789'
+ */
+export function generateUserId() {
+  return 'u' + Math.random().toString(36).substr(2, 9);
+}
+
+/**
+ * Generates next sequential user ID (u0, u1, u2, etc.)
+ * @param {Object[]} existingUsers - Array of existing users
+ * @returns {string} - Next user ID like 'u0', 'u1', 'u2'
+ */
+export function generateNextUserId(existingUsers = []) {
+  if (!existingUsers || existingUsers.length === 0) {
+    return 'u0';
+  }
+  
+  // Find all user IDs that match pattern 'u' + number
+  const userNumbers = existingUsers
+    .map(user => user.id)
+    .filter(id => id && id.startsWith('u'))
+    .map(id => {
+      const num = parseInt(id.substring(1));
+      return isNaN(num) ? -1 : num;
+    })
+    .filter(num => num >= 0);
+  
+  // Find next available number
+  const maxNum = userNumbers.length > 0 ? Math.max(...userNumbers) : -1;
+  return `u${maxNum + 1}`;
+}
+
+/**
+ * Generates a random color for user avatars.
+ * @returns {string} - Hex color string
+ */
+export function generateRandomColor() {
+  const colors = [
+    "#FF7A00", "#29ABE2", "#02CF2F", "#AF1616", 
+    "#9327FF", "#FF7527", "#6E52FF", "#FC71FF",
+    "#FFBB2B", "#1FD7C1", "#FFA35E", "#C5FF7A"
+  ];
+  return colors[Math.floor(Math.random() * colors.length)];
+}

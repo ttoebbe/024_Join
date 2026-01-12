@@ -169,8 +169,8 @@ window.loadDummyDataToFirebase = async function() {
     
     // Dummy Users
     const users = [
-      { id: "u0", name: "admin", password: "admin", email: "admin@admin.de", color: "#FF7A00" },
-      { id: "u1", name: "Team Member", password: "teamMember", email: "team@example.com", color: "#29ABE2" }
+      { id: "u0", name: "admin", pw: "admin", email: "admin@admin.de", color: "#FF7A00" },
+      { id: "u1", name: "Team Member", pw: "teamMember", email: "team@example.com", color: "#29ABE2" }
     ];
     
     // Dummy Contacts  
