@@ -65,6 +65,14 @@
   --nav: var(--color-primary);
   --nav-hover: var(--color-primary-hover);
   --nav-active: var(--color-primary-active);
+  
+  /* Contacts page specific variables */
+  --contacts-accent: var(--color-primary);
+  --contacts-primary: var(--color-accent-secondary);
+  --contacts-text: var(--color-text-primary);
+  --contacts-bg: var(--color-bg-secondary);
+  --contact-list-panel-color: var(--color-bg-surface);
+  --contacts-detail-panel: var(--color-bg-primary);
 
   /* === SPACING === */
   --spacing-xs: 4px;

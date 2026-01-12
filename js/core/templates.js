@@ -105,24 +105,23 @@ export function getAddTaskFormTemplate(presetStatus = 'todo') {
 }
 
 /**
- * Generates contact entry template
- * @param {Object} contact - Contact object
- * @param {boolean} isActive - Whether contact is currently selected
+ * Single contact entry template
+ * @param {Object} contact - Contact data  
+ * @param {boolean} isActive - Whether contact is currently selected (optional)
  * @returns {string} HTML template string
  */
 export function getContactTemplate(contact, isActive = false) {
-  const activeClass = isActive ? ' active' : '';
-  const initials = contact.name ? contact.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'C';
-  
-  return /* html */ `
-    <article class="contact-card${activeClass}" data-contact-id="${contact.id}">
-      <div class="contact-avatar">${initials}</div>
-      <div class="contact-info">
-        <div class="contact-name">${contact.name || 'Unknown'}</div>
-        <div class="contact-email">${contact.email || ''}</div>
-      </div>
-    </article>
-  `;
+  const initials = getInitials(contact.name);
+  const avatarColor = contact.color || "#2a3647";
+  return /* html */ `<article class="contact-entry" 
+  data-contact-id="${contact.id}">
+  <span class="contact-avatar" 
+  style="background:${avatarColor}">
+  ${initials}</span>
+  <div class="contact-meta"><p 
+  class="contact-name">${contact.name}</p>
+  <p class="contact-email">${contact.email}</p>
+  </div></article>`;
 }
 
 /**
@@ -191,25 +190,6 @@ export function getContactGroupHeaderTemplate(letter) {
       <span class="contact-group-letter">${letter}</span>
     </div>
   `;
-}
-
-/**
- * Single contact entry template
- * @param {Object} contact - Contact data
- * @returns {string} HTML template string
- */
-export function getContactTemplate(contact) {
-  const initials = getInitials(contact.name);
-  const avatarColor = contact.color || "#2a3647";
-  return /* html */ `<article class="contact-entry" 
-  data-contact-id="${contact.id}">
-  <span class="contact-avatar" 
-  style="background:${avatarColor}">
-  ${initials}</span>
-  <div class="contact-meta"><p 
-  class="contact-name">${contact.name}</p>
-  <p class="contact-email">${contact.email}</p>
-  </div></article>`;
 }
 
 /**

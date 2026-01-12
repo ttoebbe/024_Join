@@ -2,7 +2,7 @@
 /** Imports and Globals */
 /**###############################*/
 import { ContactService } from './core/firebase-service.js';
-import { setText, getInitials, isValidEmail, generateId } from './core/utils.js';
+import { setText, isValidEmail, generateId } from './core/utils.js';
 import { getContactGroupHeaderTemplate, getContactTemplate, getContactDetailTemplate } from './core/templates.js';
 
 let currentEditId = null;
