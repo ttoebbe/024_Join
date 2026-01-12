@@ -54,6 +54,18 @@
   --color-border-medium: #E8EAED;
   --color-border-dark: #5B6670;
 
+  /* === LEGACY COMPATIBILITY === */
+  /* Backward compatibility aliases for existing components */
+  --bg: var(--color-bg-primary);
+  --card: var(--color-bg-surface);
+  --text: var(--color-text-primary);
+  --accent: var(--color-accent);
+  --line: var(--color-border-light);
+  --muted: var(--color-text-muted);
+  --nav: var(--color-primary);
+  --nav-hover: var(--color-primary-hover);
+  --nav-active: var(--color-primary-active);
+
   /* === SPACING === */
   --spacing-xs: 4px;
   --spacing-sm: 8px;

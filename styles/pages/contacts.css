@@ -1,11 +1,4 @@
-:root {
-  --contacts-bg: #f6f7fb;
-  --contact-list-panel-color: #ffffff;
-  --contacts-primary: #4589ff;
-  --contacts-accent: #2a3647;
-  --contacts-text: #0b1736;
-  --contacts-detail-panel: #f6f7f8;
-}
+/* Uses centralized CSS variables from core/variables.css */
 
 .app-shell {
   display: flex;

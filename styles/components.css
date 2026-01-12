@@ -1,15 +1,4 @@
-:root{
-  --bg: #F6F7F8;
-  --card: #FFFFFF;
-  --text: #2A3647;
-  --accent: #29ABE2;
-  --line: #D1D1D1;
-  --muted: #A8A8A8;
-
-  --nav: #2A3647;
-  --nav-hover: #2A3D59;
-  --nav-active: #091931;
-}
+/* Uses centralized CSS variables from core/variables.css */
 
 *{ box-sizing: border-box; }
 
