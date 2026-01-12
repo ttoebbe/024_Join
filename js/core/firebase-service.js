@@ -245,3 +245,56 @@ window.clearFirebaseData = async function() {
     console.error('❌ Error clearing data:', error);
   }
 };
+
+/**
+ * DEVELOPMENT HELPER: Show all Firebase data as table in console
+ * Usage: Open browser console and run: showFirebaseDataTable()
+ */
+window.showFirebaseDataTable = async function() {
+  try {
+    console.log('📊 Loading all Firebase data...');
+    
+    // Load all collections
+    const users = await UserService.getAll();
+    const contacts = await ContactService.getAll();
+    const tasks = await TaskService.getAll();
+    
+    // Convert Firebase objects to arrays if needed
+    const usersArray = users ? (Array.isArray(users) ? users : Object.values(users)) : [];
+    const contactsArray = contacts ? (Array.isArray(contacts) ? contacts : Object.values(contacts)) : [];
+    const tasksArray = tasks ? (Array.isArray(tasks) ? tasks : Object.values(tasks)) : [];
+    
+    // Display as console tables
+    console.group('🔥 Firebase Data Overview');
+    
+    if (usersArray.length > 0) {
+      console.log('👥 Users:');
+      console.table(usersArray);
+    } else {
+      console.log('👥 Users: No data');
+    }
+    
+    if (contactsArray.length > 0) {
+      console.log('📱 Contacts:');
+      console.table(contactsArray);
+    } else {
+      console.log('📱 Contacts: No data');
+    }
+    
+    if (tasksArray.length > 0) {
+      console.log('📋 Tasks:');
+      console.table(tasksArray);
+    } else {
+      console.log('📋 Tasks: No data');
+    }
+    
+    console.groupEnd();
+    
+    // Summary
+    const total = usersArray.length + contactsArray.length + tasksArray.length;
+    console.log(`📈 Summary: ${total} total entries (${usersArray.length} users, ${contactsArray.length} contacts, ${tasksArray.length} tasks)`);
+    
+  } catch (error) {
+    console.error('❌ Error loading Firebase data:', error);
+  }
+};
