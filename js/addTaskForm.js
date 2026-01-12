@@ -95,10 +95,8 @@ function initAddTaskForm({ onClose, mode = "create", task } = {}) {
         subtasks: selectedSubtasks,
         dueDate
       };
-      arr.push(newTask);
+      await TaskService.create(newTask);
     }
-
-    await uploadData("tasks", arr);
 
     if (typeof loadTasks === "function") {
       await loadTasks();

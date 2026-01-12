@@ -458,8 +458,6 @@ async function deleteTaskAndRefresh(taskId) {
     boardState.tasks = boardState.tasks.filter(
       (t) => String(t?.id || "") !== String(taskId)
     );
-    // TODO: Update to use individual TaskService operations
-    console.warn('uploadData call needs to be replaced with TaskService operations');
   }
 
   await loadTasks();
@@ -490,9 +488,10 @@ async function updateSubtaskDone(taskId, index, done) {
 
   renderBoard();
 
-  const result = await uploadData("tasks", boardState.tasks);
-  if (result === null) {
-    console.error("[board] failed to persist subtask update");
+  try {
+    await TaskService.update(taskId, updatedTask);
+  } catch (error) {
+    console.error("[board] failed to persist subtask update:", error);
   }
 }
 
@@ -616,9 +615,10 @@ async function updateTaskStatus(taskId, status) {
   task.status = status;
   renderBoard();
 
-  const result = await uploadData("tasks", boardState.tasks);
-  if (result === null) {
-    console.error("[board] failed to persist drag/drop status change");
+  try {
+    await TaskService.update(task.id, { status });
+  } catch (error) {
+    console.error("[board] failed to persist drag/drop status change:", error);
     task.status = previous;
     renderBoard();
   }
