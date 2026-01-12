@@ -1,103 +1,30 @@
-// function init() {
-//     setTimeout(startAnimation, 200); 
-// }
+/**
+ * Main script for login animation and initialization
+ */
 
-// function startAnimation() {
-//     let homepageImage = document.getElementById('img_animation');
-//     homepageImage.classList.add('animiert');
-//     document.getElementById('bg').classList.add('bg-animiert');
-//     setTimeout(() => {
-//         document.getElementById('bg').style.display = 'none';
-//     }, 500);
-// }
+import { getElementById } from './core/utils.js';
 
-// (() => {
-//   /* ================== ANIMATION ================== */
-//   function initAnimation() {
-//     setTimeout(startAnimation, 200);
-//   }
+// Animation functions
+function initAnimation() {
+  setTimeout(startAnimation, 200);
+}
 
-//   function startAnimation() {
-//     const homepageImage = document.getElementById("img_animation");
-//     const bg = document.getElementById("bg");
+function startAnimation() {
+  const homepageImage = getElementById("img_animation");
+  const bg = getElementById("bg");
 
-//     homepageImage?.classList.add("animiert");
-//     bg?.classList.add("bg-animiert");
+  homepageImage?.classList.add("animiert");
+  bg?.classList.add("bg-animiert");
 
-//     setTimeout(() => {
-//       if (bg) bg.style.display = "none";
-//     }, 500);
-//   }
+  setTimeout(() => {
+    if (bg) bg.style.display = "none";
+  }, 500);
+}
 
-//   /* ================== KONSTANTEN ================== */
-//   const LS_CURRENT = "join_current_user";
-//   const LS_USERS = "join_users";
-//   const REDIRECT_AFTER_LOGIN = "./summary.html";
-
-//   const $ = (id) => document.getElementById(id);
-
-//   function setText(id, txt) {
-//     const el = $(id);
-//     if (el) el.textContent = txt || "";
-//   }
-
-//   function isEmailLike(v) {
-//     const s = (v || "").trim();
-//     return s.includes("@") && s.includes(".");
-//   }
-
-//   function loadUsers() {
-//     try {
-//       return JSON.parse(localStorage.getItem(LS_USERS)) || [];
-//     } catch {
-//       return [];
-//     }
-//   }
-
-//   function saveUsers(users) {
-//     localStorage.setItem(LS_USERS, JSON.stringify(users));
-//   }
-
-//   function saveCurrentUser(user) {
-//     localStorage.setItem(LS_CURRENT, JSON.stringify(user));
-//   }
-
-//   function showToast(msg) {
-//     const t = $("toast");
-//     if (!t) return;
-//     t.textContent = msg;
-//     t.classList.add("show");
-//     setTimeout(() => t.classList.remove("show"), 1800);
-//   }
-
-//   /* ================== LOGIN ================== */
-//   function initLogin() {
-//     const form = $("loginForm");
-//     if (!form) return;
-
-//     const emailEl = $("email");
-//     const pwEl = $("password");
-//     const btnLogin = $("btnLogin");
-//     const btnGuest = $("btnGuest");
-
-//     function updateBtn() {
-//       btnLogin.disabled = !(emailEl.value && pwEl.value);
-//     }
-
-//     form.addEventListener("submit", (e) => {
-//       e.preventDefault();
-
-//       const email = emailEl.value.trim();
-//       const pw = pwEl.value.trim();
-
-//       if (!isEmailLike(email)) {
-//         setText("formMsg", "Invalid email");
-//         return;
-//       }
-
-//       const users = loadUsers();
-//       const found = users.find(
-//         (u) => u.email.toLowerCase() === email.toLowerCase()
+// Initialize on load
+document.addEventListener("DOMContentLoaded", () => {
+  initAnimation();
+});
 //       );
 
 //       const name =

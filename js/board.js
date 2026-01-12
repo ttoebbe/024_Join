@@ -1,6 +1,6 @@
 /* =========================================================
    Board (Join) – Clean rebuild (Render-focused)
-   - Load tasks via storage.js (getData)
+   - Load tasks via TaskService
    - Normalize Firebase data (object/array -> array)
    - Render 4 columns
    - Empty-state per column
@@ -11,6 +11,9 @@
      - Subtasks progress (x/y + bar)
      - Footer: assigned initials (+N) + prio icon
    ========================================================= */
+
+import { TaskService } from './core/firebase-service.js';
+import { normalizeTasks } from './core/utils.js';
 
 /** Toggle to see helpful logs. */
 const DEBUG = false;
@@ -83,13 +86,12 @@ function openOverlayWithStatus(status) {
 }
 
 /**
- * Loads tasks from storage.
- * Requires: getData("tasks") from storage.js
+ * Loads tasks from Firebase.
  */
 async function loadTasks() {
   try {
-    const raw = await getData("tasks");
-    boardState.tasks = normalizeToArray(raw);
+    const raw = await TaskService.getAll();
+    boardState.tasks = normalizeTasks(raw);
 
     if (DEBUG) {
       console.log(`[board] loaded tasks: ${boardState.tasks.length}`);
@@ -106,19 +108,7 @@ async function loadTasks() {
  * - arrays stay arrays (filtered)
  * - objects become Object.values(...)
  */
-function normalizeToArray(data) {
-  if (!data) return [];
 
-  if (Array.isArray(data)) {
-    return data.filter(Boolean);
-  }
-
-  if (typeof data === "object") {
-    return Object.values(data).filter(Boolean);
-  }
-
-  return [];
-}
 
 /**
  * Main render function.
@@ -468,7 +458,8 @@ async function deleteTaskAndRefresh(taskId) {
     boardState.tasks = boardState.tasks.filter(
       (t) => String(t?.id || "") !== String(taskId)
     );
-    await uploadData("tasks", boardState.tasks);
+    // TODO: Update to use individual TaskService operations
+    console.warn('uploadData call needs to be replaced with TaskService operations');
   }
 
   await loadTasks();

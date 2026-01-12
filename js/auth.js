@@ -1,32 +1,27 @@
-/* ================== KONSTANTEN ================== */
-const LS_CURRENT = "join_current_user";
-const LS_USERS = "join_users";
-const REDIRECT_AFTER_LOGIN = "/pages/summary.html";
-const REDIRECT_AFTER_SIGNUP = "/index.html";
+/* ================== IMPORTS ================== */
+import { ROUTES } from './core/constants.js';
+import { UserService, getCurrentUser, setCurrentUser } from './core/firebase-service.js';
+import { getElementById, isValidEmail } from './core/utils.js';
 
-const $ = (id) => document.getElementById(id);
+/* ================== HELPERS ================== */
+const $ = (id) => getElementById(id);
 
-/* ================== LOCALSTORAGE HELPERS ================== */
-function readJSON(key, fallback = null) {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : fallback;
-  } catch {
-    return fallback;
+async function saveCurrentUser(user) {
+  setCurrentUser(user);
+  // Optional: Also save to Firebase for persistence
+  if (user && !user.guest) {
+    await UserService.create(user);
   }
 }
 
-function writeJSON(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-
-function saveCurrentUser(user) {
-  // ✅ DAS war vorher nicht vorhanden → ReferenceError
-  writeJSON(LS_CURRENT, user);
-}
-
-function loadUsers() {
-  return readJSON(LS_USERS, []);
+async function loadUsers() {
+  try {
+    const users = await UserService.getAll();
+    return users ? Object.values(users) : [];
+  } catch (error) {
+    console.error('Error loading users:', error);
+    return [];
+  }
 }
 
 /**
@@ -149,14 +144,14 @@ function initLogin() {
   pwEl.addEventListener("input", clearErrorState);
 
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const email = emailEl.value.trim();
     const pw = pwEl.value.trim();
 
     // Optional “echter” Login: nur reinlassen wenn User existiert
-    const users = loadUsers();
+    const users = await loadUsers();
     const found = users.find((u) => u.email === email && u.pw === pw);
 
     if (!found) {
@@ -164,15 +159,14 @@ function initLogin() {
       return;
     }
 
-
-    saveCurrentUser({ name: found.name, email: found.email, guest: false });
-    window.location.href = REDIRECT_AFTER_LOGIN;
+    await saveCurrentUser({ name: found.name, email: found.email, guest: false });
+    window.location.href = ROUTES.SUMMARY;
   });
 
-  btnGuest?.addEventListener("click", (e) => {
+  btnGuest?.addEventListener("click", async (e) => {
     e.preventDefault();
-    saveCurrentUser({ name: "Guest", guest: true });
-    window.location.href = REDIRECT_AFTER_LOGIN;
+    await saveCurrentUser({ name: "Guest", guest: true });
+    window.location.href = ROUTES.SUMMARY;
   });
 
   emailEl.addEventListener("input", updateBtn);
@@ -228,7 +222,7 @@ function initSignup() {
   pwEl.addEventListener("input", clearErrorState);
   pw2El.addEventListener("input", clearErrorState);
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     if (pwEl.value !== pw2El.value) {
@@ -236,7 +230,7 @@ function initSignup() {
       return;
     }
 
-    const users = loadUsers();
+    const users = await loadUsers();
     const email = emailEl.value.trim();
 
     if (users.some((u) => u.email === email)) {
@@ -244,18 +238,16 @@ function initSignup() {
       return;
     }
 
-
-
-    users.push({
+    const newUser = {
       name: nameEl.value.trim(),
       email,
       pw: pwEl.value.trim(),
-    });
+    };
 
-    writeJSON(LS_USERS, users);
+    await UserService.create(newUser);
 
     setTimeout(() => {
-      window.location.href = REDIRECT_AFTER_SIGNUP;
+      window.location.href = ROUTES.LOGIN;
     }, 300);
   });
 
@@ -269,10 +261,8 @@ function initSignup() {
 }
 
 /* ================== GLOBAL INIT ================== */
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   initAnimation();
   initLogin();
   initSignup();
-  // Firebase → LocalStorage
-  await fetchUsersFromFirebaseToLocal();
 });

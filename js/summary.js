@@ -1,61 +1,24 @@
 "use strict";
 
-const LS_CURRENT_USER = "join_current_user";
-const LOGIN_URL = "../index.html";
+import { ROUTES } from './core/constants.js';
+import { getCurrentUser, TaskService } from './core/firebase-service.js';
+import { setText, getInitials, getTimeBasedGreeting, normalizeTasks } from './core/utils.js';
+
 const $id = (id) => document.getElementById(id);
 
-function setText(id, value) {
-  const el = $id(id);
-  if (el) el.textContent = value ?? "";
-}
-
 function loadCurrentUser() {
-  try {
-    return JSON.parse(localStorage.getItem(LS_CURRENT_USER));
-  } catch {
-    return null;
-  }
-}
-
-function getInitials(name) {
-  const parts = String(name || "")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
-
-  if (parts.length === 0) return "G";
-  if (parts.length === 1) return parts[0][0].toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-}
-
-function greetingByTime(date = new Date()) {
-  const h = date.getHours();
-  if (h >= 5 && h < 12) return "Good morning";
-  if (h >= 12 && h < 18) return "Good afternoon";
-  if (h >= 18 && h < 22) return "Good evening";
-  return "Good night";
-}
-
-function normalizeTasks(data) {
-  if (!data) return [];
-  if (Array.isArray(data)) return data.filter(Boolean);
-
-  if (typeof data === "object") {
-    return Object.values(data).filter((v) => v && typeof v === "object");
-  }
-  return [];
+  return getCurrentUser();
 }
 
 async function loadTasks() {
-  if (typeof window.getData === "function") {
-    const firebaseData = await window.getData("tasks");
+  try {
+    const firebaseData = await TaskService.getAll();
     const tasks = normalizeTasks(firebaseData);
-    if (tasks.length) return tasks;
+    return tasks;
+  } catch (error) {
+    console.error('Error loading tasks:', error);
+    return [];
   }
-
-  if (Array.isArray(window.tasks)) return window.tasks;
-
-  return [];
 }
 
 function isUrgent(task) {
@@ -116,7 +79,7 @@ function calcKPIs(tasks) {
 }
 
 function renderUser(user) {
-  const greeting = greetingByTime(new Date());
+  const greeting = getTimeBasedGreeting(new Date());
 
   setText("greetingText", user?.guest ? `${greeting}!` : `${greeting},`);
 
@@ -148,7 +111,7 @@ function renderKPIs(kpi) {
 async function initSummary() {
   const user = loadCurrentUser();
   if (!user) {
-    window.location.href = LOGIN_URL;
+    window.location.href = ROUTES.LOGIN;
     return;
   }
 

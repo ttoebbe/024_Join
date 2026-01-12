@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Board</title>
-    <link rel="shortcut icon" href="/img/homepage_join.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/homepage_join.png" type="image/x-icon" />
 
     <!-- Global components + page styles -->
-    <link rel="stylesheet" href="/styles/components.css" />
-    <link rel="stylesheet" href="/styles/pages/board.css" />
-    <link rel="stylesheet" href="/styles/pages/overlay.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/pages/board.css" />
+    <link rel="stylesheet" href="../styles/pages/overlay.css" />
 
   </head>
 
@@ -44,7 +44,7 @@
                     type="button"
                     aria-label="Search"
                   >
-                    <img src="/img/icons/search.png" alt="" />
+                    <img src="../img/icons/search.png" alt="" />
                   </button>
                 </div>
 
@@ -70,7 +70,7 @@
                     class="board-column-add"
                     type="button"
                     aria-label="Add task to To do"
-                  ><img src="/img/icons/plus-button.png" alt=""></button>
+                  ><img src="../img/icons/plus-button.png" alt=""></button>
                 </div>
 
                 <!-- IMPORTANT: data-board-body must be on the column body -->
@@ -98,7 +98,7 @@
                         <span class="board-avatar board-avatar--blue">SM</span>
                       </div>
                       <div class="board-prio">
-                        <img src="/img/icons/Prio alta.png" alt="Priority" />
+                        <img src="../img/icons/Prio alta.png" alt="Priority" />
                       </div>
                     </div>
                   </article>
@@ -114,7 +114,7 @@
                     class="board-column-add"
                     type="button"
                     aria-label="Add task to In progress"
-                  ><img src="/img/icons/plus-button.png" alt=""></button>
+                  ><img src="../img/icons/plus-button.png" alt=""></button>
                 </div>
 
                 <div class="board-column-body" data-board-body>
@@ -130,7 +130,7 @@
                     class="board-column-add"
                     type="button"
                     aria-label="Add task to Await feedback"
-                  ><img src="/img/icons/plus-button.png" alt=""></button>
+                  ><img src="../img/icons/plus-button.png" alt=""></button>
                 </div>
 
                 <div class="board-column-body" data-board-body>
@@ -159,13 +159,10 @@
 <div id="overlayRoot" class="overlay-root hidden" aria-hidden="true"></div>
 
     <!-- Scripts (order matters!) -->
-   <script src="../js/storage.js" defer></script>
-<script src="../js/components.js" defer></script>
-
-<script src="../js/addTaskForm.js" defer></script>
-<script src="../js/addTaskOverlay.js" defer></script>
-
-<script src="../js/board.js" defer></script>
+<script type="module" src="../js/components.js" defer></script>
+<script type="module" src="../js/addTaskForm.js" defer></script>
+<script type="module" src="../js/addTaskOverlay.js" defer></script>
+<script type="module" src="../js/board.js" defer></script>
 
   </body>
 </html>

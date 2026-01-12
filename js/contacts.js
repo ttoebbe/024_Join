@@ -1,52 +1,11 @@
 /**###############################*/
-/** Globals */
+/** Imports and Globals */
 /**###############################*/
+import { ContactService } from './core/firebase-service.js';
+import { setText, getInitials, isValidEmail, generateId } from './core/utils.js';
+
 let currentEditId = null;
 let contacts = [];
-
-/**###############################*/
-/** Basic Helpers */
-/**###############################*/
-/**
- * Helper function to set text content of an element by ID.
- * @param {string} id
- * @param {string} txt
- */
-function setText(id, txt) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = txt || "";
-}
-
-/**
- * Calculates initials for a given name.
- * @param {string} name
- * @returns {string}
- */
-function getInitials(name) {
-  if (!name) {
-    return "";
-  }
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .map((part) => part[0].toUpperCase())
-    .slice(0, 2)
-    .join("");
-}
-
-/**
- * Validates email format (checks for @ and . after @).
- * @param {string} email
- * @returns {boolean}
- */
-function isValidEmail(email) {
-  const trimmed = (email || "").trim();
-  if (!trimmed.includes("@")) return false;
-  const parts = trimmed.split("@");
-  if (parts.length !== 2) return false;
-  if (!parts[0] || !parts[1] || !parts[1].includes(".")) return false;
-  return true;
-}
 
 /**
  * Validates phone format (allows digits, spaces, +, -, (, )).
@@ -77,6 +36,9 @@ async function initContactsPage() {
   setupHeaderBackButton();
 }
 
+// Auto-initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', initContactsPage);
+
 /**###############################*/
 /** Data (Local + Firebase) */
 /**###############################*/
@@ -97,15 +59,15 @@ function getContactData() {
  * @returns {Promise<Array<Object>>}
  */
 async function loadContactsFromFirebase() {
-  if (typeof getData !== "function") {
-    console.warn("Firebase helper getData nicht verfugbar.");
+  try {
+    const data = await ContactService.getAll();
+    contacts = normalizeContacts(data);
+    return contacts;
+  } catch (error) {
+    console.error("Error loading contacts from Firebase:", error);
     contacts = [];
     return contacts;
   }
-
-  const data = await getData("contacts");
-  contacts = normalizeContacts(data);
-  return contacts;
 }
 
 /**
@@ -141,11 +103,13 @@ function getContactSortValue(contact) {
  * @returns {Promise<void>}
  */
 async function saveContactsToFirebase() {
-  if (typeof uploadData !== "function") {
-    console.warn("Firebase helper uploadData nicht verfugbar.");
-    return;
+  try {
+    // Note: This function might not be needed anymore since
+    // individual operations use ContactService directly
+    console.log('saveContactsToFirebase called - consider using individual ContactService methods');
+  } catch (error) {
+    console.error('Error saving contacts:', error);
   }
-  await uploadData("contacts", contacts);
 }
 
 /**
@@ -246,6 +210,18 @@ function renderContactList(container, data) {
     markup.push(getContactTemplate(contact));
   });
   container.innerHTML = markup.join("");
+  
+  // Add event listeners for contact selection
+  const contactEntries = container.querySelectorAll('.contact-entry');
+  contactEntries.forEach(entry => {
+    entry.addEventListener('click', () => {
+      const contactId = entry.getAttribute('data-contact-id');
+      const contact = getContactById(contactId);
+      if (contact) {
+        selectContact(contact, entry);
+      }
+    });
+  });
 }
 
 /**
@@ -281,10 +257,8 @@ function getContactGroupHeaderTemplate(letter) {
 function getContactTemplate(contact) {
   const initials = getInitials(contact.name);
   const avatarColor = contact.color || "#2a3647";
-  const contactData = JSON.stringify(contact).replace(/"/g, "&quot;");
   return /* html */ `<article class="contact-entry" 
-  data-contact-id="${contact.id}"
-  onclick="selectContact(${contactData}, this)">
+  data-contact-id="${contact.id}">
   <span class="contact-avatar" 
   style="background:${avatarColor}">
   ${initials}</span>
@@ -530,12 +504,17 @@ function updateContactList() {
  * @param {string} contactId
  */
 async function deleteContact(contactId) {
-  const index = getContactIndex(contactId);
-  if (index === -1) return;
-  removeContactAtIndex(index);
-  await saveContactsToFirebase();
-  updateContactList();
-  clearContactDetail();
+  try {
+    await ContactService.delete(contactId);
+    const index = getContactIndex(contactId);
+    if (index !== -1) {
+      removeContactAtIndex(index);
+    }
+    updateContactList();
+    clearContactDetail();
+  } catch (error) {
+    console.error('Error deleting contact:', error);
+  }
 }
 
 /**
@@ -754,14 +733,27 @@ function getContactValidationError(values) {
  * @returns {Promise<boolean>}
  */
 async function updateExistingContact(values, overlay, form, listElement) {
-  const existing = getContactById(currentEditId);
-  if (!existing) return false;
-  applyContactValues(existing, values);
-  await saveContactsToFirebase();
-  renderContactList(listElement, getContactData());
-  closeOverlay(overlay, form);
-  selectContactById(existing.id);
-  return true;
+  try {
+    const existing = getContactById(currentEditId);
+    if (!existing) return false;
+    
+    applyContactValues(existing, values);
+    await ContactService.update(currentEditId, existing);
+    
+    // Update local array
+    const index = getContactIndex(currentEditId);
+    if (index !== -1) {
+      contacts[index] = existing;
+    }
+    
+    renderContactList(listElement, getContactData());
+    closeOverlay(overlay, form);
+    selectContactById(existing.id);
+    return true;
+  } catch (error) {
+    console.error('Error updating contact:', error);
+    return false;
+  }
 }
 
 /**
@@ -795,12 +787,20 @@ function selectContactById(contactId) {
  * @param {HTMLElement} listElement
  */
 async function createNewContact(values, overlay, form, listElement) {
-  const newContact = buildNewContact(values);
-  addContact(newContact);
-  await saveContactsToFirebase();
-  renderContactList(listElement, getContactData());
-  closeOverlay(overlay, form);
-  selectContactById(newContact.id);
+  try {
+    const newContact = buildNewContact(values);
+    const result = await ContactService.create(newContact);
+    
+    if (result) {
+      // Add to local array
+      addContact(newContact);
+      renderContactList(listElement, getContactData());
+      closeOverlay(overlay, form);
+      selectContactById(newContact.id);
+    }
+  } catch (error) {
+    console.error('Error creating contact:', error);
+  }
 }
 
 /**
