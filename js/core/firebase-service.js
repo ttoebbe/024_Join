@@ -50,7 +50,7 @@ async function processFirebaseResponse(response) {
  * @returns {Promise<any|null>} Response data or null
  */
 async function firebaseRequest(path, { method = "GET", data, headers } = {}) {
-  const url = `${API_CONFIG.BASE_URL}${path}.json`;
+  const url = `${API_CONFIG.BASE_URL}/${path}.json`;
   const requestOptions = createRequestOptions(method, data, headers);
 
   try {
@@ -118,7 +118,7 @@ export async function saveData(collection, data, id = null) {
  * @returns {Promise<any|null>} Response or null
  */
 export async function updateData(collection, id, data) {
-  return await firebaseRequest(`${collection}/${id}`, { method: "PATCH", data });
+  return await firebaseRequest(`${collection}/${id}`, { method: "PUT", data });
 }
 
 /**
