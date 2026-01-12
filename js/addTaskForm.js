@@ -1,4 +1,7 @@
-function initAddTaskForm({ onClose, mode = "create", task } = {}) {
+import { TaskService, ContactService } from './core/firebase-service.js';
+import { generateTaskId, generateRandomColor } from './core/utils.js';
+
+export function initAddTaskForm({ onClose, mode = "create", task } = {}) {
   const form = document.getElementById("addTaskForm");
   if (!form) return;
 
@@ -64,28 +67,24 @@ function initAddTaskForm({ onClose, mode = "create", task } = {}) {
       return;
     }
 
-    const existing = await getData("tasks");
-    const arr = existing ? Object.values(existing) : [];
-
     if (mode === "edit" && task?.id) {
-      const index = arr.findIndex((t) => String(t?.id) === String(task.id));
-      if (index !== -1) {
-        const current = arr[index];
-        arr[index] = {
-          ...current,
-          title,
-          description,
-          status,
-          category,
-          prio: selectedPrio,
-          assigned: selectedAssigned,
-          dueDate,
-          subtasks: selectedSubtasks,
-        };
-      }
+      // Edit existing task
+      const updatedTask = {
+        ...task,
+        title,
+        description,
+        status,
+        category,
+        prio: selectedPrio,
+        assigned: selectedAssigned,
+        dueDate,
+        subtasks: selectedSubtasks,
+      };
+      await TaskService.update(task.id, updatedTask);
     } else {
+      // Create new task
       const newTask = {
-        id: "t" + Date.now(),
+        id: generateTaskId(),
         title,
         description,
         status,
@@ -269,15 +268,13 @@ function initAddTaskForm({ onClose, mode = "create", task } = {}) {
 
   async function loadContacts() {
     try {
-      const data = await getData("contacts");
+      const data = await ContactService.getAll();
       const arr = normalizeToArray(data);
-      if (arr.length > 0) return arr;
+      return arr.length > 0 ? arr : [];
     } catch (err) {
       console.warn("[addTask] loadContacts failed:", err);
+      return [];
     }
-
-    if (Array.isArray(window.contacts)) return window.contacts;
-    return [];
   }
 
   function normalizeToArray(data) {

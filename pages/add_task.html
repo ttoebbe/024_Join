@@ -117,15 +117,15 @@
     </div>
     <script type="module" src="../js/components.js"></script>
     <script type="module" src="../js/addTaskForm.js"></script>
-    <script>
+    <script type="module">
+      import { initAddTaskForm } from "../js/addTaskForm.js";
+      
       window.addEventListener("DOMContentLoaded", () => {
-        if (typeof initAddTaskForm === "function") {
-          initAddTaskForm({
-            onClose: () => {
-              window.location.href = "board.html";
-            },
-          });
-        }
+        initAddTaskForm({
+          onClose: () => {
+            window.location.href = "board.html";
+          },
+        });
       });
     </script>
   </body>

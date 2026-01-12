@@ -140,6 +140,14 @@ export function generateNextUserId(existingUsers = []) {
 }
 
 /**
+ * Generates task ID with 't' prefix.
+ * @returns {string} - Task ID like 't123456789'
+ */
+export function generateTaskId() {
+  return 't' + Math.random().toString(36).substr(2, 9);
+}
+
+/**
  * Generates a random color for user avatars.
  * @returns {string} - Hex color string
  */
