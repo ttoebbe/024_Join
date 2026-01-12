@@ -2,7 +2,7 @@
 /** Imports and Globals */
 /**###############################*/
 import { ContactService } from './core/firebase-service.js';
-import { setText, isValidEmail, generateId } from './core/utils.js';
+import { setText, isValidEmail, generateId, generateRandomColor } from './core/utils.js';
 import { getContactGroupHeaderTemplate, getContactTemplate, getContactDetailTemplate } from './core/templates.js';
 
 let currentEditId = null;
@@ -161,27 +161,6 @@ function getNextContactId() {
   if (!hasContacts()) return "c0";
   const highest = getHighestContactNumber();
   return `c${highest + 1}`;
-}
-
-/**
- * Provides a random accent color for new contacts.
- * @returns {string}
- */
-function getRandomContactColor() {
-  const palette = [
-    "#FF7A00",
-    "#29ABE2",
-    "#FF5EB3",
-    "#9B51E0",
-    "#2ECC71",
-    "#F2994A",
-    "#EB5757",
-    "#56CCF2",
-    "#6FCF97",
-    "#BB6BD9",
-  ];
-  const index = Math.floor(Math.random() * palette.length);
-  return palette[index];
 }
 
 /**###############################*/
@@ -741,7 +720,7 @@ function buildNewContact(values) {
     name: values.name,
     email: values.email,
     phone: values.phone,
-    color: getRandomContactColor(),
+    color: generateRandomColor(),
   };
 }
 
