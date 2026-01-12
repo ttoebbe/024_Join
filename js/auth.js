@@ -34,7 +34,6 @@ function loadUsers() {
  * Verwendet bestehende Funktionen: firebaseRequest und writeJSON
  */
 async function fetchUsersFromFirebaseToLocal() {
-  // Firebase-Daten holen
   const data = await firebaseRequest("users", { method: "GET" });
 
   if (!data) {
@@ -42,13 +41,29 @@ async function fetchUsersFromFirebaseToLocal() {
     return;
   }
 
-  // Firebase liefert ein Objekt mit zufälligen Keys → Array erstellen
-  const usersArray = Object.values(data);
+  // 🔹 Firebase → Array
+  const firebaseUsers = Object.values(data);
 
-  // In LocalStorage speichern (bestehende Funktion writeJSON)
-  writeJSON(LS_USERS, usersArray);
+  // 🔹 LocalStorage → bestehende User
+  const localUsers = loadUsers();
 
-  // console.log("Users von Firebase in LocalStorage gespeichert:", usersArray);
+  // 🔹 Mergen ohne Duplikate (nach Email)
+  const mergedUsers = [...localUsers];
+
+  firebaseUsers.forEach((fbUser) => {
+    const exists = mergedUsers.some(
+      (localUser) => localUser.email === fbUser.email
+    );
+
+    if (!exists) {
+      mergedUsers.push(fbUser);
+    }
+  });
+
+  // 🔹 Zurück speichern (KEIN Verlust!)
+  writeJSON(LS_USERS, mergedUsers);
+
+  // console.log("Users gemerged:", mergedUsers);
 }
 
 
@@ -110,6 +125,14 @@ function setupPasswordToggle(inputId, lockId, eyeId) {
   });
 
   lock.addEventListener("click", (e) => e.stopPropagation());
+}
+
+/* ================== Overlay ================== */
+function showSuccessOverlay() {
+  const overlay = document.getElementById("successOverlay");
+  if (overlay) {
+    overlay.style.display = "flex";
+  }
 }
 
 /* ================== LOGIN ================== */
@@ -253,6 +276,8 @@ function initSignup() {
     });
 
     writeJSON(LS_USERS, users);
+
+    // showSuccessOverlay();
 
     setTimeout(() => {
       window.location.href = REDIRECT_AFTER_SIGNUP;
