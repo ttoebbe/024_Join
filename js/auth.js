@@ -4,13 +4,19 @@ import { UserService, getCurrentUser, setCurrentUser } from './core/firebase-ser
 import { getElementById, isValidEmail, generateRandomColor, generateNextUserId } from './core/utils.js';
 
 /* ================== HELPERS ================== */
+// Vereinfacht DOM-Zugriffe über eine ID.
+// Gibt das referenzierte Element oder null zurück.
 const $ = (id) => getElementById(id);
 
+// Speichert den aktuellen Nutzer nur in der Session.
+// Verändert keine Daten in Firebase oder Backend.
 async function saveCurrentUser(user) {
   setCurrentUser(user);
   // No Firebase save here - just session storage
 }
 
+// Lädt alle Nutzer aus Firebase und wandelt sie in ein Array.
+// Gibt bei Fehlern ein leeres Array zurück und loggt den Fehler.
 async function loadUsers() {
   try {
     const users = await UserService.getAll();
@@ -21,10 +27,8 @@ async function loadUsers() {
   }
 }
 
-/**
- * Holt alle User von Firebase und speichert sie in LocalStorage.
- * Verwendet bestehende Funktionen: firebaseRequest und writeJSON
- */
+// Ruft alle Nutzer in Firebase ab und konvertiert sie in ein Array.
+// Schreibt das Array anschließend in den LocalStorage.
 async function fetchUsersFromFirebaseToLocal() {
   // Firebase-Daten holen
   const data = await firebaseRequest("users", { method: "GET" });
@@ -45,10 +49,14 @@ async function fetchUsersFromFirebaseToLocal() {
 
 
 /* ================== ANIMATION ================== */
+// Startet verzögert die Initialanimation per Timeout.
+// Übergibt die Steuerung anschließend an startAnimation.
 function initAnimation() {
   setTimeout(startAnimation, 200);
 }
 
+// Aktiviert CSS-Animationen für Bild und Hintergrund.
+// Blendet den Hintergrund nach kurzer Zeit komplett aus.
 function startAnimation() {
   const homepageImage = $("img_animation");
   const bg = $("bg");
@@ -62,6 +70,8 @@ function startAnimation() {
 }
 
 /* ================== PASSWORD TOGGLE ================== */
+// Richtet Augen- und Schloss-Icons für Passwortfelder ein.
+// Steuert Sichtbarkeit und Typ des Eingabefelds je nach Input.
 function setupPasswordToggle(inputId, lockId, eyeId) {
   const input = document.getElementById(inputId);
   const lock = document.getElementById(lockId);
@@ -105,6 +115,8 @@ function setupPasswordToggle(inputId, lockId, eyeId) {
 }
 
 /* ================== LOGIN ================== */
+// Initialisiert das Loginformular und seine Events.
+// Validiert Eingaben, führt Login oder Gastmodus aus.
 function initLogin() {
   const form = $("loginForm");
   if (!form) return;
@@ -117,18 +129,24 @@ function initLogin() {
 
   if (!emailEl || !pwEl || !btnLogin) return;
 
+  // Aktiviert den Login-Button nur bei vollständigen Feldern.
+  // Prüft dazu auf Trim-Inhalte in Mail und Passwort.
   function updateBtn() {
     btnLogin.disabled = !(emailEl.value.trim() && pwEl.value.trim());
   }
 
   /* ================= ERROR MSG ================= */
 
+  // Zeigt die Fehlermeldung an und markiert die Felder.
+  // Wird genutzt, wenn Login-Daten nicht gefunden werden.
   function showErrorState() {
     document.getElementById("errorMsg").style.display = "block";
     emailEl.classList.add("input-error");
     pwEl.classList.add("input-error");
   }
 
+  // Versteckt Fehlermeldungen bei neuer Eingabe.
+  // Entfernt die Fehlerklassen von beiden Feldern.
   function clearErrorState() {
     document.getElementById("errorMsg").style.display = "none";
     emailEl.classList.remove("input-error");
@@ -177,6 +195,8 @@ function initLogin() {
 }
 
 /* ================== SIGNUP ================== */
+// Initialisiert das Signup-Formular mitsamt Validierung.
+// Erstellt neue Nutzer nach erfolgreicher Prüfung.
 function initSignup() {
   const form = $("signupForm");
   if (!form) return;
@@ -191,6 +211,8 @@ function initSignup() {
 
   if (!nameEl || !emailEl || !pwEl || !pw2El || !policyEl || !btn) return;
 
+  // Schaltet den Signup-Button nur bei kompletten Eingaben frei.
+  // Bezieht neben Textfeldern auch die Policy-Checkbox ein.
   function updateBtn() {
     btn.disabled = !(
       nameEl.value.trim() &&
@@ -201,6 +223,8 @@ function initSignup() {
     );
   }
 
+  // Blendet die Passwort-Fehlermeldung sichtbar ein.
+  // Markiert beide Passwortfelder mit einem Fehlerstil.
   function showErrorState() {
     const errorMsg = document.getElementById("errorSignupMsg");
     errorMsg.style.display = "block";
@@ -208,6 +232,8 @@ function initSignup() {
     pw2El.classList.add("input-error");
   }
 
+  // Entfernt die Fehlermeldung sobald neu getippt wird.
+  // Setzt die Passwortfelder optisch auf Normalzustand.
   function clearErrorState() {
     const errorMsg = document.getElementById("errorSignupMsg");
     errorMsg.style.display = "none";
