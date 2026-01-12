@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kontakte | Join</title>
-    <link rel="shortcut icon" href="/img/homepage_join.png" type="image/x-icon" />
+    <link
+      rel="shortcut icon"
+      href="/img/homepage_join.png"
+      type="image/x-icon"
+    />
     <link rel="stylesheet" href="../styles/base.css" />
     <link rel="stylesheet" href="../styles/components.css" />
     <link rel="stylesheet" href="../styles/pages/contacts.css" />
@@ -33,17 +37,30 @@
 
             <section class="contact-detail-panel">
               <section class="contacts-header">
-                <h1>Contacts</h1>
+                <div class="contacts-title-row">
+                  <h1>Contacts</h1>
+                  <button
+                    type="button"
+                    class="contact-back-button"
+                    aria-label="Back to contacts"
+                  >
+                    <img
+                      src="../img/icons/Property 1=Default.png"
+                      alt=""
+                      aria-hidden="true"
+                    />
+                  </button>
+                </div>
                 <p class="content-border">|</p>
                 <p class="contacts-tagline">Better with a team</p>
               </section>
-              <section id="contact-detail-injection">
-                html injection via js
-              </section>
+
+              <section id="contact-detail-injection"></section>
             </section>
           </div>
         </main>
 
+        <!-- Edit Contact Overlay or Add New Contact Overlay -->
         <section
           id="contact-overlay"
           class="contact-overlay"
@@ -63,7 +80,7 @@
             >
               X
             </button>
-            <div class="overlay-panel overlay-panel-left">
+            <div class="overlay-panel overlay-panel-top">
               <div class="overlay-brand">
                 <div class="overlay-logo">
                   <img src="../assets/img/Capa 1.png" alt="Join logo" />
@@ -74,7 +91,7 @@
               </div>
             </div>
 
-            <div class="overlay-panel overlay-panel-right">
+            <div class="overlay-panel overlay-panel-bottom">
               <div class="overlay-form-row">
                 <div class="overlay-avatar">
                   <div class="avatar-circle">
@@ -85,66 +102,75 @@
                   </div>
                 </div>
                 <form id="contact-form" class="overlay-form">
-                <label class="sr-only" for="contact-name">Name</label>
-                <div class="input-with-icon">
-                  <input
-                    id="contact-name"
-                    name="name"
-                    type="text"
-                    placeholder="Name"
-                    required
-                    autocomplete="name"
-                  />
-                  <span class="input-icon" aria-hidden="true">
-                    <img src="../assets/img/icons/person.png" alt="User name" />
-                  </span>
-                </div>
+                  <label class="sr-only" for="contact-name">Name</label>
+                  <div class="input-with-icon">
+                    <!-- <span class="input-prefix">ddddd</span> -->
+                    <input
+                      class="overlay-input"
+                      id="contact-name"
+                      name="name"
+                      type="text"
+                      placeholder="Name"
+                      required
+                      autocomplete="name"
+                    />
+                    <span class="input-icon" aria-hidden="true">
+                      <img src="../assets/img/icons/person.png" alt="" />
+                    </span>
+                  </div>
 
-                <label class="sr-only" for="contact-email">Email</label>
-                <div class="input-with-icon">
-                  <input
-                    id="contact-email"
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    required
-                    autocomplete="email"
-                  />
-                  <span class="input-icon" aria-hidden="true">
-                    <img src="../assets/img/icons/mail.png" alt="User email" />
-                  </span>
-                </div>
+                  <label class="sr-only" for="contact-email">Email</label>
+                  <div class="input-with-icon">
+                    <!-- <span class="input-prefix">email=</span> -->
+                    <input
+                      class="overlay-input"
+                      id="contact-email"
+                      name="email"
+                      type="email"
+                      placeholder="Email"
+                      required
+                      autocomplete="email"
+                    />
+                    <span class="input-icon" aria-hidden="true">
+                      <img src="../assets/img/icons/mail.png" alt="" />
+                    </span>
+                  </div>
 
-                <label class="sr-only" for="contact-phone">Phone</label>
-                <div class="input-with-icon">
-                  <input
-                    id="contact-phone"
-                    name="phone"
-                    type="tel"
-                    placeholder="Phone"
-                    required
-                    autocomplete="tel"
-                  />
-                  <span class="input-icon" aria-hidden="true">
-                    <img src="../assets/img/icons/call.png" alt="User phone" />
-                  </span>
-                </div>
+                  <label class="sr-only" for="contact-phone">Phone</label>
+                  <div class="input-with-icon">
+                    <!-- <span class="input-prefix">phone=</span> -->
+                    <input
+                      class="overlay-input"
+                      id="contact-phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="Phone"
+                      required
+                      autocomplete="tel"
+                    />
+                    <span class="input-icon" aria-hidden="true">
+                      <img src="../assets/img/icons/call.png" alt="" />
+                    </span>
+                  </div>
 
-                <!-- Error message -->
-                <div id="contactFormMsg" class="form-msg"></div>
+                  <!-- Error message -->
+                  <div id="contactFormMsg" class="form-msg"></div>
 
-                <div class="overlay-actions">
-                  <button
-                    type="button"
-                    id="contact-cancel"
-                    class="overlay-btn overlay-btn-secondary"
-                  >
-                    Cancel
-                  </button>
-                  <button type="submit" class="overlay-btn overlay-btn-primary">
-                    Create contact
-                  </button>
-                </div>
+                  <div class="overlay-actions">
+                    <button
+                      type="button"
+                      id="contact-delete"
+                      class="overlay-btn overlay-btn-secondary"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      type="submit"
+                      class="overlay-btn overlay-btn-primary"
+                    >
+                      Create contact
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>

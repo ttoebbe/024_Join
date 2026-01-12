@@ -8,7 +8,9 @@
     <link rel="shortcut icon" href="../img/homepage_join.png" type="image/x-icon">
     <link rel="stylesheet" href="../styles/pages/sign.css">
     <link rel="stylesheet" href="../styles/pages/style.css">
-    <script src="../js/script.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script src="/js/storage.js"></script>
+    <script src="/assets/dummy-data/sample-users.js"></script>
 </head>
 
 <body>
@@ -16,8 +18,8 @@
         <img src="../img/homepage_join.png" alt="" class="homepage-image" id="img_animation">
         <main>
             <section>
-                <a href="login.html">
-                <img src="../img/icons/Property 1=Default.png" alt="" class="form-decoration-top-left">
+                <a href="/index.html">
+                    <img src="../img/icons/Property 1=Default.png" alt="" class="form-decoration-top-left">
                 </a>
                 <div class="form-header">
                     <h1>Sign Up</h1>
@@ -30,12 +32,20 @@
                         <input type="email" id="suEmail" name="email" placeholder="Email" required>
                         <img src="../img/icons/mail.png" alt="" class="input-icon-email position">
                         <input type="password" id="suPw" name="password" placeholder="Password" required>
-                        <img src="../img/icons/lock.png" alt="" class="input-icon-password position">
-                        <input type="password" id="suPw2" name="confirm_password" placeholder="Confirm Password" required>
-                        <img src="../img/icons/lock.png" alt="" class="input-icon-confirm-password position">
+                        <img src="../img/icons/lock.png" class="input-icon-password position" id="lockPw">
+                        <img src="../img/icons/visibility_off.png" class="input-icon-password position d-none"
+                            id="eyePw">
+
+                        <input type="password" id="suPw2" name="confirm_password" placeholder="Confirm Password"
+                            required>
+                        <img src="../img/icons/lock.png" class="input-icon-confirm-password position" id="lockPw2">
+                        <img src="../img/icons/visibility_off.png" class="input-icon-confirm-password position d-none"
+                            id="eyePw2">
+                        <div id="errorSignupMsg" class="error-signup-msg">Your passwords don't match. Please try again.
+                        </div>
                     </div>
                     <label>
-                        <input type="checkbox" id="suPolicy" name="terms" required >
+                        <input type="checkbox" id="suPolicy" name="terms" required>
                         I agree to the <a href="privacy_policy.html" class="footer_left label_link">Privacy Policy</a>
                     </label>
                     <div class="form-buttons">

@@ -14,6 +14,11 @@ const tasks = [
     assignedContactIds: ["c0", "c1"],
     createdBy: "u0",
     createdAt: "2026-01-02T08:00:00.000Z",
+    subtasks: [
+      { title: "Wireframes erstellen", done: true },
+      { title: "Texte schreiben", done: false },
+      { title: "Design reviewen", done: false },
+    ],
   },
   {
     id: "t1",
@@ -27,6 +32,11 @@ const tasks = [
     assignedContactIds: ["c1"],
     createdBy: "u0",
     createdAt: "2026-01-02T08:10:00.000Z",
+    subtasks: [
+      { title: "Drag Events implementieren", done: true },
+      { title: "Drop Zones definieren", done: true },
+      { title: "Testing durchführen", done: false },
+    ],
   },
   {
     id: "t2",
@@ -39,6 +49,12 @@ const tasks = [
     assignedContactIds: ["c2"],
     createdBy: "u1",
     createdAt: "2026-01-02T08:20:00.000Z",
+    subtasks: [
+      { title: "Create Funktion", done: true },
+      { title: "Update Funktion", done: true },
+      { title: "Delete Funktion", done: true },
+      { title: "Validierung einbauen", done: false },
+    ],
   },
   {
     id: "t3",
@@ -52,6 +68,11 @@ const tasks = [
     assignedContactIds: ["c0"],
     createdBy: "u1",
     createdAt: "2026-01-01T12:00:00.000Z",
+    subtasks: [
+      { title: "KPI Komponente erstellen", done: true },
+      { title: "Daten aggregieren", done: true },
+      { title: "Styling anpassen", done: true },
+    ],
   },
   {
     id: "t4",
@@ -64,6 +85,10 @@ const tasks = [
     assignedContactIds: ["c2"],
     createdBy: "u0",
     createdAt: "2026-01-03T09:00:00.000Z",
+    subtasks: [
+      { title: "Email validation", done: false },
+      { title: "Password validation", done: false },
+    ],
   },
   {
     id: "t5",
@@ -76,6 +101,11 @@ const tasks = [
     assignedContactIds: ["c1", "c2"],
     createdBy: "u1",
     createdAt: "2026-01-03T10:15:00.000Z",
+    subtasks: [
+      { title: "Notification component", done: true },
+      { title: "Event system", done: false },
+      { title: "Animation", done: false },
+    ],
   },
   {
     id: "t6",
@@ -88,6 +118,10 @@ const tasks = [
     assignedContactIds: ["c0"],
     createdBy: "u0",
     createdAt: "2026-01-04T11:00:00.000Z",
+    subtasks: [
+      { title: "Bilder komprimieren", done: false },
+      { title: "WebP Format erstellen", done: false },
+    ],
   },
   {
     id: "t7",
@@ -100,6 +134,11 @@ const tasks = [
     assignedContactIds: ["c1"],
     createdBy: "u1",
     createdAt: "2026-01-04T12:00:00.000Z",
+    subtasks: [
+      { title: "ARIA labels prüfen", done: false },
+      { title: "Keyboard navigation testen", done: false },
+      { title: "Contrast ratio checken", done: false },
+    ],
   },
   {
     id: "t8",
@@ -112,6 +151,11 @@ const tasks = [
     assignedContactIds: ["c2"],
     createdBy: "u0",
     createdAt: "2026-01-04T13:30:00.000Z",
+    subtasks: [
+      { title: "Test für getData", done: false },
+      { title: "Test für uploadData", done: false },
+      { title: "Test für deleteData", done: false },
+    ],
   },
   {
     id: "t9",
@@ -124,6 +168,7 @@ const tasks = [
     assignedContactIds: ["c0", "c1"],
     createdBy: "u1",
     createdAt: "2026-01-05T08:00:00.000Z",
+    subtasks: [],
   },
   {
     id: "t10",
@@ -136,6 +181,11 @@ const tasks = [
     assignedContactIds: ["c1"],
     createdBy: "u0",
     createdAt: "2026-01-05T09:00:00.000Z",
+    subtasks: [
+      { title: "Search input UI", done: false },
+      { title: "Filter Logik", done: false },
+      { title: "Highlight matches", done: false },
+    ],
   },
   {
     id: "t11",
@@ -148,6 +198,10 @@ const tasks = [
     assignedContactIds: ["c2"],
     createdBy: "u1",
     createdAt: "2026-01-05T10:30:00.000Z",
+    subtasks: [
+      { title: "Navigation anpassen", done: true },
+      { title: "Cards responsive machen", done: false },
+    ],
   },
   {
     id: "t12",
@@ -160,6 +214,10 @@ const tasks = [
     assignedContactIds: ["c0"],
     createdBy: "u0",
     createdAt: "2026-01-06T07:45:00.000Z",
+    subtasks: [
+      { title: "CSV Generator Funktion", done: false },
+      { title: "Download Button", done: false },
+    ],
   },
   {
     id: "t13",
@@ -172,6 +230,7 @@ const tasks = [
     assignedContactIds: ["c1", "c2"],
     createdBy: "u1",
     createdAt: "2026-01-06T08:15:00.000Z",
+    subtasks: [],
   },
   {
     id: "t14",
@@ -184,6 +243,10 @@ const tasks = [
     assignedContactIds: ["c0"],
     createdBy: "u0",
     createdAt: "2026-01-06T09:00:00.000Z",
+    subtasks: [
+      { title: "Header component refactoren", done: false },
+      { title: "Card component vereinfachen", done: false },
+    ],
   },
   {
     id: "t15",
@@ -196,6 +259,10 @@ const tasks = [
     assignedContactIds: ["c1"],
     createdBy: "u1",
     createdAt: "2026-01-06T10:00:00.000Z",
+    subtasks: [
+      { title: "Texte überarbeiten", done: true },
+      { title: "Feedback einholen", done: false },
+    ],
   },
   {
     id: "t16",
@@ -208,6 +275,11 @@ const tasks = [
     assignedContactIds: ["c2"],
     createdBy: "u0",
     createdAt: "2026-01-06T11:30:00.000Z",
+    subtasks: [
+      { title: "Lighthouse Audit durchführen", done: false },
+      { title: "Bottlenecks identifizieren", done: false },
+      { title: "Optimierungen umsetzen", done: false },
+    ],
   },
   {
     id: "t17",
@@ -220,6 +292,7 @@ const tasks = [
     assignedContactIds: ["c0", "c1"],
     createdBy: "u1",
     createdAt: "2026-01-07T08:00:00.000Z",
+    subtasks: [],
   },
   {
     id: "t18",
@@ -232,6 +305,10 @@ const tasks = [
     assignedContactIds: ["c2"],
     createdBy: "u0",
     createdAt: "2026-01-07T09:15:00.000Z",
+    subtasks: [
+      { title: "Alle Texte durchgehen", done: false },
+      { title: "Inkonsistenzen korrigieren", done: false },
+    ],
   },
   {
     id: "t19",
@@ -244,5 +321,10 @@ const tasks = [
     assignedContactIds: ["c0"],
     createdBy: "u1",
     createdAt: "2026-01-07T10:00:00.000Z",
+    subtasks: [
+      { title: "Changelog erstellen", done: false },
+      { title: "Tests durchführen", done: false },
+      { title: "Deployment dokumentieren", done: false },
+    ],
   },
 ];

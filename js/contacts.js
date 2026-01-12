@@ -74,6 +74,7 @@ async function initContactsPage() {
   await loadContactsFromFirebase();
   renderContactList(listElement, getContactData());
   setupAddContactOverlay(listElement);
+  setupHeaderBackButton();
 }
 
 /**###############################*/
@@ -231,7 +232,45 @@ function renderContactList(container, data) {
     container.innerHTML = "";
     return;
   }
-  container.innerHTML = data.map(getContactTemplate).join("");
+  const sorted = [...data].sort((a, b) =>
+    (a?.name || "").localeCompare(b?.name || "", "de", { sensitivity: "base" })
+  );
+  let currentGroup = "";
+  const markup = [];
+  sorted.forEach((contact) => {
+    const groupKey = getContactGroupKey(contact?.name);
+    if (groupKey !== currentGroup) {
+      currentGroup = groupKey;
+      markup.push(getContactGroupHeaderTemplate(groupKey));
+    }
+    markup.push(getContactTemplate(contact));
+  });
+  container.innerHTML = markup.join("");
+}
+
+/**
+ * Extracts a grouping key based on the contact's name.
+ * @param {string} name
+ * @returns {string}
+ */
+function getContactGroupKey(name) {
+  const trimmed = (name || "").trim();
+  if (!trimmed) return "#";
+  const firstChar = trimmed[0].toUpperCase();
+  return /[A-Z]/.test(firstChar) ? firstChar : "#";
+}
+
+/**
+ * Returns the markup for a group header in the contact list.
+ * @param {string} letter
+ * @returns {string}
+ */
+function getContactGroupHeaderTemplate(letter) {
+  return /* html */ `
+    <div class="contact-group-header">
+      <span class="contact-group-letter">${letter}</span>
+    </div>
+  `;
 }
 
 /**
@@ -260,6 +299,7 @@ function getContactTemplate(contact) {
  * @param {Object} contact
  * @returns {string}
  */
+
 function getContactDetailTemplate(contact) {
   const initials = getInitials(contact.name);
   return /* html */ `
@@ -287,6 +327,17 @@ function getContactDetailTemplate(contact) {
         <span>${contact.phone}</span>
       </div>
     </div>
+    <button
+      type="button"
+      class="contact-menu-button"
+      aria-label="Edit contact"
+    >
+      <img
+        src="../img/icons/Menu Contact options.png"
+        alt=""
+        aria-hidden="true"
+      />
+    </button>
   `;
 }
 
@@ -302,6 +353,7 @@ function selectContact(contact, element) {
   removeActiveStates();
   element.classList.add("is-active");
   renderContactDetail(contact);
+  openMobileDetailView();
 }
 
 /**
@@ -314,6 +366,40 @@ function removeActiveStates() {
 }
 
 /**
+ * Returns true when the mobile layout is active.
+ * @returns {boolean}
+ */
+function isMobileLayout() {
+  return window.matchMedia("(max-width: 800px)").matches;
+}
+
+/**
+ * Toggles the mobile detail view state.
+ * @param {boolean} isActive
+ */
+function setMobileDetailState(isActive) {
+  const page = document.querySelector(".contacts-page");
+  if (!page) return;
+  page.classList.toggle("is-detail-open", isActive);
+}
+
+/**
+ * Opens the detail view on mobile layouts.
+ */
+function openMobileDetailView() {
+  if (isMobileLayout()) {
+    setMobileDetailState(true);
+  }
+}
+
+/**
+ * Closes the detail view on mobile layouts.
+ */
+function closeMobileDetailView() {
+  setMobileDetailState(false);
+}
+
+/**
  * Renders contact detail view in injection area.
  * @param {Object} contact
  */
@@ -322,6 +408,7 @@ function renderContactDetail(contact) {
   if (!container) return;
   container.innerHTML = getContactDetailTemplate(contact);
   setupDetailActions(contact?.id);
+  setupMobileDetailButtons(contact?.id);
 }
 
 /**
@@ -337,7 +424,35 @@ function setupDetailActions(contactId) {
   const editButton = actionButtons[0];
   const deleteButton = actionButtons[1];
   editButton?.addEventListener("click", () => openEditContact(contactId));
-  deleteButton?.addEventListener("click", () => deleteContact(contactId));
+  deleteButton?.addEventListener("click", () => {
+    const confirmed = window.confirm(
+      "Do you really want to delete this contact?"
+    );
+    if (!confirmed) return;
+    deleteContact(contactId);
+  });
+}
+
+/**
+ * Wires up mobile-specific detail buttons.
+ * @param {string} contactId
+ */
+function setupMobileDetailButtons(contactId) {
+  const container = document.getElementById("contact-detail-injection");
+  if (!container || !contactId) return;
+  const menuButton = container.querySelector(".contact-menu-button");
+  menuButton?.addEventListener("click", () => openEditContact(contactId));
+}
+
+/**
+ * Wires the header back button to close the detail view.
+ */
+function setupHeaderBackButton() {
+  const headerBackButton = document.querySelector(
+    ".contacts-header .contact-back-button"
+  );
+  if (!headerBackButton) return;
+  headerBackButton.addEventListener("click", closeMobileDetailView);
 }
 
 /**
@@ -430,6 +545,7 @@ function clearContactDetail() {
   const container = document.getElementById("contact-detail-injection");
   if (!container) return;
   container.textContent = "Select a contact to see details.";
+  closeMobileDetailView();
 }
 
 /**###############################*/
@@ -452,10 +568,10 @@ function setupAddContactOverlay(listElement) {
 function getOverlaySetupElements() {
   const base = getContactOverlayElements();
   const openButton = document.querySelector(".list-add-button");
-  const cancelButton = document.getElementById("contact-cancel");
+  const deleteButton = document.getElementById("contact-delete");
   const closeButton = document.querySelector("[data-overlay-close]");
   if (!base || !openButton) return null;
-  return { ...base, openButton, cancelButton, closeButton };
+  return { ...base, openButton, deleteButton, closeButton };
 }
 
 /**
@@ -488,6 +604,7 @@ function registerOverlayInputHandlers(elements) {
 function registerOverlayButtons(elements, listElement) {
   registerOverlayOpenButton(elements);
   registerOverlayCloseButtons(elements);
+  registerOverlayDeleteButton(elements, listElement);
   registerOverlaySubmit(elements, listElement);
 }
 
@@ -507,12 +624,26 @@ function registerOverlayOpenButton(elements) {
  * @param {Object} elements
  */
 function registerOverlayCloseButtons(elements) {
-  elements.cancelButton?.addEventListener("click", () =>
-    closeOverlay(elements.overlay, elements.form)
-  );
   elements.closeButton?.addEventListener("click", () =>
     closeOverlay(elements.overlay, elements.form)
   );
+}
+
+/**
+ * Registers delete handler for edit mode.
+ * @param {Object} elements
+ * @param {HTMLElement} listElement
+ */
+function registerOverlayDeleteButton(elements, listElement) {
+  elements.deleteButton?.addEventListener("click", async () => {
+    if (!currentEditId) return;
+    const confirmed = window.confirm(
+      "Do you really want to delete this contact?"
+    );
+    if (!confirmed) return;
+    await deleteContact(currentEditId);
+    closeOverlay(elements.overlay, elements.form);
+  });
 }
 
 /**
@@ -572,15 +703,14 @@ function closeOverlay(overlay, form) {
 function setOverlayMode(form, isEdit) {
   const title = document.getElementById("contact-overlay-title");
   const submitButton = form?.querySelector('button[type="submit"]');
-  if (title) {
-    title.textContent = isEdit ? "Edit contact" : "Add contact";
-  }
-  if (submitButton) {
+  const deleteButton = document.getElementById("contact-delete");
+  const overlayLogo = document.querySelector(".overlay-logo");
+  if (title) title.textContent = isEdit ? "Edit contact" : "Add contact";
+  if (submitButton)
     submitButton.textContent = isEdit ? "Save changes" : "Create contact";
-  }
-  if (!isEdit) {
-    currentEditId = null;
-  }
+  if (overlayLogo) overlayLogo.style.display = isEdit ? "none" : "flex";
+  if (deleteButton) deleteButton.style.display = isEdit ? "inline-flex" : "none";
+  if (!isEdit) currentEditId = null;
 }
 
 /**

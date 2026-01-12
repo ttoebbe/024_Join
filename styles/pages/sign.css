@@ -34,8 +34,8 @@ section {
 
 .form-decoration-top-left {
     position: absolute;
-    top: 66px;
-    left: 66px;
+    top: 50px;
+    left: 25px;
     width: 32px;
     height: 32px;
     border-top-left-radius: 30px;
@@ -71,15 +71,16 @@ form img {
 }
 
 .form-header h1 {
-    font-size: 61px;
+    font-size: clamp(40px, 5vw, 61px);
     margin: 0;
+    padding-bottom: 10px
 }
 
 .underline_div {
     width: 90px;
     height: 3px;
     background-color: #29ABE2;
-    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 .input-fields {
@@ -87,7 +88,6 @@ form img {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin-top: 40px;
     margin-bottom: 40px;
     width: 100%;
     max-width: 422px;
@@ -97,18 +97,15 @@ form img {
 
 input::placeholder {
     color: #999;
-    /* Optional: Farbe des Platzhalters ändern */
-    padding-left: 10px;
-    /* Abstand des Textes vom linken Rand des Feldes */
 }
 
 .input-fields input {
     width: 100%;
     height: 48px;
-    padding: 0 12px;
+    padding: 10px 21px 10px 21px;
     border: 1px solid #D1D1D1;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 400;
     font-style: normal;
     transition: border-color 0.3s ease;
@@ -125,24 +122,51 @@ input::placeholder {
 }
 
 .input-icon-username {
-    top: 12px;
-    right: 0px;
+    top: 24px;
+    right: 15px;
+    transform: translateY(-50%);
 }
 
 .input-icon-email {
-    top: 82px;
-    right: 0px;
+    top: 88px;
+    right: 15px;
+    transform: translateY(-50%);
 }
 
 .input-icon-password {
-    top: 145px;
-    right: 0px;
+    top: 152px;
+    right: 15px;
+    transform: translateY(-50%);
 }
 
 .input-icon-confirm-password {
-    top: 211px;
-    right: 0px;
+    top: 215px;
+    right: 15px;
+    transform: translateY(-50%);
+
 }
+
+.error-signup-msg {
+    position: absolute;
+    /* überlagert, nimmt keinen Platz */
+    top: 100%;
+    /* direkt unter den Inputs */
+    left: 0;
+    color: red;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    display: none;
+    margin-top: 8px;
+    /* Standard: unsichtbar */
+    z-index: 10;
+}
+
+.input-error {
+    border: 1px solid red !important;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
 
 .form-buttons button {
     height: 48px;
@@ -219,4 +243,50 @@ footer a:hover {
 .footer_right {
     width: 109px;
     height: 35px;
+}
+
+@media screen and (min-width: 481px) and (max-width: 990px) {
+
+
+    /* ================= LOGO ================= */
+    .homepage-image {
+        width: 60px;
+        height: auto;
+        position: absolute;
+        z-index: 2;
+        top: 40px;
+        left: 50px;
+    }
+}
+
+@media (max-width: 650px) {
+    main {
+        max-width: 90%;
+        width: 100%;
+    }
+
+    footer {
+        width: auto;
+    }
+
+    .error-signup-msg {
+        font-size: 0.75rem;
+        word-wrap: break-word;
+    }
+}
+
+@media (max-width: 480px) {
+
+    /* ================= LOGO ================= */
+    .homepage-image {
+        z-index: 2;
+        width: 40px;
+        height: 50px;
+        top: 30px;
+        left: 30px;
+    }
+
+    footer {
+        bottom: 10px;
+    }
 }

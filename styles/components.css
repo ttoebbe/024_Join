@@ -392,3 +392,63 @@ body{
     padding-bottom: 92px;
   }
 }
+
+
+/* ===== User Dropdown (Topbar) ===== */
+.user-menu-wrap{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.user-dropdown{
+  position: absolute;
+  top: 56px;
+  right: 0;
+  width: 170px;
+  background: var(--nav);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+  z-index: 999;
+
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: 120ms ease;
+}
+
+.user-dropdown.open{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.user-dropdown__item{
+  display: block;
+  width: 100%;
+  text-align: left;
+
+  padding: 10px 12px;
+  border-radius: 10px;
+
+  color: #fff;
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+
+  font-size: 14px;
+}
+
+.user-dropdown__item:hover{
+  background: rgba(255,255,255,0.10);
+}
+
+.user-dropdown__item.is-active{
+  background: rgba(255,255,255,0.14);
+}
+
+.user-dropdown__logout{
+  margin-top: 2px;
+}

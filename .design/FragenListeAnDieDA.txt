@@ -1,0 +1,18 @@
+Vorab: wir haben den aktuellen Zwischenstand auf den FTP Server geladen 
+und hätten gerne von der DA (euch, unserem Kuunden) ein
+Zwischenfazit, bzw. auch Kritik, Feedback. 
+Wir arbeiten hier und da noch an Design, Funktionen und Login, haben 
+nun aber einene Stand erreicht, wo wir denken, ein Kurs ersichtlich ist. 
+Somit also erbitten wir den Zwischenstand
+
+und haben noch ein paar Fragen: 
+
+1. Wie streng müssen wir uns an das Design halten?
+
+2. ist die aktuelle Struktur (Ordner / Aufbau allg.) so in Ordnung?
+
+3. die Firebase ist aktuell noch 100% offen, sollen da ein paar Regeln rein?
+
+4. in wie weit dann den Login "verifizieren" --> Mindestanforderungen
+
+5. wie weit treiben? (Allgemeine Farbverwaltung / Nutzung von Funktionen / ...)
