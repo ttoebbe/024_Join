@@ -95,7 +95,6 @@ async function updateTaskStatus(taskId, status) {
   try {
     await TaskService.update(task.id, { status });
   } catch (error) {
-    console.error("[board] failed to persist drag/drop status change:", error);
     task.status = previous;
     renderBoard();
   }

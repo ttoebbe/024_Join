@@ -372,8 +372,17 @@
   }
 
   .board-column-body {
-    overflow-y: visible;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 8px;
     padding-right: 0;
+  }
+
+  .board-card {
+    flex: 0 0 252px;
+    width: 252px;
   }
 }
 

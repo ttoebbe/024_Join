@@ -269,7 +269,6 @@ function initAddTaskForm({ onClose, mode = "create", task } = {}) {
       const arr = normalizeToArray(data);
       return arr.length > 0 ? arr : [];
     } catch (err) {
-      console.warn("[addTask] loadContacts failed:", err);
       return [];
     }
   }

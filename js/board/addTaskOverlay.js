@@ -19,11 +19,10 @@ async function renderTaskOverlay({ mode, status, task }) {
   // Template laden (wenn fehlt: Fallback anzeigen)
   let formHtml = "";
   try {
-    const res = await fetch("../templates/add_task_form.html");
+    const res = await fetch("/templates/add_task_form.html");
     if (!res.ok) throw new Error(`Template not found (${res.status})`);
     formHtml = await res.text();
   } catch (err) {
-    console.warn("[overlay] template fallback:", err.message);
     formHtml = `
       <div style="padding:16px; border:1px dashed #d1d1d1; border-radius:12px;">
         <p style="margin:0 0 8px 0;"><strong>Template fehlt oder lädt nicht.</strong></p>

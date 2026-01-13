@@ -12,9 +12,6 @@
      - Footer: assigned initials (+N) + prio icon
    ========================================================= */
 
-/** Toggle to see helpful logs. */
-const DEBUG = false;
-
 /**
  * Single source of truth for the board page.
  */
@@ -69,12 +66,7 @@ async function loadTasks() {
     const raw = await TaskService.getAll();
     boardState.tasks = normalizeTasks(raw);
 
-    if (DEBUG) {
-      console.log(`[board] loaded tasks: ${boardState.tasks.length}`);
-      console.log("[board] status sample:", boardState.tasks.map((t) => t?.status));
-    }
   } catch (err) {
-    console.error("[board] loadTasks failed:", err);
     boardState.tasks = [];
   }
 }

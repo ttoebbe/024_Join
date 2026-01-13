@@ -22,7 +22,6 @@ function wireAddTaskButtons() {
 
 function openOverlayWithStatus(status) {
   if (typeof openAddTaskOverlay !== "function") {
-    console.warn("[board] openAddTaskOverlay() not found");
     return;
   }
   openAddTaskOverlay(status);
@@ -266,7 +265,7 @@ async function updateSubtaskDone(taskId, index, done) {
   try {
     await TaskService.update(task.id, { subtasks: task.subtasks });
   } catch (error) {
-    console.error("[board] failed to persist subtask update:", error);
+    // intentionally silent
   }
 }
 
