@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Help</title>
-    <link rel="shortcut icon" href="../img/homepage_join.png" type="image/x-icon" />
+    <link
+      rel="shortcut icon"
+      href="../img/homepage_join.png"
+      type="image/x-icon"
+    />
     <link rel="stylesheet" href="../styles/core/variables.css" />
     <link rel="stylesheet" href="../styles/base.css" />
     <link rel="stylesheet" href="../styles/components.css" />
@@ -18,36 +22,69 @@
       <div class="page-column">
         <div id="header-placeholder"></div>
         <!-- ab hier der content der seite -->
-        
-        <div style="padding: 24px;">
+
+        <div style="padding: 24px">
           <h1>Help & Support</h1>
-          
+
           <!-- PROVISORISCH: Firebase Dummy Data Tools -->
-          <div style="margin: 32px 0; padding: 20px; border: 2px dashed #ff6b35; border-radius: 8px; background: #fff4f0;">
-            <h3 style="color: #ff6b35; margin-top: 0;">⚠️ PROVISORISCH - Nur für Development</h3>
-            <p style="color: #666; margin: 8px 0;">Diese Buttons laden/löschen Dummy-Daten in Firebase. <strong>Später entfernen!</strong></p>
-            <div style="display: flex; gap: 12px; margin-top: 16px;">
-              <button 
-                onclick="loadDummyDataToFirebase()" 
-                style="padding: 8px 16px; background: #29ABE2; color: white; border: none; border-radius: 4px; cursor: pointer;"
+          <div
+            style="
+              margin: 32px 0;
+              padding: 20px;
+              border: 2px dashed #ff6b35;
+              border-radius: 8px;
+              background: #fff4f0;
+            "
+          >
+            <h3 style="color: #ff6b35; margin-top: 0">
+              ⚠️ PROVISORISCH - Nur für Development
+            </h3>
+            <p style="color: #666; margin: 8px 0">
+              Diese Buttons laden/löschen Dummy-Daten in Firebase.
+              <strong>Später entfernen!</strong>
+            </p>
+            <div style="display: flex; gap: 12px; margin-top: 16px">
+              <button
+                onclick="loadDummyDataToFirebase()"
+                style="
+                  padding: 8px 16px;
+                  background: #29abe2;
+                  color: white;
+                  border: none;
+                  border-radius: 4px;
+                  cursor: pointer;
+                "
               >
                 🔄 Dummy-Daten laden
               </button>
-              <button 
-                onclick="clearFirebaseData()" 
-                style="padding: 8px 16px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;"
+              <button
+                onclick="clearFirebaseData()"
+                style="
+                  padding: 8px 16px;
+                  background: #dc3545;
+                  color: white;
+                  border: none;
+                  border-radius: 4px;
+                  cursor: pointer;
+                "
               >
                 🗑️ Firebase leeren
               </button>
-              <button 
-                onclick="showFirebaseDataTable()" 
-                style="padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;"
+              <button
+                onclick="showFirebaseDataTable()"
+                style="
+                  padding: 8px 16px;
+                  background: #28a745;
+                  color: white;
+                  border: none;
+                  border-radius: 4px;
+                  cursor: pointer;
+                "
               >
                 📊 Firebase-Daten in Console
               </button>
             </div>
           </div>
-          
         </div>
 
         <main class="page-body policy-page">
@@ -60,28 +97,43 @@
                 </p>
               </div>
 
-              <a class="policy__back" href="javascript:history.back()" aria-label="Go back">←</a>
+              <a
+                class="policy__back"
+                href="javascript:history.back()"
+                aria-label="Go back"
+                >←</a
+              >
             </header>
 
             <section id="what-is-join" class="policy__section">
               <h2>What is Join?</h2>
 
               <p>
-                <a href="./summary.html">Join</a> is a kanban-based project management tool designed and built by a group
-                of dedicated students as part of their web development bootcamp at the
-                <a href="https://developerakademie.com/" target="_blank" rel="noopener noreferrer">Developer Akademie</a>.
+                <a href="./summary.html">Join</a> is a kanban-based project
+                management tool designed and built by a group of dedicated
+                students as part of their web development bootcamp at the
+                <a
+                  href="https://developerakademie.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Developer Akademie</a
+                >.
               </p>
 
               <p>
-                Kanban, a Japanese term meaning “billboard”, is a highly effective method to visualize work, limit
-                work-in-progress, and maximize efficiency (flow). Join leverages kanban principles to help users manage
-                tasks and projects in an intuitive, visual interface.
+                Kanban, a Japanese term meaning “billboard”, is a highly
+                effective method to visualize work, limit work-in-progress, and
+                maximize efficiency (flow). Join leverages kanban principles to
+                help users manage tasks and projects in an intuitive, visual
+                interface.
               </p>
 
               <p>
-                Note: Join is designed as an educational exercise and is not intended for extensive business usage.
-                While we strive to ensure the best possible user experience, we cannot guarantee consistent
-                availability, reliability, accuracy, or other aspects of quality.
+                Note: Join is designed as an educational exercise and is not
+                intended for extensive business usage. While we strive to ensure
+                the best possible user experience, we cannot guarantee
+                consistent availability, reliability, accuracy, or other aspects
+                of quality.
               </p>
             </section>
 
@@ -92,32 +144,39 @@
               <ol>
                 <li>
                   <strong>Exploring the Board</strong><br />
-                  When you log in, you’ll find a default board with four lists: “To do”, “In progress”, “Await feedback”
-                  and “Done”. Go to <a href="./board.html">Board</a>.
+                  When you log in, you’ll find a default board with four lists:
+                  “To do”, “In progress”, “Await feedback” and “Done”. Go to
+                  <a href="./board.html">Board</a>.
                 </li>
 
                 <li>
                   <strong>Creating Contacts</strong><br />
-                  Add contacts to collaborate. Go to <a href="./contacts.html">Contacts</a>, click “Add New Contact”,
-                  and fill in the required information. Contacts can be assigned to tasks.
+                  Add contacts to collaborate. Go to
+                  <a href="./contacts.html">Contacts</a>, click “Add New
+                  Contact”, and fill in the required information. Contacts can
+                  be assigned to tasks.
                 </li>
 
                 <li>
                   <strong>Adding Cards</strong><br />
-                  Cards are tasks. Create them via <a href="./add_task.html">Add Task</a> or via the “+” buttons on the
-                  board. Add title, description, due date, priority, category, assignees, and subtasks.
+                  Cards are tasks. Create them via
+                  <a href="./add_task.html">Add Task</a> or via the “+” buttons
+                  on the board. Add title, description, due date, priority,
+                  category, assignees, and subtasks.
                 </li>
 
                 <li>
                   <strong>Moving Cards</strong><br />
-                  Move tasks across columns as work progresses (e.g. “To do” → “In progress” → “Await feedback” → “Done”).
-                  This keeps your workflow transparent.
+                  Move tasks across columns as work progresses (e.g. “To do” →
+                  “In progress” → “Await feedback” → “Done”). This keeps your
+                  workflow transparent.
                 </li>
 
                 <li>
                   <strong>Using the Summary</strong><br />
-                  The <a href="./summary.html">Summary</a> shows key metrics (tasks per status, urgent tasks, upcoming
-                  deadline). Use it as your quick dashboard.
+                  The <a href="./summary.html">Summary</a> shows key metrics
+                  (tasks per status, urgent tasks, upcoming deadline). Use it as
+                  your quick dashboard.
                 </li>
               </ol>
             </section>
@@ -125,6 +184,9 @@
         </main>
       </div>
     </div>
-    <script type="module" src="../js/components.js"></script>
+    <script src="../js/core/constants.js"></script>
+    <script src="../js/core/utils.js"></script>
+    <script src="../js/core/firebase-service.js"></script>
+    <script src="../js/components.js"></script>
   </body>
 </html>

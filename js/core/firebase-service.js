@@ -135,7 +135,7 @@ async function deleteData(collection, id) {
 const UserService = {
   getAll: () => loadData(COLLECTIONS.USERS),
   get: (id) => loadData(COLLECTIONS.USERS, id),
-  create: (userData) => saveData(COLLECTIONS.USERS, userData),
+  create: (userData) => saveData(COLLECTIONS.USERS, userData, userData.id),
   update: (id, userData) => updateData(COLLECTIONS.USERS, id, userData),
   delete: (id) => deleteData(COLLECTIONS.USERS, id),
 };
@@ -143,7 +143,7 @@ const UserService = {
 const TaskService = {
   getAll: () => loadData(COLLECTIONS.TASKS),
   get: (id) => loadData(COLLECTIONS.TASKS, id),
-  create: (taskData) => saveData(COLLECTIONS.TASKS, taskData),
+  create: (taskData) => saveData(COLLECTIONS.TASKS, taskData, taskData.id),
   update: (id, taskData) => updateData(COLLECTIONS.TASKS, id, taskData),
   delete: (id) => deleteData(COLLECTIONS.TASKS, id),
 };
@@ -151,7 +151,8 @@ const TaskService = {
 const ContactService = {
   getAll: () => loadData(COLLECTIONS.CONTACTS),
   get: (id) => loadData(COLLECTIONS.CONTACTS, id),
-  create: (contactData) => saveData(COLLECTIONS.CONTACTS, contactData),
+  create: (contactData) =>
+    saveData(COLLECTIONS.CONTACTS, contactData, contactData.id),
   update: (id, contactData) =>
     updateData(COLLECTIONS.CONTACTS, id, contactData),
   delete: (id) => deleteData(COLLECTIONS.CONTACTS, id),
