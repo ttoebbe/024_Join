@@ -90,29 +90,13 @@ function setActiveNavLink() {
   if (match) match.classList.add('nav-active');
 }
 
-function getInitials(name) {
-  const parts = String(name || '')
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
 
-  if (parts.length === 0) return 'G';
-  if (parts.length === 1) return parts[0][0].toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-}
 
 function renderUserInitials() {
   const el = document.getElementById('userInitials');
   if (!el) return;
 
-  // Neue Logik: join_current_user (gleich wie summary.js)
-  let current = null;
-  try {
-    current = JSON.parse(localStorage.getItem('join_current_user'));
-  } catch (_) {
-    current = null;
-  }
-
+  const current = getCurrentUser();
   const label = current?.name || current?.email || (current?.guest ? 'Guest' : '') || 'G';
   el.textContent = getInitials(label);
 }
@@ -165,7 +149,7 @@ function initUserMenu() {
 
   // Logout
   logoutBtn?.addEventListener('click', () => {
-    localStorage.removeItem('join_current_user');
-    window.location.href = '../index.html';
+    setCurrentUser(null);
+    window.location.href = ROUTES.LOGIN;
   });
 }

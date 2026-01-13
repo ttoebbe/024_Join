@@ -1,19 +1,4 @@
-:root {
-  --font-family: "Segoe UI", Arial, sans-serif;
-  --text-primary: #1f2933;
-  --text-muted: #5b6670;
-  --bg: #f6f7fb;
-  --surface: #ffffff;
-  --surface-muted: #f1f3f5;
-  --accent: #f3971f;
-  --accent-strong: #ffc107;
-  --danger: #dc3545;
-  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.15);
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --content-width: 1440px;
-}
+/* Uses centralized CSS variables from core/variables.css */
 
 
 * {

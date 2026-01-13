@@ -1,6 +1,6 @@
 /* =========================================================
    Board (Join) – Clean rebuild (Render-focused)
-   - Load tasks via storage.js (getData)
+   - Load tasks via TaskService
    - Normalize Firebase data (object/array -> array)
    - Render 4 columns
    - Empty-state per column
@@ -83,13 +83,12 @@ function openOverlayWithStatus(status) {
 }
 
 /**
- * Loads tasks from storage.
- * Requires: getData("tasks") from storage.js
+ * Loads tasks from Firebase.
  */
 async function loadTasks() {
   try {
-    const raw = await getData("tasks");
-    boardState.tasks = normalizeToArray(raw);
+    const raw = await TaskService.getAll();
+    boardState.tasks = normalizeTasks(raw);
 
     if (DEBUG) {
       console.log(`[board] loaded tasks: ${boardState.tasks.length}`);
@@ -106,19 +105,7 @@ async function loadTasks() {
  * - arrays stay arrays (filtered)
  * - objects become Object.values(...)
  */
-function normalizeToArray(data) {
-  if (!data) return [];
 
-  if (Array.isArray(data)) {
-    return data.filter(Boolean);
-  }
-
-  if (typeof data === "object") {
-    return Object.values(data).filter(Boolean);
-  }
-
-  return [];
-}
 
 /**
  * Main render function.
@@ -468,7 +455,6 @@ async function deleteTaskAndRefresh(taskId) {
     boardState.tasks = boardState.tasks.filter(
       (t) => String(t?.id || "") !== String(taskId)
     );
-    await uploadData("tasks", boardState.tasks);
   }
 
   await loadTasks();
@@ -499,9 +485,10 @@ async function updateSubtaskDone(taskId, index, done) {
 
   renderBoard();
 
-  const result = await uploadData("tasks", boardState.tasks);
-  if (result === null) {
-    console.error("[board] failed to persist subtask update");
+  try {
+    await TaskService.update(taskId, updatedTask);
+  } catch (error) {
+    console.error("[board] failed to persist subtask update:", error);
   }
 }
 
@@ -625,9 +612,10 @@ async function updateTaskStatus(taskId, status) {
   task.status = status;
   renderBoard();
 
-  const result = await uploadData("tasks", boardState.tasks);
-  if (result === null) {
-    console.error("[board] failed to persist drag/drop status change");
+  try {
+    await TaskService.update(task.id, { status });
+  } catch (error) {
+    console.error("[board] failed to persist drag/drop status change:", error);
     task.status = previous;
     renderBoard();
   }

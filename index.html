@@ -6,21 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
 
-    <link rel="shortcut icon" href="../img/homepage_join.png" type="image/x-icon">
-    <link rel="stylesheet" href="../styles/pages/login.css">
-    <link rel="stylesheet" href="../styles/pages/style.css">
-    <script type="module" src="../js/auth.js"></script>
-    <script src="/js/storage.js"></script>
-    <script src="/assets/dummy-data/sample-users.js"></script>
+    <link rel="shortcut icon" href="./img/homepage_join.png" type="image/x-icon">
+    <link rel="stylesheet" href="./styles/core/variables.css">
+    <link rel="stylesheet" href="./styles/pages/login.css">
+    <link rel="stylesheet" href="./styles/pages/style.css">
+    <script src="./js/core/constants.js"></script>
+    <script src="./js/core/utils.js"></script>
+    <script src="./js/core/firebase-service.js"></script>
+    <script src="./js/auth.js"></script>
 </head>
 
 <body>
     <div class="wrapper max-width-1440">
         <div class="background-overlay" id="bg"></div>
-        <a href="index.html"><img src="../img/homepage_join.png" alt="" class="homepage-image" id="img_animation"> </a>
+        <a href="index.html"><img src="./img/homepage_join.png" alt="" class="homepage-image" id="img_animation"> </a>
         <header>
             <p>Not a Join user? </p>
-            <button><a href="/pages/sign_up.html">Sign Up</a></button>
+            <button><a href="./pages/sign_up.html">Sign Up</a></button>
         </header>
 
         <main>
@@ -60,8 +62,8 @@
             </section>
         </main>
         <footer>
-            <a href="/pages/privacy_policy.html" class="footer_left">Privacy Policy</a>
-            <a href="/pages/legal_notice.html" class="footer_right">Legacy notice</a>
+            <a href="./pages/privacy_policy.html" class="footer_left">Privacy Policy</a>
+            <a href="./pages/legal_notice.html" class="footer_right">Legacy notice</a>
         </footer>
     </div>
 </body>

@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Task</title>
-    <link rel="shortcut icon" href="/img/homepage_join.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/homepage_join.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../styles/core/variables.css" />
+    <link rel="stylesheet" href="../styles/base.css" />
     <link rel="stylesheet" href="../styles/components.css" />
     <link rel="stylesheet" href="../styles/pages/board.css" />
   </head>
@@ -113,18 +115,19 @@
         <!-- content der Seite endet hier -->
       </div>
     </div>
-    <script src="../js/storage.js"></script>
+    <script src="../js/core/constants.js"></script>
+    <script src="../js/core/utils.js"></script>
+    <script src="../js/core/firebase-service.js"></script>
+    <script src="../js/core/templates.js"></script>
     <script src="../js/components.js"></script>
     <script src="../js/addTaskForm.js"></script>
     <script>
       window.addEventListener("DOMContentLoaded", () => {
-        if (typeof initAddTaskForm === "function") {
-          initAddTaskForm({
-            onClose: () => {
-              window.location.href = "board.html";
-            },
-          });
-        }
+        initAddTaskForm({
+          onClose: () => {
+            window.location.href = "board.html";
+          },
+        });
       });
     </script>
   </body>

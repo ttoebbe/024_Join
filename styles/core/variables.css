@@ -1,0 +1,131 @@
+/**
+ * Central CSS variables for the Join application
+ * Unified design system to replace multiple :root definitions
+ */
+
+:root {
+  /* === TYPOGRAPHY === */
+  --font-family-primary: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-family-secondary: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 32px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* === COLORS === */
+  /* Primary Colors */
+  --color-primary: #2A3647;
+  --color-primary-hover: #2A3D59;
+  --color-primary-active: #091931;
+  
+  /* Accent Colors */
+  --color-accent: #29ABE2;
+  --color-accent-secondary: #4589FF;
+  --color-accent-tertiary: #F3971F;
+  --color-accent-warning: #FFC107;
+  
+  /* Status Colors */
+  --color-success: #28A745;
+  --color-warning: #FFC107;
+  --color-danger: #DC3545;
+  --color-info: #17A2B8;
+
+  /* Text Colors */
+  --color-text-primary: #2A3647;
+  --color-text-secondary: #5B6670;
+  --color-text-muted: #A8A8A8;
+  --color-text-white: #FFFFFF;
+
+  /* Background Colors */
+  --color-bg-primary: #F6F7F8;
+  --color-bg-secondary: #F6F7FB;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-surface-muted: #F1F3F5;
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
+
+  /* Border Colors */
+  --color-border-light: #D1D1D1;
+  --color-border-medium: #E8EAED;
+  --color-border-dark: #5B6670;
+
+  /* === LEGACY COMPATIBILITY === */
+  /* Backward compatibility aliases for existing components */
+  --bg: var(--color-bg-primary);
+  --card: var(--color-bg-surface);
+  --text: var(--color-text-primary);
+  --accent: var(--color-accent);
+  --line: var(--color-border-light);
+  --muted: var(--color-text-muted);
+  --nav: var(--color-primary);
+  --nav-hover: var(--color-primary-hover);
+  --nav-active: var(--color-primary-active);
+  
+  /* Contacts page specific variables */
+  --contacts-accent: var(--color-primary);
+  --contacts-primary: var(--color-accent-secondary);
+  --contacts-text: var(--color-text-primary);
+  --contacts-bg: var(--color-bg-secondary);
+  --contact-list-panel-color: var(--color-bg-surface);
+  --contacts-detail-panel: var(--color-bg-primary);
+
+  /* === SPACING === */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+
+  /* === SIZING === */
+  --size-xs: 16px;
+  --size-sm: 24px;
+  --size-md: 32px;
+  --size-lg: 48px;
+  --size-xl: 64px;
+  --size-2xl: 96px;
+  --size-3xl: 128px;
+
+  /* === BORDERS === */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 24px;
+  --border-radius-full: 50%;
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+
+  /* === SHADOWS === */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+
+  /* === TRANSITIONS === */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 250ms ease-in-out;
+  --transition-slow: 350ms ease-in-out;
+
+  /* === LAYOUT === */
+  --container-max-width: 1440px;
+  --sidebar-width: 280px;
+  --header-height: 72px;
+  --nav-width: 232px;
+
+  /* === Z-INDEX === */
+  --z-dropdown: 1000;
+  --z-sticky: 1010;
+  --z-fixed: 1020;
+  --z-modal-backdrop: 1030;
+  --z-modal: 1040;
+  --z-popover: 1050;
+  --z-tooltip: 1060;
+}

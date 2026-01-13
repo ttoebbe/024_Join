@@ -6,14 +6,14 @@ const users = [
   {
     id: "u0",
     name: "admin",
-    password: "admin",
+    pw: "admin",
     email: "admin@admin.de",
     color: "#FF7A00",
   },
   {
     id: "u1",
     name: "Team Member",
-    password: "teamMember",
+    pw: "teamMember",
     email: "team@example.com",
     color: "#29ABE2",
   },

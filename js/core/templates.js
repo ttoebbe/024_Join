@@ -1,0 +1,237 @@
+/**
+ * Template functions for dynamic HTML generation
+ * Unified template system using template strings with "html" comments
+ */
+
+/**
+ * Generates the add task form template
+ * @param {string} presetStatus - Optional preset task status
+ * @returns {string} HTML template string
+ */
+function getAddTaskFormTemplate(presetStatus = 'todo') {
+  return /* html */ `
+    <form id="addTaskForm" class="addtask-form">
+      <input type="hidden" id="taskStatusPreset" value="${presetStatus}" />
+      <input type="hidden" id="taskCategoryValue" value="" />
+
+      <div class="addtask-grid">
+        <div>
+          <label>Title<span class="req">*</span></label>
+          <input id="taskTitle" type="text" placeholder="Enter a title" />
+
+          <label>Description</label>
+          <textarea id="taskDescription" placeholder="Enter a Description"></textarea>
+
+          <label>Due date<span class="req">*</span></label>
+          <input id="taskDueDate" type="date" />
+        </div>
+
+        <div>
+          <label>Priority</label>
+          <div class="prio-row">
+            <button type="button" class="prio-btn" data-prio="urgent">Urgent</button>
+            <button type="button" class="prio-btn is-active" data-prio="medium">Medium</button>
+            <button type="button" class="prio-btn" data-prio="low">Low</button>
+          </div>
+
+          <label>Assigned to</label>
+          <div class="dropdown dropdown--select" id="assignedDropdown">
+            <button
+              type="button"
+              class="dropdown-toggle"
+              data-assigned-toggle
+              aria-haspopup="listbox"
+              aria-expanded="false"
+            >
+              <span class="dropdown-placeholder" data-assigned-value>Select contacts to assign</span>
+              <span class="dropdown-caret" aria-hidden="true"></span>
+            </button>
+            <div class="dropdown-menu" data-assigned-menu hidden></div>
+          </div>
+
+          <label>Category<span class="req">*</span></label>
+          <div class="dropdown dropdown--select" id="categoryDropdown">
+            <button
+              type="button"
+              class="dropdown-toggle"
+              data-category-toggle
+              aria-haspopup="listbox"
+              aria-expanded="false"
+            >
+              <span class="dropdown-placeholder" data-category-value>Select task category</span>
+              <span class="dropdown-caret" aria-hidden="true"></span>
+            </button>
+            <div class="dropdown-menu" data-category-menu hidden>
+              <button
+                type="button"
+                class="dropdown-item"
+                data-category-item
+                data-value="userstory"
+                data-label="User Story"
+              >
+                User Story
+              </button>
+              <button
+                type="button"
+                class="dropdown-item"
+                data-category-item
+                data-value="technical"
+                data-label="Technical Task"
+              >
+                Technical Task
+              </button>
+            </div>
+          </div>
+
+          <label>Subtasks</label>
+          <div class="subtask-row">
+            <input id="subtaskInput" type="text" placeholder="Add new subtask" />
+            <button type="button" id="subtaskAddBtn">+</button>
+          </div>
+          <div id="subtaskList"></div>
+        </div>
+      </div>
+
+      <p class="req-note"><span class="req">*</span>This field is required</p>
+
+      <div class="addtask-footer">
+        <button type="button" id="clearBtn">Clear</button>
+        <button type="submit" id="createBtn">Create Task</button>
+      </div>
+    </form>
+  `;
+}
+
+/**
+ * Single contact entry template
+ * @param {Object} contact - Contact data  
+ * @param {boolean} isActive - Whether contact is currently selected (optional)
+ * @returns {string} HTML template string
+ */
+function getContactTemplate(contact, isActive = false) {
+  const initials = getInitials(contact.name);
+  const avatarColor = contact.color || "#2a3647";
+  return /* html */ `<article class="contact-entry" 
+  data-contact-id="${contact.id}">
+  <span class="contact-avatar" 
+  style="background:${avatarColor}">
+  ${initials}</span>
+  <div class="contact-meta"><p 
+  class="contact-name">${contact.name}</p>
+  <p class="contact-email">${contact.email}</p>
+  </div></article>`;
+}
+
+/**
+ * Generates task card template
+ * @param {Object} task - Task object
+ * @returns {string} HTML template string
+ */
+function getTaskCardTemplate(task) {
+  const priorityClass = task.priority ? `priority-${task.priority}` : 'priority-low';
+  const assignees = task.assignees || [];
+  
+  return /* html */ `
+    <div class="task-card card ${priorityClass}" data-task-id="${task.id}">
+      <div class="task-title">${task.title || 'Untitled Task'}</div>
+      <div class="task-description">${task.description || ''}</div>
+      <div class="task-meta">
+        <div class="task-assignees">
+          ${assignees.slice(0, 3).map(assignee => `
+            <div class="task-assignee-avatar" title="${assignee.name}">
+              ${assignee.initials || 'U'}
+            </div>
+          `).join('')}
+          ${assignees.length > 3 ? `<div class="task-assignee-avatar">+${assignees.length - 3}</div>` : ''}
+        </div>
+        <div class="task-due-date">${task.dueDate || ''}</div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Generates loading spinner template
+ * @param {string} message - Optional loading message
+ * @returns {string} HTML template string
+ */
+function getLoadingTemplate(message = 'Loading...') {
+  return /* html */ `
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>${message}</p>
+    </div>
+  `;
+}
+
+/**
+ * Generates error message template
+ * @param {string} message - Error message
+ * @returns {string} HTML template string
+ */
+function getErrorTemplate(message = 'An error occurred') {
+  return /* html */ `
+    <div class="error-message">
+      <p>${message}</p>
+    </div>
+  `;
+}
+
+/**
+ * Contact group header template
+ * @param {string} letter - Group letter
+ * @returns {string} HTML template string
+ */
+function getContactGroupHeaderTemplate(letter) {
+  return /* html */ `
+    <div class="contact-group-header">
+      <span class="contact-group-letter">${letter}</span>
+    </div>
+  `;
+}
+
+/**
+ * Contact detail view template
+ * @param {Object} contact - Contact data
+ * @returns {string} HTML template string
+ */
+function getContactDetailTemplate(contact) {
+  const initials = getInitials(contact.name);
+  return /* html */ `
+    <div class="contact-hero">
+      <div class="contact-avatar contact-avatar-large" 
+           style="background-color: ${contact.color}">
+        ${initials}
+      </div>
+      <div class="contact-info">
+        <h2>${contact.name}</h2>
+        <div class="detail-actions">
+          <button class="secondary-button">Edit</button>
+          <button class="secondary-button">Delete</button>
+        </div>
+      </div>
+    </div>
+    <div class="contact-details">
+      <h4>Contact Information</h4>
+      <div class="detail-row">
+        <span class="detail-label">Email</span>
+        <a href="mailto:${contact.email}">${contact.email}</a>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Telefon</span>
+        <span>${contact.phone}</span>
+      </div>
+    </div>
+    <button
+      type="button"
+      class="contact-menu-button"
+      aria-label="Edit contact"
+    >
+      <img
+        src="../img/icons/Menu Contact options.png"
+        alt=""
+        aria-hidden="true"
+      />
+    </button>
+  `;
+}

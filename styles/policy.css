@@ -1,14 +1,4 @@
-:root {
-  --policy-bg: var(--bg, #f6f7f8);
-  --policy-surface: var(--card, #ffffff);
-  --policy-text: var(--text, #0b0b0b);
-  --policy-muted: var(--muted, #5b6670);
-  --policy-line: var(--line, #d1d1d1);
-  --policy-link: var(--accent, #29abe2);
-
-  --policy-shadow: var(--shadow, 0 12px 28px rgba(0, 0, 0, 0.10));
-  --policy-radius: var(--radius-card, 18px);
-}
+/* Uses centralized CSS variables from core/variables.css */
 
 /* background + spacing */
 .policy-page {
