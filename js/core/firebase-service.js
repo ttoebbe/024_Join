@@ -168,9 +168,11 @@ window.firebase = {
 };
 
 /**
- * DEVELOPMENT HELPER: Load dummy data into Firebase
+ * DEVELOPMENT HELPER: Load dummy data into Firebase 
+ * will be deleted later 
  * Usage: Open browser console and run: loadDummyDataToFirebase()
  */
+// TODO: delete and remove this function before production release
 window.loadDummyDataToFirebase = async function () {
   try {
     console.log("🔄 Loading dummy data to Firebase...");
