@@ -226,13 +226,12 @@ function createDetailActions(task) {
 
 async function deleteTaskAndRefresh(taskId) {
   if (!taskId) return;
-  if (typeof deleteTaskById === "function") {
-    await deleteTaskById(taskId);
-  } else {
-    boardState.tasks = boardState.tasks.filter(
-      (t) => String(t?.id || "") !== String(taskId)
-    );
+  if (TaskService?.delete) {
+    await TaskService.delete(taskId);
   }
+  boardState.tasks = boardState.tasks.filter(
+    (t) => String(t?.id || "") !== String(taskId)
+  );
 
   await loadTasks();
   renderBoard();
