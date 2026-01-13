@@ -12,9 +12,6 @@
      - Footer: assigned initials (+N) + prio icon
    ========================================================= */
 
-import { TaskService } from './core/firebase-service.js';
-import { normalizeTasks } from './core/utils.js';
-
 /** Toggle to see helpful logs. */
 const DEBUG = false;
 

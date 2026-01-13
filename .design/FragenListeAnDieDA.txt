@@ -19,4 +19,4 @@ und haben noch ein paar Fragen:
 
 6. jeder von uns hat sicher auch einen eigenen "Stil". auch in der Menge der Kommentare. In wie weit ist vereinheitlichen gefordert?
 
-7. 
+7. scope begrenzen mit ES6 Modules und Import/Export oder alles global und klassisch?

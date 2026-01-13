@@ -3,8 +3,6 @@
  * Replaces localStorage usage throughout the application
  */
 
-import { API_CONFIG, COLLECTIONS, CURRENT_USER_KEY } from "./constants.js";
-
 /**
  * Creates request options for Firebase requests.
  * @param {string} method - HTTP method
@@ -68,7 +66,7 @@ async function firebaseRequest(path, { method = "GET", data, headers } = {}) {
  * Gets current user from session storage (temporary fallback)
  * @returns {Object|null} Current user or null
  */
-export function getCurrentUser() {
+function getCurrentUser() {
   try {
     return JSON.parse(sessionStorage.getItem(CURRENT_USER_KEY));
   } catch {
@@ -80,7 +78,7 @@ export function getCurrentUser() {
  * Sets current user in session storage (temporary fallback)
  * @param {Object} user - User object to store
  */
-export function setCurrentUser(user) {
+function setCurrentUser(user) {
   if (user) {
     sessionStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
   } else {
@@ -94,7 +92,7 @@ export function setCurrentUser(user) {
  * @param {string} id - Optional document ID
  * @returns {Promise<any|null>} Data or null
  */
-export async function loadData(collection, id = null) {
+async function loadData(collection, id = null) {
   const path = id ? `${collection}/${id}` : collection;
   return await firebaseRequest(path);
 }
@@ -106,7 +104,7 @@ export async function loadData(collection, id = null) {
  * @param {string} id - Optional document ID
  * @returns {Promise<any|null>} Response or null
  */
-export async function saveData(collection, data, id = null) {
+async function saveData(collection, data, id = null) {
   const path = id ? `${collection}/${id}` : collection;
   const method = id ? "PUT" : "POST";
   return await firebaseRequest(path, { method, data });
@@ -119,7 +117,7 @@ export async function saveData(collection, data, id = null) {
  * @param {any} data - Data to update
  * @returns {Promise<any|null>} Response or null
  */
-export async function updateData(collection, id, data) {
+async function updateData(collection, id, data) {
   return await firebaseRequest(`${collection}/${id}`, { method: "PUT", data });
 }
 
@@ -129,12 +127,12 @@ export async function updateData(collection, id, data) {
  * @param {string} id - Document ID
  * @returns {Promise<any|null>} Response or null
  */
-export async function deleteData(collection, id) {
+async function deleteData(collection, id) {
   return await firebaseRequest(`${collection}/${id}`, { method: "DELETE" });
 }
 
 // Collection-specific helper functions
-export const UserService = {
+const UserService = {
   getAll: () => loadData(COLLECTIONS.USERS),
   get: (id) => loadData(COLLECTIONS.USERS, id),
   create: (userData) => saveData(COLLECTIONS.USERS, userData),
@@ -142,7 +140,7 @@ export const UserService = {
   delete: (id) => deleteData(COLLECTIONS.USERS, id),
 };
 
-export const TaskService = {
+const TaskService = {
   getAll: () => loadData(COLLECTIONS.TASKS),
   get: (id) => loadData(COLLECTIONS.TASKS, id),
   create: (taskData) => saveData(COLLECTIONS.TASKS, taskData),
@@ -150,7 +148,7 @@ export const TaskService = {
   delete: (id) => deleteData(COLLECTIONS.TASKS, id),
 };
 
-export const ContactService = {
+const ContactService = {
   getAll: () => loadData(COLLECTIONS.CONTACTS),
   get: (id) => loadData(COLLECTIONS.CONTACTS, id),
   create: (contactData) => saveData(COLLECTIONS.CONTACTS, contactData),

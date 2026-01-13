@@ -3,27 +3,6 @@
  * Handles overlay management, form handling, and CRUD operations
  */
 
-import { ContactService } from '../core/firebase-service.js';
-import { setText, generateRandomColor } from '../core/utils.js';
-import {
-  contacts,
-  getContactById,
-  getContactData,
-  addContact,
-  getContactIndex,
-  removeContactAtIndex,
-  getNextContactId,
-  getContactValidationError,
-  setCurrentEditId,
-  getCurrentEditId
-} from './contacts-data.js';
-import {
-  renderContactList,
-  updateContactList,
-  clearContactDetail,
-  selectContactById
-} from './contacts-ui.js';
-
 /**
  * Sets up overlay open/close behavior and submission handling.
  * @param {HTMLElement} listElement
@@ -370,13 +349,3 @@ async function handleNewContactSubmit(event, overlay, form, listElement) {
   }
   await createNewContact(values, overlay, form, listElement);
 }
-
-// Export functions
-export {
-  setupAddContactOverlay,
-  openEditContact,
-  deleteContact,
-  updateExistingContact,
-  createNewContact,
-  handleNewContactSubmit
-};

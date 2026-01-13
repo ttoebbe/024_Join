@@ -7,7 +7,7 @@
  * @param {string} id - The element ID
  * @param {string} txt - The text content to set
  */
-export function setText(id, txt) {
+function setText(id, txt) {
   const el = document.getElementById(id);
   if (el) el.textContent = txt || "";
 }
@@ -17,7 +17,7 @@ export function setText(id, txt) {
  * @param {string} id - The element ID
  * @returns {HTMLElement|null}
  */
-export function getElementById(id) {
+function getElementById(id) {
   return document.getElementById(id);
 }
 
@@ -26,7 +26,7 @@ export function getElementById(id) {
  * @param {string} name - The full name
  * @returns {string} - The initials (max 2 characters)
  */
-export function getInitials(name) {
+function getInitials(name) {
   if (!name) return "";
   
   const parts = String(name)
@@ -45,7 +45,7 @@ export function getInitials(name) {
  * @param {string} email - The email to validate
  * @returns {boolean} - True if email format is valid
  */
-export function isValidEmail(email) {
+function isValidEmail(email) {
   const trimmed = (email || "").trim();
   if (!trimmed.includes("@")) return false;
   
@@ -61,7 +61,7 @@ export function isValidEmail(email) {
  * @param {Date} date - The date to base greeting on (default: now)
  * @returns {string} - Greeting message
  */
-export function getTimeBasedGreeting(date = new Date()) {
+function getTimeBasedGreeting(date = new Date()) {
   const hour = date.getHours();
   if (hour >= 5 && hour < 12) return "Good morning";
   if (hour >= 12 && hour < 18) return "Good afternoon";
@@ -74,7 +74,7 @@ export function getTimeBasedGreeting(date = new Date()) {
  * @param {any} data - Raw task data
  * @returns {Array} - Normalized tasks array
  */
-export function normalizeTasks(data) {
+function normalizeTasks(data) {
   if (!data) return [];
   if (Array.isArray(data)) return data.filter(Boolean);
 
@@ -90,7 +90,7 @@ export function normalizeTasks(data) {
  * @param {number} delay - Delay in milliseconds
  * @returns {Function} - Debounced function
  */
-export function debounce(func, delay) {
+function debounce(func, delay) {
   let timeoutId;
   return function (...args) {
     clearTimeout(timeoutId);
@@ -102,7 +102,7 @@ export function debounce(func, delay) {
  * Generates a random ID.
  * @returns {string} - Random ID
  */
-export function generateId() {
+function generateId() {
   return Math.random().toString(36).substr(2, 9);
 }
 
@@ -110,7 +110,7 @@ export function generateId() {
  * Generates a random user ID with 'u' prefix.
  * @returns {string} - User ID like 'u123456789'
  */
-export function generateUserId() {
+function generateUserId() {
   return 'u' + Math.random().toString(36).substr(2, 9);
 }
 
@@ -119,7 +119,7 @@ export function generateUserId() {
  * @param {Object[]} existingUsers - Array of existing users
  * @returns {string} - Next user ID like 'u0', 'u1', 'u2'
  */
-export function generateNextUserId(existingUsers = []) {
+function generateNextUserId(existingUsers = []) {
   if (!existingUsers || existingUsers.length === 0) {
     return 'u0';
   }
@@ -143,7 +143,7 @@ export function generateNextUserId(existingUsers = []) {
  * Generates task ID with 't' prefix.
  * @returns {string} - Task ID like 't123456789'
  */
-export function generateTaskId() {
+function generateTaskId() {
   return 't' + Math.random().toString(36).substr(2, 9);
 }
 
@@ -151,7 +151,7 @@ export function generateTaskId() {
  * Generates a random color for user avatars.
  * @returns {string} - Hex color string
  */
-export function generateRandomColor() {
+function generateRandomColor() {
   const colors = [
     "#FF7A00", "#29ABE2", "#02CF2F", "#AF1616", 
     "#9327FF", "#FF7527", "#6E52FF", "#FC71FF",

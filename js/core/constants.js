@@ -3,18 +3,18 @@
  */
 
 // Firebase collection names
-export const COLLECTIONS = {
+const COLLECTIONS = {
   USERS: 'users',
   TASKS: 'tasks',
   CONTACTS: 'contacts'
 };
 
 // Authentication constants
-export const CURRENT_USER_KEY = 'join_current_user';
-export const USERS_KEY = 'join_users';
+const CURRENT_USER_KEY = 'join_current_user';
+const USERS_KEY = 'join_users';
 
 // Navigation URLs
-export const ROUTES = {
+const ROUTES = {
   LOGIN: '../index.html',
   SUMMARY: '/pages/summary.html',
   BOARD: '/pages/board.html',
@@ -26,7 +26,7 @@ export const ROUTES = {
 };
 
 // Task status constants
-export const TASK_STATUS = {
+const TASK_STATUS = {
   TODO: 'todo',
   IN_PROGRESS: 'in-progress',
   AWAIT_FEEDBACK: 'await-feedback',
@@ -34,14 +34,14 @@ export const TASK_STATUS = {
 };
 
 // Priority levels
-export const PRIORITY = {
+const PRIORITY = {
   LOW: 'low',
   MEDIUM: 'medium',
   HIGH: 'high'
 };
 
 // API endpoints and configuration
-export const API_CONFIG = {
+const API_CONFIG = {
   BASE_URL: 'https://remotestorage-67778-default-rtdb.europe-west1.firebasedatabase.app',
   TIMEOUT: 10000
 };

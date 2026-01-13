@@ -1,8 +1,3 @@
-/* ================== IMPORTS ================== */
-import { ROUTES } from './core/constants.js';
-import { UserService, getCurrentUser, setCurrentUser } from './core/firebase-service.js';
-import { getElementById, isValidEmail, generateRandomColor, generateNextUserId } from './core/utils.js';
-
 /* ================== HELPERS ================== */
 // Vereinfacht DOM-Zugriffe über eine ID.
 // Gibt das referenzierte Element oder null zurück.

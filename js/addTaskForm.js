@@ -1,7 +1,4 @@
-import { TaskService, ContactService } from './core/firebase-service.js';
-import { generateTaskId, generateRandomColor } from './core/utils.js';
-
-export function initAddTaskForm({ onClose, mode = "create", task } = {}) {
+function initAddTaskForm({ onClose, mode = "create", task } = {}) {
   const form = document.getElementById("addTaskForm");
   if (!form) return;
 

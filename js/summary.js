@@ -1,9 +1,5 @@
 "use strict";
 
-import { ROUTES } from './core/constants.js';
-import { getCurrentUser, TaskService } from './core/firebase-service.js';
-import { setText, getInitials, getTimeBasedGreeting, normalizeTasks } from './core/utils.js';
-
 const $id = (id) => document.getElementById(id);
 
 function loadCurrentUser() {

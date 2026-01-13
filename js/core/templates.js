@@ -3,14 +3,12 @@
  * Unified template system using template strings with "html" comments
  */
 
-import { getInitials } from './utils.js';
-
 /**
  * Generates the add task form template
  * @param {string} presetStatus - Optional preset task status
  * @returns {string} HTML template string
  */
-export function getAddTaskFormTemplate(presetStatus = 'todo') {
+function getAddTaskFormTemplate(presetStatus = 'todo') {
   return /* html */ `
     <form id="addTaskForm" class="addtask-form">
       <input type="hidden" id="taskStatusPreset" value="${presetStatus}" />
@@ -110,7 +108,7 @@ export function getAddTaskFormTemplate(presetStatus = 'todo') {
  * @param {boolean} isActive - Whether contact is currently selected (optional)
  * @returns {string} HTML template string
  */
-export function getContactTemplate(contact, isActive = false) {
+function getContactTemplate(contact, isActive = false) {
   const initials = getInitials(contact.name);
   const avatarColor = contact.color || "#2a3647";
   return /* html */ `<article class="contact-entry" 
@@ -129,7 +127,7 @@ export function getContactTemplate(contact, isActive = false) {
  * @param {Object} task - Task object
  * @returns {string} HTML template string
  */
-export function getTaskCardTemplate(task) {
+function getTaskCardTemplate(task) {
   const priorityClass = task.priority ? `priority-${task.priority}` : 'priority-low';
   const assignees = task.assignees || [];
   
@@ -157,7 +155,7 @@ export function getTaskCardTemplate(task) {
  * @param {string} message - Optional loading message
  * @returns {string} HTML template string
  */
-export function getLoadingTemplate(message = 'Loading...') {
+function getLoadingTemplate(message = 'Loading...') {
   return /* html */ `
     <div class="loading-spinner">
       <div class="spinner"></div>
@@ -171,7 +169,7 @@ export function getLoadingTemplate(message = 'Loading...') {
  * @param {string} message - Error message
  * @returns {string} HTML template string
  */
-export function getErrorTemplate(message = 'An error occurred') {
+function getErrorTemplate(message = 'An error occurred') {
   return /* html */ `
     <div class="error-message">
       <p>${message}</p>
@@ -184,7 +182,7 @@ export function getErrorTemplate(message = 'An error occurred') {
  * @param {string} letter - Group letter
  * @returns {string} HTML template string
  */
-export function getContactGroupHeaderTemplate(letter) {
+function getContactGroupHeaderTemplate(letter) {
   return /* html */ `
     <div class="contact-group-header">
       <span class="contact-group-letter">${letter}</span>
@@ -197,7 +195,7 @@ export function getContactGroupHeaderTemplate(letter) {
  * @param {Object} contact - Contact data
  * @returns {string} HTML template string
  */
-export function getContactDetailTemplate(contact) {
+function getContactDetailTemplate(contact) {
   const initials = getInitials(contact.name);
   return /* html */ `
     <div class="contact-hero">

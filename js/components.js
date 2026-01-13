@@ -1,7 +1,3 @@
-import { getCurrentUser, setCurrentUser } from './core/firebase-service.js';
-import { getInitials } from './core/utils.js';
-import { ROUTES } from './core/constants.js';
-
 document.addEventListener('DOMContentLoaded', () => {
   renderNavBar();
   renderHeader();

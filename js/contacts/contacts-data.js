@@ -3,11 +3,6 @@
  * Handles Firebase operations, data normalization, validation, and initialization
  */
 
-import { ContactService } from '../core/firebase-service.js';
-import { isValidEmail } from '../core/utils.js';
-import { renderContactList, setupHeaderBackButton } from './contacts-ui.js';
-import { setupAddContactOverlay } from './contacts-forms.js';
-
 // Global state
 let currentEditId = null;
 let contacts = [];
@@ -208,20 +203,3 @@ function getCurrentEditId() {
 
 // Auto-initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', initContactsPage);
-
-// Export functions and state
-export {
-  contacts,
-  initContactsPage,
-  getContactData,
-  loadContactsFromFirebase,
-  getContactById,
-  hasContacts,
-  getNextContactId,
-  addContact,
-  getContactIndex,
-  removeContactAtIndex,
-  getContactValidationError,
-  setCurrentEditId,
-  getCurrentEditId
-};

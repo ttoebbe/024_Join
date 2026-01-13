@@ -3,10 +3,6 @@
  * Handles rendering, display logic, mobile layouts, and contact selection
  */
 
-import { getContactGroupHeaderTemplate, getContactTemplate, getContactDetailTemplate } from '../core/templates.js';
-import { getContactData, getContactById } from './contacts-data.js';
-import { openEditContact, deleteContact } from './contacts-forms.js';
-
 /**
  * Renders all contacts into the target container.
  * @param {HTMLElement} container
@@ -199,18 +195,3 @@ function selectContactById(contactId) {
     selectContact(contact, entry);
   }
 }
-
-// Export functions
-export {
-  renderContactList,
-  selectContact,
-  renderContactDetail,
-  setupDetailActions,
-  setupMobileDetailButtons,
-  setupHeaderBackButton,
-  updateContactList,
-  clearContactDetail,
-  selectContactById,
-  openMobileDetailView,
-  closeMobileDetailView
-};
