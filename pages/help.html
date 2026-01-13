@@ -4,20 +4,94 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Help</title>
+
     <link rel="shortcut icon" href="/img/homepage_join.png" type="image/x-icon" />
     <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/policy.css" />
   </head>
 
   <body>
     <div class="app-shell">
       <aside id="nav-bar-placeholder"></aside>
+
       <div class="page-column">
         <div id="header-placeholder"></div>
-        <!-- ab hier der content der seite -->
 
-        <!-- content der Seite endet hier -->
+        <main class="page-body policy-page">
+          <article class="policy policy--paper">
+            <header class="policy__header">
+              <div>
+                <h1 class="policy__title">Help</h1>
+                <p class="policy__meta">
+                  Guide · <a href="./summary.html">Join</a>
+                </p>
+              </div>
+
+              <a class="policy__back" href="javascript:history.back()" aria-label="Go back">←</a>
+            </header>
+
+            <section id="what-is-join" class="policy__section">
+              <h2>What is Join?</h2>
+
+              <p>
+                <a href="./summary.html">Join</a> is a kanban-based project management tool designed and built by a group
+                of dedicated students as part of their web development bootcamp at the Developer Akademie.
+              </p>
+
+              <p>
+                Kanban, a Japanese term meaning “billboard”, is a highly effective method to visualize work, limit
+                work-in-progress, and maximize efficiency (flow). Join leverages kanban principles to help users manage
+                tasks and projects in an intuitive, visual interface.
+              </p>
+
+              <p>
+                Note: Join is designed as an educational exercise and is not intended for extensive business usage.
+                While we strive to ensure the best possible user experience, we cannot guarantee consistent
+                availability, reliability, accuracy, or other aspects of quality.
+              </p>
+            </section>
+
+            <section id="how-to-use" class="policy__section">
+              <h2>How to use it</h2>
+              <p>Here is a step-by-step guide on how to use Join:</p>
+
+              <ol>
+                <li>
+                  <strong>Exploring the Board</strong><br />
+                  When you log in, you’ll find a default board with four lists: “To do”, “In progress”, “Await feedback”
+                  and “Done”. Go to <a href="./board.html">Board</a>.
+                </li>
+
+                <li>
+                  <strong>Creating Contacts</strong><br />
+                  Add contacts to collaborate. Go to <a href="./contacts.html">Contacts</a>, click “Add New Contact”,
+                  and fill in the required information. Contacts can be assigned to tasks.
+                </li>
+
+                <li>
+                  <strong>Adding Cards</strong><br />
+                  Cards are tasks. Create them via <a href="./add_task.html">Add Task</a> or via the “+” buttons on the
+                  board. Add title, description, due date, priority, category, assignees, and subtasks.
+                </li>
+
+                <li>
+                  <strong>Moving Cards</strong><br />
+                  Move tasks across columns as work progresses (e.g. “To do” → “In progress” → “Await feedback” → “Done”).
+                  This keeps your workflow transparent.
+                </li>
+
+                <li>
+                  <strong>Using the Summary</strong><br />
+                  The <a href="./summary.html">Summary</a> shows key metrics (tasks per status, urgent tasks, upcoming deadline).
+                  Use it as your quick dashboard.
+                </li>
+              </ol>
+            </section>
+          </article>
+        </main>
       </div>
     </div>
+
     <script src="../js/components.js"></script>
   </body>
 </html>
