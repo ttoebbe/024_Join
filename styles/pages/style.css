@@ -31,18 +31,15 @@ body {
 .overlay {
     position: fixed;
     inset: 0;
-    background-color: green;
-    /* 👈 Opacity Hintergrund */
-    display: none;
+    background-color: rgb(0 0 0 / 50%);
+    display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
+
+    /* Startzustand (versteckt) */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
 }
 
-.overlay-content {
-    
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    text-align: center;
-    font-size: 1.2rem;
-}

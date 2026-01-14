@@ -245,6 +245,40 @@ footer a:hover {
     height: 35px;
 }
 
+.overlay-content h3 {
+    margin: 0;
+    padding: 0;
+}
+
+.overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.overlay-content {
+    background-color: #3b6094;
+    padding: 0.5rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    text-align: center;
+
+    /* 🔹 RESPONSIVE KERN */
+    width: calc(100% - 2rem);
+    /* verhindert Überlauf bei 320px */
+    max-width: 355px;
+    min-width: 280px;
+
+    font-size: 1rem;
+
+    transform: translateY(120px);
+    transition: transform 0.8s ease;
+}
+
+.overlay.show .overlay-content {
+    transform: translateY(0);
+}
+
+
 @media screen and (min-width: 481px) and (max-width: 990px) {
 
 

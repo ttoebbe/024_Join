@@ -112,9 +112,17 @@ function setupPasswordToggle(inputId, lockId, eyeId) {
 function showSuccessOverlay() {
   const overlay = document.getElementById("successOverlay");
   if (overlay) {
-    overlay.style.display = "flex";
+    overlay.classList.add("show");
   }
 }
+
+/* ================== Overlay schließen ================== */
+// function hideSuccessOverlay() {
+//   const overlay = document.getElementById("successOverlay");
+//   if (overlay) {
+//     overlay.classList.remove("show");
+//   }
+// }
 
 /* ================== LOGIN ================== */
 // Initialisiert das Loginformular und seine Events.
@@ -272,6 +280,8 @@ function initSignup() {
     };
 
     await UserService.create(newUser);
+
+    showSuccessOverlay();
 
     setTimeout(() => {
       window.location.href = ROUTES.LOGIN;
