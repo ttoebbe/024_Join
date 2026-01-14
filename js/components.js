@@ -150,6 +150,6 @@ function initUserMenu() {
   // Logout
   logoutBtn?.addEventListener('click', () => {
     setCurrentUser(null);
-    window.location.href = ROUTES.LOGIN;
+    window.location.href = '../index.html';
   });
 }
