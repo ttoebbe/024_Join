@@ -82,8 +82,18 @@
 }
 
 .task-detail-prio-icon {
-  width: 18px;
-  height: 18px;
+  display: block;
+}
+
+.task-detail-prio-icon[data-prio="urgent"],
+.task-detail-prio-icon[data-prio="low"] {
+  width: 17px;
+  height: 12px;
+}
+
+.task-detail-prio-icon[data-prio="medium"] {
+  width: 17px;
+  height: 7px;
 }
 
 .task-detail-section {

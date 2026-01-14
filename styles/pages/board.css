@@ -221,6 +221,21 @@
   justify-content: space-between;
 }
 
+.board-prio img {
+  display: block;
+}
+
+.board-prio img[data-prio="urgent"],
+.board-prio img[data-prio="low"] {
+  width: 17px;
+  height: 12px;
+}
+
+.board-prio img[data-prio="medium"] {
+  width: 17px;
+  height: 7px;
+}
+
 .board-avatars {
   display: flex;
   align-items: center;

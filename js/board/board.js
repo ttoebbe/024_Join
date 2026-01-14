@@ -428,9 +428,11 @@ function createPrioBlock(task) {
 
   const img = document.createElement("img");
   img.alt = "Priority";
+  img.dataset.prio = normalizePrioKey(task?.prio);
   img.src = mapPrioToIcon(task?.prio);
   img.onerror = () => {
     img.onerror = null;
+    img.dataset.prio = "medium";
     img.src = "/img/icons/Prio-medium.png";
   };
 
@@ -443,6 +445,16 @@ function createPrioBlock(task) {
  * Supports: urgent/high/alta, medium/media, low/baja
  */
 function mapPrioToIcon(prio) {
+  const key = normalizePrioKey(prio);
+  if (key === "urgent") return "/img/icons/Prio-Urgent.png";
+  if (key === "low") return "/img/icons/Prio-Low.png";
+  return "/img/icons/Prio-medium.png";
+}
+
+/**
+ * Normalizes priority to a small set of keys.
+ */
+function normalizePrioKey(prio) {
   const v = String(prio || "medium").trim().toLowerCase();
   const simple = v.replace(/[^a-z]/g, "");
 
@@ -451,13 +463,13 @@ function mapPrioToIcon(prio) {
     simple.includes("high") ||
     simple.includes("alta")
   ) {
-    return "/img/icons/Prio-Urgent.png";
+    return "urgent";
   }
   if (simple.includes("low") || simple.includes("baja")) {
-    return "/img/icons/Prio-Low.png";
+    return "low";
   }
   if (simple.includes("medium") || simple.includes("media")) {
-    return "/img/icons/Prio-medium.png";
+    return "medium";
   }
-  return "/img/icons/Prio-medium.png";
+  return "medium";
 }
