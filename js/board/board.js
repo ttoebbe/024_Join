@@ -64,7 +64,10 @@ function wireBoardUi() {
 async function loadTasks() {
   try {
     const raw = await TaskService.getAll();
-    boardState.tasks = normalizeTasks(raw);
+    const normalized = normalizeTasks(raw);
+    const { validTasks, invalidTasks } = splitValidTasks(normalized);
+    await deleteInvalidTasks(invalidTasks);
+    boardState.tasks = validTasks;
 
   } catch (err) {
     boardState.tasks = [];
@@ -76,6 +79,38 @@ async function loadTasks() {
  * - arrays stay arrays (filtered)
  * - objects become Object.values(...)
  */
+
+/**
+ * Splits tasks into valid and invalid buckets (missing title/name).
+ */
+function splitValidTasks(tasks) {
+  const validTasks = [];
+  const invalidTasks = [];
+
+  tasks.forEach((task) => {
+    if (hasTaskTitle(task)) {
+      validTasks.push(task);
+    } else {
+      invalidTasks.push(task);
+    }
+  });
+
+  return { validTasks, invalidTasks };
+}
+
+function hasTaskTitle(task) {
+  return String(task?.title || task?.name || "").trim().length > 0;
+}
+
+async function deleteInvalidTasks(tasks) {
+  if (!tasks.length || !TaskService?.delete) return;
+  await Promise.allSettled(
+    tasks
+      .map((task) => task?.id)
+      .filter((id) => id !== undefined && id !== null && id !== "")
+      .map((id) => TaskService.delete(id))
+  );
+}
 
 
 /**
