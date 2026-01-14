@@ -193,7 +193,7 @@ function createCard(task) {
   el.tabIndex = 0;
   el.draggable = true;
 
-  // Helpful for later steps (DnD, detail overlay)
+  // Helpful for later steps (drag and drop, detail overlay)
   if (task?.id) el.dataset.taskId = String(task.id);
   wireCardDragHandlers(el);
   wireCardOpenHandlers(el, task);
@@ -223,7 +223,7 @@ function createCard(task) {
   return el;
 }
 
-// Drag & Drop moved to js/board/DnD.js
+// Drag & Drop moved to js/board/draganddrop.js
 
 /**
  * Category pill: "User Story" or "Technical Task"
