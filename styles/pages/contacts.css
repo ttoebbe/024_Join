@@ -12,17 +12,17 @@
   width: 104px;
   height: 104px;
   border-radius: 50%;
-  background: #e8eaf1;
+  background: var(--color-bg-contacts);
   display: grid;
   place-items: center;
-  border: 6px solid #fff;
+  border: 6px solid var(--color-bg-surface);
 }
 
 .avatar-circle svg {
   width: 52px;
   height: 52px;
   fill: none;
-  stroke: #8f9bb3;
+  stroke: var(--color-text-gray);
   stroke-width: 1.8;
 }
 
@@ -35,7 +35,7 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  color: #fff;
+  color: var(--color-text-white);
   font-weight: 600;
   display: grid;
   place-items: center;

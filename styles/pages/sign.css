@@ -79,7 +79,7 @@ form img {
 .underline_div {
     width: 90px;
     height: 3px;
-    background-color: #29ABE2;
+    background-color: var(--color-accent);
     margin-bottom: 16px;
 }
 
@@ -96,14 +96,14 @@ form img {
 }
 
 input::placeholder {
-    color: #999;
+    color: var(--color-gray-light);
 }
 
 .input-fields input {
     width: 100%;
     height: 48px;
     padding: 10px 21px 10px 21px;
-    border: 1px solid #D1D1D1;
+    border: 1px solid var(--color-border-light);
     border-radius: 10px;
     font-size: 1.25rem;
     font-weight: 400;
@@ -113,7 +113,7 @@ input::placeholder {
 
 .input-fields input:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: var(--color-focus);
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
@@ -183,23 +183,23 @@ input::placeholder {
 .form-buttons button:hover {
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
-    background-color: #29ABE2;
+    background-color: var(--color-accent);
 }
 
 .form-buttons button:disabled {
-    background-color: #66666666;
+    background-color: var(--color-gray-disabled);
 }
 
 .btn-left {
     width: 110px;
-    background-color: #2A3647;
+    background-color: var(--color-primary);
     color: white;
     padding: 0;
 }
 
 .label_link {
     text-decoration: none;
-    color: #29ABE2;
+    color: var(--color-accent);
     margin: 0;
 }
 
@@ -221,7 +221,7 @@ footer {
 
 footer a {
     text-decoration: none;
-    color: #A8A8A8;
+    color: var(--color-text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -232,7 +232,7 @@ footer a {
 footer a:hover {
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
-    color: #29ABE2;
+    color: var(--color-accent);
 }
 
 .footer_left {

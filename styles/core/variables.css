@@ -53,6 +53,46 @@
   --color-border-light: #D1D1D1;
   --color-border-medium: #E8EAED;
   --color-border-dark: #5B6670;
+  --color-border-contacts: #d0d6e4;
+  --color-border-dark-alt: #1f2a3a;
+
+  /* === ADDITIONAL COLORS === */
+  /* Focus & Interactive */
+  --color-focus: #007bff;
+  --color-overlay-dark: #000000;
+  --color-gray-light: #999;
+  --color-gray-disabled: #66666666;
+  
+  /* Avatar Colors */
+  --color-avatar-orange: #ff7a00;
+  --color-avatar-purple: #9327ff;
+  --color-avatar-blue: #1f7cff;
+  
+  /* Priority Colors */
+  --color-priority-urgent: #ff3d00;
+  --color-priority-medium: #ff8a00;
+  --color-priority-low: #7ae229;
+  
+  /* Label Colors */
+  --color-label-userstory: #0038ff;
+  --color-label-technical: #1fd7c1;
+  
+  /* Additional Backgrounds */
+  --color-bg-hover: #e7e7e7;
+  --color-bg-selected: #f4f4f4;
+  --color-bg-contacts: #e8eaf1;
+  --color-bg-contacts-light: #d5d9e6;
+  --color-bg-contacts-alt: #f8f8fb;
+  --color-bg-contacts-modal: #f1f3f8;
+  
+  /* Additional Text Colors */
+  --color-text-blue: #42526e;
+  --color-text-gray: #8f9bb3;
+  --color-text-gray-dark: #7d8da6;
+  --color-text-gray-medium: #8593ae;
+  --color-text-gray-light: #97a3c2;
+  --color-text-gray-lighter: #98a1b2;
+  --color-text-blue-alt: #2aaae2;
 
   /* === LEGACY COMPATIBILITY === */
   /* Backward compatibility aliases for existing components */
