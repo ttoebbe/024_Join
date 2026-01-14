@@ -79,7 +79,13 @@ function normalizeTasks(data) {
   if (Array.isArray(data)) return data.filter(Boolean);
 
   if (typeof data === "object") {
-    return Object.values(data).filter((v) => v && typeof v === "object");
+    return Object.entries(data)
+      .map(([id, value]) => {
+        if (!value || typeof value !== "object") return null;
+        if (value.id) return value;
+        return { ...value, id };
+      })
+      .filter(Boolean);
   }
   return [];
 }

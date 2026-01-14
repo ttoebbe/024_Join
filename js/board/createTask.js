@@ -78,7 +78,12 @@ function openTaskDetailOverlay(taskId) {
   meta.className = "task-detail-meta";
   meta.appendChild(createMetaRow("Due date", task?.dueDate || "-"));
   meta.appendChild(
-    createMetaRow("Priority", normalizePrioLabel(task?.prio), mapPrioToIcon(task?.prio))
+    createMetaRow(
+      "Priority",
+      normalizePrioLabel(task?.prio),
+      mapPrioToIcon(task?.prio),
+      normalizePrioKey(task?.prio)
+    )
   );
   detail.appendChild(meta);
 
@@ -91,7 +96,7 @@ function openTaskDetailOverlay(taskId) {
   );
 }
 
-function createMetaRow(label, value, iconSrc) {
+function createMetaRow(label, value, iconSrc, prioKey) {
   const row = document.createElement("div");
   row.className = "task-detail-row";
 
@@ -110,6 +115,7 @@ function createMetaRow(label, value, iconSrc) {
     const img = document.createElement("img");
     img.className = "task-detail-prio-icon";
     img.alt = "Priority";
+    if (prioKey) img.dataset.prio = prioKey;
     img.src = iconSrc;
     row.appendChild(img);
   }

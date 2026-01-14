@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../styles/core/variables.css" />
     <link rel="stylesheet" href="../styles/base.css" />
     <link rel="stylesheet" href="../styles/components.css" />
-    <link rel="stylesheet" href="../styles/pages/board.css" />
+    <link rel="stylesheet" href="../styles/pages/add_task.css" />
   </head>
 
   <body class="addtask-page">
@@ -120,15 +120,6 @@
     <script src="../js/core/firebase-service.js"></script>
     <script src="../js/core/templates.js"></script>
     <script src="../js/components.js"></script>
-    <script src="../js/board/addTaskForm.js"></script>
-    <script>
-      window.addEventListener("DOMContentLoaded", () => {
-        initAddTaskForm({
-          onClose: () => {
-            window.location.href = "board.html";
-          },
-        });
-      });
-    </script>
+    <script src="../js/add_task.js"></script>
   </body>
 </html>
