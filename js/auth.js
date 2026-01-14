@@ -25,8 +25,8 @@ async function loadUsers() {
 // Ruft alle Nutzer in Firebase ab und konvertiert sie in ein Array.
 // Schreibt das Array anschließend in den LocalStorage.
 // async function fetchUsersFromFirebaseToLocal() {
-  // Firebase-Daten holen
-  // const data = await firebaseRequest("users", { method: "GET" });
+// Firebase-Daten holen
+// const data = await firebaseRequest("users", { method: "GET" });
 
 //   if (!data) {
 //     console.log("Keine User von Firebase erhalten.");
@@ -107,6 +107,13 @@ function setupPasswordToggle(inputId, lockId, eyeId) {
   });
 
   lock.addEventListener("click", (e) => e.stopPropagation());
+}
+
+function showSuccessOverlay() {
+  const overlay = document.getElementById("successOverlay");
+  if (overlay) {
+    overlay.style.display = "flex";
+  }
 }
 
 /* ================== LOGIN ================== */
