@@ -1,14 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-  renderNavBar();
-  renderHeader();
-  setActiveNavLink();
-  renderUserInitials();
-  initUserMenu();
+  renderNavBar();        // entscheidet intern: Login-Nav oder App-Nav
+  renderHeader();        // Header immer laden
+  setActiveNavLink();    // setzt active nur, wenn Nav vorhanden
+  renderUserInitials();  // zeigt Initialen nur, wenn User existiert
+  initUserMenu();        // Menü wird intern abgefangen
 });
+
 
 function renderNavBar() {
   const host = document.getElementById('nav-bar-placeholder');
   if (!host) return;
+
+  const isAuth = isAuthenticated();
 
   host.innerHTML = `
     <div class="nav_bar">
@@ -18,22 +21,10 @@ function renderNavBar() {
 
       <div class="nav_links">
         <nav>
-          <a href="summary.html" data-route="summary">
-            <img src="../img/icons/summary.png" alt="" />
-            <p>Summary</p>
-          </a>
-          <a href="add_task.html" data-route="add_task">
-            <img src="../img/icons/addtasks.png" alt="" />
-            <p>Add Tasks</p>
-          </a>
-          <a href="board.html" data-route="board">
-            <img src="../img/icons/board.png" alt="" />
-            <p>Board</p>
-          </a>
-          <a href="contacts.html" data-route="contacts">
-            <img src="../img/icons/contact.png" alt="" />
-            <p>Contacts</p>
-          </a>
+          ${isAuth
+      ? renderAuthNavLinks()
+      : renderLoginNavLink()
+    }
         </nav>
 
         <div class="footer_links">
@@ -42,6 +33,37 @@ function renderNavBar() {
         </div>
       </div>
     </div>
+  `;
+}
+
+function renderAuthNavLinks() {
+  return `
+    <a href="summary.html" data-route="summary">
+      <img src="../img/icons/summary.png" alt="">
+      <p>Summary</p>
+    </a>
+    <a href="add_task.html" data-route="add_task">
+      <img src="../img/icons/addtasks.png" alt="">
+      <p>Add Tasks</p>
+    </a>
+    <a href="board.html" data-route="board">
+      <img src="../img/icons/board.png" alt="">
+      <p>Board</p>
+    </a>
+    <a href="contacts.html" data-route="contacts">
+      <img src="../img/icons/contact.png" alt="">
+      <p>Contacts</p>
+    </a>
+  `;
+}
+
+
+function renderLoginNavLink() {
+  return `
+    <a href="../index.html" data-route="login" class="nav-active">
+      <img src="../img/icons/login.png" alt="">
+      <p>Log in</p>
+    </a>
   `;
 }
 
@@ -74,6 +96,12 @@ function renderHeader() {
   `;
 }
 
+function isAuthenticated() {
+  const user = getCurrentUser();
+  const auth = !!(user && (user.guest || user.name || user.email));
+  return auth;
+}
+
 function setActiveNavLink() {
   const nav = document.querySelector('.nav_links nav');
   if (!nav) return;
@@ -89,8 +117,6 @@ function setActiveNavLink() {
 
   if (match) match.classList.add('nav-active');
 }
-
-
 
 function renderUserInitials() {
   const el = document.getElementById('userInitials');
