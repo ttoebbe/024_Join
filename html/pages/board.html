@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Board</title>
-    <link rel="shortcut icon" href="../img/homepage_join.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="../../img/homepage_join.png" type="image/x-icon" />
 
     <!-- Global components + page styles -->
-    <link rel="stylesheet" href="../styles/core/variables.css" />
-    <link rel="stylesheet" href="../styles/components.css" />
-    <link rel="stylesheet" href="../styles/pages/board.css" />
-    <link rel="stylesheet" href="../styles/pages/overlay.css" />
+    <link rel="stylesheet" href="../../css/core/variables.css" />
+    <link rel="stylesheet" href="../../css/components.css" />
+    <link rel="stylesheet" href="../../css/pages/board.css" />
+    <link rel="stylesheet" href="../../css/pages/overlay.css" />
 
   </head>
 
@@ -45,7 +45,7 @@
                     type="button"
                     aria-label="Search"
                   >
-                    <img src="../img/icons/search.png" alt="" />
+                    <img src="../../img/icons/search.png" alt="" />
                   </button>
                 </div>
 
@@ -71,7 +71,7 @@
                     class="board-column-add"
                     type="button"
                     aria-label="Add task to To do"
-                  ><img src="../img/icons/plus-button.png" alt=""></button>
+                  ><img src="../../img/icons/plus-button.png" alt=""></button>
                 </div>
 
                 <!-- IMPORTANT: data-board-body must be on the column body -->
@@ -99,7 +99,7 @@
                         <span class="board-avatar board-avatar--blue">SM</span>
                       </div>
                       <div class="board-prio">
-                        <img src="../img/icons/Prio alta.png" alt="Priority" />
+                        <img src="../../img/icons/Prio alta.png" alt="Priority" />
                       </div>
                     </div>
                   </article>
@@ -115,7 +115,7 @@
                     class="board-column-add"
                     type="button"
                     aria-label="Add task to In progress"
-                  ><img src="../img/icons/plus-button.png" alt=""></button>
+                  ><img src="../../img/icons/plus-button.png" alt=""></button>
                 </div>
 
                 <div class="board-column-body" data-board-body>
@@ -131,7 +131,7 @@
                     class="board-column-add"
                     type="button"
                     aria-label="Add task to Await feedback"
-                  ><img src="../img/icons/plus-button.png" alt=""></button>
+                  ><img src="../../img/icons/plus-button.png" alt=""></button>
                 </div>
 
                 <div class="board-column-body" data-board-body>
@@ -160,17 +160,17 @@
 <div id="overlayRoot" class="overlay-root hidden" aria-hidden="true"></div>
 
     <!-- Scripts (order matters!) -->
-<script src="../js/core/constants.js"></script>
-<script src="../js/core/utils.js"></script>
-<script src="../js/core/firebase-service.js"></script>
-<script src="../js/core/templates.js"></script>
-<script src="../js/components.js"></script>
-<script src="../js/board/addTaskForm.js"></script>
-<script src="../js/board/addTaskOverlay.js"></script>
-<script src="../js/board/draganddrop.js"></script>
-    <script src="../js/board/createTask.js"></script>
-    <script src="../js/board/renderCards.js"></script>
-    <script src="../js/board/board.js"></script>
+<script src="../../js/core/constants.js"></script>
+<script src="../../js/core/utils.js"></script>
+<script src="../../js/core/firebase-service.js"></script>
+<script src="../../js/templates/board-template.js"></script>
+<script src="../../js/components/components.js"></script>
+<script src="../../js/features/board/addTaskForm.js"></script>
+<script src="../../js/features/board/addTaskOverlay.js"></script>
+<script src="../../js/features/board/draganddrop.js"></script>
+    <script src="../../js/features/board/createTask.js"></script>
+    <script src="../../js/features/board/renderCards.js"></script>
+    <script src="../../js/features/board/board.js"></script>
 
   </body>
 </html>

@@ -15,14 +15,14 @@ const USERS_KEY = 'join_users';
 
 // Navigation URLs
 const ROUTES = {
-  LOGIN: '../index.html',
-  SUMMARY: '/pages/summary.html',
-  BOARD: '/pages/board.html',
-  CONTACTS: '/pages/contacts.html',
-  ADD_TASK: '/pages/add_task.html',
-  HELP: '/pages/help.html',
-  LEGAL_NOTICE: '/pages/legal_notice.html',
-  PRIVACY_POLICY: '/pages/privacy_policy.html'
+  LOGIN: '/index.html',
+  SUMMARY: '/html/pages/summary.html',
+  BOARD: '/html/pages/board.html',
+  CONTACTS: '/html/pages/contacts.html',
+  ADD_TASK: '/html/pages/add_task.html',
+  HELP: '/html/pages/help.html',
+  LEGAL_NOTICE: '/html/pages/legal_notice.html',
+  PRIVACY_POLICY: '/html/pages/privacy_policy.html'
 };
 
 // Task status constants

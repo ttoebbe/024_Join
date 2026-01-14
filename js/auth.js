@@ -85,7 +85,7 @@ function setupPasswordToggle(inputId, lockId, eyeId) {
       lock.classList.add("d-none");
       eye.classList.remove("d-none");
       eye.classList.add('input-icon-password');
-      eye.src = "../img/icons/visibility_off.png";
+      eye.src = "/img/icons/visibility_off.png";
     } else {
       lock.classList.remove("d-none");
       eye.classList.add("d-none");
@@ -99,10 +99,10 @@ function setupPasswordToggle(inputId, lockId, eyeId) {
 
     if (input.type === "password") {
       input.type = "text";
-      eye.src = "../img/icons/visibility.png";
+      eye.src = "/img/icons/visibility.png";
     } else {
       input.type = "password";
-      eye.src = "../img/icons/visibility_off.png";
+      eye.src = "/img/icons/visibility_off.png";
     }
   });
 
