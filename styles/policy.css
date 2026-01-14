@@ -80,7 +80,7 @@
 
 .policy__back:hover {
   transform: translateY(-1px);
-  background: #f1f3f5;
+  background: var(--color-bg-surface-muted);
 }
 
 
@@ -125,7 +125,7 @@
 .policy__section {
   margin-top: 18px;
   padding: 18px 20px;
-  background: #fff;
+  background: var(--color-bg-surface);
   border: 1px solid rgba(0,0,0,0.06);
   border-radius: 16px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.04);

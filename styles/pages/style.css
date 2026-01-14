@@ -6,7 +6,7 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
-    background-color: #F6F7F8;
+    background-color: var(--color-bg-primary);
 }
 
 .max-width-1440 {

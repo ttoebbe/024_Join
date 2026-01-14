@@ -1,22 +1,30 @@
-Vorab: wir haben den aktuellen Zwischenstand auf den FTP Server geladen 
-und hätten gerne von der DA (euch, unserem Kuunden) ein
-Zwischenfazit, bzw. auch Kritik, Feedback. 
-Wir arbeiten hier und da noch an Design, Funktionen und Login, haben 
-nun aber einene Stand erreicht, wo wir denken, ein Kurs ersichtlich ist. 
+Guten Morgen zusammen :-)
+
+Wir sind die Gruppe: join-2478
+
+wir haben einen Zwischenstand auf den FTP Server geladen 
+( https://join-2478.developerakademie.net/ )
+und hätten gerne von der DA (euch, unserem Kunden) ein
+Zwischenfazit, bzw. auch Kritik, Feedback.
+
+Wir haben zwar noch einige Issues im Beriech Design, Funktionen etc, sind aber der 
+Meinung einen Stand erreicht zu haben, wo wir denken, ein Kurs ersichtlich ist. 
 Somit also erbitten wir den Zwischenstand
 
-und haben noch ein paar Fragen: 
+UND 
+haben noch ein paar Fragen: 
 
 1. Wie streng müssen wir uns an das Design halten?
 
 2. ist die aktuelle Struktur (Ordner / Aufbau allg.) so in Ordnung?
 
-3. die Firebase ist aktuell noch 100% offen, sollen da ein paar Regeln rein?
+3. die Firebase ist aktuell noch 100% offen, sollen da ein paar Regeln rein (die Firebase meckert via Mail ;-))?
 
 4. in wie weit dann den Login "verifizieren" --> Mindestanforderungen
 
-5. wie weit treiben? (Allgemeine Farbverwaltung / Nutzung von Funktionen / ...)
+5. wie weit treiben? (Allgemeine Farbverwaltung / Nutzung von Funktionen / ...) --> angelehnt an den aktuellen Stand
 
-6. jeder von uns hat sicher auch einen eigenen "Stil". auch in der Menge der Kommentare. In wie weit ist vereinheitlichen gefordert?
+6. jeder von uns hat sicher auch einen eigenen "Stil". auch in der Menge der Kommentare. 
+In wie weit ist vereinheitlichen gefordert? --> Muss der Eindruck entstehen, dass alles von einer Person stammt?
 
 7. scope begrenzen mit ES6 Modules und Import/Export oder alles global und klassisch?

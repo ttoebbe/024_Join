@@ -19,7 +19,7 @@
   transform: translate(-50%,-50%);
   width: min(1160px, calc(100vw - 40px));
   max-height: calc(100vh - 40px);
-  background: #fff;
+  background: var(--color-bg-surface);
   border-radius: 30px;
   overflow: auto;
   padding: 32px 48px 40px;
@@ -29,8 +29,8 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  border: 1px solid #d1d1d1;
-  background: #f6f7f8;
+  border: 1px solid var(--color-border-light);
+  background: var(--color-bg-primary);
   cursor: pointer;
   font-size: 20px;
   line-height: 1;
@@ -50,12 +50,12 @@
   margin: 12px 0 8px;
   font-size: 32px;
   font-weight: 700;
-  color: #000;
+  color: var(--color-overlay-dark);
 }
 
 .task-detail-desc {
   margin: 0 0 16px;
-  color: #2a3647;
+  color: var(--color-text-primary);
   font-size: 16px;
 }
 
@@ -72,13 +72,13 @@
 }
 
 .task-detail-key {
-  color: #42526e;
+  color: var(--color-text-blue);
   font-weight: 700;
   min-width: 90px;
 }
 
 .task-detail-value {
-  color: #2a3647;
+  color: var(--color-text-primary);
 }
 
 .task-detail-prio-icon {
@@ -101,14 +101,14 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #2a3647;
+  color: var(--color-text-primary);
 }
 
 .task-detail-subtask {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #2a3647;
+  color: var(--color-text-primary);
 }
 
 .task-detail-subtask input {
@@ -117,7 +117,7 @@
 }
 
 .task-detail-empty {
-  color: #a8a8a8;
+  color: var(--color-text-muted);
   font-size: 14px;
 }
 
@@ -131,11 +131,11 @@
 .task-detail-btn {
   border: none;
   background: transparent;
-  color: #2a3647;
+  color: var(--color-text-primary);
   font-weight: 700;
   cursor: pointer;
 }
 
 .task-detail-btn:hover {
-  color: #29abe2;
+  color: var(--color-accent);
 }
