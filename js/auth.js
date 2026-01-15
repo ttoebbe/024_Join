@@ -274,13 +274,16 @@ function wireLoginErrorHandlers({ emailEl, pwEl }) {
 
 
 /**
- * Shows login error state.
+ * Shows login error state with an optional message.
  * @param {HTMLInputElement} emailEl
  * @param {HTMLInputElement} pwEl
+ * @param {string} message
  * @returns {void}
  */
-function showLoginErrorState(emailEl, pwEl) {
-  document.getElementById("errorMsg").style.display = "block";
+function showLoginErrorState(emailEl, pwEl, message) {
+  const msg = document.getElementById("errorMsg");
+  if (msg && message) msg.textContent = message;
+  if (msg) msg.style.display = "block";
   emailEl.classList.add("input-error");
   pwEl.classList.add("input-error");
 }
@@ -301,7 +304,7 @@ function clearLoginErrorState(emailEl, pwEl) {
 
 /**
  * Wires login submit handler.
- * @param {{form: HTMLFormElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement}} state
+ * @param {{form: HTMLFormElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement}} state
  * @returns {void}
  */
 function wireLoginSubmit(state) {
@@ -314,17 +317,69 @@ function wireLoginSubmit(state) {
 
 /**
  * Handles login submit.
+ * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement}} state
+ * @returns {Promise<void>}
+ */
+async function handleLoginSubmit(state) {
+  if (!validateLoginInputs(state)) return;
+  await runLogin(state);
+}
+
+
+/**
+ * Validates login inputs and shows errors.
+ * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement}} state
+ * @returns {boolean}
+ */
+function validateLoginInputs({ emailEl, pwEl }) {
+  clearLoginErrorState(emailEl, pwEl);
+  if (emailEl.value.trim() && pwEl.value.trim()) return true;
+  showLoginErrorState(emailEl, pwEl, "Please enter email and password.");
+  return false;
+}
+
+
+/**
+ * Executes login with busy state.
+ * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement}} state
+ * @returns {Promise<void>}
+ */
+async function runLogin(state) {
+  setLoginBusy(state, true);
+  try {
+    await attemptLogin(state);
+  } finally {
+    setLoginBusy(state, false);
+  }
+}
+
+
+/**
+ * Attempts login and redirects on success.
  * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement}} state
  * @returns {Promise<void>}
  */
-async function handleLoginSubmit({ emailEl, pwEl }) {
+async function attemptLogin({ emailEl, pwEl }) {
   const email = emailEl.value.trim();
   const pw = pwEl.value.trim();
   const users = await loadUsers();
   const found = users.find((u) => u.email === email && u.pw === pw);
-  if (!found) return showLoginErrorState(emailEl, pwEl);
+  if (!found) return showLoginErrorState(emailEl, pwEl, "Check your email and password. Please try again.");
   await saveCurrentUser(found);
   window.location.href = ROUTES.SUMMARY;
+}
+
+
+/**
+ * Toggles login button busy state.
+ * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement}} state
+ * @param {boolean} busy
+ * @returns {void}
+ */
+function setLoginBusy({ emailEl, pwEl, btnLogin }, busy) {
+  if (!btnLogin) return;
+  if (busy) return void (btnLogin.disabled = true);
+  setLoginButtonState(emailEl, pwEl, btnLogin);
 }
 
 
@@ -431,14 +486,16 @@ function wireSignupErrorHandlers({ pwEl, pw2El }) {
 
 
 /**
- * Shows signup error state.
+ * Shows signup error state with an optional message.
  * @param {HTMLInputElement} pwEl
  * @param {HTMLInputElement} pw2El
+ * @param {string} message
  * @returns {void}
  */
-function showSignupErrorState(pwEl, pw2El) {
+function showSignupErrorState(pwEl, pw2El, message) {
   const errorMsg = document.getElementById("errorSignupMsg");
-  errorMsg.style.display = "block";
+  if (errorMsg && message) errorMsg.textContent = message;
+  if (errorMsg) errorMsg.style.display = "block";
   pwEl.classList.add("input-error");
   pw2El.classList.add("input-error");
 }
@@ -473,19 +530,94 @@ function wireSignupSubmit(state) {
 
 /**
  * Handles signup submit.
- * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement}} state
+ * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
  * @returns {Promise<void>}
  */
-async function handleSignupSubmit({ nameEl, emailEl, pwEl, pw2El }) {
-  if (pwEl.value !== pw2El.value) return showSignupErrorState(pwEl, pw2El);
+async function handleSignupSubmit(state) {
+  if (!validateSignupInputs(state)) return;
+  await runSignup(state);
+}
+
+
+/**
+ * Validates signup inputs and shows errors.
+ * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement}} state
+ * @returns {boolean}
+ */
+function validateSignupInputs({ nameEl, emailEl, pwEl, pw2El, policyEl }) {
+  clearSignupErrorState(pwEl, pw2El);
+  if (!nameEl.value.trim() || !emailEl.value.trim()) return showSignupRequiredError(pwEl, pw2El);
+  if (!pwEl.value.trim() || !pw2El.value.trim()) return showSignupRequiredError(pwEl, pw2El);
+  if (!policyEl.checked) return showSignupPolicyError(pwEl, pw2El);
+  if (pwEl.value !== pw2El.value) return showSignupErrorState(pwEl, pw2El, "Your passwords don't match. Please try again.");
+  return true;
+}
+
+
+/**
+ * Shows required-field error for signup.
+ * @param {HTMLInputElement} pwEl
+ * @param {HTMLInputElement} pw2El
+ * @returns {boolean}
+ */
+function showSignupRequiredError(pwEl, pw2El) {
+  showSignupErrorState(pwEl, pw2El, "Please complete all required fields.");
+  return false;
+}
+
+
+/**
+ * Shows policy checkbox error for signup.
+ * @param {HTMLInputElement} pwEl
+ * @param {HTMLInputElement} pw2El
+ * @returns {boolean}
+ */
+function showSignupPolicyError(pwEl, pw2El) {
+  showSignupErrorState(pwEl, pw2El, "Please accept the Privacy Policy.");
+  return false;
+}
+
+
+/**
+ * Executes signup with busy state.
+ * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
+ * @returns {Promise<void>}
+ */
+async function runSignup(state) {
+  setSignupBusy(state, true);
+  try {
+    await attemptSignup(state);
+  } finally {
+    setSignupBusy(state, false);
+  }
+}
+
+
+/**
+ * Attempts signup and redirects on success.
+ * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement}} state
+ * @returns {Promise<void>}
+ */
+async function attemptSignup({ nameEl, emailEl, pwEl }) {
   const users = await loadUsers();
   const email = emailEl.value.trim();
   if (users.some((u) => u.email === email)) return alert("Diese Email ist bereits registriert.");
   const newUser = buildNewUser(users, nameEl.value.trim(), email, pwEl.value.trim());
   await UserService.create(newUser);
-  setTimeout(() => {
-    window.location.href = ROUTES.LOGIN;
-  }, 300);
+  setTimeout(() => { window.location.href = ROUTES.LOGIN; }, 300);
+}
+
+
+/**
+ * Toggles signup button busy state.
+ * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
+ * @param {boolean} busy
+ * @returns {void}
+ */
+function setSignupBusy({ nameEl, emailEl, pwEl, pw2El, policyEl, btn }, busy) {
+  if (!btn) return;
+  if (busy) return void (btn.disabled = true);
+  setSignupButtonState(nameEl, emailEl, pwEl, pw2El, policyEl, btn);
 }
 
 

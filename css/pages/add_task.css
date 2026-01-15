@@ -250,6 +250,18 @@
   color: #2a3647;
 }
 
+.form-msg {
+  min-height: 20px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  color: #ff3d00;
+  font-size: 14px;
+}
+
+.addtask-form .input-error {
+  border: 1px solid #ff3d00 !important;
+}
+
 .req-note {
   margin: 20px 0 0;
   color: #2a3647;

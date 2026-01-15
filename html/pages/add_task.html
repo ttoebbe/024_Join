@@ -18,7 +18,7 @@
         <div id="header-placeholder"></div>
         <!-- ab hier der content der seite -->
         <h1 class="addtask-page-title">Add Task</h1>
-         <form id="addTaskForm" class="addtask-form">
+         <form id="addTaskForm" class="addtask-form" novalidate>
   <!-- status preset vom Board -->
   <input type="hidden" id="taskStatusPreset" value="todo" />
   <input type="hidden" id="taskCategoryValue" value="" />
@@ -100,6 +100,8 @@
       <div id="subtaskList"></div>
     </div>
   </div>
+
+  <div id="addTaskFormMsg" class="form-msg" aria-live="polite"></div>
 
   <p class="req-note"><span class="req">*</span>This field is required</p>
 

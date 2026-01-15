@@ -58,13 +58,43 @@ function wireOverlayEvents(elements, listElement) {
  * @param {Object} elements
  */
 function registerOverlayInputHandlers(elements) {
+  const clear = () => clearContactFormErrors(elements);
+  elements.nameInput?.addEventListener("input", clear);
+  elements.emailInput?.addEventListener("input", clear);
+  elements.phoneInput?.addEventListener("input", clear);
+}
+
+
 /**
- * @returns {*}
+ * Clears contact form errors and messages.
+ * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement}} elements
+ * @returns {void}
  */
-  const clearErrorMsg = () => setText("contactFormMsg", "");
-  elements.nameInput?.addEventListener("input", clearErrorMsg);
-  elements.emailInput?.addEventListener("input", clearErrorMsg);
-  elements.phoneInput?.addEventListener("input", clearErrorMsg);
+function clearContactFormErrors({ nameInput, emailInput, phoneInput }) {
+  setContactFormMsg("");
+  clearContactInputError(nameInput);
+  clearContactInputError(emailInput);
+  clearContactInputError(phoneInput);
+}
+
+
+/**
+ * Sets contact form message text.
+ * @param {string} message
+ * @returns {void}
+ */
+function setContactFormMsg(message) {
+  setText("contactFormMsg", message || "");
+}
+
+
+/**
+ * Removes input error class.
+ * @param {HTMLInputElement} input
+ * @returns {void}
+ */
+function clearContactInputError(input) {
+  if (input) input.classList.remove("input-error");
 }
 
 /**
@@ -344,13 +374,8 @@ async function deleteContact(contactId) {
  */
 async function handleNewContactSubmit(event, overlay, form, listElement) {
   event.preventDefault();
-  setText("contactFormMsg", "");
-  const values = getContactFormValues(form);
-  const error = getContactValidationError(values);
-  if (error) return setText("contactFormMsg", error);
-  const currentId = getCurrentEditId();
-  if (currentId) return handleExistingContact(values, overlay, form, listElement, currentId);
-  await createNewContact(values, overlay, form, listElement);
+  const inputs = getContactFormInputs(form);
+  await submitContactForm(inputs, overlay, form, listElement);
 }
 
 /**
@@ -365,4 +390,106 @@ async function handleExistingContact(values, overlay, form, listElement, current
   const updated = await updateExistingContact(values, overlay, form, listElement, currentId);
   if (updated) return;
   await createNewContact(values, overlay, form, listElement);
+}
+
+
+/**
+ * Collects contact form inputs.
+ * @param {HTMLFormElement} form
+ * @returns {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement, submitBtn: HTMLButtonElement}|null}
+ */
+function getContactFormInputs(form) {
+  const nameInput = form.querySelector("#contact-name");
+  const emailInput = form.querySelector("#contact-email");
+  const phoneInput = form.querySelector("#contact-phone");
+  const submitBtn = form.querySelector("button[type=\"submit\"]");
+  if (!nameInput || !emailInput || !phoneInput || !submitBtn) return null;
+  return { nameInput, emailInput, phoneInput, submitBtn };
+}
+
+
+/**
+ * Runs contact form validation and submission with busy state.
+ * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement, submitBtn: HTMLButtonElement}|null} inputs
+ * @param {HTMLElement} overlay
+ * @param {HTMLFormElement} form
+ * @param {HTMLElement} listElement
+ * @returns {Promise<void>}
+ */
+async function submitContactForm(inputs, overlay, form, listElement) {
+  if (!inputs) return;
+  setContactSubmitBusy(inputs, true);
+  try {
+    const values = getContactFormValues(form);
+    if (!validateContactForm(inputs, values)) return;
+    await persistContactForm(values, overlay, form, listElement);
+  } finally {
+    setContactSubmitBusy(inputs, false);
+  }
+}
+
+
+/**
+ * Validates contact form values and sets UI errors.
+ * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement}} inputs
+ * @param {{name: string, email: string, phone: string}} values
+ * @returns {boolean}
+ */
+function validateContactForm(inputs, values) {
+  clearContactFormErrors(inputs);
+  const error = getContactValidationError(values);
+  if (!error) return true;
+  setContactFormMsg(error);
+  markContactValidationErrors(inputs, values);
+  return false;
+}
+
+
+/**
+ * Marks invalid contact fields.
+ * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement}} inputs
+ * @param {{name: string, email: string, phone: string}} values
+ * @returns {void}
+ */
+function markContactValidationErrors(inputs, values) {
+  if (!values.name) addContactInputError(inputs.nameInput);
+  if (!values.email || !isValidEmail(values.email)) addContactInputError(inputs.emailInput);
+  if (!values.phone || !isValidPhone(values.phone)) addContactInputError(inputs.phoneInput);
+}
+
+
+/**
+ * Adds input error class.
+ * @param {HTMLInputElement} input
+ * @returns {void}
+ */
+function addContactInputError(input) {
+  if (input) input.classList.add("input-error");
+}
+
+
+/**
+ * Persists the contact form values.
+ * @param {{name: string, email: string, phone: string}} values
+ * @param {HTMLElement} overlay
+ * @param {HTMLFormElement} form
+ * @param {HTMLElement} listElement
+ * @returns {Promise<void>}
+ */
+async function persistContactForm(values, overlay, form, listElement) {
+  const currentId = getCurrentEditId();
+  if (currentId) return handleExistingContact(values, overlay, form, listElement, currentId);
+  await createNewContact(values, overlay, form, listElement);
+}
+
+
+/**
+ * Toggles submit button busy state.
+ * @param {{submitBtn: HTMLButtonElement}} inputs
+ * @param {boolean} busy
+ * @returns {void}
+ */
+function setContactSubmitBusy({ submitBtn }, busy) {
+  if (!submitBtn) return;
+  submitBtn.disabled = Boolean(busy);
 }

@@ -1,4 +1,4 @@
-<form id="addTaskForm" class="addtask-form">
+<form id="addTaskForm" class="addtask-form" novalidate>
   <input type="hidden" id="taskStatusPreset" value="todo" />
   <input type="hidden" id="taskCategoryValue" value="" />
 
@@ -71,16 +71,18 @@
         </div>
       </div>
 
-      <label>Subtasks</label>
-      <div class="subtask-row">
-        <input id="subtaskInput" type="text" placeholder="Add new subtask" />
-        <button type="button" id="subtaskAddBtn">+</button>
-      </div>
-      <div id="subtaskList"></div>
-    </div>
+  <label>Subtasks</label>
+  <div class="subtask-row">
+    <input id="subtaskInput" type="text" placeholder="Add new subtask" />
+    <button type="button" id="subtaskAddBtn">+</button>
   </div>
+  <div id="subtaskList"></div>
+</div>
+</div>
 
-  <p class="req-note"><span class="req">*</span>This field is required</p>
+<div id="addTaskFormMsg" class="form-msg" aria-live="polite"></div>
+
+<p class="req-note"><span class="req">*</span>This field is required</p>
 
   <div class="addtask-footer">
     <button type="button" id="clearBtn">Clear</button>

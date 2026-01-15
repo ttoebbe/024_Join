@@ -348,6 +348,10 @@
   text-align: center;
 }
 
+.overlay-form .input-error {
+  border: 1px solid #ff3d00 !important;
+}
+
 .input-icon {
   position: absolute;
   right: 14px;

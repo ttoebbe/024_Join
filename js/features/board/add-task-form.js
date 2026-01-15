@@ -54,6 +54,9 @@ function attachMainInputs(state) {
   state.titleInput = document.getElementById("taskTitle");
   state.dueDateInput = document.getElementById("taskDueDate");
   state.categoryInput = document.getElementById("taskCategoryValue");
+  state.categoryDropdown = document.getElementById("categoryDropdown");
+  state.categoryToggle = state.categoryDropdown?.querySelector("[data-category-toggle]");
+  state.formMsg = document.getElementById("addTaskFormMsg");
 }
 
 /**
@@ -78,6 +81,7 @@ function setupAddTaskForm(state, onClose) {
   const resets = initDropdowns(state);
   initSubtasks(state);
   wireCreateButtonState(state);
+  wireValidationCleanup(state);
   updateCreateButtonState(state);
   wireClearButton(state, resets);
   wireSubmitHandler(state, onClose);
@@ -156,6 +160,7 @@ function clearAddTaskForm(state, resets) {
   resets.resetCategoryUi?.();
   resets.resetAssignedUi?.();
   renderSubtasks(state);
+  clearAddTaskErrors(state);
   updateCreateButtonState(state);
 }
 
@@ -211,15 +216,9 @@ function wireSubmitHandler(state, onClose) {
  * @returns {*}
  */
 async function handleSubmit(state, onClose) {
-  const values = getTaskFormValues(state);
+  const values = validateTaskForm(state);
   if (!values) return;
-  if (state.mode === "edit" && state.task?.id) {
-    await updateExistingTask(state, values);
-  } else {
-    await createNewTask(state, values);
-  }
-  await refreshBoardIfNeeded();
-  onClose?.();
+  await submitTaskForm(state, values, onClose);
 }
 
 /**
@@ -232,16 +231,148 @@ function getTaskFormValues(state) {
   const category = getSelectedCategoryValue(state);
   const status = document.getElementById("taskStatusPreset")?.value || "todo";
   const description = document.getElementById("taskDescription")?.value.trim() || "";
-  if (!title || !dueDate || !category) return showRequiredAlert();
   return { title, description, status, category, dueDate };
 }
 
 /**
+ * @param {*} state
  * @returns {*}
  */
-function showRequiredAlert() {
-  alert("Bitte Title, Due date und Category ausfüllen.");
+function validateTaskForm(state) {
+  clearAddTaskErrors(state);
+  const values = getTaskFormValues(state);
+  const error = getTaskValidationError(values);
+  if (!error) return values;
+  showAddTaskError(state, values, error);
   return null;
+}
+
+
+/**
+ * @param {*} values
+ * @returns {*}
+ */
+function getTaskValidationError(values) {
+  if (!values.title) return "Please enter a title.";
+  if (!values.dueDate) return "Please select a due date.";
+  if (!values.category) return "Please select a category.";
+  return "";
+}
+
+
+/**
+ * @param {*} state
+ * @param {*} values
+ * @param {*} error
+ * @returns {*}
+ */
+function showAddTaskError(state, values, error) {
+  setAddTaskFormMsg(state, error);
+  markMissingTaskFields(state, values);
+}
+
+
+/**
+ * @param {*} state
+ * @param {*} message
+ * @returns {*}
+ */
+function setAddTaskFormMsg(state, message) {
+  if (!state.formMsg) return;
+  state.formMsg.textContent = message || "";
+}
+
+
+/**
+ * @param {*} state
+ * @param {*} values
+ * @returns {*}
+ */
+function markMissingTaskFields(state, values) {
+  if (!values.title) addInputError(state.titleInput);
+  if (!values.dueDate) addInputError(state.dueDateInput);
+  if (!values.category) addInputError(state.categoryToggle);
+}
+
+
+/**
+ * @param {*} element
+ * @returns {*}
+ */
+function addInputError(element) {
+  if (element) element.classList.add("input-error");
+}
+
+
+/**
+ * @param {*} state
+ * @returns {*}
+ */
+function clearAddTaskErrors(state) {
+  setAddTaskFormMsg(state, "");
+  clearInputError(state.titleInput);
+  clearInputError(state.dueDateInput);
+  clearInputError(state.categoryToggle);
+}
+
+
+/**
+ * @param {*} element
+ * @returns {*}
+ */
+function clearInputError(element) {
+  if (element) element.classList.remove("input-error");
+}
+
+
+/**
+ * @param {*} state
+ * @returns {*}
+ */
+function wireValidationCleanup(state) {
+  state.form.addEventListener("input", () => clearAddTaskErrors(state));
+  state.form.addEventListener("change", () => clearAddTaskErrors(state));
+}
+
+
+/**
+ * @param {*} state
+ * @param {*} values
+ * @param {*} onClose
+ * @returns {*}
+ */
+async function submitTaskForm(state, values, onClose) {
+  setCreateButtonBusy(state, true);
+  try {
+    await persistTask(state, values);
+    await refreshBoardIfNeeded();
+    onClose?.();
+  } finally {
+    setCreateButtonBusy(state, false);
+  }
+}
+
+
+/**
+ * @param {*} state
+ * @param {*} values
+ * @returns {*}
+ */
+async function persistTask(state, values) {
+  if (state.mode === "edit" && state.task?.id) return updateExistingTask(state, values);
+  return createNewTask(state, values);
+}
+
+
+/**
+ * @param {*} state
+ * @param {*} busy
+ * @returns {*}
+ */
+function setCreateButtonBusy(state, busy) {
+  if (!state.createBtn) return;
+  if (busy) return void (state.createBtn.disabled = true);
+  updateCreateButtonState(state);
 }
 
 /**
@@ -371,6 +502,7 @@ function wireCategoryItem(state, parts, item) {
 function setSelectedCategory(state, parts, item) {
   state.selectedCategory = item.dataset.value || "";
   setCategoryValue(state, parts, item);
+  clearAddTaskErrors(state);
   setCategoryOpen(parts, false);
   updateCreateButtonState(state);
 }

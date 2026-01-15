@@ -17,7 +17,7 @@ function getAddTaskFormTemplate(presetStatus = "todo") {
  */
 function getAddTaskFormOpen(presetStatus) {
   return `
-    <form id="addTaskForm" class="addtask-form">
+    <form id="addTaskForm" class="addtask-form" novalidate>
       <input type="hidden" id="taskStatusPreset" value="${presetStatus}" />
       <input type="hidden" id="taskCategoryValue" value="" />
       <div class="addtask-grid">
@@ -122,6 +122,7 @@ function getAddTaskSubtaskBlock() {
  */
 function getAddTaskFormFooter() {
   return `
+      <div id="addTaskFormMsg" class="form-msg" aria-live="polite"></div>
       <p class="req-note"><span class="req">*</span>This field is required</p>
       <div class="addtask-footer">
         <button type="button" id="clearBtn">Clear</button>
