@@ -4,7 +4,7 @@
 
 body{
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-family-primary);
   background: var(--bg);
 }
 
