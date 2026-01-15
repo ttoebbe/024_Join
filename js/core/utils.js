@@ -76,18 +76,25 @@ function getTimeBasedGreeting(date = new Date()) {
  */
 function normalizeTasks(data) {
   if (!data) return [];
-  if (Array.isArray(data)) return data.filter(Boolean);
-
-  if (typeof data === "object") {
-    return Object.entries(data)
-      .map(([id, value]) => {
-        if (!value || typeof value !== "object") return null;
-        if (value.id) return value;
-        return { ...value, id };
-      })
-      .filter(Boolean);
-  }
+  if (Array.isArray(data)) return filterTaskArray(data);
+  if (typeof data === "object") return normalizeTaskMap(data);
   return [];
+}
+
+function filterTaskArray(data) {
+  return data.filter(Boolean);
+}
+
+function normalizeTaskMap(data) {
+  return Object.entries(data)
+    .map(([id, value]) => normalizeTaskEntry(id, value))
+    .filter(Boolean);
+}
+
+function normalizeTaskEntry(id, value) {
+  if (!value || typeof value !== "object") return null;
+  if (value.id) return value;
+  return { ...value, id };
 }
 
 /**
@@ -126,23 +133,27 @@ function generateUserId() {
  * @returns {string} - Next user ID like 'u0', 'u1', 'u2'
  */
 function generateNextUserId(existingUsers = []) {
-  if (!existingUsers || existingUsers.length === 0) {
-    return 'u0';
-  }
-  
-  // Find all user IDs that match pattern 'u' + number
-  const userNumbers = existingUsers
-    .map(user => user.id)
-    .filter(id => id && id.startsWith('u'))
-    .map(id => {
-      const num = parseInt(id.substring(1));
-      return isNaN(num) ? -1 : num;
-    })
-    .filter(num => num >= 0);
-  
-  // Find next available number
-  const maxNum = userNumbers.length > 0 ? Math.max(...userNumbers) : -1;
+  if (!existingUsers || existingUsers.length === 0) return "u0";
+  const userNumbers = getUserNumbers(existingUsers);
+  const maxNum = userNumbers.length ? Math.max(...userNumbers) : -1;
   return `u${maxNum + 1}`;
+}
+
+function getUserNumbers(existingUsers) {
+  return existingUsers
+    .map((user) => user.id)
+    .filter((id) => isUserId(id))
+    .map((id) => parseUserIdNumber(id))
+    .filter((num) => num >= 0);
+}
+
+function isUserId(id) {
+  return Boolean(id && id.startsWith("u"));
+}
+
+function parseUserIdNumber(id) {
+  const num = parseInt(id.substring(1));
+  return Number.isNaN(num) ? -1 : num;
 }
 
 /**

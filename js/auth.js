@@ -17,31 +17,10 @@ async function loadUsers() {
     const users = await UserService.getAll();
     return users ? Object.values(users) : [];
   } catch (error) {
-    console.error('Error loading users:', error);
+    console.error("Error loading users:", error);
     return [];
   }
 }
-
-// Ruft alle Nutzer in Firebase ab und konvertiert sie in ein Array.
-// Schreibt das Array anschließend in den LocalStorage.
-// async function fetchUsersFromFirebaseToLocal() {
-  // Firebase-Daten holen
-  // const data = await firebaseRequest("users", { method: "GET" });
-
-//   if (!data) {
-//     console.log("Keine User von Firebase erhalten.");
-//     return;
-//   }
-
-//   // Firebase liefert ein Objekt mit zufälligen Keys → Array erstellen
-//   const usersArray = Object.values(data);
-
-//   // In LocalStorage speichern (bestehende Funktion writeJSON)
-//   writeJSON(LS_USERS, usersArray);
-
-//   // console.log("Users von Firebase in LocalStorage gespeichert:", usersArray);
-// }
-
 
 /* ================== ANIMATION ================== */
 // Startet verzögert die Initialanimation per Timeout.
@@ -55,237 +34,255 @@ function initAnimation() {
 function startAnimation() {
   const homepageImage = $("img_animation");
   const bg = $("bg");
-
   homepageImage?.classList.add("animiert");
   bg?.classList.add("bg-animiert");
-
-  setTimeout(() => {
-    if (bg) bg.style.display = "none";
-  }, 500);
+  setTimeout(() => { if (bg) bg.style.display = "none"; }, 500);
 }
 
 /* ================== PASSWORD TOGGLE ================== */
 // Richtet Augen- und Schloss-Icons für Passwortfelder ein.
 // Steuert Sichtbarkeit und Typ des Eingabefelds je nach Input.
 function setupPasswordToggle(inputId, lockId, eyeId) {
+  const parts = getPasswordParts(inputId, lockId, eyeId);
+  if (!parts) return;
+  setPasswordInitialState(parts);
+  wirePasswordInput(parts);
+  wirePasswordToggle(parts);
+  wirePasswordLock(parts);
+}
+
+function getPasswordParts(inputId, lockId, eyeId) {
   const input = document.getElementById(inputId);
   const lock = document.getElementById(lockId);
   const eye = document.getElementById(eyeId);
+  if (!input || !lock || !eye) return null;
+  return { input, lock, eye };
+}
 
-  if (!input || !lock || !eye) return;
-
-  // Initialzustand
+function setPasswordInitialState({ input, lock, eye }) {
   eye.classList.add("d-none");
   lock.classList.remove("d-none");
   input.type = "password";
+}
 
-  // 👇 Eye erst anzeigen, wenn etwas eingegeben wurde
+function wirePasswordInput({ input, lock, eye }) {
   input.addEventListener("input", () => {
-    if (input.value.length > 0) {
-      lock.classList.add("d-none");
-      eye.classList.remove("d-none");
-      eye.classList.add('input-icon-password');
-      eye.src = "/img/icons/visibility_off.png";
-    } else {
-      lock.classList.remove("d-none");
-      eye.classList.add("d-none");
-      input.type = "password";
-    }
+    const hasValue = input.value.length > 0;
+    updatePasswordIcons(hasValue, input, lock, eye);
   });
+}
 
-  // 👁 Toggle nur wenn Eye sichtbar ist
+function updatePasswordIcons(hasValue, input, lock, eye) {
+  if (hasValue) return showEyeIcon(input, lock, eye);
+  lock.classList.remove("d-none");
+  eye.classList.add("d-none");
+  input.type = "password";
+}
+
+function showEyeIcon(input, lock, eye) {
+  lock.classList.add("d-none");
+  eye.classList.remove("d-none");
+  eye.classList.add("input-icon-password");
+  eye.src = "/img/icons/visibility_off.png";
+}
+
+function wirePasswordToggle({ input, eye }) {
   eye.addEventListener("click", (e) => {
     e.stopPropagation();
-
-    if (input.type === "password") {
-      input.type = "text";
-      eye.src = "/img/icons/visibility.png";
-    } else {
-      input.type = "password";
-      eye.src = "/img/icons/visibility_off.png";
-    }
+    togglePasswordVisibility(input, eye);
   });
+}
 
+function togglePasswordVisibility(input, eye) {
+  const isHidden = input.type === "password";
+  input.type = isHidden ? "text" : "password";
+  eye.src = isHidden ? "/img/icons/visibility.png" : "/img/icons/visibility_off.png";
+}
+
+function wirePasswordLock({ lock }) {
   lock.addEventListener("click", (e) => e.stopPropagation());
 }
 
 /* ================== Overlay ================== */
 function showSuccessOverlay() {
   const overlay = document.getElementById("successOverlay");
-  if (overlay) {
-    overlay.style.display = "flex";
-  }
+  if (overlay) overlay.style.display = "flex";
 }
 
 /* ================== LOGIN ================== */
 // Initialisiert das Loginformular und seine Events.
 // Validiert Eingaben, führt Login oder Gastmodus aus.
 function initLogin() {
-  const form = $("loginForm");
-  if (!form) return;
+  const state = getLoginState();
+  if (!state) return;
+  wireLoginForm(state);
+}
 
+function getLoginState() {
+  const form = $("loginForm");
   const emailEl = $("email");
   const pwEl = $("password");
   const btnLogin = $("btnLogin");
   const btnGuest = $("btnGuest");
+  if (!form || !emailEl || !pwEl || !btnLogin) return null;
+  return { form, emailEl, pwEl, btnLogin, btnGuest };
+}
 
+function wireLoginForm(state) {
+  wireLoginButtonState(state);
+  wireLoginErrorHandlers(state);
+  wireLoginSubmit(state);
+  wireGuestLogin(state);
+  setupPasswordToggle("password", "passwordLock", "visibilityImg");
+}
 
-  if (!emailEl || !pwEl || !btnLogin) return;
+function wireLoginButtonState({ emailEl, pwEl, btnLogin }) {
+  const update = () => setLoginButtonState(emailEl, pwEl, btnLogin);
+  emailEl.addEventListener("input", update);
+  pwEl.addEventListener("input", update);
+  update();
+}
 
-  // Aktiviert den Login-Button nur bei vollständigen Feldern.
-  // Prüft dazu auf Trim-Inhalte in Mail und Passwort.
-  function updateBtn() {
-    btnLogin.disabled = !(emailEl.value.trim() && pwEl.value.trim());
-  }
+function setLoginButtonState(emailEl, pwEl, btnLogin) {
+  btnLogin.disabled = !(emailEl.value.trim() && pwEl.value.trim());
+}
 
-  /* ================= ERROR MSG ================= */
+function wireLoginErrorHandlers({ emailEl, pwEl }) {
+  const clear = () => clearLoginErrorState(emailEl, pwEl);
+  emailEl.addEventListener("input", clear);
+  pwEl.addEventListener("input", clear);
+}
 
-  // Zeigt die Fehlermeldung an und markiert die Felder.
-  // Wird genutzt, wenn Login-Daten nicht gefunden werden.
-  function showErrorState() {
-    document.getElementById("errorMsg").style.display = "block";
-    emailEl.classList.add("input-error");
-    pwEl.classList.add("input-error");
-  }
+function showLoginErrorState(emailEl, pwEl) {
+  document.getElementById("errorMsg").style.display = "block";
+  emailEl.classList.add("input-error");
+  pwEl.classList.add("input-error");
+}
 
-  // Versteckt Fehlermeldungen bei neuer Eingabe.
-  // Entfernt die Fehlerklassen von beiden Feldern.
-  function clearErrorState() {
-    document.getElementById("errorMsg").style.display = "none";
-    emailEl.classList.remove("input-error");
-    pwEl.classList.remove("input-error");
-  }
+function clearLoginErrorState(emailEl, pwEl) {
+  document.getElementById("errorMsg").style.display = "none";
+  emailEl.classList.remove("input-error");
+  pwEl.classList.remove("input-error");
+}
 
-
-  // 👉 EINMAL registrieren
-  emailEl.addEventListener("input", clearErrorState);
-  pwEl.addEventListener("input", clearErrorState);
-
-
-  form.addEventListener("submit", async (e) => {
+function wireLoginSubmit(state) {
+  state.form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    const email = emailEl.value.trim();
-    const pw = pwEl.value.trim();
-
-    // Optional “echter” Login: nur reinlassen wenn User existiert
-    const users = await loadUsers();
-    const found = users.find((u) => u.email === email && u.pw === pw);
-
-    if (!found) {
-      showErrorState();
-      return;
-    }
-
-    await saveCurrentUser(found);  // Kompletten User übergeben
-    window.location.href = ROUTES.SUMMARY;
+    await handleLoginSubmit(state);
   });
+}
 
+async function handleLoginSubmit({ emailEl, pwEl }) {
+  const email = emailEl.value.trim();
+  const pw = pwEl.value.trim();
+  const users = await loadUsers();
+  const found = users.find((u) => u.email === email && u.pw === pw);
+  if (!found) return showLoginErrorState(emailEl, pwEl);
+  await saveCurrentUser(found);
+  window.location.href = ROUTES.SUMMARY;
+}
+
+function wireGuestLogin({ btnGuest }) {
   btnGuest?.addEventListener("click", async (e) => {
     e.preventDefault();
     await saveCurrentUser({ name: "Guest", guest: true });
     window.location.href = ROUTES.SUMMARY;
   });
-
-  emailEl.addEventListener("input", updateBtn);
-  pwEl.addEventListener("input", updateBtn);
-  updateBtn();
-
-  setupPasswordToggle("password", "passwordLock", "visibilityImg");
-
-  // Falls du auch im Login Eye/Lock hast, IDs hier eintragen:
-  // setupPasswordToggle("password", "lockPwLogin", "eyePwLogin");
 }
 
 /* ================== SIGNUP ================== */
 // Initialisiert das Signup-Formular mitsamt Validierung.
 // Erstellt neue Nutzer nach erfolgreicher Prüfung.
 function initSignup() {
-  const form = $("signupForm");
-  if (!form) return;
+  const state = getSignupState();
+  if (!state) return;
+  wireSignupForm(state);
+}
 
+function getSignupState() {
+  const form = $("signupForm");
   const nameEl = $("suName");
   const emailEl = $("suEmail");
   const pwEl = $("suPw");
   const pw2El = $("suPw2");
   const policyEl = $("suPolicy");
   const btn = $("btnSignup");
-  const errorMsg = $("errorSignupMsg"); // Fehlermeldung
+  if (!form || !nameEl || !emailEl || !pwEl || !pw2El || !policyEl || !btn) return null;
+  return { form, nameEl, emailEl, pwEl, pw2El, policyEl, btn };
+}
 
-  if (!nameEl || !emailEl || !pwEl || !pw2El || !policyEl || !btn) return;
+function wireSignupForm(state) {
+  wireSignupButtonState(state);
+  wireSignupErrorHandlers(state);
+  wireSignupSubmit(state);
+  wireSignupToggles();
+}
 
-  // Schaltet den Signup-Button nur bei kompletten Eingaben frei.
-  // Bezieht neben Textfeldern auch die Policy-Checkbox ein.
-  function updateBtn() {
-    btn.disabled = !(
-      nameEl.value.trim() &&
-      emailEl.value.trim() &&
-      pwEl.value.trim() &&
-      pw2El.value.trim() &&
-      policyEl.checked
-    );
-  }
+function wireSignupButtonState({ nameEl, emailEl, pwEl, pw2El, policyEl, btn }) {
+  const update = () => setSignupButtonState(nameEl, emailEl, pwEl, pw2El, policyEl, btn);
+  [nameEl, emailEl, pwEl, pw2El].forEach((el) => el.addEventListener("input", update));
+  policyEl.addEventListener("change", update);
+  update();
+}
 
-  // Blendet die Passwort-Fehlermeldung sichtbar ein.
-  // Markiert beide Passwortfelder mit einem Fehlerstil.
-  function showErrorState() {
-    const errorMsg = document.getElementById("errorSignupMsg");
-    errorMsg.style.display = "block";
-    pwEl.classList.add("input-error");
-    pw2El.classList.add("input-error");
-  }
+function setSignupButtonState(nameEl, emailEl, pwEl, pw2El, policyEl, btn) {
+  btn.disabled = !(
+    nameEl.value.trim() &&
+    emailEl.value.trim() &&
+    pwEl.value.trim() &&
+    pw2El.value.trim() &&
+    policyEl.checked
+  );
+}
 
-  // Entfernt die Fehlermeldung sobald neu getippt wird.
-  // Setzt die Passwortfelder optisch auf Normalzustand.
-  function clearErrorState() {
-    const errorMsg = document.getElementById("errorSignupMsg");
-    errorMsg.style.display = "none";
-    pwEl.classList.remove("input-error");
-    pw2El.classList.remove("input-error");
-  }
+function wireSignupErrorHandlers({ pwEl, pw2El }) {
+  const clear = () => clearSignupErrorState(pwEl, pw2El);
+  pwEl.addEventListener("input", clear);
+  pw2El.addEventListener("input", clear);
+}
 
-  // Inputs, bei denen Tippfehler die Meldung entfernt
-  pwEl.addEventListener("input", clearErrorState);
-  pw2El.addEventListener("input", clearErrorState);
+function showSignupErrorState(pwEl, pw2El) {
+  const errorMsg = document.getElementById("errorSignupMsg");
+  errorMsg.style.display = "block";
+  pwEl.classList.add("input-error");
+  pw2El.classList.add("input-error");
+}
 
-  form.addEventListener("submit", async (e) => {
+function clearSignupErrorState(pwEl, pw2El) {
+  const errorMsg = document.getElementById("errorSignupMsg");
+  errorMsg.style.display = "none";
+  pwEl.classList.remove("input-error");
+  pw2El.classList.remove("input-error");
+}
+
+function wireSignupSubmit(state) {
+  state.form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    if (pwEl.value !== pw2El.value) {
-      showErrorState();
-      return;
-    }
-
-    const users = await loadUsers();
-    const email = emailEl.value.trim();
-
-    if (users.some((u) => u.email === email)) {
-      alert("Diese Email ist bereits registriert.");
-      return;
-    }
-
-    const newUser = {
-      id: generateNextUserId(users),
-      name: nameEl.value.trim(),
-      email,
-      pw: pwEl.value.trim(),
-      color: generateRandomColor(),
-    };
-
-    await UserService.create(newUser);
-
-    // showSuccessOverlay();
-
-    setTimeout(() => {
-      window.location.href = ROUTES.LOGIN;
-    }, 300);
+    await handleSignupSubmit(state);
   });
+}
 
-  [nameEl, emailEl, pwEl, pw2El].forEach((el) => el.addEventListener("input", updateBtn));
-  policyEl.addEventListener("change", updateBtn);
-  updateBtn();
+async function handleSignupSubmit({ nameEl, emailEl, pwEl, pw2El }) {
+  if (pwEl.value !== pw2El.value) return showSignupErrorState(pwEl, pw2El);
+  const users = await loadUsers();
+  const email = emailEl.value.trim();
+  if (users.some((u) => u.email === email)) return alert("Diese Email ist bereits registriert.");
+  const newUser = buildNewUser(users, nameEl.value.trim(), email, pwEl.value.trim());
+  await UserService.create(newUser);
+  setTimeout(() => { window.location.href = ROUTES.LOGIN; }, 300);
+}
 
-  // Password toggles (nur wenn diese IDs existieren)
+function buildNewUser(users, name, email, pw) {
+  return {
+    id: generateNextUserId(users),
+    name,
+    email,
+    pw,
+    color: generateRandomColor(),
+  };
+}
+
+function wireSignupToggles() {
   setupPasswordToggle("suPw", "lockPw", "eyePw");
   setupPasswordToggle("suPw2", "lockPw2", "eyePw2");
 }

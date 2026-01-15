@@ -12,7 +12,7 @@ async function loadTasks() {
     const tasks = normalizeTasks(firebaseData);
     return tasks;
   } catch (error) {
-    console.error('Error loading tasks:', error);
+    console.error("Error loading tasks:", error);
     return [];
   }
 }
@@ -41,7 +41,15 @@ function formatDateLong(dateObj) {
 }
 
 function calcKPIs(tasks) {
-  const kpi = {
+  const kpi = initKpi(tasks);
+  const urgentOpenDates = [];
+  tasks.forEach((t) => updateKpiForTask(kpi, t, urgentOpenDates));
+  setNextUrgentDeadline(kpi, urgentOpenDates);
+  return kpi;
+}
+
+function initKpi(tasks) {
+  return {
     board: tasks.length,
     todo: 0,
     inProgress: 0,
@@ -50,43 +58,38 @@ function calcKPIs(tasks) {
     urgentOpen: 0,
     nextUrgentDeadline: null,
   };
+}
 
-  const urgentOpenDates = [];
+function updateKpiForTask(kpi, task, urgentOpenDates) {
+  const status = String(task?.status || "").toLowerCase().trim();
+  incrementStatusCount(kpi, status);
+  trackUrgentOpen(kpi, task, status, urgentOpenDates);
+}
 
-  for (const t of tasks) {
-    const status = String(t?.status || "").toLowerCase().trim();
+function incrementStatusCount(kpi, status) {
+  if (status === "todo") kpi.todo++;
+  else if (status === "in-progress") kpi.inProgress++;
+  else if (status === "await-feedback") kpi.awaiting++;
+  else if (status === "done") kpi.done++;
+}
 
-    if (status === "todo") kpi.todo++;
-    else if (status === "in-progress") kpi.inProgress++;
-    else if (status === "await-feedback") kpi.awaiting++;
-    else if (status === "done") kpi.done++;
+function trackUrgentOpen(kpi, task, status, urgentOpenDates) {
+  if (!isUrgent(task) || status === "done") return;
+  kpi.urgentOpen++;
+  const d = parseDueDate(task);
+  if (d) urgentOpenDates.push(d);
+}
 
-    if (isUrgent(t) && status !== "done") {
-      kpi.urgentOpen++;
-      const d = parseDueDate(t);
-      if (d) urgentOpenDates.push(d);
-    }
-  }
-
+function setNextUrgentDeadline(kpi, urgentOpenDates) {
   urgentOpenDates.sort((a, b) => a - b);
   kpi.nextUrgentDeadline = urgentOpenDates[0] || null;
-
-  return kpi;
 }
 
 function renderUser(user) {
   const greeting = getTimeBasedGreeting(new Date());
-
   setText("greetingText", user?.guest ? `${greeting}!` : `${greeting},`);
-
-  if ($id("userName")) {
-    setText("userName", user?.name || "Guest");
-  }
-
-  if ($id("userInitials")) {
-    const initials = getInitials(user?.name || "Guest");
-    setText("userInitials", initials);
-  }
+  if ($id("userName")) setText("userName", user?.name || "Guest");
+  if ($id("userInitials")) setText("userInitials", getInitials(user?.name || "Guest"));
 }
 
 function renderKPIs(kpi) {
@@ -95,9 +98,7 @@ function renderKPIs(kpi) {
   setText("countInProgress", String(kpi.inProgress));
   setText("countAwaiting", String(kpi.awaiting));
   setText("countUrgent", String(kpi.urgentOpen));
-
   if ($id("countBoard")) setText("countBoard", String(kpi.board));
-
   setText(
     "nextDeadlineDate",
     kpi.nextUrgentDeadline ? formatDateLong(kpi.nextUrgentDeadline) : "—"
@@ -106,16 +107,14 @@ function renderKPIs(kpi) {
 
 async function initSummary() {
   const user = loadCurrentUser();
-  if (!user) {
-    window.location.href = ROUTES.LOGIN;
-    return;
-  }
-
+  if (!user) return redirectToLogin();
   renderUser(user);
-
   const tasks = await loadTasks();
-  const kpi = calcKPIs(tasks);
-  renderKPIs(kpi);
+  renderKPIs(calcKPIs(tasks));
+}
+
+function redirectToLogin() {
+  window.location.href = ROUTES.LOGIN;
 }
 
 document.addEventListener("DOMContentLoaded", () => {

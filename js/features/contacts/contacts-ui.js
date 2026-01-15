@@ -9,13 +9,27 @@
  * @param {Array<Object>} data
  */
 function renderContactList(container, data) {
-  if (!Array.isArray(data) || !data.length) {
-    container.innerHTML = "";
-    return;
-  }
-  const sorted = [...data].sort((a, b) =>
-    (a?.name || "").localeCompare(b?.name || "", "de", { sensitivity: "base" })
-  );
+  if (!hasContacts(data)) return clearContactList(container);
+  const sorted = sortContacts(data);
+  container.innerHTML = buildContactMarkup(sorted);
+  wireContactEntries(container);
+}
+
+function hasContacts(data) {
+  return Array.isArray(data) && data.length > 0;
+}
+
+function clearContactList(container) {
+  container.innerHTML = "";
+}
+
+function sortContacts(data) {
+  return [...data].sort((a, b) => {
+    return (a?.name || "").localeCompare(b?.name || "", "de", { sensitivity: "base" });
+  });
+}
+
+function buildContactMarkup(sorted) {
   let currentGroup = "";
   const markup = [];
   sorted.forEach((contact) => {
@@ -26,19 +40,20 @@ function renderContactList(container, data) {
     }
     markup.push(getContactTemplate(contact));
   });
-  container.innerHTML = markup.join("");
-  
-  // Add event listeners for contact selection
-  const contactEntries = container.querySelectorAll('.contact-entry');
-  contactEntries.forEach(entry => {
-    entry.addEventListener('click', () => {
-      const contactId = entry.getAttribute('data-contact-id');
-      const contact = getContactById(contactId);
-      if (contact) {
-        selectContact(contact, entry);
-      }
-    });
+  return markup.join("");
+}
+
+function wireContactEntries(container) {
+  const contactEntries = container.querySelectorAll(".contact-entry");
+  contactEntries.forEach((entry) => {
+    entry.addEventListener("click", () => handleContactEntryClick(entry));
   });
+}
+
+function handleContactEntryClick(entry) {
+  const contactId = entry.getAttribute("data-contact-id");
+  const contact = getContactById(contactId);
+  if (contact) selectContact(contact, entry);
 }
 
 /**
@@ -93,19 +108,22 @@ function renderContactDetail(contact) {
 function setupDetailActions(contactId) {
   const container = document.getElementById("contact-detail-injection");
   if (!container || !contactId) return;
-  const actionButtons = container.querySelectorAll(
-    ".detail-actions .secondary-button"
-  );
+  const { editButton, deleteButton } = getDetailActionButtons(container);
+  editButton?.addEventListener("click", () => openEditContact(contactId));
+  deleteButton?.addEventListener("click", () => confirmDeleteContact(contactId));
+}
+
+function getDetailActionButtons(container) {
+  const actionButtons = container.querySelectorAll(".detail-actions .secondary-button");
   const editButton = actionButtons[0];
   const deleteButton = actionButtons[1];
-  editButton?.addEventListener("click", () => openEditContact(contactId));
-  deleteButton?.addEventListener("click", () => {
-    const confirmed = window.confirm(
-      "Do you really want to delete this contact?"
-    );
-    if (!confirmed) return;
-    deleteContact(contactId);
-  });
+  return { editButton, deleteButton };
+}
+
+function confirmDeleteContact(contactId) {
+  const confirmed = window.confirm("Do you really want to delete this contact?");
+  if (!confirmed) return;
+  deleteContact(contactId);
 }
 
 /**
@@ -152,46 +170,12 @@ function setMobileDetailState(isActive) {
  * Opens the detail view on mobile layouts.
  */
 function openMobileDetailView() {
-  if (isMobileLayout()) {
-    setMobileDetailState(true);
-  }
+  if (isMobileLayout()) setMobileDetailState(true);
 }
 
 /**
  * Closes the detail view on mobile layouts.
  */
 function closeMobileDetailView() {
-  setMobileDetailState(false);
-}
-
-/**
- * Rerenders the contact list if it exists.
- */
-function updateContactList() {
-  const listElement = document.querySelector(".contact-list");
-  if (listElement) {
-    renderContactList(listElement, getContactData());
-  }
-}
-
-/**
- * Resets the detail panel when no contact is selected.
- */
-function clearContactDetail() {
-  const container = document.getElementById("contact-detail-injection");
-  if (!container) return;
-  container.textContent = "Select a contact to see details.";
-  closeMobileDetailView();
-}
-
-/**
- * Selects a contact entry by id if available.
- * @param {string} contactId
- */
-function selectContactById(contactId) {
-  const entry = document.querySelector(`[data-contact-id="${contactId}"]`);
-  const contact = getContactById(contactId);
-  if (entry && contact) {
-    selectContact(contact, entry);
-  }
+  if (isMobileLayout()) setMobileDetailState(false);
 }

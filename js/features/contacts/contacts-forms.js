@@ -261,24 +261,26 @@ async function updateExistingContact(values, overlay, form, listElement, current
   try {
     const existing = getContactById(currentId);
     if (!existing) return false;
-    
     applyContactValues(existing, values);
     await ContactService.update(currentId, existing);
-    
-    // Update local array
-    const index = getContactIndex(currentId);
-    if (index !== -1) {
-      contacts[index] = existing;
-    }
-    
-    renderContactList(listElement, getContactData());
-    closeOverlay(overlay, form);
-    selectContactById(existing.id);
+    updateLocalContact(currentId, existing);
+    refreshContactUI(listElement, overlay, form, existing.id);
     return true;
   } catch (error) {
-    console.error('Error updating contact:', error);
+    console.error("Error updating contact:", error);
     return false;
   }
+}
+
+function updateLocalContact(currentId, existing) {
+  const index = getContactIndex(currentId);
+  if (index !== -1) contacts[index] = existing;
+}
+
+function refreshContactUI(listElement, overlay, form, contactId) {
+  renderContactList(listElement, getContactData());
+  closeOverlay(overlay, form);
+  selectContactById(contactId);
 }
 
 /**
@@ -292,16 +294,11 @@ async function createNewContact(values, overlay, form, listElement) {
   try {
     const newContact = buildNewContact(values);
     const result = await ContactService.create(newContact);
-    
-    if (result) {
-      // Add to local array
-      addContact(newContact);
-      renderContactList(listElement, getContactData());
-      closeOverlay(overlay, form);
-      selectContactById(newContact.id);
-    }
+    if (!result) return;
+    addContact(newContact);
+    refreshContactUI(listElement, overlay, form, newContact.id);
   } catch (error) {
-    console.error('Error creating contact:', error);
+    console.error("Error creating contact:", error);
   }
 }
 
@@ -337,15 +334,12 @@ async function handleNewContactSubmit(event, overlay, form, listElement) {
   const error = getContactValidationError(values);
   if (error) return setText("contactFormMsg", error);
   const currentId = getCurrentEditId();
-  if (currentId) {
-    const updated = await updateExistingContact(
-      values,
-      overlay,
-      form,
-      listElement,
-      currentId
-    );
-    if (updated) return;
-  }
+  if (currentId) return handleExistingContact(values, overlay, form, listElement, currentId);
+  await createNewContact(values, overlay, form, listElement);
+}
+
+async function handleExistingContact(values, overlay, form, listElement, currentId) {
+  const updated = await updateExistingContact(values, overlay, form, listElement, currentId);
+  if (updated) return;
   await createNewContact(values, overlay, form, listElement);
 }

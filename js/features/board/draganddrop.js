@@ -81,21 +81,37 @@ function clearDropTargets() {
  * Updates task status, renders immediately, then persists.
  */
 async function updateTaskStatus(taskId, status) {
-  const task = boardState.tasks.find(
-    (t) => String(t?.id || "") === String(taskId)
-  );
+  const task = findTaskById(taskId);
   if (!task) return;
 
   const previous = task.status;
-  if (normalizeStatus(previous) === status) return;
+  if (isSameStatus(previous, status)) return;
+  applyStatusChange(task, status);
+  await persistStatusChange(task, previous, status);
+}
 
+function findTaskById(taskId) {
+  return boardState.tasks.find((t) => String(t?.id || "") === String(taskId));
+}
+
+function isSameStatus(previous, status) {
+  return normalizeStatus(previous) === status;
+}
+
+function applyStatusChange(task, status) {
   task.status = status;
   renderBoard();
+}
 
+async function persistStatusChange(task, previous, status) {
   try {
     await TaskService.update(task.id, { status });
   } catch (error) {
-    task.status = previous;
-    renderBoard();
+    rollbackStatus(task, previous);
   }
+}
+
+function rollbackStatus(task, previous) {
+  task.status = previous;
+  renderBoard();
 }
