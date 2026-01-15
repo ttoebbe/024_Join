@@ -7,8 +7,7 @@
 
 :root {
   /* === TYPOGRAPHY === */
-  --font-family-primary: "Inter", "Segoe UI", Arial, sans-serif;
-  --font-family-secondary: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-family-primary: "Inter", sans-serif;
   --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-md: 16px;
