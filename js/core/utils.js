@@ -81,16 +81,29 @@ function normalizeTasks(data) {
   return [];
 }
 
+/**
+ * @param {*} data
+ * @returns {*}
+ */
 function filterTaskArray(data) {
   return data.filter(Boolean);
 }
 
+/**
+ * @param {*} data
+ * @returns {*}
+ */
 function normalizeTaskMap(data) {
   return Object.entries(data)
     .map(([id, value]) => normalizeTaskEntry(id, value))
     .filter(Boolean);
 }
 
+/**
+ * @param {*} id
+ * @param {*} value
+ * @returns {*}
+ */
 function normalizeTaskEntry(id, value) {
   if (!value || typeof value !== "object") return null;
   if (value.id) return value;
@@ -139,6 +152,10 @@ function generateNextUserId(existingUsers = []) {
   return `u${maxNum + 1}`;
 }
 
+/**
+ * @param {*} existingUsers
+ * @returns {*}
+ */
 function getUserNumbers(existingUsers) {
   return existingUsers
     .map((user) => user.id)
@@ -147,10 +164,18 @@ function getUserNumbers(existingUsers) {
     .filter((num) => num >= 0);
 }
 
+/**
+ * @param {*} id
+ * @returns {*}
+ */
 function isUserId(id) {
   return Boolean(id && id.startsWith("u"));
 }
 
+/**
+ * @param {*} id
+ * @returns {*}
+ */
 function parseUserIdNumber(id) {
   const num = parseInt(id.substring(1));
   return Number.isNaN(num) ? -1 : num;

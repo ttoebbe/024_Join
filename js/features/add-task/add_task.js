@@ -1,9 +1,17 @@
+/**
+ * @param {*} options = {}
+ * @returns {*}
+ */
 function initAddTaskForm(options = {}) {
   const state = createAddTaskState(options);
   if (!state.form) return;
   setupAddTaskForm(state, options.onClose);
 }
 
+/**
+ * @param {*} options = {}
+ * @returns {*}
+ */
 function createAddTaskState(options = {}) {
   const form = document.getElementById("addTaskForm");
   const state = initAddTaskState(form, options);
@@ -11,6 +19,11 @@ function createAddTaskState(options = {}) {
   return state;
 }
 
+/**
+ * @param {*} form
+ * @param {*} options
+ * @returns {*}
+ */
 function initAddTaskState(form, options) {
   return {
     form,
@@ -23,11 +36,19 @@ function initAddTaskState(form, options) {
   };
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function attachAddTaskElements(state) {
   attachMainInputs(state);
   attachSubtaskInputs(state);
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function attachMainInputs(state) {
   state.createBtn = document.getElementById("createBtn");
   state.titleInput = document.getElementById("taskTitle");
@@ -35,12 +56,21 @@ function attachMainInputs(state) {
   state.categoryInput = document.getElementById("taskCategoryValue");
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function attachSubtaskInputs(state) {
   state.subtaskInput = document.getElementById("subtaskInput");
   state.subtaskAddBtn = document.getElementById("subtaskAddBtn");
   state.subtaskList = document.getElementById("subtaskList");
 }
 
+/**
+ * @param {*} state
+ * @param {*} onClose
+ * @returns {*}
+ */
 function setupAddTaskForm(state, onClose) {
   setDueDateMin(state.dueDateInput);
   wirePrioButtons(state);
@@ -53,27 +83,48 @@ function setupAddTaskForm(state, onClose) {
   wireSubmitHandler(state, onClose);
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function wirePrioButtons(state) {
   state.form.querySelectorAll(".prio-btn").forEach((btn) => {
     btn.addEventListener("click", () => handlePrioButton(state, btn));
   });
 }
 
+/**
+ * @param {*} state
+ * @param {*} btn
+ * @returns {*}
+ */
 function handlePrioButton(state, btn) {
   clearPrioActive(state);
   btn.classList.add("is-active");
   state.selectedPrio = btn.dataset.prio;
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function clearPrioActive(state) {
   state.form.querySelectorAll(".prio-btn").forEach((b) => b.classList.remove("is-active"));
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function applyEditDefaults(state) {
   if (state.mode !== "edit" || !state.task) return;
   applyTaskDefaults(state, state.task);
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function initDropdowns(state) {
   return {
     resetCategoryUi: initCategoryDropdown(state),
@@ -81,12 +132,22 @@ function initDropdowns(state) {
   };
 }
 
+/**
+ * @param {*} state
+ * @param {*} resets
+ * @returns {*}
+ */
 function wireClearButton(state, resets) {
   document.getElementById("clearBtn")?.addEventListener("click", () => {
     clearAddTaskForm(state, resets);
   });
 }
 
+/**
+ * @param {*} state
+ * @param {*} resets
+ * @returns {*}
+ */
 function clearAddTaskForm(state, resets) {
   resetForm(state);
   resetStatusPreset();
@@ -98,25 +159,45 @@ function clearAddTaskForm(state, resets) {
   updateCreateButtonState(state);
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function resetForm(state) {
   state.form.reset();
 }
 
+/**
+ * @returns {*}
+ */
 function resetStatusPreset() {
   const statusField = document.getElementById("taskStatusPreset");
   if (statusField) statusField.value = statusField.value || "todo";
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function resetSelectionState(state) {
   state.selectedCategory = "";
   state.selectedAssigned = [];
   state.selectedSubtasks = [];
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function clearCategoryInput(state) {
   if (state.categoryInput) state.categoryInput.value = "";
 }
 
+/**
+ * @param {*} state
+ * @param {*} onClose
+ * @returns {*}
+ */
 function wireSubmitHandler(state, onClose) {
   state.form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -124,6 +205,11 @@ function wireSubmitHandler(state, onClose) {
   });
 }
 
+/**
+ * @param {*} state
+ * @param {*} onClose
+ * @returns {*}
+ */
 async function handleSubmit(state, onClose) {
   const values = getTaskFormValues(state);
   if (!values) return;
@@ -136,6 +222,10 @@ async function handleSubmit(state, onClose) {
   onClose?.();
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function getTaskFormValues(state) {
   const title = document.getElementById("taskTitle")?.value.trim();
   const dueDate = document.getElementById("taskDueDate")?.value.trim();
@@ -146,21 +236,40 @@ function getTaskFormValues(state) {
   return { title, description, status, category, dueDate };
 }
 
+/**
+ * @returns {*}
+ */
 function showRequiredAlert() {
   alert("Bitte Title, Due date und Category ausfüllen.");
   return null;
 }
 
+/**
+ * @param {*} state
+ * @param {*} values
+ * @returns {*}
+ */
 async function updateExistingTask(state, values) {
   const updatedTask = buildTaskPayload(state, values, state.task);
   await TaskService.update(state.task.id, updatedTask);
 }
 
+/**
+ * @param {*} state
+ * @param {*} values
+ * @returns {*}
+ */
 async function createNewTask(state, values) {
   const newTask = buildTaskPayload(state, values, { id: generateTaskId() });
   await TaskService.create(newTask);
 }
 
+/**
+ * @param {*} state
+ * @param {*} values
+ * @param {*} base
+ * @returns {*}
+ */
 function buildTaskPayload(state, values, base) {
   return {
     ...base,
@@ -175,12 +284,19 @@ function buildTaskPayload(state, values, base) {
   };
 }
 
+/**
+ * @returns {*}
+ */
 async function refreshBoardIfNeeded() {
   if (typeof loadTasks !== "function") return;
   await loadTasks();
   if (typeof renderBoard === "function") renderBoard();
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function initCategoryDropdown(state) {
   const dropdown = document.getElementById("categoryDropdown");
   if (!dropdown) return null;
@@ -191,6 +307,10 @@ function initCategoryDropdown(state) {
   return () => resetCategoryDropdown(parts);
 }
 
+/**
+ * @param {*} dropdown
+ * @returns {*}
+ */
 function getCategoryDropdownParts(dropdown) {
   const toggle = dropdown.querySelector("[data-category-toggle]");
   const menu = dropdown.querySelector("[data-category-menu]");
@@ -199,12 +319,21 @@ function getCategoryDropdownParts(dropdown) {
   return { dropdown, toggle, menu, valueEl, items };
 }
 
+/**
+ * @param {*} parts
+ * @returns {*}
+ */
 function wireCategoryToggle(parts) {
   parts.toggle?.addEventListener("click", () => {
     setCategoryOpen(parts, parts.menu?.hidden);
   });
 }
 
+/**
+ * @param {*} parts
+ * @param {*} open
+ * @returns {*}
+ */
 function setCategoryOpen(parts, open) {
   if (!parts.menu || !parts.toggle) return;
   parts.menu.hidden = !open;
@@ -212,16 +341,33 @@ function setCategoryOpen(parts, open) {
   parts.dropdown.classList.toggle("is-open", open);
 }
 
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @returns {*}
+ */
 function wireCategoryItems(state, parts) {
   parts.items.forEach((item) => wireCategoryItem(state, parts, item));
 }
 
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @param {*} item
+ * @returns {*}
+ */
 function wireCategoryItem(state, parts, item) {
   item.addEventListener("click", () => {
     setSelectedCategory(state, parts, item);
   });
 }
 
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @param {*} item
+ * @returns {*}
+ */
 function setSelectedCategory(state, parts, item) {
   state.selectedCategory = item.dataset.value || "";
   setCategoryValue(state, parts, item);
@@ -229,12 +375,23 @@ function setSelectedCategory(state, parts, item) {
   updateCreateButtonState(state);
 }
 
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @param {*} item
+ * @returns {*}
+ */
 function setCategoryValue(state, parts, item) {
   if (state.categoryInput) state.categoryInput.value = state.selectedCategory;
   if (parts.valueEl) parts.valueEl.textContent = item.dataset.label || item.textContent || "";
   parts.dropdown.classList.toggle("has-value", Boolean(state.selectedCategory));
 }
 
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @returns {*}
+ */
 function applyCategoryDefault(state, parts) {
   if (!state.selectedCategory) return;
   if (state.categoryInput) state.categoryInput.value = state.selectedCategory;
@@ -242,10 +399,18 @@ function applyCategoryDefault(state, parts) {
   parts.dropdown.classList.add("has-value");
 }
 
+/**
+ * @param {*} value
+ * @returns {*}
+ */
 function getCategoryLabel(value) {
   return value === "technical" ? "Technical Task" : "User Story";
 }
 
+/**
+ * @param {*} parts
+ * @returns {*}
+ */
 function resetCategoryDropdown(parts) {
   if (parts.valueEl) parts.valueEl.textContent = "Select task category";
   parts.dropdown.classList.remove("has-value", "is-open");
@@ -253,11 +418,19 @@ function resetCategoryDropdown(parts) {
   if (parts.toggle) parts.toggle.setAttribute("aria-expanded", "false");
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function getSelectedCategoryValue(state) {
   if (state.categoryInput?.value) return state.categoryInput.value;
   return state.selectedCategory;
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function initAssignedDropdown(state) {
   const dropdown = document.getElementById("assignedDropdown");
   if (!dropdown) return null;
@@ -268,6 +441,10 @@ function initAssignedDropdown(state) {
   return () => resetAssignedDropdown(parts);
 }
 
+/**
+ * @param {*} dropdown
+ * @returns {*}
+ */
 function getAssignedDropdownParts(dropdown) {
   const toggle = dropdown.querySelector("[data-assigned-toggle]");
   const menu = dropdown.querySelector("[data-assigned-menu]");
@@ -275,12 +452,21 @@ function getAssignedDropdownParts(dropdown) {
   return { dropdown, toggle, menu, valueEl };
 }
 
+/**
+ * @param {*} parts
+ * @returns {*}
+ */
 function wireAssignedToggle(parts) {
   parts.toggle?.addEventListener("click", () => {
     setAssignedOpen(parts, parts.menu?.hidden);
   });
 }
 
+/**
+ * @param {*} parts
+ * @param {*} open
+ * @returns {*}
+ */
 function setAssignedOpen(parts, open) {
   if (!parts.menu || !parts.toggle) return;
   parts.menu.hidden = !open;
@@ -288,12 +474,21 @@ function setAssignedOpen(parts, open) {
   parts.dropdown.classList.toggle("is-open", open);
 }
 
+/**
+ * @param {*} parts
+ * @returns {*}
+ */
 function wireAssignedOutsideClose(parts) {
   document.addEventListener("click", (e) => {
     if (!parts.dropdown.contains(e.target)) setAssignedOpen(parts, false);
   });
 }
 
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @returns {*}
+ */
 async function loadAssignedContacts(state, parts) {
   if (!parts.menu) return;
   parts.menu.innerHTML = "";
@@ -302,6 +497,12 @@ async function loadAssignedContacts(state, parts) {
   updateAssignedLabel(state, parts);
 }
 
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @param {*} contact
+ * @returns {*}
+ */
 function appendAssignedItem(state, parts, contact) {
   const item = buildAssignedItem(contact);
   const check = item.querySelector(".assigned-check");
@@ -312,6 +513,10 @@ function appendAssignedItem(state, parts, contact) {
   parts.menu.appendChild(item);
 }
 
+/**
+ * @param {*} contact
+ * @returns {*}
+ */
 function buildAssignedItem(contact) {
   const item = document.createElement("button");
   item.type = "button";
@@ -322,18 +527,32 @@ function buildAssignedItem(contact) {
   return item;
 }
 
+/**
+ * @param {*} contact
+ * @returns {*}
+ */
 function buildAssignedLabel(contact) {
   const label = document.createElement("span");
   label.textContent = contact.name || "";
   return label;
 }
 
+/**
+ * @returns {*}
+ */
 function buildAssignedCheck() {
   const check = document.createElement("span");
   check.className = "assigned-check";
   return check;
 }
 
+/**
+ * @param {*} state
+ * @param {*} item
+ * @param {*} check
+ * @param {*} contact
+ * @returns {*}
+ */
 function setAssignedSelectionState(state, item, check, contact) {
   const isSelected = state.selectedAssigned.some((a) => a.id ? a.id === contact.id : a.name === contact.name);
   if (!isSelected) return;
@@ -341,6 +560,14 @@ function setAssignedSelectionState(state, item, check, contact) {
   check.textContent = "x";
 }
 
+/**
+ * @param {*} state
+ * @param {*} contact
+ * @param {*} item
+ * @param {*} check
+ * @param {*} parts
+ * @returns {*}
+ */
 function toggleAssignedContact(state, contact, item, check, parts) {
   const exists = state.selectedAssigned.find((a) => a.id === contact.id);
   if (exists) {
@@ -351,12 +578,26 @@ function toggleAssignedContact(state, contact, item, check, parts) {
   updateAssignedLabel(state, parts);
 }
 
+/**
+ * @param {*} state
+ * @param {*} contact
+ * @param {*} item
+ * @param {*} check
+ * @returns {*}
+ */
 function removeAssignedContact(state, contact, item, check) {
   state.selectedAssigned = state.selectedAssigned.filter((a) => a.id !== contact.id);
   item.classList.remove("is-selected");
   check.textContent = "";
 }
 
+/**
+ * @param {*} state
+ * @param {*} contact
+ * @param {*} item
+ * @param {*} check
+ * @returns {*}
+ */
 function addAssignedContact(state, contact, item, check) {
   state.selectedAssigned.push({
     id: contact.id,
@@ -367,6 +608,11 @@ function addAssignedContact(state, contact, item, check) {
   check.textContent = "x";
 }
 
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @returns {*}
+ */
 function updateAssignedLabel(state, parts) {
   if (!parts.valueEl) return;
   if (state.selectedAssigned.length === 0) return resetAssignedLabel(parts);
@@ -377,11 +623,19 @@ function updateAssignedLabel(state, parts) {
   parts.dropdown.classList.add("has-value");
 }
 
+/**
+ * @param {*} parts
+ * @returns {*}
+ */
 function resetAssignedLabel(parts) {
   parts.valueEl.textContent = "Select contacts to assign";
   parts.dropdown.classList.remove("has-value");
 }
 
+/**
+ * @param {*} parts
+ * @returns {*}
+ */
 function resetAssignedDropdown(parts) {
   resetAssignedLabel(parts);
   parts.dropdown.classList.remove("is-open");
@@ -389,6 +643,9 @@ function resetAssignedDropdown(parts) {
   if (parts.toggle) parts.toggle.setAttribute("aria-expanded", "false");
 }
 
+/**
+ * @returns {*}
+ */
 async function loadContacts() {
   try {
     const data = await ContactService.getAll();
@@ -399,6 +656,10 @@ async function loadContacts() {
   }
 }
 
+/**
+ * @param {*} data
+ * @returns {*}
+ */
 function normalizeToArray(data) {
   if (!data) return [];
   if (Array.isArray(data)) return data.filter(Boolean);
@@ -406,6 +667,10 @@ function normalizeToArray(data) {
   return [];
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function wireCreateButtonState(state) {
   state.titleInput?.addEventListener("input", () => updateCreateButtonState(state));
   state.dueDateInput?.addEventListener("input", () => updateCreateButtonState(state));
@@ -414,6 +679,10 @@ function wireCreateButtonState(state) {
   state.form.addEventListener("change", () => updateCreateButtonState(state));
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function updateCreateButtonState(state) {
   if (!state.createBtn) return;
   const isReady = Boolean(
@@ -425,6 +694,10 @@ function updateCreateButtonState(state) {
   state.createBtn.classList.toggle("is-active", isReady);
 }
 
+/**
+ * @param {*} input
+ * @returns {*}
+ */
 function setDueDateMin(input) {
   if (!input) return;
   const today = new Date();
@@ -434,6 +707,11 @@ function setDueDateMin(input) {
   input.min = `${yyyy}-${mm}-${dd}`;
 }
 
+/**
+ * @param {*} state
+ * @param {*} taskData
+ * @returns {*}
+ */
 function applyTaskDefaults(state, taskData) {
   if (state.titleInput) state.titleInput.value = taskData.title || "";
   setTaskDescription(taskData);
@@ -447,16 +725,29 @@ function applyTaskDefaults(state, taskData) {
   renderSubtasks(state);
 }
 
+/**
+ * @param {*} taskData
+ * @returns {*}
+ */
 function setTaskDescription(taskData) {
   const descInput = document.getElementById("taskDescription");
   if (descInput) descInput.value = taskData.description || "";
 }
 
+/**
+ * @param {*} state
+ * @param {*} value
+ * @returns {*}
+ */
 function setNormalizedDueDate(state, value) {
   const normalizedDate = normalizeDueDateForInput(value);
   if (state.dueDateInput && normalizedDate) state.dueDateInput.value = normalizedDate;
 }
 
+/**
+ * @param {*} value
+ * @returns {*}
+ */
 function normalizeDueDateForInput(value) {
   if (!value) return "";
   const v = String(value).trim();
@@ -466,6 +757,10 @@ function normalizeDueDateForInput(value) {
   return "";
 }
 
+/**
+ * @param {*} raw
+ * @returns {*}
+ */
 function normalizeAssignedFromTask(raw) {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -473,6 +768,10 @@ function normalizeAssignedFromTask(raw) {
     .filter((x) => x && x.name);
 }
 
+/**
+ * @param {*} item
+ * @returns {*}
+ */
 function normalizeAssignedItem(item) {
   if (!item) return null;
   if (typeof item === "string") return { id: "", name: item, color: null };
@@ -480,6 +779,10 @@ function normalizeAssignedItem(item) {
   return null;
 }
 
+/**
+ * @param {*} item
+ * @returns {*}
+ */
 function buildAssignedValue(item) {
   return {
     id: item.id || "",
@@ -488,6 +791,10 @@ function buildAssignedValue(item) {
   };
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function initSubtasks(state) {
   if (!state.subtaskInput || !state.subtaskAddBtn || !state.subtaskList) return;
   state.subtaskAddBtn.addEventListener("click", () => addSubtaskFromInput(state));
@@ -495,12 +802,21 @@ function initSubtasks(state) {
   renderSubtasks(state);
 }
 
+/**
+ * @param {*} e
+ * @param {*} state
+ * @returns {*}
+ */
 function handleSubtaskKeydown(e, state) {
   if (e.key !== "Enter") return;
   e.preventDefault();
   addSubtaskFromInput(state);
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function addSubtaskFromInput(state) {
   const value = state.subtaskInput?.value.trim();
   if (!value) return;
@@ -509,6 +825,10 @@ function addSubtaskFromInput(state) {
   renderSubtasks(state);
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function renderSubtasks(state) {
   if (!state.subtaskList) return;
   state.subtaskList.innerHTML = "";
@@ -517,6 +837,12 @@ function renderSubtasks(state) {
   });
 }
 
+/**
+ * @param {*} state
+ * @param {*} subtask
+ * @param {*} index
+ * @returns {*}
+ */
 function buildSubtaskRow(state, subtask, index) {
   const row = document.createElement("div");
   row.className = "subtask-item";
@@ -525,12 +851,21 @@ function buildSubtaskRow(state, subtask, index) {
   return row;
 }
 
+/**
+ * @param {*} subtask
+ * @returns {*}
+ */
 function buildSubtaskText(subtask) {
   const text = document.createElement("span");
   text.textContent = subtask.title || "Subtask";
   return text;
 }
 
+/**
+ * @param {*} state
+ * @param {*} index
+ * @returns {*}
+ */
 function buildRemoveSubtaskButton(state, index) {
   const removeBtn = document.createElement("button");
   removeBtn.type = "button";
@@ -540,11 +875,20 @@ function buildRemoveSubtaskButton(state, index) {
   return removeBtn;
 }
 
+/**
+ * @param {*} state
+ * @param {*} index
+ * @returns {*}
+ */
 function removeSubtask(state, index) {
   state.selectedSubtasks.splice(index, 1);
   renderSubtasks(state);
 }
 
+/**
+ * @param {*} raw
+ * @returns {*}
+ */
 function normalizeSubtasksFromTask(raw) {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -552,6 +896,10 @@ function normalizeSubtasksFromTask(raw) {
     .filter((x) => x && x.title);
 }
 
+/**
+ * @param {*} item
+ * @returns {*}
+ */
 function normalizeSubtaskItem(item) {
   if (!item) return null;
   if (typeof item === "string") return { title: item, done: false };
@@ -559,6 +907,10 @@ function normalizeSubtaskItem(item) {
   return null;
 }
 
+/**
+ * @param {*} item
+ * @returns {*}
+ */
 function buildSubtaskValue(item) {
   return {
     title: item.title || item.name || item.text || "",
@@ -566,6 +918,10 @@ function buildSubtaskValue(item) {
   };
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function applyPrioButtonStyles(state) {
   state.form.querySelectorAll(".prio-btn").forEach((btn) => {
     btn.classList.toggle("is-active", btn.dataset.prio === state.selectedPrio);
@@ -574,6 +930,9 @@ function applyPrioButtonStyles(state) {
 
 window.addEventListener("DOMContentLoaded", () => {
   initAddTaskForm({
+/**
+ * @returns {*}
+ */
     onClose: () => {
       window.location.href = "board.html";
     },

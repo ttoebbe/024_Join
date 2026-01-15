@@ -1,11 +1,21 @@
 "use strict";
 
+/**
+ * @param {*} id
+ * @returns {*}
+ */
 const $id = (id) => document.getElementById(id);
 
+/**
+ * @returns {*}
+ */
 function loadCurrentUser() {
   return getCurrentUser();
 }
 
+/**
+ * @returns {*}
+ */
 async function loadTasks() {
   try {
     const firebaseData = await TaskService.getAll();
@@ -17,10 +27,18 @@ async function loadTasks() {
   }
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function isUrgent(task) {
   return String(task?.priority || "").toLowerCase().trim() === "high";
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function parseDueDate(task) {
   const raw = task?.dueDate;
   if (!raw) return null;
@@ -28,6 +46,10 @@ function parseDueDate(task) {
   return Number.isNaN(d.getTime()) ? null : d;
 }
 
+/**
+ * @param {*} dateObj
+ * @returns {*}
+ */
 function formatDateLong(dateObj) {
   try {
     return new Intl.DateTimeFormat("en-US", {
@@ -40,6 +62,10 @@ function formatDateLong(dateObj) {
   }
 }
 
+/**
+ * @param {*} tasks
+ * @returns {*}
+ */
 function calcKPIs(tasks) {
   const kpi = initKpi(tasks);
   const urgentOpenDates = [];
@@ -48,6 +74,10 @@ function calcKPIs(tasks) {
   return kpi;
 }
 
+/**
+ * @param {*} tasks
+ * @returns {*}
+ */
 function initKpi(tasks) {
   return {
     board: tasks.length,
@@ -60,12 +90,23 @@ function initKpi(tasks) {
   };
 }
 
+/**
+ * @param {*} kpi
+ * @param {*} task
+ * @param {*} urgentOpenDates
+ * @returns {*}
+ */
 function updateKpiForTask(kpi, task, urgentOpenDates) {
   const status = String(task?.status || "").toLowerCase().trim();
   incrementStatusCount(kpi, status);
   trackUrgentOpen(kpi, task, status, urgentOpenDates);
 }
 
+/**
+ * @param {*} kpi
+ * @param {*} status
+ * @returns {*}
+ */
 function incrementStatusCount(kpi, status) {
   if (status === "todo") kpi.todo++;
   else if (status === "in-progress") kpi.inProgress++;
@@ -73,6 +114,13 @@ function incrementStatusCount(kpi, status) {
   else if (status === "done") kpi.done++;
 }
 
+/**
+ * @param {*} kpi
+ * @param {*} task
+ * @param {*} status
+ * @param {*} urgentOpenDates
+ * @returns {*}
+ */
 function trackUrgentOpen(kpi, task, status, urgentOpenDates) {
   if (!isUrgent(task) || status === "done") return;
   kpi.urgentOpen++;
@@ -80,11 +128,20 @@ function trackUrgentOpen(kpi, task, status, urgentOpenDates) {
   if (d) urgentOpenDates.push(d);
 }
 
+/**
+ * @param {*} kpi
+ * @param {*} urgentOpenDates
+ * @returns {*}
+ */
 function setNextUrgentDeadline(kpi, urgentOpenDates) {
   urgentOpenDates.sort((a, b) => a - b);
   kpi.nextUrgentDeadline = urgentOpenDates[0] || null;
 }
 
+/**
+ * @param {*} user
+ * @returns {*}
+ */
 function renderUser(user) {
   const greeting = getTimeBasedGreeting(new Date());
   setText("greetingText", user?.guest ? `${greeting}!` : `${greeting},`);
@@ -92,6 +149,10 @@ function renderUser(user) {
   if ($id("userInitials")) setText("userInitials", getInitials(user?.name || "Guest"));
 }
 
+/**
+ * @param {*} kpi
+ * @returns {*}
+ */
 function renderKPIs(kpi) {
   setText("countTodo", String(kpi.todo));
   setText("countDone", String(kpi.done));
@@ -105,6 +166,9 @@ function renderKPIs(kpi) {
   );
 }
 
+/**
+ * @returns {*}
+ */
 async function initSummary() {
   const user = loadCurrentUser();
   if (!user) return redirectToLogin();
@@ -113,6 +177,9 @@ async function initSummary() {
   renderKPIs(calcKPIs(tasks));
 }
 
+/**
+ * @returns {*}
+ */
 function redirectToLogin() {
   window.location.href = ROUTES.LOGIN;
 }

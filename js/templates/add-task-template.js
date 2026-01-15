@@ -11,6 +11,10 @@ function getAddTaskFormTemplate(presetStatus = "todo") {
   ].join("");
 }
 
+/**
+ * @param {*} presetStatus
+ * @returns {*}
+ */
 function getAddTaskFormOpen(presetStatus) {
   return `
     <form id="addTaskForm" class="addtask-form">
@@ -23,6 +27,9 @@ function getAddTaskFormOpen(presetStatus) {
   `;
 }
 
+/**
+ * @returns {*}
+ */
 function getAddTaskLeftFields() {
   return `
     <label>Title<span class="req">*</span></label>
@@ -34,6 +41,9 @@ function getAddTaskLeftFields() {
   `;
 }
 
+/**
+ * @returns {*}
+ */
 function getAddTaskRightColumn() {
   return `
         <div>
@@ -46,6 +56,9 @@ function getAddTaskRightColumn() {
   `;
 }
 
+/**
+ * @returns {*}
+ */
 function getAddTaskPriorityBlock() {
   return `
     <label>Priority</label>
@@ -57,6 +70,9 @@ function getAddTaskPriorityBlock() {
   `;
 }
 
+/**
+ * @returns {*}
+ */
 function getAddTaskAssignedBlock() {
   return `
     <label>Assigned to</label>
@@ -70,6 +86,9 @@ function getAddTaskAssignedBlock() {
   `;
 }
 
+/**
+ * @returns {*}
+ */
 function getAddTaskCategoryBlock() {
   return `<label>Category<span class="req">*</span></label>\n` +
     `<div class="dropdown dropdown--select" id="categoryDropdown">\n` +
@@ -84,6 +103,9 @@ function getAddTaskCategoryBlock() {
     `</div>\n`;
 }
 
+/**
+ * @returns {*}
+ */
 function getAddTaskSubtaskBlock() {
   return `
     <label>Subtasks</label>
@@ -95,6 +117,9 @@ function getAddTaskSubtaskBlock() {
   `;
 }
 
+/**
+ * @returns {*}
+ */
 function getAddTaskFormFooter() {
   return `
       <p class="req-note"><span class="req">*</span>This field is required</p>
@@ -105,6 +130,9 @@ function getAddTaskFormFooter() {
   `;
 }
 
+/**
+ * @returns {*}
+ */
 function getAddTaskFormClose() {
   return `
     </form>

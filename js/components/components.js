@@ -64,18 +64,27 @@ document.addEventListener("DOMContentLoaded", () => {
   initUserMenu();
 });
 
+/**
+ * @returns {*}
+ */
 function renderNavBar() {
   const host = document.getElementById("nav-bar-placeholder");
   if (!host) return;
   host.innerHTML = NAV_BAR_TEMPLATE;
 }
 
+/**
+ * @returns {*}
+ */
 function renderHeader() {
   const host = document.getElementById("header-placeholder");
   if (!host) return;
   host.innerHTML = HEADER_TEMPLATE;
 }
 
+/**
+ * @returns {*}
+ */
 function setActiveNavLink() {
   const nav = document.querySelector(".nav_links nav");
   if (!nav) return;
@@ -84,10 +93,18 @@ function setActiveNavLink() {
   if (match) match.classList.add("nav-active");
 }
 
+/**
+ * @param {*} nav
+ * @returns {*}
+ */
 function resetNavActive(nav) {
   nav.querySelectorAll("a").forEach((a) => a.classList.remove("nav-active"));
 }
 
+/**
+ * @param {*} nav
+ * @returns {*}
+ */
 function findActiveNavLink(nav) {
   const path = window.location.pathname.toLowerCase();
   return [...nav.querySelectorAll("a")].find((a) => {
@@ -96,6 +113,9 @@ function findActiveNavLink(nav) {
   });
 }
 
+/**
+ * @returns {*}
+ */
 function renderUserInitials() {
   const el = document.getElementById("userInitials");
   if (!el) return;
@@ -104,6 +124,9 @@ function renderUserInitials() {
   el.textContent = getInitials(label);
 }
 
+/**
+ * @returns {*}
+ */
 function initUserMenu() {
   const parts = getUserMenuParts();
   if (!parts) return;
@@ -112,6 +135,9 @@ function initUserMenu() {
   wireLogout(parts.logoutBtn);
 }
 
+/**
+ * @returns {*}
+ */
 function getUserMenuParts() {
   const wrap = document.getElementById("userMenuWrap");
   const btn = document.getElementById("userMenuBtn");
@@ -121,6 +147,10 @@ function getUserMenuParts() {
   return { wrap, btn, dropdown, logoutBtn };
 }
 
+/**
+ * @param {*} dropdown
+ * @returns {*}
+ */
 function setActiveDropdownLinks(dropdown) {
   const path = window.location.pathname.toLowerCase();
   dropdown.querySelectorAll("a.user-dropdown__item").forEach((a) => {
@@ -129,40 +159,71 @@ function setActiveDropdownLinks(dropdown) {
   });
 }
 
+/**
+ * @param {*} parts
+ * @returns {*}
+ */
 function wireUserMenuEvents(parts) {
   parts.btn.addEventListener("click", (e) => toggleUserMenu(e, parts));
   document.addEventListener("click", (e) => closeOnOutsideClick(e, parts));
   document.addEventListener("keydown", (e) => closeOnEscape(e, parts));
 }
 
+/**
+ * @param {*} e
+ * @param {*} parts
+ * @returns {*}
+ */
 function toggleUserMenu(e, parts) {
   e.stopPropagation();
   parts.dropdown.hidden ? openUserMenu(parts) : closeUserMenu(parts);
 }
 
+/**
+ * @param {*} parts
+ * @returns {*}
+ */
 function openUserMenu(parts) {
   parts.dropdown.hidden = false;
   parts.btn.setAttribute("aria-expanded", "true");
   requestAnimationFrame(() => parts.dropdown.classList.add("open"));
 }
 
+/**
+ * @param {*} parts
+ * @returns {*}
+ */
 function closeUserMenu(parts) {
   parts.dropdown.classList.remove("open");
   parts.btn.setAttribute("aria-expanded", "false");
   setTimeout(() => { parts.dropdown.hidden = true; }, 120);
 }
 
+/**
+ * @param {*} e
+ * @param {*} parts
+ * @returns {*}
+ */
 function closeOnOutsideClick(e, parts) {
   if (parts.dropdown.hidden) return;
   if (parts.wrap.contains(e.target)) return;
   closeUserMenu(parts);
 }
 
+/**
+ * @param {*} e
+ * @param {*} parts
+ * @returns {*}
+ */
 function closeOnEscape(e, parts) {
   if (e.key !== "Escape" || parts.dropdown.hidden) return;
   closeUserMenu(parts);
 }
 
+/**
+ * @param {*} logoutBtn
+ * @returns {*}
+ */
 function wireLogout(logoutBtn) {
   logoutBtn?.addEventListener("click", () => {
     setCurrentUser(null);

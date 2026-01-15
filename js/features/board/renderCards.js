@@ -13,6 +13,9 @@ function createCard(task) {
   return el;
 }
 
+/**
+ * @returns {*}
+ */
 function createCardRoot() {
   const el = document.createElement("article");
   el.className = "board-card";
@@ -22,12 +25,22 @@ function createCardRoot() {
   return el;
 }
 
+/**
+ * @param {*} el
+ * @param {*} task
+ * @returns {*}
+ */
 function attachCardMeta(el, task) {
   if (task?.id) el.dataset.taskId = String(task.id);
   wireCardDragHandlers(el);
   wireCardOpenHandlers(el, task);
 }
 
+/**
+ * @param {*} el
+ * @param {*} task
+ * @returns {*}
+ */
 function appendCardContent(el, task) {
   el.appendChild(createCategoryPill(task));
   el.appendChild(createCardTitle(task));
@@ -36,6 +49,10 @@ function appendCardContent(el, task) {
   el.appendChild(createCardFooter(task));
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function createCardTitle(task) {
   const title = document.createElement("h3");
   title.className = "board-card-title";
@@ -43,6 +60,10 @@ function createCardTitle(task) {
   return title;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function createCardDescription(task) {
   const desc = document.createElement("p");
   desc.className = "board-card-desc";
@@ -50,6 +71,11 @@ function createCardDescription(task) {
   return desc;
 }
 
+/**
+ * @param {*} el
+ * @param {*} task
+ * @returns {*}
+ */
 function appendCardProgress(el, task) {
   const progress = createSubtaskProgress(task);
   if (progress) el.appendChild(progress);
@@ -91,6 +117,10 @@ function createSubtaskProgress(task) {
   return buildProgressWrap(stats);
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function getSubtaskStats(task) {
   const subtasks = getSubtasks(task);
   if (subtasks.length === 0) return null;
@@ -100,6 +130,10 @@ function getSubtaskStats(task) {
   return { done, total, percent };
 }
 
+/**
+ * @param {*} stats
+ * @returns {*}
+ */
 function buildProgressWrap(stats) {
   const wrap = document.createElement("div");
   wrap.className = "board-progress";
@@ -109,6 +143,10 @@ function buildProgressWrap(stats) {
   return wrap;
 }
 
+/**
+ * @param {*} stats
+ * @returns {*}
+ */
 function buildProgressText(stats) {
   const text = document.createElement("div");
   text.className = "board-progress-text";
@@ -116,6 +154,10 @@ function buildProgressText(stats) {
   return text;
 }
 
+/**
+ * @param {*} stats
+ * @returns {*}
+ */
 function buildProgressBar(stats) {
   const bar = document.createElement("div");
   bar.className = "board-progress-bar";
@@ -123,6 +165,10 @@ function buildProgressBar(stats) {
   return bar;
 }
 
+/**
+ * @param {*} stats
+ * @returns {*}
+ */
 function buildProgressFill(stats) {
   const fill = document.createElement("div");
   fill.className = "board-progress-fill";
@@ -182,11 +228,21 @@ function createAssignedAvatars(task) {
   return wrap;
 }
 
+/**
+ * @param {*} wrap
+ * @param {*} assigned
+ * @returns {*}
+ */
 function appendAssignedBubbles(wrap, assigned) {
   assigned.slice(0, 4).forEach((a) => wrap.appendChild(createAvatarBubble(a)));
   if (assigned.length > 4) addMoreBubble(wrap, assigned.length - 4);
 }
 
+/**
+ * @param {*} wrap
+ * @param {*} remaining
+ * @returns {*}
+ */
 function addMoreBubble(wrap, remaining) {
   wrap.appendChild(createMoreBubble(remaining));
 }
@@ -202,6 +258,10 @@ function getAssigned(task) {
     .filter((x) => x && String(x.name || "").trim().length > 0);
 }
 
+/**
+ * @param {*} item
+ * @returns {*}
+ */
 function normalizeAssignedItem(item) {
   if (!item) return null;
   if (typeof item === "string") return { name: item, color: null };
@@ -209,6 +269,10 @@ function normalizeAssignedItem(item) {
   return null;
 }
 
+/**
+ * @param {*} item
+ * @returns {*}
+ */
 function buildAssignedObject(item) {
   const name = item.name || item.fullName || item.username || "";
   const color = item.color || null;
@@ -272,6 +336,10 @@ function createPrioBlock(task) {
   return wrap;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function buildPrioImage(task) {
   const img = document.createElement("img");
   img.alt = "Priority";
@@ -281,6 +349,10 @@ function buildPrioImage(task) {
   return img;
 }
 
+/**
+ * @param {*} img
+ * @returns {*}
+ */
 function handlePrioImageError(img) {
   img.onerror = null;
   img.dataset.prio = "medium";
@@ -309,18 +381,34 @@ function normalizePrioKey(prio) {
   return "medium";
 }
 
+/**
+ * @param {*} prio
+ * @returns {*}
+ */
 function normalizePrioString(prio) {
   return String(prio || "medium").trim().toLowerCase().replace(/[^a-z]/g, "");
 }
 
+/**
+ * @param {*} simple
+ * @returns {*}
+ */
 function isUrgentPrio(simple) {
   return simple.includes("urgent") || simple.includes("high") || simple.includes("alta");
 }
 
+/**
+ * @param {*} simple
+ * @returns {*}
+ */
 function isLowPrio(simple) {
   return simple.includes("low") || simple.includes("baja");
 }
 
+/**
+ * @param {*} simple
+ * @returns {*}
+ */
 function isMediumPrio(simple) {
   return simple.includes("medium") || simple.includes("media");
 }

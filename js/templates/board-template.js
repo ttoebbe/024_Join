@@ -6,6 +6,10 @@ function getTaskCardTemplate(task) {
   return buildTaskCardTemplate(task, data);
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function buildTaskCardData(task) {
   return {
     priorityClass: task.priority ? `priority-${task.priority}` : "priority-low",
@@ -13,6 +17,11 @@ function buildTaskCardData(task) {
   };
 }
 
+/**
+ * @param {*} task
+ * @param {*} data
+ * @returns {*}
+ */
 function buildTaskCardTemplate(task, data) {
   return `
     <div class="task-card card ${data.priorityClass}" data-task-id="${task.id}">
@@ -28,6 +37,10 @@ function buildTaskCardTemplate(task, data) {
   `;
 }
 
+/**
+ * @param {*} assignees
+ * @returns {*}
+ */
 function buildAssigneeMarkup(assignees) {
   const list = assignees.slice(0, 3).map((assignee) => {
     return buildAssigneeAvatar(assignee);
@@ -36,6 +49,10 @@ function buildAssigneeMarkup(assignees) {
   return list.join("");
 }
 
+/**
+ * @param {*} assignee
+ * @returns {*}
+ */
 function buildAssigneeAvatar(assignee) {
   return `
     <div class="task-assignee-avatar" title="${assignee.name}">
@@ -44,6 +61,10 @@ function buildAssigneeAvatar(assignee) {
   `;
 }
 
+/**
+ * @param {*} count
+ * @returns {*}
+ */
 function buildAssigneeOverflow(count) {
   return `<div class="task-assignee-avatar">+${count - 3}</div>`;
 }

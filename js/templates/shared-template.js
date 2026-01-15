@@ -10,6 +10,10 @@ function getLoadingTemplate(message = 'Loading...') {
   `;
 }
 
+/**
+ * @param {*} message = 'An error occurred'
+ * @returns {*}
+ */
 function getErrorTemplate(message = 'An error occurred') {
   return /* html */ `
     <div class="error-message">

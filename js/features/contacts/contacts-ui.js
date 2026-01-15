@@ -15,20 +15,36 @@ function renderContactList(container, data) {
   wireContactEntries(container);
 }
 
+/**
+ * @param {*} data
+ * @returns {*}
+ */
 function hasContacts(data) {
   return Array.isArray(data) && data.length > 0;
 }
 
+/**
+ * @param {*} container
+ * @returns {*}
+ */
 function clearContactList(container) {
   container.innerHTML = "";
 }
 
+/**
+ * @param {*} data
+ * @returns {*}
+ */
 function sortContacts(data) {
   return [...data].sort((a, b) => {
     return (a?.name || "").localeCompare(b?.name || "", "de", { sensitivity: "base" });
   });
 }
 
+/**
+ * @param {*} sorted
+ * @returns {*}
+ */
 function buildContactMarkup(sorted) {
   let currentGroup = "";
   const markup = [];
@@ -43,6 +59,10 @@ function buildContactMarkup(sorted) {
   return markup.join("");
 }
 
+/**
+ * @param {*} container
+ * @returns {*}
+ */
 function wireContactEntries(container) {
   const contactEntries = container.querySelectorAll(".contact-entry");
   contactEntries.forEach((entry) => {
@@ -50,6 +70,10 @@ function wireContactEntries(container) {
   });
 }
 
+/**
+ * @param {*} entry
+ * @returns {*}
+ */
 function handleContactEntryClick(entry) {
   const contactId = entry.getAttribute("data-contact-id");
   const contact = getContactById(contactId);
@@ -113,6 +137,10 @@ function setupDetailActions(contactId) {
   deleteButton?.addEventListener("click", () => confirmDeleteContact(contactId));
 }
 
+/**
+ * @param {*} container
+ * @returns {*}
+ */
 function getDetailActionButtons(container) {
   const actionButtons = container.querySelectorAll(".detail-actions .secondary-button");
   const editButton = actionButtons[0];
@@ -120,6 +148,10 @@ function getDetailActionButtons(container) {
   return { editButton, deleteButton };
 }
 
+/**
+ * @param {*} contactId
+ * @returns {*}
+ */
 function confirmDeleteContact(contactId) {
   const confirmed = window.confirm("Do you really want to delete this contact?");
   if (!confirmed) return;

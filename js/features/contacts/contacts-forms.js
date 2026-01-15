@@ -58,6 +58,9 @@ function wireOverlayEvents(elements, listElement) {
  * @param {Object} elements
  */
 function registerOverlayInputHandlers(elements) {
+/**
+ * @returns {*}
+ */
   const clearErrorMsg = () => setText("contactFormMsg", "");
   elements.nameInput?.addEventListener("input", clearErrorMsg);
   elements.emailInput?.addEventListener("input", clearErrorMsg);
@@ -272,11 +275,23 @@ async function updateExistingContact(values, overlay, form, listElement, current
   }
 }
 
+/**
+ * @param {*} currentId
+ * @param {*} existing
+ * @returns {*}
+ */
 function updateLocalContact(currentId, existing) {
   const index = getContactIndex(currentId);
   if (index !== -1) contacts[index] = existing;
 }
 
+/**
+ * @param {*} listElement
+ * @param {*} overlay
+ * @param {*} form
+ * @param {*} contactId
+ * @returns {*}
+ */
 function refreshContactUI(listElement, overlay, form, contactId) {
   renderContactList(listElement, getContactData());
   closeOverlay(overlay, form);
@@ -338,6 +353,14 @@ async function handleNewContactSubmit(event, overlay, form, listElement) {
   await createNewContact(values, overlay, form, listElement);
 }
 
+/**
+ * @param {*} values
+ * @param {*} overlay
+ * @param {*} form
+ * @param {*} listElement
+ * @param {*} currentId
+ * @returns {*}
+ */
 async function handleExistingContact(values, overlay, form, listElement, currentId) {
   const updated = await updateExistingContact(values, overlay, form, listElement, currentId);
   if (updated) return;

@@ -15,6 +15,10 @@ function getContactTemplate(contact, isActive = false) {
   `;
 }
 
+/**
+ * @param {*} letter
+ * @returns {*}
+ */
 function getContactGroupHeaderTemplate(letter) {
   return `
     <div class="contact-group-header">
@@ -23,6 +27,10 @@ function getContactGroupHeaderTemplate(letter) {
   `;
 }
 
+/**
+ * @param {*} contact
+ * @returns {*}
+ */
 function getContactDetailTemplate(contact) {
   const initials = getInitials(contact.name);
   return [
@@ -32,6 +40,11 @@ function getContactDetailTemplate(contact) {
   ].join("");
 }
 
+/**
+ * @param {*} contact
+ * @param {*} initials
+ * @returns {*}
+ */
 function buildContactHero(contact, initials) {
   return `<div class="contact-hero">\n` +
     `  <div class="contact-avatar contact-avatar-large" style="background-color: ${contact.color}">${initials}</div>\n` +
@@ -45,6 +58,10 @@ function buildContactHero(contact, initials) {
     `</div>\n`;
 }
 
+/**
+ * @param {*} contact
+ * @returns {*}
+ */
 function buildContactDetails(contact) {
   return `<div class="contact-details">\n` +
     `  <h4>Contact Information</h4>\n` +
@@ -59,6 +76,9 @@ function buildContactDetails(contact) {
     `</div>\n`;
 }
 
+/**
+ * @returns {*}
+ */
 function buildContactMenuButton() {
   return `
     <button type="button" class="contact-menu-button" aria-label="Edit contact">

@@ -1,16 +1,30 @@
 let presetStatus = "todo";
 
+/**
+ * @param {*} status = "todo"
+ * @returns {*}
+ */
 async function openAddTaskOverlay(status = "todo") {
   presetStatus = status;
   return renderTaskOverlay({ mode: "create", status: presetStatus });
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 async function openEditTaskOverlay(task) {
   const status = task?.status || "todo";
   presetStatus = status;
   return renderTaskOverlay({ mode: "edit", status: presetStatus, task });
 }
 
+/**
+ * @param {*} { mode
+ * @param {*} status
+ * @param {*} task }
+ * @returns {*}
+ */
 async function renderTaskOverlay({ mode, status, task }) {
   const root = ensureOverlayRoot();
   root.classList.remove("hidden");
@@ -65,6 +79,9 @@ async function renderTaskOverlay({ mode, status, task }) {
   }
 }
 
+/**
+ * @returns {*}
+ */
 function closeAddTaskOverlay() {
   const root = document.getElementById("overlayRoot");
   if (!root) return;
@@ -73,6 +90,9 @@ function closeAddTaskOverlay() {
   root.innerHTML = "";
 }
 
+/**
+ * @returns {*}
+ */
 function ensureOverlayRoot() {
   let root = document.getElementById("overlayRoot");
   if (root) return root;

@@ -98,10 +98,18 @@ function splitValidTasks(tasks) {
   return { validTasks, invalidTasks };
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function hasTaskTitle(task) {
   return String(task?.title || task?.name || "").trim().length > 0;
 }
 
+/**
+ * @param {*} tasks
+ * @returns {*}
+ */
 async function deleteInvalidTasks(tasks) {
   if (!tasks.length || !TaskService?.delete) return;
   await Promise.allSettled(

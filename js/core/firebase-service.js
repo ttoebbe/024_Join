@@ -133,28 +133,88 @@ async function deleteData(collection, id) {
 
 // Collection-specific helper functions
 const UserService = {
+/**
+ * @returns {*}
+ */
   getAll: () => loadData(COLLECTIONS.USERS),
+/**
+ * @param {*} id
+ * @returns {*}
+ */
   get: (id) => loadData(COLLECTIONS.USERS, id),
+/**
+ * @param {*} userData
+ * @returns {*}
+ */
   create: (userData) => saveData(COLLECTIONS.USERS, userData, userData.id),
+/**
+ * @param {*} id
+ * @param {*} userData
+ * @returns {*}
+ */
   update: (id, userData) => updateData(COLLECTIONS.USERS, id, userData),
+/**
+ * @param {*} id
+ * @returns {*}
+ */
   delete: (id) => deleteData(COLLECTIONS.USERS, id),
 };
 
 const TaskService = {
+/**
+ * @returns {*}
+ */
   getAll: () => loadData(COLLECTIONS.TASKS),
+/**
+ * @param {*} id
+ * @returns {*}
+ */
   get: (id) => loadData(COLLECTIONS.TASKS, id),
+/**
+ * @param {*} taskData
+ * @returns {*}
+ */
   create: (taskData) => saveData(COLLECTIONS.TASKS, taskData, taskData.id),
+/**
+ * @param {*} id
+ * @param {*} taskData
+ * @returns {*}
+ */
   update: (id, taskData) => updateData(COLLECTIONS.TASKS, id, taskData),
+/**
+ * @param {*} id
+ * @returns {*}
+ */
   delete: (id) => deleteData(COLLECTIONS.TASKS, id),
 };
 
 const ContactService = {
+/**
+ * @returns {*}
+ */
   getAll: () => loadData(COLLECTIONS.CONTACTS),
+/**
+ * @param {*} id
+ * @returns {*}
+ */
   get: (id) => loadData(COLLECTIONS.CONTACTS, id),
+/**
+ * @param {*} contactData
+ * @returns {*}
+ */
   create: (contactData) =>
     saveData(COLLECTIONS.CONTACTS, contactData, contactData.id),
+/**
+ * @param {*} id
+ * @param {*} contactData
+ * @returns {*}
+ */
   update: (id, contactData) =>
     updateData(COLLECTIONS.CONTACTS, id, contactData),
+/**
+ * @param {*} id
+ * @returns {*}
+ */
   delete: (id) => deleteData(COLLECTIONS.CONTACTS, id),
 };
 

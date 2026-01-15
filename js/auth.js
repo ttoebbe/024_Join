@@ -1,10 +1,18 @@
 /* ================== HELPERS ================== */
 // Vereinfacht DOM-Zugriffe über eine ID.
 // Gibt das referenzierte Element oder null zurück.
+/**
+ * @param {*} id
+ * @returns {*}
+ */
 const $ = (id) => getElementById(id);
 
 // Speichert den aktuellen Nutzer nur in der Session.
 // Verändert keine Daten in Firebase oder Backend.
+/**
+ * @param {*} user
+ * @returns {*}
+ */
 async function saveCurrentUser(user) {
   setCurrentUser(user);
   // No Firebase save here - just session storage
@@ -12,6 +20,9 @@ async function saveCurrentUser(user) {
 
 // Lädt alle Nutzer aus Firebase und wandelt sie in ein Array.
 // Gibt bei Fehlern ein leeres Array zurück und loggt den Fehler.
+/**
+ * @returns {*}
+ */
 async function loadUsers() {
   try {
     const users = await UserService.getAll();
@@ -25,12 +36,18 @@ async function loadUsers() {
 /* ================== ANIMATION ================== */
 // Startet verzögert die Initialanimation per Timeout.
 // Übergibt die Steuerung anschließend an startAnimation.
+/**
+ * @returns {*}
+ */
 function initAnimation() {
   setTimeout(startAnimation, 200);
 }
 
 // Aktiviert CSS-Animationen für Bild und Hintergrund.
 // Blendet den Hintergrund nach kurzer Zeit komplett aus.
+/**
+ * @returns {*}
+ */
 function startAnimation() {
   const homepageImage = $("img_animation");
   const bg = $("bg");
@@ -42,6 +59,12 @@ function startAnimation() {
 /* ================== PASSWORD TOGGLE ================== */
 // Richtet Augen- und Schloss-Icons für Passwortfelder ein.
 // Steuert Sichtbarkeit und Typ des Eingabefelds je nach Input.
+/**
+ * @param {*} inputId
+ * @param {*} lockId
+ * @param {*} eyeId
+ * @returns {*}
+ */
 function setupPasswordToggle(inputId, lockId, eyeId) {
   const parts = getPasswordParts(inputId, lockId, eyeId);
   if (!parts) return;
@@ -51,6 +74,12 @@ function setupPasswordToggle(inputId, lockId, eyeId) {
   wirePasswordLock(parts);
 }
 
+/**
+ * @param {*} inputId
+ * @param {*} lockId
+ * @param {*} eyeId
+ * @returns {*}
+ */
 function getPasswordParts(inputId, lockId, eyeId) {
   const input = document.getElementById(inputId);
   const lock = document.getElementById(lockId);
@@ -59,12 +88,24 @@ function getPasswordParts(inputId, lockId, eyeId) {
   return { input, lock, eye };
 }
 
+/**
+ * @param {*} { input
+ * @param {*} lock
+ * @param {*} eye }
+ * @returns {*}
+ */
 function setPasswordInitialState({ input, lock, eye }) {
   eye.classList.add("d-none");
   lock.classList.remove("d-none");
   input.type = "password";
 }
 
+/**
+ * @param {*} { input
+ * @param {*} lock
+ * @param {*} eye }
+ * @returns {*}
+ */
 function wirePasswordInput({ input, lock, eye }) {
   input.addEventListener("input", () => {
     const hasValue = input.value.length > 0;
@@ -72,6 +113,13 @@ function wirePasswordInput({ input, lock, eye }) {
   });
 }
 
+/**
+ * @param {*} hasValue
+ * @param {*} input
+ * @param {*} lock
+ * @param {*} eye
+ * @returns {*}
+ */
 function updatePasswordIcons(hasValue, input, lock, eye) {
   if (hasValue) return showEyeIcon(input, lock, eye);
   lock.classList.remove("d-none");
@@ -79,6 +127,12 @@ function updatePasswordIcons(hasValue, input, lock, eye) {
   input.type = "password";
 }
 
+/**
+ * @param {*} input
+ * @param {*} lock
+ * @param {*} eye
+ * @returns {*}
+ */
 function showEyeIcon(input, lock, eye) {
   lock.classList.add("d-none");
   eye.classList.remove("d-none");
@@ -86,6 +140,11 @@ function showEyeIcon(input, lock, eye) {
   eye.src = "/img/icons/visibility_off.png";
 }
 
+/**
+ * @param {*} { input
+ * @param {*} eye }
+ * @returns {*}
+ */
 function wirePasswordToggle({ input, eye }) {
   eye.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -93,17 +152,29 @@ function wirePasswordToggle({ input, eye }) {
   });
 }
 
+/**
+ * @param {*} input
+ * @param {*} eye
+ * @returns {*}
+ */
 function togglePasswordVisibility(input, eye) {
   const isHidden = input.type === "password";
   input.type = isHidden ? "text" : "password";
   eye.src = isHidden ? "/img/icons/visibility.png" : "/img/icons/visibility_off.png";
 }
 
+/**
+ * @param {*} { lock }
+ * @returns {*}
+ */
 function wirePasswordLock({ lock }) {
   lock.addEventListener("click", (e) => e.stopPropagation());
 }
 
 /* ================== Overlay ================== */
+/**
+ * @returns {*}
+ */
 function showSuccessOverlay() {
   const overlay = document.getElementById("successOverlay");
   if (overlay) overlay.style.display = "flex";
@@ -112,12 +183,18 @@ function showSuccessOverlay() {
 /* ================== LOGIN ================== */
 // Initialisiert das Loginformular und seine Events.
 // Validiert Eingaben, führt Login oder Gastmodus aus.
+/**
+ * @returns {*}
+ */
 function initLogin() {
   const state = getLoginState();
   if (!state) return;
   wireLoginForm(state);
 }
 
+/**
+ * @returns {*}
+ */
 function getLoginState() {
   const form = $("loginForm");
   const emailEl = $("email");
@@ -128,6 +205,10 @@ function getLoginState() {
   return { form, emailEl, pwEl, btnLogin, btnGuest };
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function wireLoginForm(state) {
   wireLoginButtonState(state);
   wireLoginErrorHandlers(state);
@@ -136,35 +217,72 @@ function wireLoginForm(state) {
   setupPasswordToggle("password", "passwordLock", "visibilityImg");
 }
 
+/**
+ * @param {*} { emailEl
+ * @param {*} pwEl
+ * @param {*} btnLogin }
+ * @returns {*}
+ */
 function wireLoginButtonState({ emailEl, pwEl, btnLogin }) {
+/**
+ * @returns {*}
+ */
   const update = () => setLoginButtonState(emailEl, pwEl, btnLogin);
   emailEl.addEventListener("input", update);
   pwEl.addEventListener("input", update);
   update();
 }
 
+/**
+ * @param {*} emailEl
+ * @param {*} pwEl
+ * @param {*} btnLogin
+ * @returns {*}
+ */
 function setLoginButtonState(emailEl, pwEl, btnLogin) {
   btnLogin.disabled = !(emailEl.value.trim() && pwEl.value.trim());
 }
 
+/**
+ * @param {*} { emailEl
+ * @param {*} pwEl }
+ * @returns {*}
+ */
 function wireLoginErrorHandlers({ emailEl, pwEl }) {
+/**
+ * @returns {*}
+ */
   const clear = () => clearLoginErrorState(emailEl, pwEl);
   emailEl.addEventListener("input", clear);
   pwEl.addEventListener("input", clear);
 }
 
+/**
+ * @param {*} emailEl
+ * @param {*} pwEl
+ * @returns {*}
+ */
 function showLoginErrorState(emailEl, pwEl) {
   document.getElementById("errorMsg").style.display = "block";
   emailEl.classList.add("input-error");
   pwEl.classList.add("input-error");
 }
 
+/**
+ * @param {*} emailEl
+ * @param {*} pwEl
+ * @returns {*}
+ */
 function clearLoginErrorState(emailEl, pwEl) {
   document.getElementById("errorMsg").style.display = "none";
   emailEl.classList.remove("input-error");
   pwEl.classList.remove("input-error");
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function wireLoginSubmit(state) {
   state.form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -172,6 +290,11 @@ function wireLoginSubmit(state) {
   });
 }
 
+/**
+ * @param {*} { emailEl
+ * @param {*} pwEl }
+ * @returns {*}
+ */
 async function handleLoginSubmit({ emailEl, pwEl }) {
   const email = emailEl.value.trim();
   const pw = pwEl.value.trim();
@@ -182,6 +305,10 @@ async function handleLoginSubmit({ emailEl, pwEl }) {
   window.location.href = ROUTES.SUMMARY;
 }
 
+/**
+ * @param {*} { btnGuest }
+ * @returns {*}
+ */
 function wireGuestLogin({ btnGuest }) {
   btnGuest?.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -193,12 +320,18 @@ function wireGuestLogin({ btnGuest }) {
 /* ================== SIGNUP ================== */
 // Initialisiert das Signup-Formular mitsamt Validierung.
 // Erstellt neue Nutzer nach erfolgreicher Prüfung.
+/**
+ * @returns {*}
+ */
 function initSignup() {
   const state = getSignupState();
   if (!state) return;
   wireSignupForm(state);
 }
 
+/**
+ * @returns {*}
+ */
 function getSignupState() {
   const form = $("signupForm");
   const nameEl = $("suName");
@@ -211,6 +344,10 @@ function getSignupState() {
   return { form, nameEl, emailEl, pwEl, pw2El, policyEl, btn };
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function wireSignupForm(state) {
   wireSignupButtonState(state);
   wireSignupErrorHandlers(state);
@@ -218,13 +355,34 @@ function wireSignupForm(state) {
   wireSignupToggles();
 }
 
+/**
+ * @param {*} { nameEl
+ * @param {*} emailEl
+ * @param {*} pwEl
+ * @param {*} pw2El
+ * @param {*} policyEl
+ * @param {*} btn }
+ * @returns {*}
+ */
 function wireSignupButtonState({ nameEl, emailEl, pwEl, pw2El, policyEl, btn }) {
+/**
+ * @returns {*}
+ */
   const update = () => setSignupButtonState(nameEl, emailEl, pwEl, pw2El, policyEl, btn);
   [nameEl, emailEl, pwEl, pw2El].forEach((el) => el.addEventListener("input", update));
   policyEl.addEventListener("change", update);
   update();
 }
 
+/**
+ * @param {*} nameEl
+ * @param {*} emailEl
+ * @param {*} pwEl
+ * @param {*} pw2El
+ * @param {*} policyEl
+ * @param {*} btn
+ * @returns {*}
+ */
 function setSignupButtonState(nameEl, emailEl, pwEl, pw2El, policyEl, btn) {
   btn.disabled = !(
     nameEl.value.trim() &&
@@ -235,12 +393,25 @@ function setSignupButtonState(nameEl, emailEl, pwEl, pw2El, policyEl, btn) {
   );
 }
 
+/**
+ * @param {*} { pwEl
+ * @param {*} pw2El }
+ * @returns {*}
+ */
 function wireSignupErrorHandlers({ pwEl, pw2El }) {
+/**
+ * @returns {*}
+ */
   const clear = () => clearSignupErrorState(pwEl, pw2El);
   pwEl.addEventListener("input", clear);
   pw2El.addEventListener("input", clear);
 }
 
+/**
+ * @param {*} pwEl
+ * @param {*} pw2El
+ * @returns {*}
+ */
 function showSignupErrorState(pwEl, pw2El) {
   const errorMsg = document.getElementById("errorSignupMsg");
   errorMsg.style.display = "block";
@@ -248,6 +419,11 @@ function showSignupErrorState(pwEl, pw2El) {
   pw2El.classList.add("input-error");
 }
 
+/**
+ * @param {*} pwEl
+ * @param {*} pw2El
+ * @returns {*}
+ */
 function clearSignupErrorState(pwEl, pw2El) {
   const errorMsg = document.getElementById("errorSignupMsg");
   errorMsg.style.display = "none";
@@ -255,6 +431,10 @@ function clearSignupErrorState(pwEl, pw2El) {
   pw2El.classList.remove("input-error");
 }
 
+/**
+ * @param {*} state
+ * @returns {*}
+ */
 function wireSignupSubmit(state) {
   state.form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -262,6 +442,13 @@ function wireSignupSubmit(state) {
   });
 }
 
+/**
+ * @param {*} { nameEl
+ * @param {*} emailEl
+ * @param {*} pwEl
+ * @param {*} pw2El }
+ * @returns {*}
+ */
 async function handleSignupSubmit({ nameEl, emailEl, pwEl, pw2El }) {
   if (pwEl.value !== pw2El.value) return showSignupErrorState(pwEl, pw2El);
   const users = await loadUsers();
@@ -272,6 +459,13 @@ async function handleSignupSubmit({ nameEl, emailEl, pwEl, pw2El }) {
   setTimeout(() => { window.location.href = ROUTES.LOGIN; }, 300);
 }
 
+/**
+ * @param {*} users
+ * @param {*} name
+ * @param {*} email
+ * @param {*} pw
+ * @returns {*}
+ */
 function buildNewUser(users, name, email, pw) {
   return {
     id: generateNextUserId(users),
@@ -282,6 +476,9 @@ function buildNewUser(users, name, email, pw) {
   };
 }
 
+/**
+ * @returns {*}
+ */
 function wireSignupToggles() {
   setupPasswordToggle("suPw", "lockPw", "eyePw");
   setupPasswordToggle("suPw2", "lockPw2", "eyePw2");

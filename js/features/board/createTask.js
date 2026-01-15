@@ -13,33 +13,59 @@ function wireAddTaskButtons() {
   });
 }
 
+/**
+ * @param {*} btn
+ * @returns {*}
+ */
 function handleColumnAddClick(btn) {
   const column = btn.closest(".board-column");
   const status = column?.dataset?.status || "todo";
   openOverlayWithStatus(status);
 }
 
+/**
+ * @param {*} status
+ * @returns {*}
+ */
 function openOverlayWithStatus(status) {
   if (typeof openAddTaskOverlay !== "function") return;
   openAddTaskOverlay(status);
 }
 
+/**
+ * @param {*} card
+ * @param {*} task
+ * @returns {*}
+ */
 function wireCardOpenHandlers(card, task) {
   card.addEventListener("click", () => handleCardOpenClick(task));
   card.addEventListener("keydown", (e) => handleCardOpenKeydown(e, task));
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function handleCardOpenClick(task) {
   if (boardState.draggingTaskId) return;
   openTaskDetailOverlay(task?.id);
 }
 
+/**
+ * @param {*} e
+ * @param {*} task
+ * @returns {*}
+ */
 function handleCardOpenKeydown(e, task) {
   if (e.key !== "Enter" && e.key !== " ") return;
   e.preventDefault();
   openTaskDetailOverlay(task?.id);
 }
 
+/**
+ * @param {*} taskId
+ * @returns {*}
+ */
 function openTaskDetailOverlay(taskId) {
   const task = findTaskById(taskId);
   if (!task) return;
@@ -48,10 +74,17 @@ function openTaskDetailOverlay(taskId) {
   wireTaskDetailClose(root);
 }
 
+/**
+ * @param {*} taskId
+ * @returns {*}
+ */
 function findTaskById(taskId) {
   return boardState.tasks.find((t) => String(t?.id || "") === String(taskId || ""));
 }
 
+/**
+ * @returns {*}
+ */
 function openTaskOverlayRoot() {
   const root = ensureOverlayRoot();
   root.classList.remove("hidden");
@@ -59,6 +92,11 @@ function openTaskOverlayRoot() {
   return root;
 }
 
+/**
+ * @param {*} root
+ * @param {*} task
+ * @returns {*}
+ */
 function renderTaskDetailOverlay(root, task) {
   setTaskDetailShell(root);
   const detail = root.querySelector(".task-detail");
@@ -66,6 +104,10 @@ function renderTaskDetailOverlay(root, task) {
   fillTaskDetail(detail, task);
 }
 
+/**
+ * @param {*} root
+ * @returns {*}
+ */
 function setTaskDetailShell(root) {
   root.innerHTML = `
     <div class="overlay-backdrop" data-overlay-close></div>
@@ -76,6 +118,11 @@ function setTaskDetailShell(root) {
   `;
 }
 
+/**
+ * @param {*} detail
+ * @param {*} task
+ * @returns {*}
+ */
 function fillTaskDetail(detail, task) {
   detail.appendChild(createCategoryPill(task));
   detail.appendChild(createDetailTitle(task));
@@ -86,6 +133,10 @@ function fillTaskDetail(detail, task) {
   detail.appendChild(createDetailActions(task));
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function createDetailTitle(task) {
   const title = document.createElement("h2");
   title.className = "task-detail-title";
@@ -93,6 +144,10 @@ function createDetailTitle(task) {
   return title;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function createDetailDescription(task) {
   const desc = document.createElement("p");
   desc.className = "task-detail-desc";
@@ -100,6 +155,10 @@ function createDetailDescription(task) {
   return desc;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function createDetailMeta(task) {
   const meta = document.createElement("div");
   meta.className = "task-detail-meta";
@@ -108,6 +167,10 @@ function createDetailMeta(task) {
   return meta;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function createPriorityRow(task) {
   return createMetaRow(
     "Priority",
@@ -117,12 +180,23 @@ function createPriorityRow(task) {
   );
 }
 
+/**
+ * @param {*} root
+ * @returns {*}
+ */
 function wireTaskDetailClose(root) {
   root.querySelectorAll("[data-overlay-close]").forEach((el) => {
     el.addEventListener("click", closeTaskOverlay);
   });
 }
 
+/**
+ * @param {*} label
+ * @param {*} value
+ * @param {*} iconSrc
+ * @param {*} prioKey
+ * @returns {*}
+ */
 function createMetaRow(label, value, iconSrc, prioKey) {
   const row = document.createElement("div");
   row.className = "task-detail-row";
@@ -132,6 +206,10 @@ function createMetaRow(label, value, iconSrc, prioKey) {
   return row;
 }
 
+/**
+ * @param {*} label
+ * @returns {*}
+ */
 function createMetaKey(label) {
   const key = document.createElement("span");
   key.className = "task-detail-key";
@@ -139,6 +217,10 @@ function createMetaKey(label) {
   return key;
 }
 
+/**
+ * @param {*} value
+ * @returns {*}
+ */
 function createMetaValue(value) {
   const val = document.createElement("span");
   val.className = "task-detail-value";
@@ -146,6 +228,11 @@ function createMetaValue(value) {
   return val;
 }
 
+/**
+ * @param {*} iconSrc
+ * @param {*} prioKey
+ * @returns {*}
+ */
 function createMetaIcon(iconSrc, prioKey) {
   const img = document.createElement("img");
   img.className = "task-detail-prio-icon";
@@ -155,6 +242,10 @@ function createMetaIcon(iconSrc, prioKey) {
   return img;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function createAssignedSection(task) {
   const wrap = document.createElement("div");
   wrap.className = "task-detail-section";
@@ -163,6 +254,10 @@ function createAssignedSection(task) {
   return wrap;
 }
 
+/**
+ * @param {*} text
+ * @returns {*}
+ */
 function createSectionLabel(text) {
   const label = document.createElement("div");
   label.className = "task-detail-key";
@@ -170,6 +265,10 @@ function createSectionLabel(text) {
   return label;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function buildAssignedList(task) {
   const list = document.createElement("div");
   list.className = "task-detail-assigned";
@@ -179,6 +278,10 @@ function buildAssignedList(task) {
   return list;
 }
 
+/**
+ * @param {*} list
+ * @returns {*}
+ */
 function appendAssignedEmpty(list) {
   const empty = document.createElement("span");
   empty.className = "task-detail-empty";
@@ -187,6 +290,10 @@ function appendAssignedEmpty(list) {
   return list;
 }
 
+/**
+ * @param {*} person
+ * @returns {*}
+ */
 function buildAssigneeRow(person) {
   const item = document.createElement("div");
   item.className = "task-detail-assignee";
@@ -195,12 +302,20 @@ function buildAssigneeRow(person) {
   return item;
 }
 
+/**
+ * @param {*} person
+ * @returns {*}
+ */
 function buildAssigneeName(person) {
   const name = document.createElement("span");
   name.textContent = person.name || "";
   return name;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function createSubtasksSection(task) {
   const wrap = document.createElement("div");
   wrap.className = "task-detail-section";
@@ -209,6 +324,10 @@ function createSubtasksSection(task) {
   return wrap;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function buildSubtasksList(task) {
   const list = document.createElement("div");
   list.className = "task-detail-subtasks";
@@ -218,6 +337,10 @@ function buildSubtasksList(task) {
   return list;
 }
 
+/**
+ * @param {*} list
+ * @returns {*}
+ */
 function appendSubtasksEmpty(list) {
   const empty = document.createElement("span");
   empty.className = "task-detail-empty";
@@ -226,6 +349,12 @@ function appendSubtasksEmpty(list) {
   return list;
 }
 
+/**
+ * @param {*} task
+ * @param {*} subtask
+ * @param {*} index
+ * @returns {*}
+ */
 function buildSubtaskRow(task, subtask, index) {
   const row = document.createElement("label");
   row.className = "task-detail-subtask";
@@ -234,6 +363,12 @@ function buildSubtaskRow(task, subtask, index) {
   return row;
 }
 
+/**
+ * @param {*} task
+ * @param {*} subtask
+ * @param {*} index
+ * @returns {*}
+ */
 function buildSubtaskCheckbox(task, subtask, index) {
   const cb = document.createElement("input");
   cb.type = "checkbox";
@@ -244,12 +379,20 @@ function buildSubtaskCheckbox(task, subtask, index) {
   return cb;
 }
 
+/**
+ * @param {*} subtask
+ * @returns {*}
+ */
 function buildSubtaskText(subtask) {
   const text = document.createElement("span");
   text.textContent = subtask.title || subtask.name || subtask.text || "Subtask";
   return text;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function createDetailActions(task) {
   const actions = document.createElement("div");
   actions.className = "task-detail-actions";
@@ -258,6 +401,10 @@ function createDetailActions(task) {
   return actions;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function createDeleteButton(task) {
   const del = document.createElement("button");
   del.type = "button";
@@ -271,6 +418,10 @@ function createDeleteButton(task) {
   return del;
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 function createEditButton(task) {
   const edit = document.createElement("button");
   edit.type = "button";
@@ -282,6 +433,10 @@ function createEditButton(task) {
   return edit;
 }
 
+/**
+ * @param {*} taskId
+ * @returns {*}
+ */
 async function deleteTaskAndRefresh(taskId) {
   if (!taskId) return;
   if (TaskService?.delete) await TaskService.delete(taskId);
@@ -293,6 +448,9 @@ async function deleteTaskAndRefresh(taskId) {
   closeTaskOverlay();
 }
 
+/**
+ * @returns {*}
+ */
 function closeTaskOverlay() {
   const root = document.getElementById("overlayRoot");
   if (!root) return;
@@ -301,6 +459,12 @@ function closeTaskOverlay() {
   root.innerHTML = "";
 }
 
+/**
+ * @param {*} taskId
+ * @param {*} index
+ * @param {*} done
+ * @returns {*}
+ */
 async function updateSubtaskDone(taskId, index, done) {
   if (!taskId && taskId !== 0) return;
   const task = findTaskById(taskId);
@@ -313,12 +477,21 @@ async function updateSubtaskDone(taskId, index, done) {
   await persistSubtaskUpdate(task);
 }
 
+/**
+ * @param {*} task
+ * @param {*} index
+ * @returns {*}
+ */
 function getSubtaskAt(task, index) {
   const subtasks = getSubtasks(task);
   if (!Array.isArray(subtasks) || !subtasks[index]) return null;
   return subtasks[index];
 }
 
+/**
+ * @param {*} task
+ * @returns {*}
+ */
 async function persistSubtaskUpdate(task) {
   try {
     await TaskService.update(task.id, { subtasks: task.subtasks });
@@ -327,6 +500,11 @@ async function persistSubtaskUpdate(task) {
   }
 }
 
+/**
+ * @param {*} subtask
+ * @param {*} done
+ * @returns {*}
+ */
 function setSubtaskDone(subtask, done) {
   if (!subtask || typeof subtask !== "object") return;
   subtask.done = Boolean(done);
@@ -334,6 +512,9 @@ function setSubtaskDone(subtask, done) {
   subtask.isDone = Boolean(done);
 }
 
+/**
+ * @returns {*}
+ */
 function ensureOverlayRoot() {
   let root = document.getElementById("overlayRoot");
   if (root) return root;
@@ -345,6 +526,10 @@ function ensureOverlayRoot() {
   return root;
 }
 
+/**
+ * @param {*} value
+ * @returns {*}
+ */
 function normalizePrioLabel(value) {
   const v = String(value || "medium").toLowerCase();
   if (v === "urgent" || v === "high" || v === "alta") return "Urgent";
