@@ -539,6 +539,12 @@ main {
   width: 55.6px;
 }
 
+.overlay-logo img {
+  width: 50px;
+  height: auto;
+  max-width: 100%;
+}
+
 .overlay-logo-mark {
   position: relative;
   width: 24px;
