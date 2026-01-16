@@ -306,21 +306,6 @@ function createMoreBubble(n) {
   return s;
 }
 
-/**
- * Initials helper: "Max Mustermann" -> "MM"
- */
-function getInitials(name) {
-  const parts = String(name || "")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
-
-  if (parts.length === 0) return "";
-
-  const a = parts[0][0] || "";
-  const b = parts[parts.length - 1][0] || "";
-  return (a + b).toUpperCase();
-}
 
 /**
  * Priority block (icon).
