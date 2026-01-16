@@ -438,6 +438,7 @@ function initCategoryDropdown(state) {
   if (!dropdown) return null;
   const parts = getCategoryDropdownParts(dropdown);
   wireCategoryToggle(parts);
+  wireCategoryOutsideClose(parts);
   wireCategoryItems(state, parts);
   applyCategoryDefault(state, parts);
   return () => resetCategoryDropdown(parts);
@@ -475,6 +476,16 @@ function setCategoryOpen(parts, open) {
   parts.menu.hidden = !open;
   parts.toggle.setAttribute("aria-expanded", String(open));
   parts.dropdown.classList.toggle("is-open", open);
+}
+
+/**
+ * @param {*} parts
+ * @returns {*}
+ */
+function wireCategoryOutsideClose(parts) {
+  document.addEventListener("click", (e) => {
+    if (!parts.dropdown.contains(e.target)) setCategoryOpen(parts, false);
+  });
 }
 
 /**
