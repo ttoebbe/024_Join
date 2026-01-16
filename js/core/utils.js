@@ -201,3 +201,61 @@ function generateRandomColor() {
   ];
   return colors[Math.floor(Math.random() * colors.length)];
 }
+
+/**
+ * Shows a toast notification.
+ * @param {string} message - The message to display
+ */
+function showToast(message) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  
+  setTimeout(() => toast.classList.add("show"), 100);
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+/**
+ * Checks if current user is a guest.
+ * @returns {boolean} - True if user is guest
+ */
+function isGuest() {
+  const user = getCurrentUser();
+  return user?.guest === true;
+}
+
+/**
+ * Disables button for guest users.
+ * @param {HTMLElement} button - The button to disable
+ * @param {Function} originalHandler - Original click handler (optional)
+ */
+function disableForGuests(button, originalHandler) {
+  if (!button) return;
+  
+  if (isGuest()) {
+    button.classList.add("disabled");
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      showToast("Gastnutzer duerfen diese Aktion nicht ausfuehren.");
+    }, { capture: true });
+  } else if (originalHandler) {
+    button.addEventListener("click", originalHandler);
+  }
+}
+
+/**
+ * Gets current user from session storage.
+ * @returns {Object|null} - Current user or null
+ */
+function getCurrentUser() {
+  try {
+    return JSON.parse(sessionStorage.getItem(CURRENT_USER_KEY));
+  } catch {
+    return null;
+  }
+}

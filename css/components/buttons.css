@@ -107,3 +107,9 @@
   min-width: var(--size-md);
   min-height: var(--size-md);
 }
+
+/* Disabled state for guest users */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

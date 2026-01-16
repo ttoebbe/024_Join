@@ -133,8 +133,8 @@ function setupDetailActions(contactId) {
   const container = document.getElementById("contact-detail-injection");
   if (!container || !contactId) return;
   const { editButton, deleteButton } = getDetailActionButtons(container);
-  editButton?.addEventListener("click", () => openEditContact(contactId));
-  deleteButton?.addEventListener("click", () => confirmDeleteContact(contactId));
+  disableForGuests(editButton, () => openEditContact(contactId));
+  disableForGuests(deleteButton, () => confirmDeleteContact(contactId));
 }
 
 /**
@@ -166,7 +166,7 @@ function setupMobileDetailButtons(contactId) {
   const container = document.getElementById("contact-detail-injection");
   if (!container || !contactId) return;
   const menuButton = container.querySelector(".contact-menu-button");
-  menuButton?.addEventListener("click", () => openEditContact(contactId));
+  disableForGuests(menuButton, () => openEditContact(contactId));
 }
 
 /**

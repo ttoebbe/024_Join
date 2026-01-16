@@ -7,9 +7,9 @@
  */
 function wireAddTaskButtons() {
   const mainBtn = document.getElementById("boardAddTaskBtn");
-  if (mainBtn) mainBtn.addEventListener("click", () => openOverlayWithStatus("todo"));
+  disableForGuests(mainBtn, () => openOverlayWithStatus("todo"));
   document.querySelectorAll(".board-column-add").forEach((btn) => {
-    btn.addEventListener("click", () => handleColumnAddClick(btn));
+    disableForGuests(btn, () => handleColumnAddClick(btn));
   });
 }
 
@@ -410,7 +410,7 @@ function createDeleteButton(task) {
   del.type = "button";
   del.className = "task-detail-btn";
   del.textContent = "Delete";
-  del.addEventListener("click", async () => {
+  disableForGuests(del, async () => {
     const ok = confirm("Delete this task?");
     if (!ok) return;
     await deleteTaskAndRefresh(task?.id);
@@ -427,7 +427,7 @@ function createEditButton(task) {
   edit.type = "button";
   edit.className = "task-detail-btn";
   edit.textContent = "Edit";
-  edit.addEventListener("click", () => {
+  disableForGuests(edit, () => {
     if (typeof openEditTaskOverlay === "function") openEditTaskOverlay(task);
   });
   return edit;
