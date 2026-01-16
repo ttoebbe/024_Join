@@ -119,12 +119,22 @@ function getHighestContactNumber() {
 
 /**
  * Generates the next contact id based on existing entries.
- * @returns {string}
+ * @returns {Promise<string>}
  */
-function getNextContactId() {
-  if (!hasContacts()) return "c0";
-  const highest = getHighestContactNumber();
-  return `c${highest + 1}`;
+async function getNextContactId() {
+  try {
+    const data = await ContactService.getAll();
+    const firebaseContacts = normalizeContacts(data);
+    if (!Array.isArray(firebaseContacts) || firebaseContacts.length === 0) return "c0";
+    const highest = firebaseContacts.reduce((max, contact) => {
+      const numericPart = getContactIdNumber(contact);
+      return Math.max(max, numericPart);
+    }, -1);
+    return `c${highest + 1}`;
+  } catch (error) {
+    console.error("Error generating contact ID:", error);
+    return `c${Date.now()}`;
+  }
 }
 
 /**

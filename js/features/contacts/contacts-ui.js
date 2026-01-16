@@ -105,6 +105,18 @@ function selectContact(contact, element) {
 }
 
 /**
+ * Selects a contact by ID.
+ * @param {string} contactId
+ */
+function selectContactById(contactId) {
+  const contact = getContactById(contactId);
+  if (!contact) return;
+  const element = document.querySelector(`[data-contact-id="${contactId}"]`);
+  if (!element) return;
+  selectContact(contact, element);
+}
+
+/**
  * Removes active state from all contact entries.
  */
 function removeActiveStates() {

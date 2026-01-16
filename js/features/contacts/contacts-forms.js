@@ -269,11 +269,11 @@ function applyContactValues(target, values) {
 /**
  * Builds a contact object from form values.
  * @param {{name: string, email: string, phone: string}} values
- * @returns {Object}
+ * @returns {Promise<Object>}
  */
-function buildNewContact(values) {
+async function buildNewContact(values) {
   return {
-    id: getNextContactId(),
+    id: await getNextContactId(),
     name: values.name,
     email: values.email,
     phone: values.phone,
@@ -337,10 +337,10 @@ function refreshContactUI(listElement, overlay, form, contactId) {
  */
 async function createNewContact(values, overlay, form, listElement) {
   try {
-    const newContact = buildNewContact(values);
+    const newContact = await buildNewContact(values);
     const result = await ContactService.create(newContact);
     if (!result) return;
-    addContact(newContact);
+    await loadContactsFromFirebase();
     refreshContactUI(listElement, overlay, form, newContact.id);
   } catch (error) {
     console.error("Error creating contact:", error);
