@@ -228,36 +228,10 @@ function getLoginState() {
  * @returns {void}
  */
 function wireLoginForm(state) {
-  wireLoginButtonState(state);
   wireLoginErrorHandlers(state);
   wireLoginSubmit(state);
   wireGuestLogin(state);
   setupPasswordToggle("password", "passwordLock", "visibilityImg");
-}
-
-
-/**
- * Wires the login button enabled state.
- * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement}} state
- * @returns {void}
- */
-function wireLoginButtonState({ emailEl, pwEl, btnLogin }) {
-  const update = () => setLoginButtonState(emailEl, pwEl, btnLogin);
-  emailEl.addEventListener("input", update);
-  pwEl.addEventListener("input", update);
-  update();
-}
-
-
-/**
- * Sets login button disabled state based on inputs.
- * @param {HTMLInputElement} emailEl
- * @param {HTMLInputElement} pwEl
- * @param {HTMLButtonElement} btnLogin
- * @returns {void}
- */
-function setLoginButtonState(emailEl, pwEl, btnLogin) {
-  btnLogin.disabled = !(emailEl.value.trim() && pwEl.value.trim());
 }
 
 
@@ -376,10 +350,9 @@ async function attemptLogin({ emailEl, pwEl }) {
  * @param {boolean} busy
  * @returns {void}
  */
-function setLoginBusy({ emailEl, pwEl, btnLogin }, busy) {
+function setLoginBusy({ btnLogin }, busy) {
   if (!btnLogin) return;
-  if (busy) return void (btnLogin.disabled = true);
-  setLoginButtonState(emailEl, pwEl, btnLogin);
+  btnLogin.disabled = busy;
 }
 
 
