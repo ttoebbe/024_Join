@@ -325,9 +325,9 @@ function getInitials(name) {
 /**
  * Priority block (icon).
  * Uses your existing assets naming:
- * - /img/icons/Prio alta.png
- * - /img/icons/Prio media.png
- * - /img/icons/Prio baja.png
+ * - /assets/img/icons/Prio alta.png
+ * - /assets/img/icons/Prio media.png
+ * - /assets/img/icons/Prio baja.png
  */
 function createPrioBlock(task) {
   const wrap = document.createElement("div");
@@ -356,7 +356,7 @@ function buildPrioImage(task) {
 function handlePrioImageError(img) {
   img.onerror = null;
   img.dataset.prio = "medium";
-  img.src = "/img/icons/Prio-medium.png";
+  img.src = "/assets/img/icons/Prio-medium.png";
 }
 
 /**
@@ -365,9 +365,9 @@ function handlePrioImageError(img) {
  */
 function mapPrioToIcon(prio) {
   const key = normalizePrioKey(prio);
-  if (key === "urgent") return "/img/icons/Prio-Urgent.png";
-  if (key === "low") return "/img/icons/Prio-Low.png";
-  return "/img/icons/Prio-medium.png";
+  if (key === "urgent") return "/assets/img/icons/Prio-Urgent.png";
+  if (key === "low") return "/assets/img/icons/Prio-Low.png";
+  return "/assets/img/icons/Prio-medium.png";
 }
 
 /**

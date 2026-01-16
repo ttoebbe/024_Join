@@ -1,25 +1,25 @@
 const NAV_BAR_TEMPLATE = `
   <div class="nav_bar">
     <div class="nav_logo">
-      <img class="nav_img" src="../../img/Capa 2.png" alt="Join Logo" />
+      <img class="nav_img" src="../../assets/img/Capa 2.png" alt="Join Logo" />
     </div>
 
     <div class="nav_links">
       <nav>
         <a href="summary.html" data-route="summary">
-          <img src="../../img/icons/summary.png" alt="" />
+          <img src="../../assets/img/icons/summary.png" alt="" />
           <p>Summary</p>
         </a>
         <a href="add_task.html" data-route="add_task">
-          <img src="../../img/icons/addtasks.png" alt="" />
+          <img src="../../assets/img/icons/addtasks.png" alt="" />
           <p>Add Tasks</p>
         </a>
         <a href="board.html" data-route="board">
-          <img src="../../img/icons/board.png" alt="" />
+          <img src="../../assets/img/icons/board.png" alt="" />
           <p>Board</p>
         </a>
         <a href="contacts.html" data-route="contacts">
-          <img src="../../img/icons/contact.png" alt="" />
+          <img src="../../assets/img/icons/contact.png" alt="" />
           <p>Contacts</p>
         </a>
       </nav>

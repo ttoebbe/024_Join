@@ -430,7 +430,7 @@ body{
   .topbar > div:first-child{
     width: 32px;
     height: 40px;
-    background: url("/img/homepage_join.png") no-repeat center / contain;
+    background: url("/assets/img/homepage_join.png") no-repeat center / contain;
   }
 
   .nav_bar{

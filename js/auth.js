@@ -144,7 +144,7 @@ function showEyeIcon(input, lock, eye) {
   lock.classList.add("d-none");
   eye.classList.remove("d-none");
   eye.classList.add("input-icon-password");
-  eye.src = "/img/icons/visibility_off.png";
+  eye.src = "/assets/img/icons/visibility_off.png";
 }
 
 
@@ -170,7 +170,7 @@ function wirePasswordToggle({ input, eye }) {
 function togglePasswordVisibility(input, eye) {
   const isHidden = input.type === "password";
   input.type = isHidden ? "text" : "password";
-  eye.src = isHidden ? "/img/icons/visibility.png" : "/img/icons/visibility_off.png";
+  eye.src = isHidden ? "/assets/img/icons/visibility.png" : "/assets/img/icons/visibility_off.png";
 }
 
 
