@@ -57,12 +57,46 @@ const HEADER_TEMPLATE = `
 `;
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (shouldHideNavForGuest()) {
+    applyGuestMode();
+    return;
+  }
   renderNavBar();
   renderHeader();
   setActiveNavLink();
   renderUserInitials();
   initUserMenu();
 });
+
+
+/**
+ * @returns {*}
+ */
+function shouldHideNavForGuest() {
+  if (getCurrentUser()) return false;
+  return isPolicyPage();
+}
+
+
+/**
+ * @returns {*}
+ */
+function isPolicyPage() {
+  const path = window.location.pathname.toLowerCase();
+  return path.endsWith("/legal_notice.html") || path.endsWith("/privacy_policy.html");
+}
+
+
+/**
+ * @returns {*}
+ */
+function applyGuestMode() {
+  document.body.classList.add("guest-mode");
+  const nav = document.getElementById("nav-bar-placeholder");
+  const header = document.getElementById("header-placeholder");
+  if (nav) nav.innerHTML = "";
+  if (header) header.innerHTML = "";
+}
 
 /**
  * @returns {*}
