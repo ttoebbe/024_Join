@@ -241,7 +241,7 @@ function disableForGuests(button, originalHandler) {
     button.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      showToast("Gastnutzer duerfen diese Aktion nicht ausfuehren.");
+      showToast("Guest users are not allowed to perform this action.");
     }, { capture: true });
   } else if (originalHandler) {
     button.addEventListener("click", originalHandler);
