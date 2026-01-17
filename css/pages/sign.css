@@ -221,7 +221,7 @@ footer {
 
 footer a {
     text-decoration: none;
-    color: var(--color-text-muted);
+    color: #A8A8A8;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -231,8 +231,7 @@ footer a {
 
 footer a:hover {
     transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-    color: var(--color-accent);
+    color: #29ABE2;
 }
 
 .footer_left {
