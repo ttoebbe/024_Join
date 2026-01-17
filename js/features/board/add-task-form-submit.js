@@ -87,8 +87,13 @@ function resetSelectionState(state) {
  * @returns {*}
  */
 function wireSubmitHandler(state, onClose) {
+  disableForGuests(state.createBtn, async (e) => {
+    e?.preventDefault();
+    await handleSubmit(state, onClose);
+  });
   state.form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (isGuest()) return;
     await handleSubmit(state, onClose);
   });
 }
@@ -263,7 +268,8 @@ async function updateExistingTask(state, values) {
  * @returns {*}
  */
 async function createNewTask(state, values) {
-  const newTask = buildTaskPayload(state, values, { id: generateTaskId() });
+  const taskId = await generateTaskId();
+  const newTask = buildTaskPayload(state, values, { id: taskId });
   await TaskService.create(newTask);
 }
 
