@@ -125,10 +125,17 @@ function buildAssignedCheck() {
  * @returns {*}
  */
 function setAssignedSelectionState(state, item, check, contact) {
-  const isSelected = state.selectedAssigned.some((a) => a.id ? a.id === contact.id : a.name === contact.name);
+  const isSelected = state.selectedAssigned.some((a) => {
+    return isAssignedMatch(a, contact);
+  });
   if (!isSelected) return;
   item.classList.add("is-selected");
   check.textContent = "x";
+}
+
+function isAssignedMatch(assigned, contact) {
+  if (assigned?.id) return assigned.id === contact.id;
+  return assigned?.name === contact.name;
 }
 
 /**
@@ -140,7 +147,9 @@ function setAssignedSelectionState(state, item, check, contact) {
  * @returns {*}
  */
 function toggleAssignedContact(state, contact, item, check, parts) {
-  const exists = state.selectedAssigned.find((a) => a.id === contact.id);
+  const exists = state.selectedAssigned.find((a) => {
+    return a.id === contact.id;
+  });
   if (exists) {
     removeAssignedContact(state, contact, item, check);
   } else {
@@ -157,7 +166,11 @@ function toggleAssignedContact(state, contact, item, check, parts) {
  * @returns {*}
  */
 function removeAssignedContact(state, contact, item, check) {
-  state.selectedAssigned = state.selectedAssigned.filter((a) => a.id !== contact.id);
+  const remaining = [];
+  for (const itemRef of state.selectedAssigned) {
+    if (itemRef.id !== contact.id) remaining.push(itemRef);
+  }
+  state.selectedAssigned = remaining;
   item.classList.remove("is-selected");
   check.textContent = "";
 }
@@ -187,11 +200,19 @@ function addAssignedContact(state, contact, item, check) {
 function updateAssignedLabel(state, parts) {
   if (!parts.valueEl) return;
   if (state.selectedAssigned.length === 0) return resetAssignedLabel(parts);
-  const names = state.selectedAssigned.map((a) => a.name).filter(Boolean);
+  const names = collectAssignedNames(state.selectedAssigned);
   const shown = names.slice(0, 2).join(", ");
   const more = names.length > 2 ? ` +${names.length - 2}` : "";
   parts.valueEl.textContent = `${shown}${more}`;
   parts.dropdown.classList.add("has-value");
+}
+
+function collectAssignedNames(list) {
+  const names = [];
+  for (const item of list || []) {
+    if (item?.name) names.push(item.name);
+  }
+  return names;
 }
 
 /**

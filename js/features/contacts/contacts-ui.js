@@ -122,7 +122,9 @@ function selectContactById(contactId) {
 function removeActiveStates() {
   document
     .querySelectorAll(".contact-entry")
-    .forEach((entry) => entry.classList.remove("is-active"));
+    .forEach((entry) => {
+      entry.classList.remove("is-active");
+    });
 }
 
 /**
@@ -145,8 +147,12 @@ function setupDetailActions(contactId) {
   const container = document.getElementById("contact-detail-injection");
   if (!container || !contactId) return;
   const { editButton, deleteButton } = getDetailActionButtons(container);
-  disableForGuests(editButton, () => openEditContact(contactId));
-  disableForGuests(deleteButton, () => confirmDeleteContact(contactId));
+  disableForGuests(editButton, () => {
+    openEditContact(contactId);
+  });
+  disableForGuests(deleteButton, () => {
+    confirmDeleteContact(contactId);
+  });
 }
 
 /**
@@ -178,7 +184,9 @@ function setupMobileDetailButtons(contactId) {
   const container = document.getElementById("contact-detail-injection");
   if (!container || !contactId) return;
   const menuButton = container.querySelector(".contact-menu-button");
-  disableForGuests(menuButton, () => openEditContact(contactId));
+  disableForGuests(menuButton, () => {
+    openEditContact(contactId);
+  });
 }
 
 /**

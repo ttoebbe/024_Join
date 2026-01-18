@@ -120,7 +120,9 @@ function debounce(func, delay) {
   let timeoutId;
   return function (...args) {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(this, args), delay);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
   };
 }
 
@@ -157,11 +159,14 @@ function generateNextUserId(existingUsers = []) {
  * @returns {*}
  */
 function getUserNumbers(existingUsers) {
-  return existingUsers
-    .map((user) => user.id)
-    .filter((id) => isUserId(id))
-    .map((id) => parseUserIdNumber(id))
-    .filter((num) => num >= 0);
+  const numbers = [];
+  for (const user of existingUsers || []) {
+    const id = user?.id;
+    if (!isUserId(id)) continue;
+    const num = parseUserIdNumber(id);
+    if (num >= 0) numbers.push(num);
+  }
+  return numbers;
 }
 
 /**
@@ -188,22 +193,40 @@ function parseUserIdNumber(id) {
 async function generateTaskId() {
   try {
     const data = await TaskService.getAll();
-    if (!data) return "t0";
-    
-    const tasks = Array.isArray(data) ? data : Object.values(data).filter(Boolean);
-    if (tasks.length === 0) return "t0";
-    
-    const highest = tasks.reduce((max, task) => {
-      if (!task || !task.id) return max;
-      const numericPart = getTaskIdNumber(task.id);
-      return Math.max(max, numericPart);
-    }, -1);
-    
-    return `t${highest + 1}`;
+    return buildNextTaskId(data);
   } catch (error) {
-    console.error("Error generating task ID:", error);
-    return `t${Date.now()}`;
+    logTaskIdError(error);
+    return fallbackTaskId();
   }
+}
+
+function buildNextTaskId(data) {
+  const tasks = normalizeTaskList(data);
+  if (tasks.length === 0) return "t0";
+  const highest = getHighestTaskNumber(tasks);
+  return `t${highest + 1}`;
+}
+
+function normalizeTaskList(data) {
+  if (!data) return [];
+  if (Array.isArray(data)) return data.filter(Boolean);
+  return Object.values(data).filter(Boolean);
+}
+
+function getHighestTaskNumber(tasks) {
+  return tasks.reduce((max, task) => {
+    if (!task || !task.id) return max;
+    const numericPart = getTaskIdNumber(task.id);
+    return Math.max(max, numericPart);
+  }, -1);
+}
+
+function logTaskIdError(error) {
+  console.error("Error generating task ID:", error);
+}
+
+function fallbackTaskId() {
+  return `t${Date.now()}`;
 }
 
 /**
@@ -235,15 +258,31 @@ function generateRandomColor() {
  * @param {string} message - The message to display
  */
 function showToast(message) {
+  const toast = createToast(message);
+  document.body.appendChild(toast);
+  scheduleToastShow(toast);
+  scheduleToastHide(toast);
+}
+
+function createToast(message) {
   const toast = document.createElement("div");
   toast.className = "toast";
   toast.textContent = message;
-  document.body.appendChild(toast);
-  
-  setTimeout(() => toast.classList.add("show"), 100);
+  return toast;
+}
+
+function scheduleToastShow(toast) {
+  setTimeout(() => {
+    toast.classList.add("show");
+  }, 100);
+}
+
+function scheduleToastHide(toast) {
   setTimeout(() => {
     toast.classList.remove("show");
-    setTimeout(() => toast.remove(), 300);
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
   }, 3000);
 }
 

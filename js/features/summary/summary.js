@@ -4,7 +4,9 @@
  * @param {*} id
  * @returns {*}
  */
-const $id = (id) => document.getElementById(id);
+function $id(id) {
+  return document.getElementById(id);
+}
 
 /**
  * @returns {*}
@@ -69,7 +71,9 @@ function formatDateLong(dateObj) {
 function calcKPIs(tasks) {
   const kpi = initKpi(tasks);
   const urgentOpenDates = [];
-  tasks.forEach((t) => updateKpiForTask(kpi, t, urgentOpenDates));
+  for (const task of tasks) {
+    updateKpiForTask(kpi, task, urgentOpenDates);
+  }
   setNextUrgentDeadline(kpi, urgentOpenDates);
   return kpi;
 }
@@ -134,7 +138,9 @@ function trackUrgentOpen(kpi, task, status, urgentOpenDates) {
  * @returns {*}
  */
 function setNextUrgentDeadline(kpi, urgentOpenDates) {
-  urgentOpenDates.sort((a, b) => a - b);
+  urgentOpenDates.sort((a, b) => {
+    return a - b;
+  });
   kpi.nextUrgentDeadline = urgentOpenDates[0] || null;
 }
 
@@ -185,5 +191,7 @@ function redirectToLogin() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  initSummary().catch((err) => console.error("Summary init error:", err));
+  initSummary().catch((err) => {
+    console.error("Summary init error:", err);
+  });
 });

@@ -124,17 +124,25 @@ function getHighestContactNumber() {
 async function getNextContactId() {
   try {
     const data = await ContactService.getAll();
-    const firebaseContacts = normalizeContacts(data);
-    if (!Array.isArray(firebaseContacts) || firebaseContacts.length === 0) return "c0";
-    const highest = firebaseContacts.reduce((max, contact) => {
-      const numericPart = getContactIdNumber(contact);
-      return Math.max(max, numericPart);
-    }, -1);
-    return `c${highest + 1}`;
+    return buildNextContactId(data);
   } catch (error) {
     console.error("Error generating contact ID:", error);
     return `c${Date.now()}`;
   }
+}
+
+function buildNextContactId(data) {
+  const firebaseContacts = normalizeContacts(data);
+  if (!Array.isArray(firebaseContacts) || firebaseContacts.length === 0) return "c0";
+  const highest = getHighestContactNumberFrom(firebaseContacts);
+  return `c${highest + 1}`;
+}
+
+function getHighestContactNumberFrom(list) {
+  return list.reduce((max, contact) => {
+    const numericPart = getContactIdNumber(contact);
+    return Math.max(max, numericPart);
+  }, -1);
 }
 
 /**
@@ -154,7 +162,9 @@ function addContact(contact) {
  */
 function getContactIndex(contactId) {
   if (!Array.isArray(contacts)) return -1;
-  return contacts.findIndex((contact) => contact.id === contactId);
+  return contacts.findIndex((contact) => {
+    return contact.id === contactId;
+  });
 }
 
 /**

@@ -101,7 +101,9 @@ function handleColumnDrop(e) {
 function clearDropTargets() {
   document
     .querySelectorAll(".board-column.is-drop-target")
-    .forEach((col) => col.classList.remove("is-drop-target"));
+    .forEach((col) => {
+      col.classList.remove("is-drop-target");
+    });
 }
 
 /**
@@ -122,7 +124,9 @@ async function updateTaskStatus(taskId, status) {
  * @returns {*}
  */
 function findTaskById(taskId) {
-  return boardState.tasks.find((t) => String(t?.id || "") === String(taskId));
+  return boardState.tasks.find((t) => {
+    return String(t?.id || "") === String(taskId);
+  });
 }
 
 /**

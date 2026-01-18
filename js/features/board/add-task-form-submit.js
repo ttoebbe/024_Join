@@ -24,7 +24,9 @@ function handlePrioButton(state, btn) {
  * @returns {*}
  */
 function clearPrioActive(state) {
-  state.form.querySelectorAll(".prio-btn").forEach((b) => b.classList.remove("is-active"));
+  state.form.querySelectorAll(".prio-btn").forEach((b) => {
+    b.classList.remove("is-active");
+  });
 }
 
 /**
@@ -210,8 +212,12 @@ function clearInputError(element) {
  * @returns {*}
  */
 function wireValidationCleanup(state) {
-  state.form.addEventListener("input", () => clearAddTaskErrors(state));
-  state.form.addEventListener("change", () => clearAddTaskErrors(state));
+  state.form.addEventListener("input", () => {
+    clearAddTaskErrors(state);
+  });
+  state.form.addEventListener("change", () => {
+    clearAddTaskErrors(state);
+  });
 }
 
 /**
@@ -307,11 +313,18 @@ async function refreshBoardIfNeeded() {
  * @returns {*}
  */
 function wireCreateButtonState(state) {
-  state.titleInput?.addEventListener("input", () => updateCreateButtonState(state));
-  state.dueDateInput?.addEventListener("input", () => updateCreateButtonState(state));
-  state.dueDateInput?.addEventListener("change", () => updateCreateButtonState(state));
-  state.form.addEventListener("input", () => updateCreateButtonState(state));
-  state.form.addEventListener("change", () => updateCreateButtonState(state));
+  const handler = function () {
+    updateCreateButtonState(state);
+  };
+  attachCreateButtonListeners(state, handler);
+}
+
+function attachCreateButtonListeners(state, handler) {
+  state.titleInput?.addEventListener("input", handler);
+  state.dueDateInput?.addEventListener("input", handler);
+  state.dueDateInput?.addEventListener("change", handler);
+  state.form.addEventListener("input", handler);
+  state.form.addEventListener("change", handler);
 }
 
 /**

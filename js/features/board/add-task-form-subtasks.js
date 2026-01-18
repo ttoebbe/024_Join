@@ -4,8 +4,12 @@
  */
 function initSubtasks(state) {
   if (!state.subtaskInput || !state.subtaskAddBtn || !state.subtaskList) return;
-  state.subtaskAddBtn.addEventListener("click", () => addSubtaskFromInput(state));
-  state.subtaskInput.addEventListener("keydown", (e) => handleSubtaskKeydown(e, state));
+  state.subtaskAddBtn.addEventListener("click", () => {
+    addSubtaskFromInput(state);
+  });
+  state.subtaskInput.addEventListener("keydown", (e) => {
+    handleSubtaskKeydown(e, state);
+  });
   renderSubtasks(state);
 }
 
@@ -78,7 +82,9 @@ function buildRemoveSubtaskButton(state, index) {
   removeBtn.type = "button";
   removeBtn.className = "subtask-remove";
   removeBtn.textContent = "x";
-  removeBtn.addEventListener("click", () => removeSubtask(state, index));
+  removeBtn.addEventListener("click", () => {
+    removeSubtask(state, index);
+  });
   return removeBtn;
 }
 
@@ -98,9 +104,12 @@ function removeSubtask(state, index) {
  */
 function normalizeSubtasksFromTask(raw) {
   if (!Array.isArray(raw)) return [];
-  return raw
-    .map((item) => normalizeSubtaskItem(item))
-    .filter((x) => x && x.title);
+  const normalized = [];
+  for (const item of raw) {
+    const value = normalizeSubtaskItem(item);
+    if (value && value.title) normalized.push(value);
+  }
+  return normalized;
 }
 
 /**
