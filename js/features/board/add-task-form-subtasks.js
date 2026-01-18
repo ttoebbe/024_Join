@@ -1,5 +1,4 @@
 /**
- * Initialisiert Subtasks-Handling (Input, Add-Button, Rendering)
  * @param {*} state
  * @returns {*}
  */
@@ -11,7 +10,6 @@ function initSubtasks(state) {
 }
 
 /**
- * Behandelt Enter-Key im Subtask-Input
  * @param {*} e
  * @param {*} state
  * @returns {*}
@@ -23,7 +21,6 @@ function handleSubtaskKeydown(e, state) {
 }
 
 /**
- * Fügt Subtask aus Input-Feld hinzu
  * @param {*} state
  * @returns {*}
  */
@@ -36,7 +33,6 @@ function addSubtaskFromInput(state) {
 }
 
 /**
- * Rendert alle Subtasks als Liste
  * @param {*} state
  * @returns {*}
  */
@@ -49,7 +45,6 @@ function renderSubtasks(state) {
 }
 
 /**
- * Erstellt ein Subtask-List-Item
  * @param {*} state
  * @param {*} subtask
  * @param {*} index
@@ -64,7 +59,6 @@ function buildSubtaskRow(state, subtask, index) {
 }
 
 /**
- * Erstellt Text-Element für Subtask
  * @param {*} subtask
  * @returns {*}
  */
@@ -75,7 +69,6 @@ function buildSubtaskText(subtask) {
 }
 
 /**
- * Erstellt Delete-Button für Subtask
  * @param {*} state
  * @param {*} index
  * @returns {*}
@@ -90,7 +83,6 @@ function buildRemoveSubtaskButton(state, index) {
 }
 
 /**
- * Entfernt Subtask aus Liste
  * @param {*} state
  * @param {*} index
  * @returns {*}
@@ -98,4 +90,37 @@ function buildRemoveSubtaskButton(state, index) {
 function removeSubtask(state, index) {
   state.selectedSubtasks.splice(index, 1);
   renderSubtasks(state);
+}
+
+/**
+ * @param {*} raw
+ * @returns {*}
+ */
+function normalizeSubtasksFromTask(raw) {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((item) => normalizeSubtaskItem(item))
+    .filter((x) => x && x.title);
+}
+
+/**
+ * @param {*} item
+ * @returns {*}
+ */
+function normalizeSubtaskItem(item) {
+  if (!item) return null;
+  if (typeof item === "string") return { title: item, done: false };
+  if (typeof item === "object") return buildSubtaskValue(item);
+  return null;
+}
+
+/**
+ * @param {*} item
+ * @returns {*}
+ */
+function buildSubtaskValue(item) {
+  return {
+    title: item.title || item.name || item.text || "",
+    done: Boolean(item.done || item.completed || item.isDone),
+  };
 }

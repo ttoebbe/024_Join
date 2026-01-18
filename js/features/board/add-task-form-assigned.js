@@ -1,5 +1,4 @@
 /**
- * Initialisiert Assigned-Dropdown (Kontakt-Auswahl)
  * @param {*} state
  * @returns {*}
  */
@@ -14,7 +13,6 @@ function initAssignedDropdown(state) {
 }
 
 /**
- * Extrahiert DOM-Elemente aus Assigned-Dropdown
  * @param {*} dropdown
  * @returns {*}
  */
@@ -26,7 +24,6 @@ function getAssignedDropdownParts(dropdown) {
 }
 
 /**
- * Registriert Toggle-Button Event für Assigned-Dropdown
  * @param {*} parts
  * @returns {*}
  */
@@ -37,7 +34,6 @@ function wireAssignedToggle(parts) {
 }
 
 /**
- * Öffnet/Schließt Assigned-Dropdown
  * @param {*} parts
  * @param {*} open
  * @returns {*}
@@ -50,7 +46,6 @@ function setAssignedOpen(parts, open) {
 }
 
 /**
- * Registriert Outside-Click Handler zum Schließen des Dropdowns
  * @param {*} parts
  * @returns {*}
  */
@@ -61,7 +56,6 @@ function wireAssignedOutsideClose(parts) {
 }
 
 /**
- * Lädt Kontakte und rendert sie im Dropdown
  * @param {*} state
  * @param {*} parts
  * @returns {*}
@@ -75,7 +69,6 @@ async function loadAssignedContacts(state, parts) {
 }
 
 /**
- * Erstellt und fügt ein Kontakt-Item zum Dropdown hinzu
  * @param {*} state
  * @param {*} parts
  * @param {*} contact
@@ -92,7 +85,6 @@ function appendAssignedItem(state, parts, contact) {
 }
 
 /**
- * Erstellt ein Kontakt-Item-Element
  * @param {*} contact
  * @returns {*}
  */
@@ -107,7 +99,6 @@ function buildAssignedItem(contact) {
 }
 
 /**
- * Erstellt Label-Element für Kontakt
  * @param {*} contact
  * @returns {*}
  */
@@ -118,7 +109,6 @@ function buildAssignedLabel(contact) {
 }
 
 /**
- * Erstellt Check-Element für Selektionsstatus
  * @returns {*}
  */
 function buildAssignedCheck() {
@@ -128,7 +118,6 @@ function buildAssignedCheck() {
 }
 
 /**
- * Setzt Selektionsstatus für ein Kontakt-Item
  * @param {*} state
  * @param {*} item
  * @param {*} check
@@ -143,7 +132,6 @@ function setAssignedSelectionState(state, item, check, contact) {
 }
 
 /**
- * Togglet Kontakt-Selektion
  * @param {*} state
  * @param {*} contact
  * @param {*} item
@@ -162,7 +150,6 @@ function toggleAssignedContact(state, contact, item, check, parts) {
 }
 
 /**
- * Entfernt Kontakt aus Selektion
  * @param {*} state
  * @param {*} contact
  * @param {*} item
@@ -176,7 +163,6 @@ function removeAssignedContact(state, contact, item, check) {
 }
 
 /**
- * Fügt Kontakt zur Selektion hinzu
  * @param {*} state
  * @param {*} contact
  * @param {*} item
@@ -194,7 +180,6 @@ function addAssignedContact(state, contact, item, check) {
 }
 
 /**
- * Aktualisiert Label mit ausgewählten Kontakten
  * @param {*} state
  * @param {*} parts
  * @returns {*}
@@ -210,7 +195,6 @@ function updateAssignedLabel(state, parts) {
 }
 
 /**
- * Setzt Assigned-Label auf Standard-Wert
  * @param {*} parts
  * @returns {*}
  */
@@ -220,7 +204,6 @@ function resetAssignedLabel(parts) {
 }
 
 /**
- * Setzt Assigned-Dropdown auf Standard-Zustand
  * @param {*} parts
  * @returns {*}
  */
@@ -232,7 +215,6 @@ function resetAssignedDropdown(parts) {
 }
 
 /**
- * Lädt alle Kontakte vom ContactService
  * @returns {*}
  */
 async function loadContacts() {
@@ -246,7 +228,6 @@ async function loadContacts() {
 }
 
 /**
- * Konvertiert beliebige Daten zu Array
  * @param {*} data
  * @returns {*}
  */
