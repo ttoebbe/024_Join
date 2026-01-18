@@ -82,6 +82,21 @@ function normalizeTasks(data) {
 }
 
 /**
+ * Normalizes status strings to board keys.
+ * @param {*} value
+ * @returns {*}
+ */
+function normalizeStatus(value) {
+  const v = String(value || "").trim().toLowerCase();
+  const unified = v.replace(/[\s_-]+/g, "-");
+  if (unified === "todo" || unified === "to-do") return "todo";
+  if (unified === "in-progress" || unified === "inprogress") return "inprogress";
+  if (unified === "await-feedback" || unified === "awaitfeedback") return "awaitfeedback";
+  if (unified === "done") return "done";
+  return "todo";
+}
+
+/**
  * @param {*} data
  * @returns {*}
  */

@@ -101,7 +101,7 @@ function initKpi(tasks) {
  * @returns {*}
  */
 function updateKpiForTask(kpi, task, urgentOpenDates) {
-  const status = String(task?.status || "").toLowerCase().trim();
+  const status = normalizeStatus(task?.status);
   incrementStatusCount(kpi, status);
   trackUrgentOpen(kpi, task, status, urgentOpenDates);
 }
@@ -113,8 +113,8 @@ function updateKpiForTask(kpi, task, urgentOpenDates) {
  */
 function incrementStatusCount(kpi, status) {
   if (status === "todo") kpi.todo++;
-  else if (status === "in-progress") kpi.inProgress++;
-  else if (status === "await-feedback") kpi.awaiting++;
+  else if (status === "inprogress") kpi.inProgress++;
+  else if (status === "awaitfeedback") kpi.awaiting++;
   else if (status === "done") kpi.done++;
 }
 
