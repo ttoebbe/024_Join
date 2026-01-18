@@ -345,7 +345,17 @@ body{
   }
 
   
-  .greeting{ display: none; }
+  .greeting{
+    margin-top: 12px;
+  }
+
+  #greetingText{
+    font-size: 32px;
+  }
+
+  #userName{
+    font-size: 44px;
+  }
 
 
   .summary-headline{
@@ -609,4 +619,3 @@ body{
     padding-bottom: 92px;
   }
 }
-

@@ -803,8 +803,8 @@ main {
 }
 
 @media (max-width: 900px) {
-  .contact-overlay_dialog {
-    display: flex;
+  .contact-overlay-dialog {
+    display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
   }
@@ -828,6 +828,22 @@ main {
   .overlay-avatar {
     justify-content: center;
     margin-top: -80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-overlay {
+    padding: 0;
+  }
+
+  .contact-overlay-dialog {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .overlay-panel-bottom {
+    padding: 24px 20px 32px;
   }
 }
 

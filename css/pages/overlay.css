@@ -149,3 +149,30 @@
 .task-detail-btn:hover {
   color: var(--color-accent);
 }
+
+@media (max-width: 480px) {
+  .overlay-panel {
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100vw;
+    height: 100vh;
+    max-height: none;
+    border-radius: 0;
+    padding: 20px 20px 28px;
+  }
+
+  .overlay-panel--detail {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .task-detail-row {
+    flex-wrap: wrap;
+  }
+
+  .task-detail-key {
+    min-width: 0;
+  }
+}

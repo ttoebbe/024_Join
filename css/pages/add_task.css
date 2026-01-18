@@ -332,3 +332,13 @@
     padding: 24px;
   }
 }
+
+@media (max-width: 360px) {
+  .prio-row {
+    grid-template-columns: 1fr;
+  }
+
+  .prio-btn {
+    width: 100%;
+  }
+}
