@@ -494,7 +494,7 @@ function getSubtaskAt(task, index) {
  */
 async function persistSubtaskUpdate(task) {
   try {
-    await TaskService.update(task.id, { subtasks: task.subtasks });
+    await TaskService.update(task.id, task);
   } catch (error) {
     // intentionally silent
   }

@@ -156,9 +156,9 @@
   --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
 
   /* === TRANSITIONS === */
-  --transition-fast: 150ms ease-in-out;
-  --transition-normal: 250ms ease-in-out;
-  --transition-slow: 350ms ease-in-out;
+  --transition-fast: 75ms ease-in-out;
+  --transition-normal: 100ms ease-in-out;
+  --transition-slow: 125ms ease-in-out;
 
   /* === LAYOUT === */
   --container-max-width: 1440px;

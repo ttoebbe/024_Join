@@ -182,11 +182,39 @@ function parseUserIdNumber(id) {
 }
 
 /**
- * Generates task ID with 't' prefix.
- * @returns {string} - Task ID like 't123456789'
+ * Generates task ID with 't' prefix based on existing tasks.
+ * @returns {Promise<string>} - Task ID like 't0', 't1', etc.
  */
-function generateTaskId() {
-  return 't' + Math.random().toString(36).substr(2, 9);
+async function generateTaskId() {
+  try {
+    const data = await TaskService.getAll();
+    if (!data) return "t0";
+    
+    const tasks = Array.isArray(data) ? data : Object.values(data).filter(Boolean);
+    if (tasks.length === 0) return "t0";
+    
+    const highest = tasks.reduce((max, task) => {
+      if (!task || !task.id) return max;
+      const numericPart = getTaskIdNumber(task.id);
+      return Math.max(max, numericPart);
+    }, -1);
+    
+    return `t${highest + 1}`;
+  } catch (error) {
+    console.error("Error generating task ID:", error);
+    return `t${Date.now()}`;
+  }
+}
+
+/**
+ * Extracts the numeric part from a task ID (e.g., 't5' -> 5).
+ * @param {string} id - Task ID
+ * @returns {number} - Numeric part or -1 if invalid
+ */
+function getTaskIdNumber(id) {
+  if (!id || typeof id !== "string" || !id.startsWith("t")) return -1;
+  const num = parseInt(id.substring(1));
+  return Number.isNaN(num) ? -1 : num;
 }
 
 /**

@@ -32,6 +32,28 @@ const NAV_BAR_TEMPLATE = `
   </div>
 `;
 
+const GUEST_NAV_TEMPLATE = `
+  <div class="nav_bar">
+    <div class="nav_logo">
+      <img class="nav_img" src="../../assets/img/Capa 2.png" alt="Join Logo" />
+    </div>
+
+    <div class="nav_links">
+      <nav>
+        <a href="../../index.html" data-route="login">
+          <img src="../../assets/img/icons/lock.png" alt="" />
+          <p>Log In</p>
+        </a>
+      </nav>
+
+      <div class="footer_links">
+        <a href="privacy_policy.html">Privacy Policy</a>
+        <a href="legal_notice.html">Legal notice</a>
+      </div>
+    </div>
+  </div>
+`;
+
 const HEADER_TEMPLATE = `
   <header class="topbar">
     <div class="topbar-logo" aria-hidden="true"></div>
@@ -94,7 +116,7 @@ function applyGuestMode() {
   document.body.classList.add("guest-mode");
   const nav = document.getElementById("nav-bar-placeholder");
   const header = document.getElementById("header-placeholder");
-  if (nav) nav.innerHTML = "";
+  if (nav) nav.innerHTML = GUEST_NAV_TEMPLATE;
   if (header) header.innerHTML = "";
 }
 

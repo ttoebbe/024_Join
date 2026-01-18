@@ -1,5 +1,4 @@
 /**
- * Initialisiert Kategorie-Dropdown
  * @param {*} state
  * @returns {*}
  */
@@ -15,7 +14,6 @@ function initCategoryDropdown(state) {
 }
 
 /**
- * Extrahiert DOM-Elemente aus Kategorie-Dropdown
  * @param {*} dropdown
  * @returns {*}
  */
@@ -28,7 +26,6 @@ function getCategoryDropdownParts(dropdown) {
 }
 
 /**
- * Registriert Toggle-Button Event für Kategorie-Dropdown
  * @param {*} parts
  * @returns {*}
  */
@@ -39,7 +36,6 @@ function wireCategoryToggle(parts) {
 }
 
 /**
- * Öffnet/Schließt Kategorie-Dropdown
  * @param {*} parts
  * @param {*} open
  * @returns {*}
@@ -52,7 +48,6 @@ function setCategoryOpen(parts, open) {
 }
 
 /**
- * Registriert Outside-Click Handler zum Schließen des Dropdowns
  * @param {*} parts
  * @returns {*}
  */
@@ -63,7 +58,6 @@ function wireCategoryOutsideClose(parts) {
 }
 
 /**
- * Registriert Click-Handler für alle Kategorie-Items
  * @param {*} state
  * @param {*} parts
  * @returns {*}
@@ -73,7 +67,6 @@ function wireCategoryItems(state, parts) {
 }
 
 /**
- * Registriert Click-Handler für ein einzelnes Kategorie-Item
  * @param {*} state
  * @param {*} parts
  * @param {*} item
@@ -86,7 +79,6 @@ function wireCategoryItem(state, parts, item) {
 }
 
 /**
- * Setzt ausgewählte Kategorie und aktualisiert UI
  * @param {*} state
  * @param {*} parts
  * @param {*} item
@@ -101,7 +93,6 @@ function setSelectedCategory(state, parts, item) {
 }
 
 /**
- * Aktualisiert Kategorie-Wert in Input und UI
  * @param {*} state
  * @param {*} parts
  * @param {*} item
@@ -114,7 +105,6 @@ function setCategoryValue(state, parts, item) {
 }
 
 /**
- * Wendet Standard-Kategorie-Wert an (beim Edit-Mode)
  * @param {*} state
  * @param {*} parts
  * @returns {*}
@@ -127,7 +117,6 @@ function applyCategoryDefault(state, parts) {
 }
 
 /**
- * Gibt Label für Kategoriewert zurück
  * @param {*} value
  * @returns {*}
  */
@@ -136,7 +125,6 @@ function getCategoryLabel(value) {
 }
 
 /**
- * Setzt Kategorie-Dropdown auf Standard-Zustand
  * @param {*} parts
  * @returns {*}
  */
@@ -148,11 +136,18 @@ function resetCategoryDropdown(parts) {
 }
 
 /**
- * Gibt aktuell ausgewählten Kategorie-Wert zurück
  * @param {*} state
  * @returns {*}
  */
 function getSelectedCategoryValue(state) {
   if (state.categoryInput?.value) return state.categoryInput.value;
   return state.selectedCategory;
+}
+
+/**
+ * @param {*} state
+ * @returns {*}
+ */
+function clearCategoryInput(state) {
+  if (state.categoryInput) state.categoryInput.value = "";
 }

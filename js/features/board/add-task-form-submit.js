@@ -1,5 +1,4 @@
 /**
- * Registriert Prioritäts-Button Event-Handler
  * @param {*} state
  * @returns {*}
  */
@@ -10,7 +9,6 @@ function wirePrioButtons(state) {
 }
 
 /**
- * Behandelt Prioritäts-Button Klicks
  * @param {*} state
  * @param {*} btn
  * @returns {*}
@@ -22,7 +20,6 @@ function handlePrioButton(state, btn) {
 }
 
 /**
- * Entfernt aktive Klasse von allen Prioritäts-Buttons
  * @param {*} state
  * @returns {*}
  */
@@ -31,7 +28,6 @@ function clearPrioActive(state) {
 }
 
 /**
- * Registriert Clear-Button Event-Handler
  * @param {*} state
  * @param {*} resets
  * @returns {*}
@@ -43,7 +39,6 @@ function wireClearButton(state, resets) {
 }
 
 /**
- * Setzt das gesamte Formular zurück
  * @param {*} state
  * @param {*} resets
  * @returns {*}
@@ -61,7 +56,6 @@ function clearAddTaskForm(state, resets) {
 }
 
 /**
- * Setzt das DOM-Formular zurück
  * @param {*} state
  * @returns {*}
  */
@@ -70,7 +64,6 @@ function resetForm(state) {
 }
 
 /**
- * Setzt Status-Dropdown auf Standard-Wert
  * @returns {*}
  */
 function resetStatusPreset() {
@@ -79,7 +72,6 @@ function resetStatusPreset() {
 }
 
 /**
- * Setzt State-Selektionen zurück
  * @param {*} state
  * @returns {*}
  */
@@ -90,16 +82,6 @@ function resetSelectionState(state) {
 }
 
 /**
- * Löscht Kategorie-Input Wert
- * @param {*} state
- * @returns {*}
- */
-function clearCategoryInput(state) {
-  if (state.categoryInput) state.categoryInput.value = "";
-}
-
-/**
- * Registriert Submit-Handler für das Formular
  * @param {*} state
  * @param {*} onClose
  * @returns {*}
@@ -117,7 +99,6 @@ function wireSubmitHandler(state, onClose) {
 }
 
 /**
- * Behandelt Form-Submit mit Validierung
  * @param {*} state
  * @param {*} onClose
  * @returns {*}
@@ -129,7 +110,111 @@ async function handleSubmit(state, onClose) {
 }
 
 /**
- * Speichert Task nach erfolgreicher Validierung
+ * @param {*} state
+ * @returns {*}
+ */
+function getTaskFormValues(state) {
+  const title = document.getElementById("taskTitle")?.value.trim();
+  const dueDate = document.getElementById("taskDueDate")?.value.trim();
+  const category = getSelectedCategoryValue(state);
+  const status = document.getElementById("taskStatusPreset")?.value || "todo";
+  const description = document.getElementById("taskDescription")?.value.trim() || "";
+  return { title, description, status, category, dueDate };
+}
+
+/**
+ * @param {*} state
+ * @returns {*}
+ */
+function validateTaskForm(state) {
+  clearAddTaskErrors(state);
+  const values = getTaskFormValues(state);
+  const error = getTaskValidationError(values);
+  if (!error) return values;
+  showAddTaskError(state, values, error);
+  return null;
+}
+
+/**
+ * @param {*} values
+ * @returns {*}
+ */
+function getTaskValidationError(values) {
+  if (!values.title) return "Please enter a title.";
+  if (!values.dueDate) return "Please select a due date.";
+  if (!values.category) return "Please select a category.";
+  return "";
+}
+
+/**
+ * @param {*} state
+ * @param {*} values
+ * @param {*} error
+ * @returns {*}
+ */
+function showAddTaskError(state, values, error) {
+  setAddTaskFormMsg(state, error);
+  markMissingTaskFields(state, values);
+}
+
+/**
+ * @param {*} state
+ * @param {*} message
+ * @returns {*}
+ */
+function setAddTaskFormMsg(state, message) {
+  if (!state.formMsg) return;
+  state.formMsg.textContent = message || "";
+}
+
+/**
+ * @param {*} state
+ * @param {*} values
+ * @returns {*}
+ */
+function markMissingTaskFields(state, values) {
+  if (!values.title) addInputError(state.titleInput);
+  if (!values.dueDate) addInputError(state.dueDateInput);
+  if (!values.category) addInputError(state.categoryToggle);
+}
+
+/**
+ * @param {*} element
+ * @returns {*}
+ */
+function addInputError(element) {
+  if (element) element.classList.add("input-error");
+}
+
+/**
+ * @param {*} state
+ * @returns {*}
+ */
+function clearAddTaskErrors(state) {
+  setAddTaskFormMsg(state, "");
+  clearInputError(state.titleInput);
+  clearInputError(state.dueDateInput);
+  clearInputError(state.categoryToggle);
+}
+
+/**
+ * @param {*} element
+ * @returns {*}
+ */
+function clearInputError(element) {
+  if (element) element.classList.remove("input-error");
+}
+
+/**
+ * @param {*} state
+ * @returns {*}
+ */
+function wireValidationCleanup(state) {
+  state.form.addEventListener("input", () => clearAddTaskErrors(state));
+  state.form.addEventListener("change", () => clearAddTaskErrors(state));
+}
+
+/**
  * @param {*} state
  * @param {*} values
  * @param {*} onClose
@@ -147,7 +232,6 @@ async function submitTaskForm(state, values, onClose) {
 }
 
 /**
- * Persistiert Task in DB (neu oder Update)
  * @param {*} state
  * @param {*} values
  * @returns {*}
@@ -158,7 +242,17 @@ async function persistTask(state, values) {
 }
 
 /**
- * Aktualisiert existierende Task
+ * @param {*} state
+ * @param {*} busy
+ * @returns {*}
+ */
+function setCreateButtonBusy(state, busy) {
+  if (!state.createBtn) return;
+  if (busy) return void (state.createBtn.disabled = true);
+  updateCreateButtonState(state);
+}
+
+/**
  * @param {*} state
  * @param {*} values
  * @returns {*}
@@ -169,18 +263,17 @@ async function updateExistingTask(state, values) {
 }
 
 /**
- * Erstellt neue Task
  * @param {*} state
  * @param {*} values
  * @returns {*}
  */
 async function createNewTask(state, values) {
-  const newTask = buildTaskPayload(state, values, { id: generateTaskId() });
+  const taskId = await generateTaskId();
+  const newTask = buildTaskPayload(state, values, { id: taskId });
   await TaskService.create(newTask);
 }
 
 /**
- * Erstellt Task-Payload für DB
  * @param {*} state
  * @param {*} values
  * @param {*} base
@@ -201,17 +294,15 @@ function buildTaskPayload(state, values, base) {
 }
 
 /**
- * Aktualisiert Board nach Task-Speicherung
  * @returns {*}
  */
 async function refreshBoardIfNeeded() {
   if (typeof loadTasks !== "function") return;
   await loadTasks();
-  if (typeof renderBoard !== "function") renderBoard();
+  if (typeof renderBoard === "function") renderBoard();
 }
 
 /**
- * Registriert Create-Button State Change Handler
  * @param {*} state
  * @returns {*}
  */
@@ -224,7 +315,6 @@ function wireCreateButtonState(state) {
 }
 
 /**
- * Aktualisiert Create-Button Enabled-Status basierend auf Validierung
  * @param {*} state
  * @returns {*}
  */
@@ -237,16 +327,4 @@ function updateCreateButtonState(state) {
   );
   state.createBtn.disabled = !isReady;
   state.createBtn.classList.toggle("is-active", isReady);
-}
-
-/**
- * Setzt Create-Button Busy-Status (deaktiviert während Submit)
- * @param {*} state
- * @param {*} busy
- * @returns {*}
- */
-function setCreateButtonBusy(state, busy) {
-  if (!state.createBtn) return;
-  if (busy) return void (state.createBtn.disabled = true);
-  updateCreateButtonState(state);
 }

@@ -152,7 +152,7 @@ function applyStatusChange(task, status) {
  */
 async function persistStatusChange(task, previous, status) {
   try {
-    await TaskService.update(task.id, { status });
+    await TaskService.update(task.id, task);
   } catch (error) {
     rollbackStatus(task, previous);
   }
