@@ -26,6 +26,12 @@
   stroke-width: 1.8;
 }
 
+.avatar-circle.is-contact {
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+}
+
 .button-icon {
   font-size: 20px;
   line-height: 1;
@@ -132,6 +138,7 @@
 
 .contact-entry:hover {
   border-color: rgba(69, 137, 255, 0.4);
+  background: rgba(69, 137, 255, 0.08);
 }
 
 .contact-entry.is-active {
@@ -381,6 +388,16 @@
   background: #fff;
   font-size: 16px;
   outline: none;
+}
+
+.input-with-icon input:hover {
+  border-color: rgba(69, 137, 255, 0.6);
+  background: #f7f9ff;
+}
+
+.input-with-icon input:focus {
+  border-color: var(--contacts-primary);
+  box-shadow: 0 0 0 3px rgba(69, 137, 255, 0.15);
 }
 
 .list-add-button {

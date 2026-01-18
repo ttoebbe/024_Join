@@ -87,6 +87,7 @@ function registerOverlayButtons(elements, listElement) {
 function registerOverlayOpenButton(elements) {
   disableForGuests(elements.openButton, () => {
     setOverlayMode(elements.form, false);
+    setOverlayAvatarDefault();
     openOverlay(elements.overlay);
   });
 }
@@ -164,6 +165,7 @@ function closeOverlay(overlay, form) {
   overlay.classList.remove("is-visible");
   overlay.setAttribute("aria-hidden", "true");
   setOverlayMode(form, false);
+  setOverlayAvatarDefault();
   form?.reset();
 }
 
@@ -219,6 +221,41 @@ function fillContactForm(elements, contact) {
   elements.phoneInput.value = contact.phone || "";
 }
 
+function getOverlayAvatarCircle() {
+  return document.querySelector(".overlay-avatar .avatar-circle");
+}
+
+function setOverlayAvatarDefault() {
+  const avatar = getOverlayAvatarCircle();
+  if (!avatar) return;
+  avatar.classList.remove("is-contact");
+  avatar.style.backgroundColor = "";
+  avatar.textContent = "";
+  ensureDefaultAvatarIcon(avatar);
+}
+
+function ensureDefaultAvatarIcon(avatar) {
+  if (avatar.querySelector("img")) return;
+  const img = document.createElement("img");
+  img.src = "/assets/img/icons/Group 13.svg";
+  img.alt = "User avatar";
+  avatar.appendChild(img);
+}
+
+function setOverlayAvatarContact(contact) {
+  const avatar = getOverlayAvatarCircle();
+  if (!avatar) return;
+  avatar.classList.add("is-contact");
+  avatar.style.backgroundColor = contact?.color || "#2a3647";
+  avatar.textContent = getInitials(contact?.name || "");
+  removeAvatarIcon(avatar);
+}
+
+function removeAvatarIcon(avatar) {
+  const img = avatar.querySelector("img");
+  if (img) img.remove();
+}
+
 
 /**
  * Opens the contact overlay for editing.
@@ -230,6 +267,7 @@ function openEditContact(contactId) {
   const elements = getContactOverlayElements();
   if (!elements) return;
   fillContactForm(elements, contact);
+  setOverlayAvatarContact(contact);
   setOverlayMode(elements.form, true);
   setCurrentEditId(contactId);
   openOverlay(elements.overlay);
