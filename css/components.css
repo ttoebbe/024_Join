@@ -289,7 +289,11 @@ body{
   }
 
   .topbar-title{ display: none; }
-  .topbar-help{ display: none; }
+  .topbar-help{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .topbar-logo{
     width: 32px;
