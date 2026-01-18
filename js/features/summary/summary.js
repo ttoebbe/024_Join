@@ -34,7 +34,8 @@ async function loadTasks() {
  * @returns {*}
  */
 function isUrgent(task) {
-  return String(task?.priority || "").toLowerCase().trim() === "high";
+  const prio = String(task?.prio || "").toLowerCase().trim();
+  return prio === "urgent" || prio === "high" || prio === "alta";
 }
 
 /**
