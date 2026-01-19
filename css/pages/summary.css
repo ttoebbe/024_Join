@@ -461,14 +461,14 @@ body{
     align-items: center;
     justify-content: space-around;
     gap: 0;
-    padding: 0 8px;
+    padding: 0 4px;
     box-sizing: border-box;
   }
 
   .nav_links nav a{
     width: auto;
-    padding: 10px 14px;
-    gap: 6px;
+    padding: 8px 10px;
+    gap: 4px;
     border-radius: 16px;
 
     flex-direction: column;
@@ -587,12 +587,12 @@ body{
 
  
   .nav_links nav p{
-    font-size: 13px;
+    font-size: 16px;
   }
 
   .nav_links nav img{
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
   }
 
   .nav_bar{
