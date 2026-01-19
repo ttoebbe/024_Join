@@ -297,7 +297,7 @@ body{
   object-fit: contain;
 }
 
-@media (max-width: 1099px){
+@media (max-width: 1150px){
   .summary-body{
     flex-direction: column;
     gap: 28px;

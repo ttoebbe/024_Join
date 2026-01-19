@@ -662,7 +662,7 @@ main {
   border: 0;
 }
 
-@media (max-width: 1099px) {
+@media (max-width: 1150px) {
   .contact-overlay-dialog {
     display: grid;
     grid-template-columns: 1fr;
