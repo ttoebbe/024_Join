@@ -9,6 +9,7 @@ function initAssignedDropdown(state) {
   wireAssignedToggle(parts);
   wireAssignedOutsideClose(parts);
   loadAssignedContacts(state, parts);
+  onPageVisible(() => loadAssignedContacts(state, parts));
   return () => resetAssignedDropdown(parts);
 }
 

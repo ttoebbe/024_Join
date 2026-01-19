@@ -180,6 +180,14 @@ async function initSummary() {
   const user = loadCurrentUser();
   if (!user) return redirectToLogin();
   renderUser(user);
+  await reloadSummaryData();
+  onPageVisible(reloadSummaryData);
+}
+
+/**
+ * @returns {*}
+ */
+async function reloadSummaryData() {
   const tasks = await loadTasks();
   renderKPIs(calcKPIs(tasks));
 }

@@ -341,3 +341,18 @@ function getCurrentUser() {
     return null;
   }
 }
+
+/**
+ * Sets up auto-reload when page becomes visible.
+ * @param {Function} reloadFn - Function to call when page becomes visible
+ */
+function onPageVisible(reloadFn) {
+  if (typeof reloadFn !== "function") return;
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      reloadFn().catch((err) => {
+        console.error("Page visibility reload error:", err);
+      });
+    }
+  });
+}

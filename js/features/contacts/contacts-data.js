@@ -19,6 +19,20 @@ async function initContactsPage() {
   renderContactList(listElement, getContactData());
   setupAddContactOverlay(listElement);
   setupHeaderBackButton();
+  onPageVisible(() => reloadContactsData(listElement));
+}
+
+/**
+ * @param {*} listElement
+ * @returns {*}
+ */
+async function reloadContactsData(listElement) {
+  try {
+    await loadContactsFromFirebase();
+    renderContactList(listElement, getContactData());
+  } catch (error) {
+    console.error("Error reloading contacts:", error);
+  }
 }
 
 /**
