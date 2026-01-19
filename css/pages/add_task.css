@@ -196,7 +196,7 @@
   border-radius: 4px;
   display: grid;
   place-items: center;
-  font-size: 12px;
+  font-size: 16px;
   color: #fff;
   background: transparent;
 }
@@ -238,7 +238,7 @@
   border: 1px solid #d1d1d1;
   border-radius: 8px;
   background: #fff;
-  font-size: 14px;
+  font-size: 16px;
   color: #2a3647;
 }
 
@@ -255,7 +255,7 @@
   margin-top: 8px;
   margin-bottom: 8px;
   color: #ff3d00;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .addtask-form .input-error {
@@ -265,7 +265,7 @@
 .req-note {
   margin: 20px 0 0;
   color: #2a3647;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .addtask-footer {

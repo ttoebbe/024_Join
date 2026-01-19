@@ -59,7 +59,7 @@
 .policy__meta {
   margin: 10px 0 0;
   color: var(--policy-muted);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .policy__back {
@@ -193,7 +193,7 @@
 
 .policy__footnote {
   margin-top: 18px;
-  font-size: 13px;
+  font-size: 16px;
   color: var(--policy-muted);
 }
 
@@ -209,7 +209,7 @@
   }
 
   .policy__section {
-    padding: 16px;
+    padding: 16px 16px 16px 24px;
     border-radius: 14px;
   }
 

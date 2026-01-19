@@ -128,7 +128,7 @@
 
 .task-detail-empty {
   color: var(--color-text-muted);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .task-detail-actions {

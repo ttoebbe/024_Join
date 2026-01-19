@@ -83,7 +83,7 @@ body{
   display: grid;
   place-items: center;
 
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1;
 }
 
@@ -410,7 +410,7 @@ body{
   .kpi-number{ font-size: 54px; }
   .kpi-label{ font-size: 16px; }
   .kpi-date{ font-size: 17px; }
-  .kpi-sub{ font-size: 14px; }
+  .kpi-sub{ font-size: 16px; }
 
  
   .topbar{
@@ -482,7 +482,7 @@ body{
   }
 
   .nav_links nav p{
-    font-size: 12px;
+    font-size: 16px;
     margin: 0;
   }
 
@@ -504,7 +504,7 @@ body{
   }
 
   .summary-sub{
-    font-size: 15px;
+    font-size: 16px;
   }
 
  
@@ -525,7 +525,7 @@ body{
   }
 
   .kpi-label{
-    font-size: 13px;
+    font-size: 16px;
     line-height: 1.1;
   }
 
@@ -561,11 +561,11 @@ body{
   }
 
   .kpi-date{
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .kpi-sub{
-    font-size: 12px;
+    font-size: 16px;
   }
 
 
@@ -580,14 +580,14 @@ body{
   }
 
   .kpi-bottom .kpi-label{
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1.1;
     word-break: break-word;       
   }
 
  
   .nav_links nav p{
-    font-size: 11px;
+    font-size: 16px;
   }
 
   .nav_links nav img{

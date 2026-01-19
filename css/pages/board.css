@@ -174,7 +174,7 @@
   display: inline-flex;
   padding: 4px 16px;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-text-white);
   margin-bottom: 10px;
 }
@@ -192,7 +192,7 @@
 .board-card-desc {
   margin: 0 0 12px;
   color: var(--color-text-muted);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .board-progress {
@@ -200,7 +200,7 @@
 }
 
 .board-progress-text {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text-primary);
 }
 
@@ -249,7 +249,7 @@
   border-radius: 50%;
   color: var(--color-text-white);
   font-weight: 700;
-  font-size: 12px;
+  font-size: 16px;
   display: grid;
   place-items: center;
   border: 2px solid var(--color-bg-surface);
@@ -598,7 +598,7 @@
   border-radius: 4px;
   display: grid;
   place-items: center;
-  font-size: 12px;
+  font-size: 16px;
   color: #fff;
   background: transparent;
 }
@@ -640,7 +640,7 @@
   border: 1px solid #d1d1d1;
   border-radius: 8px;
   background: #fff;
-  font-size: 14px;
+  font-size: 16px;
   color: #2a3647;
 }
 
@@ -657,7 +657,7 @@
   margin-top: 8px;
   margin-bottom: 8px;
   color: #ff3d00;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .addtask-form .input-error {
@@ -667,7 +667,7 @@
 .req-note {
   margin: 20px 0 0;
   color: #2a3647;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .addtask-footer {

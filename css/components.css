@@ -99,7 +99,7 @@ body{
   display: grid;
   place-items: center;
 
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1;
 }
 
@@ -368,7 +368,7 @@ body{
   }
 
   .nav_links nav p{
-    font-size: 12px;
+    font-size: 16px;
   }
 }
 
@@ -379,7 +379,7 @@ body{
   }
 
   .nav_links nav p{
-    font-size: 11px;
+    font-size: 16px;
   }
 
   .nav_bar{
@@ -436,7 +436,7 @@ body{
   border: 0;
   cursor: pointer;
 
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .user-dropdown__item:hover{

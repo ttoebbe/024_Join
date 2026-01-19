@@ -149,7 +149,7 @@
 .contact-email {
   margin: 0;
   color: #7d8da6;
-  font-size: 14px;
+  font-size: 16px;
   display: block;
   white-space: nowrap;
   overflow: hidden;
@@ -299,7 +299,7 @@
   margin: 0;
   text-transform: uppercase;
   color: #8593ae;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 2px;
 }
 
@@ -351,7 +351,7 @@
   margin-top: 8px;
   margin-bottom: 8px;
   color: #ff3d00;
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
 }
 
@@ -818,7 +818,7 @@ main {
   .detail-label {
     min-width: 0;
     width: auto;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .detail-row {
