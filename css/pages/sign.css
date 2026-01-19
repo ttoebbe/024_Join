@@ -172,6 +172,14 @@ input::placeholder {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
+.field-error {
+    color: red;
+    font-size: 0.85rem;
+    display: none;
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
 
 .form-buttons button {
     height: 48px;

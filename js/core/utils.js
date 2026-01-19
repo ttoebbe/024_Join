@@ -47,12 +47,33 @@ function getInitials(name) {
  */
 function isValidEmail(email) {
   const trimmed = (email || "").trim();
-  if (!trimmed.includes("@")) return false;
-  
-  const parts = trimmed.split("@");
-  if (parts.length !== 2) return false;
-  if (!parts[0] || !parts[1] || !parts[1].includes(".")) return false;
-  
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(trimmed);
+}
+
+
+/**
+ * Validates username format.
+ * @param {string} username - The username to validate
+ * @returns {boolean} - True if username is valid
+ */
+function validateUsername(username) {
+  const trimmed = (username || "").trim();
+  if (trimmed.length < 2) return false;
+  const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_-]{1,}$/;
+  return usernameRegex.test(trimmed);
+}
+
+
+/**
+ * Validates password format.
+ * @param {string} password - The password to validate
+ * @returns {boolean} - True if password is valid
+ */
+function validatePassword(password) {
+  const trimmed = (password || "").trim();
+  if (trimmed.length < 4) return false;
+  if (/\s/.test(trimmed)) return false;
   return true;
 }
 

@@ -44,6 +44,9 @@ function showSuccessOverlay() {
 
 
 /* ================== LOGIN UI ================== */
+const fieldErrorTimeouts = {};
+
+
 /**
  * Shows login error state with an optional message.
  * @param {HTMLInputElement} emailEl
@@ -80,8 +83,10 @@ function clearLoginErrorState(emailEl, pwEl) {
  */
 function wireLoginErrorHandlers({ emailEl, pwEl }) {
   const clear = () => clearLoginErrorState(emailEl, pwEl);
-  emailEl.addEventListener("input", clear);
-  pwEl.addEventListener("input", clear);
+  emailEl.addEventListener("input", () => clearFieldError("email-error", emailEl));
+  pwEl.addEventListener("input", () => clearFieldError("password-error", pwEl));
+  emailEl.addEventListener("blur", () => validateFieldWithAutoDismiss(emailEl, "email-error", validateEmailField));
+  pwEl.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, "password-error", validatePasswordField));
 }
 
 
@@ -92,9 +97,10 @@ function wireLoginErrorHandlers({ emailEl, pwEl }) {
  */
 function validateLoginInputs({ emailEl, pwEl }) {
   clearLoginErrorState(emailEl, pwEl);
-  if (emailEl.value.trim() && pwEl.value.trim()) return true;
-  showLoginErrorState(emailEl, pwEl, "Please enter email and password.");
-  return false;
+  let valid = true;
+  if (!validateEmailField(emailEl, "email-error")) valid = false;
+  if (!validatePasswordField(pwEl, "password-error")) valid = false;
+  return valid;
 }
 
 
@@ -143,13 +149,19 @@ function clearSignupErrorState(pwEl, pw2El) {
 
 /**
  * Wires signup error state clearing.
- * @param {{pwEl: HTMLInputElement, pw2El: HTMLInputElement}} state
+ * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement}} state
  * @returns {void}
  */
-function wireSignupErrorHandlers({ pwEl, pw2El }) {
+function wireSignupErrorHandlers({ nameEl, emailEl, pwEl, pw2El }) {
   const clear = () => clearSignupErrorState(pwEl, pw2El);
-  pwEl.addEventListener("input", clear);
-  pw2El.addEventListener("input", clear);
+  nameEl.addEventListener("input", () => clearFieldError("username-error", nameEl));
+  emailEl.addEventListener("input", () => clearFieldError("suEmail-error", emailEl));
+  pwEl.addEventListener("input", () => clearFieldError("suPw-error", pwEl));
+  pw2El.addEventListener("input", () => clearFieldError("suPw2-error", pw2El));
+  nameEl.addEventListener("blur", () => validateFieldWithAutoDismiss(nameEl, "username-error", validateUsernameField));
+  emailEl.addEventListener("blur", () => validateFieldWithAutoDismiss(emailEl, "suEmail-error", validateEmailField));
+  pwEl.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, "suPw-error", validatePasswordField));
+  pw2El.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, pw2El, "suPw2-error", validateConfirmPasswordField));
 }
 
 
@@ -160,11 +172,16 @@ function wireSignupErrorHandlers({ pwEl, pw2El }) {
  */
 function validateSignupInputs({ nameEl, emailEl, pwEl, pw2El, policyEl }) {
   clearSignupErrorState(pwEl, pw2El);
-  if (!nameEl.value.trim() || !emailEl.value.trim()) return showSignupRequiredError(pwEl, pw2El);
-  if (!pwEl.value.trim() || !pw2El.value.trim()) return showSignupRequiredError(pwEl, pw2El);
-  if (!policyEl.checked) return showSignupPolicyError(pwEl, pw2El);
-  if (pwEl.value !== pw2El.value) return showSignupErrorState(pwEl, pw2El, "Your passwords don't match. Please try again.");
-  return true;
+  let valid = true;
+  if (!validateUsernameField(nameEl, "username-error")) valid = false;
+  if (!validateEmailField(emailEl, "suEmail-error")) valid = false;
+  if (!validatePasswordField(pwEl, "suPw-error")) valid = false;
+  if (!validateConfirmPasswordField(pwEl, pw2El, "suPw2-error")) valid = false;
+  if (!policyEl.checked) {
+    showSignupErrorState(pwEl, pw2El, "Please accept the Privacy Policy.");
+    return false;
+  }
+  return valid;
 }
 
 
@@ -218,6 +235,167 @@ function setSignupButtonState({ nameEl, emailEl, pwEl, pw2El, policyEl, btn }) {
     pw2El.value.trim() &&
     policyEl.checked
   );
+}
+
+
+/* ================== FIELD VALIDATION ================== */
+/**
+ * Validates username field.
+ * @param {HTMLInputElement} inputEl
+ * @param {string} errorId
+ * @returns {boolean}
+ */
+function validateUsernameField(inputEl, errorId) {
+  const value = inputEl.value.trim();
+  if (!value) {
+    showFieldError(errorId, "Username is required.", inputEl);
+    return false;
+  }
+  if (value.length < 2) {
+    showFieldError(errorId, "Username must be at least 2 characters.", inputEl);
+    return false;
+  }
+  if (!/^[a-zA-Z]/.test(value)) {
+    showFieldError(errorId, "Username must start with a letter.", inputEl);
+    return false;
+  }
+  if (!/^[a-zA-Z][a-zA-Z0-9_-]*$/.test(value)) {
+    showFieldError(errorId, "Username can only contain letters, numbers, _ and -.", inputEl);
+    return false;
+  }
+  clearFieldError(errorId, inputEl);
+  return true;
+}
+
+
+/**
+ * Validates email field.
+ * @param {HTMLInputElement} inputEl
+ * @param {string} errorId
+ * @returns {boolean}
+ */
+function validateEmailField(inputEl, errorId) {
+  const value = inputEl.value.trim();
+  if (!value) {
+    showFieldError(errorId, "Email is required.", inputEl);
+    return false;
+  }
+  if (!isValidEmail(value)) {
+    showFieldError(errorId, "Invalid email format.", inputEl);
+    return false;
+  }
+  clearFieldError(errorId, inputEl);
+  return true;
+}
+
+
+/**
+ * Validates password field.
+ * @param {HTMLInputElement} inputEl
+ * @param {string} errorId
+ * @returns {boolean}
+ */
+function validatePasswordField(inputEl, errorId) {
+  const value = inputEl.value.trim();
+  if (!value) {
+    showFieldError(errorId, "Password is required.", inputEl);
+    return false;
+  }
+  if (value.length < 4) {
+    showFieldError(errorId, "Password must be at least 4 characters.", inputEl);
+    return false;
+  }
+  if (/\s/.test(value)) {
+    showFieldError(errorId, "Password cannot contain spaces.", inputEl);
+    return false;
+  }
+  clearFieldError(errorId, inputEl);
+  return true;
+}
+
+
+/**
+ * Validates confirm password field.
+ * @param {HTMLInputElement} pwEl
+ * @param {HTMLInputElement} pw2El
+ * @param {string} errorId
+ * @returns {boolean}
+ */
+function validateConfirmPasswordField(pwEl, pw2El, errorId) {
+  const value = pw2El.value.trim();
+  if (!value) {
+    showFieldError(errorId, "Please confirm your password.", pw2El);
+    return false;
+  }
+  if (value !== pwEl.value.trim()) {
+    showFieldError(errorId, "Passwords don't match.", pw2El);
+    return false;
+  }
+  clearFieldError(errorId, pw2El);
+  return true;
+}
+
+
+/**
+ * Shows field error message.
+ * @param {string} errorId
+ * @param {string} message
+ * @param {HTMLInputElement} inputEl
+ * @returns {void}
+ */
+function showFieldError(errorId, message, inputEl) {
+  const errorEl = document.getElementById(errorId);
+  if (errorEl) {
+    errorEl.textContent = message;
+    errorEl.style.display = "block";
+  }
+  inputEl.classList.add("input-error");
+}
+
+
+/**
+ * Validates field with auto-dismiss after 3 seconds.
+ * @param {...any} args
+ * @returns {boolean}
+ */
+function validateFieldWithAutoDismiss(...args) {
+  const errorId = typeof args[1] === 'string' ? args[1] : args[2];
+  const validationFn = args.length === 3 ? args[2] : args[3];
+  
+  clearTimeout(fieldErrorTimeouts[errorId]);
+  
+  const isValid = validationFn(...args);
+  
+  if (!isValid) {
+    fieldErrorTimeouts[errorId] = setTimeout(() => {
+      const errorEl = document.getElementById(errorId);
+      if (errorEl) {
+        errorEl.style.display = "none";
+        errorEl.textContent = "";
+      }
+      const inputEl = args[0];
+      if (inputEl) inputEl.classList.remove("input-error");
+    }, 3000);
+  }
+  
+  return isValid;
+}
+
+
+/**
+ * Clears field error message.
+ * @param {string} errorId
+ * @param {HTMLInputElement} inputEl
+ * @returns {void}
+ */
+function clearFieldError(errorId, inputEl) {
+  clearTimeout(fieldErrorTimeouts[errorId]);
+  const errorEl = document.getElementById(errorId);
+  if (errorEl) {
+    errorEl.textContent = "";
+    errorEl.style.display = "none";
+  }
+  inputEl.classList.remove("input-error");
 }
 
 
