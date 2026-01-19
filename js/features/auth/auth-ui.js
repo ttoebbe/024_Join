@@ -14,9 +14,19 @@ const $ = (id) => getElementById(id);
  */
 function initAnimation() {
   const img = document.getElementById("img_animation");
+  const bg = document.getElementById("bg");
+
+  if (sessionStorage.getItem("animationShown")) {
+    img.style.top = "73px";
+    img.style.left = "77px";
+    img.style.transform = "translate(0, 0) scale(1)";
+    if (bg) bg.style.display = "none";
+    return;
+  }
+
+  sessionStorage.setItem("animationShown", "true");
 
   if (window.innerWidth <= 480) {
-    // Mobile-Startbild
     img.src = "./assets/img/Capa 1.png";
   }
 
