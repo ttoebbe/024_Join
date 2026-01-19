@@ -50,6 +50,7 @@
     }
 }
 
+
 /* Animationsklasse */
 .animiert {
     animation: startAnimation 0.5s ease-in-out forwards;
@@ -357,10 +358,6 @@ footer a:hover {
     height: 35px;
 }
 
-
-
-
-
 @media (max-width: 800px) {
 
     header p,
@@ -376,102 +373,6 @@ footer a:hover {
 
     footer {
         width: auto;
-    }
-}
-
-@media (max-width: 800px) {
-    .wrapper.max-width-1440 {
-        padding: 24px 12px;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-    }
-
-    header {
-        position: static;
-        width: 100%;
-        height: auto;
-        margin: 56px 0 20px;
-        justify-content: center;
-        gap: 12px;
-        text-align: center;
-    }
-
-    header p {
-        width: auto;
-        height: auto;
-        font-size: 16px;
-    }
-
-    header .btn-signup {
-        height: 40px;
-    }
-
-    section {
-        padding: 28px 12px;
-    }
-
-    .form-buttons {
-        flex-direction: column;
-        gap: 12px;
-        width: 100%;
-    }
-
-    .form-buttons button {
-        width: 100%;
-        max-width: 422px;
-    }
-
-    .btn-right {
-        width: 100%;
-    }
-
-    .form-header h1 {
-        font-size: clamp(32px, 7vw, 44px);
-    }
-
-    .input-fields {
-        gap: 14px;
-        margin-bottom: 28px;
-    }
-
-    .input-fields input {
-        height: 44px;
-        font-size: 1.05rem;
-        padding: 10px 18px;
-    }
-
-    footer {
-        position: static;
-        transform: none;
-        margin-top: 20px;
-        width: 100%;
-    }
-}
-
-@media (max-width: 1024px) and (max-height: 600px) {
-    footer {
-        bottom: 8px;
-        transform: translate(-50%, 0);
-    }
-}
-
-@media (max-width: 900px) and (min-width: 645px) {
-    header {
-        height: auto;
-        padding: 8px 12px;
-        gap: 12px;
-    }
-
-    header p {
-        font-size: 18px;
-        width: auto;
-        height: auto;
-    }
-
-    header .btn-signup {
-        height: 44px;
-        width: 110px;
     }
 }
 
@@ -502,7 +403,6 @@ footer a:hover {
 
     /* ================= LOGO ================= */
     .homepage-image {
-        width: 40px;
         height: auto;
         position: absolute;
         z-index: 2;
@@ -530,7 +430,20 @@ footer a:hover {
     }
 }
 
+@media screen and (max-width:600px) {
+    .homepage-image {
+        width: 60px;
+    }
+}
+
 @media screen and (max-width: 480px) {
+    .wrapper.max-width-1440 {
+        padding: 20px 11px 56px
+    }
+
+    section {
+        padding: 20px 11px;
+    }
 
     /* ================= BACKGROUND ================= */
     .background-overlay {
@@ -584,20 +497,15 @@ footer a:hover {
     }
 
     header {
-        position: static;
-        transform: none;
-        right: auto;
-        justify-content: center;
-        margin: 56px 0 20px;
-        width: 100%;
-        gap: 12px;
+        position: absolute;
+        top: 81%;
+        transform: translateX(50%);
+        right: 50%;
+        justify-content: space-around;
     }
 
     footer {
-        position: static;
-        transform: none;
-        margin-top: 20px;
-        width: 100%;
+        bottom: 0px;
     }
 
     .error-msg {
@@ -606,4 +514,105 @@ footer a:hover {
     }
 }
 
+@media screen and (max-width: 428px) {
+    .wrapper.max-width-1440 {
+        padding: 20px 11px 90px
+    }
 
+    section {
+        padding: 20px 11px;
+    }
+
+    .login-page main {
+        max-width: 396px;
+        max-height: 475px;
+    }
+
+    .input-fields {
+        margin-bottom: 18px;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn-left,
+    .btn-right {
+        width: 100%;
+        max-width: 180px;
+    }
+
+    footer {
+        transform: translate(-50%, -10%);
+    }
+
+}
+
+@media screen and (max-width: 375px) {
+    .form-header h1 {
+        padding-bottom: 6px;
+    }
+
+    .login-page main {
+        max-height: 375px;
+    }
+
+    .underline_div {
+        margin-bottom: 20px;
+    }
+
+    .input-fields {
+        margin-bottom: 20px;
+        gap: 14px;
+    }
+
+    @keyframes startAnimationMobile {
+        0% {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2);
+        }
+
+        100% {
+            top: 15px;
+            left: 30px;
+            transform: translate(0, 0) scale(1);
+        }
+    }
+
+    .homepage-image {
+        width: 30px;
+        height: auto;
+        position: absolute;
+        z-index: 2;
+    }
+
+}
+
+@media screen and (min-height: 600px) {
+
+    @keyframes startAnimationMobile {
+        0% {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2);
+        }
+
+        100% {
+            top: 15px;
+            left: 30px;
+            transform: translate(0, 0) scale(1);
+        }
+    }
+
+    .animiert {
+        animation-delay: 500ms;
+        /* exakt nach Background */
+        animation: startAnimationMobile 1000ms linear forwards;
+    }
+
+    section {
+        padding: 10px 11px 20px 11px;
+    }
+}

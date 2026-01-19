@@ -13,44 +13,50 @@ const $ = (id) => getElementById(id);
  * @returns {void}
  */
 function initAnimation() {
-  const img = document.getElementById("img_animation");
-  const bg = document.getElementById("bg");
-
-  if (sessionStorage.getItem("animationShown")) {
-    img.style.top = "73px";
-    img.style.left = "77px";
-    img.style.transform = "translate(0, 0) scale(1)";
-    if (bg) bg.style.display = "none";
-    return;
-  }
-
-  sessionStorage.setItem("animationShown", "true");
-
-  if (window.innerWidth <= 480) {
-    img.src = "./assets/img/Capa 1.png";
-  }
-
   setTimeout(startAnimation, 200);
 }
 
-function startAnimation() {
-  const homepageImage = document.getElementById("img_animation");
+
+/**
+ * Triggers CSS animation classes and hides the background after a delay.
+ * @returns {void}
+ */
+function initAnimation() {
+  const img = document.getElementById("img_animation");
   const bg = document.getElementById("bg");
 
-  homepageImage.classList.add("animiert");
+  // Wenn die Elemente nicht existieren, nichts tun
+  if (!img || !bg) return;
+
+  // Mobile-Startbild
+  if (window.innerWidth <= 480) {
+    img.src = "./assets/img/Capa%201.png";
+  }
+
+  setTimeout(() => {
+    startAnimation(img, bg);
+  }, 200);
+}
+
+function startAnimation(img, bg) {
+  // Absicherung nochmal optional
+  if (!img || !bg) return;
+
+  img.classList.add("animiert");
   bg.classList.add("bg-animiert");
 
   // Nach der Animation zurück zum Desktop-Bild
   if (window.innerWidth <= 480) {
     setTimeout(() => {
-      homepageImage.src = "./assets/img/homepage_join.png";
-    }, 500); // Dauer der Animation
+      img.src = "./assets/img/homepage_join.png";
+    }, 500);
   }
 
   setTimeout(() => {
     bg.style.display = "none";
   }, 500);
 }
+
 
 
 /* ================== OVERLAY ================== */
