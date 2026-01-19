@@ -107,7 +107,7 @@ body{
 
 /* ===== Layout below topbar ===== */
 .summary-body{
-  padding: 48px 72px;
+  padding: 32px 56px;
   box-sizing: border-box;
 
   display: flex;

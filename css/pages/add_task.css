@@ -12,7 +12,7 @@
 }
 
 .addtask-page .content {
-  padding: 56px 64px;
+  padding: 32px 40px;
 }
 
 .addtask-page-title {
@@ -334,6 +334,10 @@
 }
 
 @media (max-width: 768px) {
+  .addtask-page .content {
+    padding: 24px 16px;
+  }
+
   .addtask-grid {
     grid-template-columns: 1fr;
   }
