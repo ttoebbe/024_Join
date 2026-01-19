@@ -707,7 +707,7 @@ main {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .app-shell {
     flex-direction: column;
   }
@@ -861,3 +861,5 @@ main {
     padding: 24px 20px 32px;
   }
 }
+
+

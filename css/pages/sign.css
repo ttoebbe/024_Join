@@ -263,7 +263,7 @@ footer a:hover {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     main {
         max-width: 90%;
         width: 100%;
@@ -294,3 +294,5 @@ footer a:hover {
         bottom: 10px;
     }
 }
+
+

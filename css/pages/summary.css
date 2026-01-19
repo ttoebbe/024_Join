@@ -334,7 +334,7 @@ body{
   }
 }
 
-@media (max-width: 768px){
+@media (max-width: 800px){
 
   .summary-headline{
     display: none;
@@ -603,3 +603,5 @@ body{
     padding-bottom: 92px;
   }
 }
+
+

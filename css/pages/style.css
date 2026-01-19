@@ -33,7 +33,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .max-width-1440 {
     padding: 0 16px;
   }
@@ -67,3 +67,4 @@ body {
     text-align: center;
     font-size: 1.2rem;
 }
+

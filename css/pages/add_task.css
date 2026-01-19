@@ -333,7 +333,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .addtask-page .content {
     padding: 24px 16px;
   }
@@ -352,3 +352,5 @@
     width: 100%;
   }
 }
+
+
