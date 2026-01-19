@@ -119,17 +119,23 @@ header button:hover {
     background-color: #29ABE2;
 }
 
-main {
+.login-page main {
     max-width: 652px;
     max-height: 449px;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: min(100%, 652px);
+    position: relative;
+    margin: 0 auto;
     background-color: white;
     border-radius: 30px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.wrapper.max-width-1440 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 16px 80px;
 }
 
 section {
@@ -366,6 +372,102 @@ footer a:hover {
     }
 }
 
+@media (max-width: 644px) {
+    .wrapper.max-width-1440 {
+        padding: 24px 12px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    header {
+        position: static;
+        width: 100%;
+        height: auto;
+        margin: 56px 0 20px;
+        justify-content: center;
+        gap: 12px;
+        text-align: center;
+    }
+
+    header p {
+        width: auto;
+        height: auto;
+        font-size: 16px;
+    }
+
+    header button {
+        height: 40px;
+    }
+
+    section {
+        padding: 28px 12px;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .form-buttons button {
+        width: 100%;
+        max-width: 422px;
+    }
+
+    .btn-right {
+        width: 100%;
+    }
+
+    .form-header h1 {
+        font-size: clamp(32px, 7vw, 44px);
+    }
+
+    .input-fields {
+        gap: 14px;
+        margin-bottom: 28px;
+    }
+
+    .input-fields input {
+        height: 44px;
+        font-size: 1.05rem;
+        padding: 10px 18px;
+    }
+
+    footer {
+        position: static;
+        transform: none;
+        margin-top: 20px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 1024px) and (max-height: 600px) {
+    footer {
+        bottom: 8px;
+        transform: translate(-50%, 0);
+    }
+}
+
+@media (max-width: 900px) and (min-width: 645px) {
+    header {
+        height: auto;
+        padding: 8px 12px;
+        gap: 12px;
+    }
+
+    header p {
+        font-size: 18px;
+        width: auto;
+        height: auto;
+    }
+
+    header button {
+        height: 44px;
+        width: 110px;
+    }
+}
+
 
 @media screen and (min-width: 481px) and (max-width: 720px) {
 
@@ -475,15 +577,20 @@ footer a:hover {
     }
 
     header {
-        position: absolute;
-        top: 85%;
-        transform: translateX(50%);
-        right: 50%;
-        justify-content: space-around;
+        position: static;
+        transform: none;
+        right: auto;
+        justify-content: center;
+        margin: 56px 0 20px;
+        width: 100%;
+        gap: 12px;
     }
 
     footer {
-        bottom: 10px;
+        position: static;
+        transform: none;
+        margin-top: 20px;
+        width: 100%;
     }
 
     .error-msg {

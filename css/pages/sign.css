@@ -10,15 +10,20 @@
 main {
     max-width: 598px;
     max-height: 630px;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: min(100%, 598px);
+    position: relative;
+    margin: 0 auto;
     background-color: white;
     border-radius: 30px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
+}
+
+.wrapper.max-width-1440 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 16px 80px;
 }
 
 section {

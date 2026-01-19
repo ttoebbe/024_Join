@@ -10,18 +10,39 @@ body {
 }
 
 .max-width-1440 {
-    max-width: 1440px;
+    padding: 0 16px;
 }
 
 .wrapper {
     width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
     height: 100vh;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    box-sizing: border-box;
 }
 
 * {
     box-sizing: border-box;
+}
+
+@media (max-width: 1099px) {
+  .max-width-1440 {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .max-width-1440 {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .max-width-1440 {
+    padding: 0 12px;
+  }
 }
 
 .d-none {
