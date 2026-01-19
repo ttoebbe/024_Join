@@ -309,7 +309,7 @@
   margin: 0 0 8px;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1099px) {
   .addtask-page .content {
     padding: 32px 24px;
   }
@@ -333,7 +333,13 @@
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 768px) {
+  .addtask-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
   .prio-row {
     grid-template-columns: 1fr;
   }
