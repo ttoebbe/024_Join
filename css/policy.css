@@ -11,7 +11,7 @@
 
 .policy {
   max-width: 980px;
-  margin: 0 auto;
+  margin: 0;
   color: var(--policy-text);
 }
 
@@ -124,7 +124,7 @@
 /* Sections as soft cards */
 .policy__section {
   margin-top: 18px;
-  padding: 18px 20px;
+  padding: 18px 20px 18px 24px;
   background: var(--color-bg-surface);
   border: 1px solid rgba(0,0,0,0.06);
   border-radius: 16px;

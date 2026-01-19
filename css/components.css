@@ -220,7 +220,7 @@ body{
 
 .policy-card{
   max-width: 980px;
-  margin: 0 auto;
+  margin: 0;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 20px;

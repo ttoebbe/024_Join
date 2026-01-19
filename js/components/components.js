@@ -54,6 +54,18 @@ const GUEST_NAV_TEMPLATE = `
   </div>
 `;
 
+const GUEST_HEADER_TEMPLATE = `
+  <header class="topbar">
+    <div class="topbar-logo" aria-hidden="true"></div>
+
+    <p class="topbar-title">Kanban Project Management Tool</p>
+
+    <div class="topbar-actions">
+      <a class="topbar-help" href="help.html" aria-label="Help">?</a>
+    </div>
+  </header>
+`;
+
 const HEADER_TEMPLATE = `
   <header class="topbar">
     <div class="topbar-logo" aria-hidden="true"></div>
@@ -105,7 +117,9 @@ function shouldHideNavForGuest() {
  */
 function isPolicyPage() {
   const path = window.location.pathname.toLowerCase();
-  return path.endsWith("/legal_notice.html") || path.endsWith("/privacy_policy.html");
+  return path.endsWith("/legal_notice.html") || 
+         path.endsWith("/privacy_policy.html") ||
+         path.endsWith("/help.html");
 }
 
 
@@ -117,7 +131,7 @@ function applyGuestMode() {
   const nav = document.getElementById("nav-bar-placeholder");
   const header = document.getElementById("header-placeholder");
   if (nav) nav.innerHTML = GUEST_NAV_TEMPLATE;
-  if (header) header.innerHTML = "";
+  if (header) header.innerHTML = GUEST_HEADER_TEMPLATE;
 }
 
 /**
