@@ -13,21 +13,32 @@ const $ = (id) => getElementById(id);
  * @returns {void}
  */
 function initAnimation() {
+  const img = document.getElementById("img_animation");
+
+  if (window.innerWidth <= 480) {
+    // Mobile-Startbild
+    img.src = "./assets/img/Capa 1.png";
+  }
+
   setTimeout(startAnimation, 200);
 }
 
-
-/**
- * Triggers CSS animation classes and hides the background after a delay.
- * @returns {void}
- */
 function startAnimation() {
-  const homepageImage = $("img_animation");
-  const bg = $("bg");
-  homepageImage?.classList.add("animiert");
-  bg?.classList.add("bg-animiert");
+  const homepageImage = document.getElementById("img_animation");
+  const bg = document.getElementById("bg");
+
+  homepageImage.classList.add("animiert");
+  bg.classList.add("bg-animiert");
+
+  // Nach der Animation zurück zum Desktop-Bild
+  if (window.innerWidth <= 480) {
+    setTimeout(() => {
+      homepageImage.src = "./assets/img/homepage_join.png";
+    }, 500); // Dauer der Animation
+  }
+
   setTimeout(() => {
-    if (bg) bg.style.display = "none";
+    bg.style.display = "none";
   }, 500);
 }
 
@@ -361,11 +372,11 @@ function showFieldError(errorId, message, inputEl) {
 function validateFieldWithAutoDismiss(...args) {
   const errorId = typeof args[1] === 'string' ? args[1] : args[2];
   const validationFn = args.length === 3 ? args[2] : args[3];
-  
+
   clearTimeout(fieldErrorTimeouts[errorId]);
-  
+
   const isValid = validationFn(...args);
-  
+
   if (!isValid) {
     fieldErrorTimeouts[errorId] = setTimeout(() => {
       const errorEl = document.getElementById(errorId);
@@ -377,7 +388,7 @@ function validateFieldWithAutoDismiss(...args) {
       if (inputEl) inputEl.classList.remove("input-error");
     }, 3000);
   }
-  
+
   return isValid;
 }
 
