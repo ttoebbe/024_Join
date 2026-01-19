@@ -95,7 +95,7 @@ header p {
 
 }
 
-header button {
+header .btn-signup {
     width: 91px;
     height: 49px;
     background-color: #2A3647;
@@ -107,14 +107,13 @@ header button {
     font-weight: 700;
     padding: 0;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-header button a {
     text-decoration: none;
-    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-header button:hover {
+header .btn-signup:hover {
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
     background-color: #29ABE2;
@@ -362,7 +361,7 @@ footer a:hover {
 @media (max-width: 800px) {
 
     header p,
-    header button {
+    header .btn-signup {
         text-align: center;
 
     }

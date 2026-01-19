@@ -35,28 +35,6 @@ body{
   outline: none;
 }
 
-/* ===== Topbar ===== */
-.topbar{
-  height: 96px;
-  background: var(--color-bg-surface);
-  border-bottom: 1px solid var(--color-border-light);
-
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-
-  padding: 0 72px;
-  box-sizing: border-box;
-  
-  width: 100%;
-  max-width: 1900px;
-  margin: 0 auto;
-
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
 .topbar-title{
   margin: 0;
   font-size: 20px;
@@ -319,7 +297,7 @@ body{
   object-fit: contain;
 }
 
-@media (max-width: 1099px){
+@media (max-width: 1150px){
   .summary-body{
     flex-direction: column;
     gap: 28px;

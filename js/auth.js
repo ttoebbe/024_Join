@@ -223,7 +223,7 @@ async function runSignup(state) {
 async function attemptSignup({ nameEl, emailEl, pwEl }) {
   const users = await loadUsers();
   const email = emailEl.value.trim();
-  if (users.some((u) => u.email === email)) return alert("Diese Email ist bereits registriert.");
+  if (users.some((u) => u.email === email)) return alert("This email address is already registered.");
   const newUser = buildNewUser(users, nameEl.value.trim(), email, pwEl.value.trim());
   await UserService.create(newUser);
   setTimeout(() => { window.location.href = ROUTES.LOGIN; }, 300);

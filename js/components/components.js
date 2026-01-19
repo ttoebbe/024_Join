@@ -56,34 +56,38 @@ const GUEST_NAV_TEMPLATE = `
 
 const GUEST_HEADER_TEMPLATE = `
   <header class="topbar">
-    <div class="topbar-logo" aria-hidden="true"></div>
+    <div class="topbar-inner">
+      <div class="topbar-logo" aria-hidden="true"></div>
 
-    <p class="topbar-title">Kanban Project Management Tool</p>
+      <p class="topbar-title">Kanban Project Management Tool</p>
 
-    <div class="topbar-actions">
-      <a class="topbar-help" href="help.html" aria-label="Help">?</a>
+      <div class="topbar-actions">
+        <a class="topbar-help" href="help.html" aria-label="Help">?</a>
+      </div>
     </div>
   </header>
 `;
 
 const HEADER_TEMPLATE = `
   <header class="topbar">
-    <div class="topbar-logo" aria-hidden="true"></div>
+    <div class="topbar-inner">
+      <div class="topbar-logo" aria-hidden="true"></div>
 
-    <p class="topbar-title">Kanban Project Management Tool</p>
+      <p class="topbar-title">Kanban Project Management Tool</p>
 
-    <div class="topbar-actions">
-      <a class="topbar-help" href="help.html" aria-label="Help">?</a>
+      <div class="topbar-actions">
+        <a class="topbar-help" href="help.html" aria-label="Help">?</a>
 
-      <div class="user-menu-wrap" id="userMenuWrap">
-        <button class="topbar-user" id="userMenuBtn" type="button" aria-label="User menu" aria-haspopup="menu" aria-expanded="false">
-          <span id="userInitials">G</span>
-        </button>
+        <div class="user-menu-wrap" id="userMenuWrap">
+          <button class="topbar-user" id="userMenuBtn" type="button" aria-label="User menu" aria-haspopup="menu" aria-expanded="false">
+            <span id="userInitials">G</span>
+          </button>
 
-        <div class="user-dropdown" id="userDropdown" role="menu" hidden>
-          <a class="user-dropdown__item" href="legal_notice.html" role="menuitem">Legal Notice</a>
-          <a class="user-dropdown__item" href="privacy_policy.html" role="menuitem">Privacy Policy</a>
-          <button class="user-dropdown__item user-dropdown__logout" type="button" id="userLogout" role="menuitem">Log out</button>
+          <div class="user-dropdown" id="userDropdown" role="menu" hidden>
+            <a class="user-dropdown__item" href="legal_notice.html" role="menuitem">Legal Notice</a>
+            <a class="user-dropdown__item" href="privacy_policy.html" role="menuitem">Privacy Policy</a>
+            <button class="user-dropdown__item user-dropdown__logout" type="button" id="userLogout" role="menuitem">Log out</button>
+          </div>
         </div>
       </div>
     </div>
