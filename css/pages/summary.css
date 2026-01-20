@@ -9,7 +9,8 @@ body{
   width: 100%;
   min-height: 100vh;
   overflow: auto;
-  max-width: 1900px;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 /* Sidebar active state */
