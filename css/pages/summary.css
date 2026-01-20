@@ -390,20 +390,6 @@ body{
   .kpi-date{ font-size: 17px; }
   .kpi-sub{ font-size: 16px; }
 
- 
-  .topbar{
-    height: 80px;
-    padding: 0 16px;
-    grid-template-columns: auto 1fr auto;
-  }
-  .topbar-title{ display: none; }
-  .topbar-help{ display: none; }
-
-  .topbar > div:first-child{
-    width: 32px;
-    height: 40px;
-    background: url("/assets/img/homepage_join.png") no-repeat center / contain;
-  }
 
   .nav_bar{
     position: fixed;
