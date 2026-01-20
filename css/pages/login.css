@@ -56,6 +56,12 @@
     animation: startAnimation 0.5s ease-in-out forwards;
 }
 
+.animation-skipped {
+    top: 73px;
+    left: 77px;
+    transform: translate(0, 0) scale(1);
+}
+
 .bg-animiert {
     animation: backgroundFadeOut 0.5s ease-in-out forwards;
 }

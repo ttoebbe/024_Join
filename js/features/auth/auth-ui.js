@@ -9,26 +9,22 @@ const $ = (id) => getElementById(id);
 
 /* ================== ANIMATION ================== */
 /**
- * Starts the initial animation with a small delay.
- * @returns {void}
- */
-function initAnimation() {
-  setTimeout(startAnimation, 200);
-}
-
-
-/**
- * Triggers CSS animation classes and hides the background after a delay.
+ * Initializes the logo animation with session storage check.
  * @returns {void}
  */
 function initAnimation() {
   const img = document.getElementById("img_animation");
   const bg = document.getElementById("bg");
 
-  // Wenn die Elemente nicht existieren, nichts tun
   if (!img || !bg) return;
 
-  // Mobile-Startbild
+  if (sessionStorage.getItem('animationShown') === 'true') {
+    skipAnimation(img, bg);
+    return;
+  }
+
+  sessionStorage.setItem('animationShown', 'true');
+
   if (window.innerWidth <= 480) {
     img.src = "./assets/img/Capa%201.png";
   }
@@ -38,14 +34,18 @@ function initAnimation() {
   }, 200);
 }
 
+/**
+ * Executes the logo animation.
+ * @param {HTMLElement} img
+ * @param {HTMLElement} bg
+ * @returns {void}
+ */
 function startAnimation(img, bg) {
-  // Absicherung nochmal optional
   if (!img || !bg) return;
 
   img.classList.add("animiert");
   bg.classList.add("bg-animiert");
 
-  // Nach der Animation zurück zum Desktop-Bild
   if (window.innerWidth <= 480) {
     setTimeout(() => {
       img.src = "./assets/img/homepage_join.png";
@@ -55,6 +55,30 @@ function startAnimation(img, bg) {
   setTimeout(() => {
     bg.style.display = "none";
   }, 500);
+}
+
+
+/**
+ * Skips animation and shows final state directly.
+ * @param {HTMLElement} img
+ * @param {HTMLElement} bg
+ * @returns {void}
+ */
+function skipAnimation(img, bg) {
+  if (!img || !bg) return;
+
+  img.src = "./assets/img/homepage_join.png";
+  
+  if (window.innerWidth <= 480) {
+    img.style.top = "30px";
+    img.style.left = "30px";
+  } else {
+    img.style.top = "73px";
+    img.style.left = "77px";
+  }
+  
+  img.style.transform = "translate(0, 0) scale(1)";
+  bg.style.display = "none";
 }
 
 
