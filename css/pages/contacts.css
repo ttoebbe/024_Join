@@ -77,6 +77,7 @@
 .contact-back-button img {
   width: 32px;
   height: 32px;
+  margin-right: 24px;
 }
 
 .contacts-header .contact-back-button {
@@ -87,10 +88,10 @@
   display: none;
 }
 
- .contact-menu-button img {
+.contact-menu-button img {
   width: 64px;
   height: 64px;
-} 
+}
 
 .contact-detail-panel {
   flex: 1 1 0;
@@ -491,7 +492,8 @@ main {
   font-weight: 600;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+  transition: transform 0.1s ease, box-shadow 0.2s ease, background 0.2s ease,
+    color 0.2s ease;
 }
 
 .overlay-btn-primary {
@@ -760,6 +762,11 @@ main {
     margin-bottom: 16px;
   }
 
+  .contacts-title-row {
+    width: 100%;
+    justify-content: space-between;
+  }
+
   .contacts-header h1 {
     font-size: 32px;
   }
@@ -861,5 +868,3 @@ main {
     padding: 24px 20px 32px;
   }
 }
-
-
