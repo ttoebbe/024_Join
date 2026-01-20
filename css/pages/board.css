@@ -98,21 +98,21 @@
 }
 /* Columns */
 .board-columns {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(195px, 1fr));
-  gap: 16px;
+  display: flex;
+  gap: 26px;
+  align-items: flex-start;
   overflow-x: auto;
   padding-bottom: 12px;
   flex: 1;
   min-height: 0;
-  max-width: var(--container-max-width);
 }
 
 .board-column {
+  width: 252px;
+  flex: 0 0 252px;
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-width: 0;
 }
 
 .board-column-head {
@@ -319,15 +319,7 @@
 
 
 
-/* Responsive 900px: Engere Spalten auf Tablet */
-@media (max-width: 900px) {
-  .board-columns {
-    grid-template-columns: repeat(4, minmax(150px, 1fr));
-    gap: 12px;
-  }
-}
-
-/* Responsive 1150px: Layout-Wechsel zu horizontalen Reihen */
+/* Responsive (Mobile: Spalten untereinander) */
 @media (max-width: 1150px) {
   .board-page {
     padding: 24px 20px;
@@ -344,58 +336,45 @@
 
   .board-actions {
     width: 100%;
-    /* flex-direction: column; */
+    flex-direction: column;
     align-items: flex-start;
   }
 
-  /* .board-search {
+  .board-search {
     width: 100%;
-  } */
+  }
 
   .board-search-input {
     width: auto;
     flex: 1 1 auto;
   }
-
-  .board-columns {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    overflow-y: hidden;
-    max-height: calc(100vh - 250px);
-  }
-
-  .board-column {
-    height: calc((100vh - 250px - 24px) / 4);
-    min-height: 180px;
-  }
-
-  .board-column-body {
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 8px;
-    padding-right: 0;
-  }
-
-  .board-card {
-    flex: 0 0 auto;
-    min-width: 280px;
-  }
-
-  .board-card-title {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
 }
 
 @media (max-width: 800px) {
+  .board-columns {
+    flex-direction: column;
+    overflow-x: visible;
+    flex: initial;
+  }
+
+  .board-column {
+    width: 100%;
+    flex: 1;
+    height: auto;
+  }
+
   .board-head {
     flex-direction: column;
+  }
+
+  .board-actions {
+    width: 100%;
   }
 
   .board-add-btn {
     width: 100%;
     justify-content: center;
+    background: var(--color-primary);
   }
 
   .board-add-plus {
@@ -404,6 +383,20 @@
 
   .board-page {
     min-height: auto;
+  }
+
+  .board-column-body {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    padding-right: 0;
+  }
+
+  .board-card {
+    flex: 0 0 252px;
+    width: 252px;
   }
 }
 
@@ -744,21 +737,14 @@
 }
 
 @media (max-width: 480px) {
-  .board-columns {
-    gap: 6px;
-  }
-
   .board-column {
-    min-height: 160px;
+    width: 100%;
+    flex: 1;
+    min-width: 0;
   }
 
   .board-column-body {
     max-height: calc(100vh - 228px);
-  }
-
-  .board-card {
-    flex: 0 0 220px;
-    width: 220px;
   }
 
   .prio-row {
