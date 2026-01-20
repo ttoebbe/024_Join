@@ -59,8 +59,8 @@
   border: none;
   background: transparent;
   color: var(--contacts-accent);
-  /* width: 36px; */
-  height: 36px;
+  width: 64px;
+  height: 64px;
   padding: 0;
   border-radius: 50%;
   display: inline-flex;
@@ -77,7 +77,6 @@
 .contact-back-button img {
   width: 32px;
   height: 32px;
-  margin-right: 24px;
 }
 
 .contacts-header .contact-back-button {
@@ -91,6 +90,7 @@
 .contact-menu-button img {
   width: 64px;
   height: 64px;
+  margin-bottom: -5px;
 }
 
 .contact-detail-panel {
