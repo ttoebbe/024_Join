@@ -95,9 +95,6 @@ function showSuccessOverlay() {
 
 
 /* ================== LOGIN UI ================== */
-const fieldErrorTimeouts = {};
-
-
 /**
  * Shows login error state with an optional message.
  * @param {HTMLInputElement} emailEl
@@ -106,9 +103,7 @@ const fieldErrorTimeouts = {};
  * @returns {void}
  */
 function showLoginErrorState(emailEl, pwEl, message) {
-  const msg = document.getElementById("errorMsg");
-  if (msg && message) msg.textContent = message;
-  if (msg) msg.style.display = "block";
+  if (message) showErrorToast(message);
   emailEl.classList.add("input-error");
   pwEl.classList.add("input-error");
 }
@@ -121,7 +116,6 @@ function showLoginErrorState(emailEl, pwEl, message) {
  * @returns {void}
  */
 function clearLoginErrorState(emailEl, pwEl) {
-  document.getElementById("errorMsg").style.display = "none";
   emailEl.classList.remove("input-error");
   pwEl.classList.remove("input-error");
 }
@@ -176,9 +170,7 @@ function setLoginBusy({ btnLogin }, busy) {
  * @returns {void}
  */
 function showSignupErrorState(pwEl, pw2El, message) {
-  const errorMsg = document.getElementById("errorSignupMsg");
-  if (errorMsg && message) errorMsg.textContent = message;
-  if (errorMsg) errorMsg.style.display = "block";
+  if (message) showErrorToast(message);
   pwEl.classList.add("input-error");
   pw2El.classList.add("input-error");
 }
@@ -191,8 +183,6 @@ function showSignupErrorState(pwEl, pw2El, message) {
  * @returns {void}
  */
 function clearSignupErrorState(pwEl, pw2El) {
-  const errorMsg = document.getElementById("errorSignupMsg");
-  errorMsg.style.display = "none";
   pwEl.classList.remove("input-error");
   pw2El.classList.remove("input-error");
 }
@@ -395,11 +385,7 @@ function validateConfirmPasswordField(pwEl, pw2El, errorId) {
  * @returns {void}
  */
 function showFieldError(errorId, message, inputEl) {
-  const errorEl = document.getElementById(errorId);
-  if (errorEl) {
-    errorEl.textContent = message;
-    errorEl.style.display = "block";
-  }
+  showErrorToast(message);
   inputEl.classList.add("input-error");
 }
 
@@ -410,26 +396,8 @@ function showFieldError(errorId, message, inputEl) {
  * @returns {boolean}
  */
 function validateFieldWithAutoDismiss(...args) {
-  const errorId = typeof args[1] === 'string' ? args[1] : args[2];
   const validationFn = args.length === 3 ? args[2] : args[3];
-
-  clearTimeout(fieldErrorTimeouts[errorId]);
-
-  const isValid = validationFn(...args);
-
-  if (!isValid) {
-    fieldErrorTimeouts[errorId] = setTimeout(() => {
-      const errorEl = document.getElementById(errorId);
-      if (errorEl) {
-        errorEl.style.display = "none";
-        errorEl.textContent = "";
-      }
-      const inputEl = args[0];
-      if (inputEl) inputEl.classList.remove("input-error");
-    }, 3000);
-  }
-
-  return isValid;
+  return validationFn(...args);
 }
 
 
@@ -440,12 +408,6 @@ function validateFieldWithAutoDismiss(...args) {
  * @returns {void}
  */
 function clearFieldError(errorId, inputEl) {
-  clearTimeout(fieldErrorTimeouts[errorId]);
-  const errorEl = document.getElementById(errorId);
-  if (errorEl) {
-    errorEl.textContent = "";
-    errorEl.style.display = "none";
-  }
   inputEl.classList.remove("input-error");
 }
 

@@ -127,22 +127,34 @@ a:hover {
 }
 
 /* Toast/notification styles */
-.toast {
+.toast-container {
   position: fixed;
   top: var(--spacing-lg);
   right: var(--spacing-lg);
+  z-index: var(--z-tooltip);
+  pointer-events: none;
+}
+
+.toast {
+  position: absolute;
+  top: 0;
+  right: 0;
   background-color: var(--color-primary);
   color: var(--color-text-white);
   padding: var(--spacing-md) var(--spacing-lg);
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-lg);
-  transform: translateX(100%);
+  transform: translateX(120%) translateY(var(--toast-offset, 0px));
   transition: transform var(--transition-normal);
-  z-index: var(--z-tooltip);
+  will-change: transform;
+}
+
+.toast.toast-error {
+  background-color: var(--color-danger);
 }
 
 .toast.show {
-  transform: translateX(0);
+  transform: translateX(0) translateY(var(--toast-offset, 0px));
 }
 
 /* Container */
