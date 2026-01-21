@@ -258,7 +258,7 @@ body{
   margin: 0;
 }
 /* Desktop only: Sidebar bleibt sichtbar + keine Leerstelle */
-@media (min-width: 801px){
+@media (min-width: 1251px){
   #nav-bar-placeholder{
     position: sticky;
     top: 0;
@@ -273,7 +273,7 @@ body{
 }
 
 
-@media (max-width: 800px){
+@media (max-width: 1250px){
   .policy-page{
     padding: 24px 16px 40px;
   }
@@ -472,5 +472,4 @@ body{
 .user-dropdown__logout{
   margin-top: 2px;
 }
-
 

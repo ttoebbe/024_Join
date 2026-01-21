@@ -320,7 +320,7 @@
 
 
 /* Responsive (Mobile: Spalten untereinander) */
-@media (max-width: 1150px) {
+@media (max-width: 1250px) {
   .board-page {
     padding: 24px 20px;
   }
@@ -360,7 +360,7 @@
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1250px) {
   .board-columns {
     flex-direction: column;
     overflow-x: visible;
@@ -817,7 +817,7 @@
   margin: 0 0 8px;
 }
 
-@media (max-width: 1150px) {
+@media (max-width: 1250px) {
   .addtask-page .content {
     padding: 32px 24px;
   }
