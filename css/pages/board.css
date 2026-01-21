@@ -300,7 +300,8 @@
   display: block;
 }
 
-.board-card.is-selected{
+.board-card.is-selected,
+.board-card:hover {
   outline: 2px solid var(--color-accent);
 }
 
