@@ -66,6 +66,7 @@
   border: 1px solid var(--color-border-light);
   background: var(--color-bg-surface);
   border-radius: 10px;
+  max-width: 420px;
 }
 
 .board-search-input {
@@ -367,7 +368,7 @@
   .board-search {
     flex: 1 1 0;
     min-width: 0;
-    max-width: 65%;
+    max-width: 420px;
     height: 44px;
     box-sizing: border-box;
   }
