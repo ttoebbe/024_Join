@@ -10,6 +10,13 @@ function initSubtasks(state) {
   state.subtaskInput.addEventListener("keydown", (e) => {
     handleSubtaskKeydown(e, state);
   });
+  state.subtaskList.addEventListener("click", (e) => {
+    const removeBtn = e.target.closest(".subtask-remove");
+    if (!removeBtn) return;
+    const index = Number(removeBtn.dataset.index);
+    if (Number.isNaN(index)) return;
+    removeSubtask(state, index);
+  });
   renderSubtasks(state);
 }
 
@@ -44,7 +51,7 @@ function renderSubtasks(state) {
   if (!state.subtaskList) return;
   state.subtaskList.innerHTML = "";
   state.selectedSubtasks.forEach((subtask, index) => {
-    state.subtaskList.appendChild(buildSubtaskRow(state, subtask, index));
+    state.subtaskList.appendChild(addTaskBuildSubtaskRow(state, subtask, index));
   });
 }
 
@@ -54,11 +61,12 @@ function renderSubtasks(state) {
  * @param {*} index
  * @returns {*}
  */
-function buildSubtaskRow(state, subtask, index) {
+function addTaskBuildSubtaskRow(state, subtask, index) {
   const row = document.createElement("div");
   row.className = "subtask-item";
-  row.appendChild(buildSubtaskText(subtask));
-  row.appendChild(buildRemoveSubtaskButton(state, index));
+  row.dataset.index = String(index);
+  row.appendChild(addTaskBuildSubtaskText(subtask));
+  row.appendChild(addTaskBuildRemoveSubtaskButton(state, index));
   return row;
 }
 
@@ -66,7 +74,7 @@ function buildSubtaskRow(state, subtask, index) {
  * @param {*} subtask
  * @returns {*}
  */
-function buildSubtaskText(subtask) {
+function addTaskBuildSubtaskText(subtask) {
   const text = document.createElement("span");
   text.textContent = subtask.title || "Subtask";
   return text;
@@ -77,14 +85,12 @@ function buildSubtaskText(subtask) {
  * @param {*} index
  * @returns {*}
  */
-function buildRemoveSubtaskButton(state, index) {
+function addTaskBuildRemoveSubtaskButton(state, index) {
   const removeBtn = document.createElement("button");
   removeBtn.type = "button";
   removeBtn.className = "subtask-remove";
   removeBtn.textContent = "x";
-  removeBtn.addEventListener("click", () => {
-    removeSubtask(state, index);
-  });
+  removeBtn.dataset.index = String(index);
   return removeBtn;
 }
 
