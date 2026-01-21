@@ -12,10 +12,26 @@
   width: 100%;
   padding: 32px 40px;
   background: var(--color-bg-primary);
-  min-height: calc(100vh - 96px);
+  height: calc(100vh - 96px);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+.board-content {
+  overflow: hidden;
+}
+
+@media (max-width: 1250px) {
+  .board-page {
+    height: auto;
+    overflow: visible;
+  }
+
+  .board-content {
+    overflow: auto;
+  }
 }
 
 .board-head {
