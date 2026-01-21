@@ -95,9 +95,36 @@
   background: var(--color-bg-surface);
   font-weight: 700;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .prio-btn.is-active {
+  color: var(--color-text-white);
+}
+
+.prio-btn .prio-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.prio-btn[data-prio="urgent"] .prio-icon {
+  color: var(--color-priority-urgent);
+}
+
+.prio-btn[data-prio="medium"] .prio-icon {
+  color: var(--color-priority-medium);
+}
+
+.prio-btn[data-prio="low"] .prio-icon {
+  color: var(--color-priority-low);
+}
+
+.prio-btn.is-active .prio-icon {
   color: var(--color-text-white);
 }
 
@@ -352,5 +379,3 @@
     width: 100%;
   }
 }
-
-

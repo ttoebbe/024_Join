@@ -252,9 +252,27 @@ function getAddTaskPriorityBlock() {
   return `
     <label>Priority</label>
     <div class="prio-row">
-      <button type="button" class="prio-btn" data-prio="urgent">Urgent</button>
-      <button type="button" class="prio-btn is-active" data-prio="medium">Medium</button>
-      <button type="button" class="prio-btn" data-prio="low">Low</button>
+      <button type="button" class="prio-btn" data-prio="urgent">
+        <span class="prio-label">Urgent</span>
+        <svg class="prio-icon" viewBox="0 0 20 16" aria-hidden="true">
+          <path d="M4 10L10 4L16 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M4 14L10 8L16 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button type="button" class="prio-btn is-active" data-prio="medium">
+        <span class="prio-label">Medium</span>
+        <svg class="prio-icon" viewBox="0 0 20 16" aria-hidden="true">
+          <path d="M4 6H16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path d="M4 10H16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <button type="button" class="prio-btn" data-prio="low">
+        <span class="prio-label">Low</span>
+        <svg class="prio-icon" viewBox="0 0 20 16" aria-hidden="true">
+          <path d="M4 2L10 8L16 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M4 6L10 12L16 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
     </div>
   `;
 }
