@@ -189,7 +189,6 @@ function buildContactMenuButton() {
 function getAddTaskFormTemplate(presetStatus = "todo") {
   return [
     getAddTaskFormOpen(presetStatus),
-    getAddTaskLeftColumn(),
     getAddTaskRightColumn(),
     getAddTaskFormFooter(),
     getAddTaskFormClose(),

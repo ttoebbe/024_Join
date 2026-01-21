@@ -150,7 +150,7 @@
   color: var(--color-accent);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 800px) {
   .overlay-panel {
     top: 0;
     left: 0;
@@ -176,5 +176,4 @@
     min-width: 0;
   }
 }
-
 

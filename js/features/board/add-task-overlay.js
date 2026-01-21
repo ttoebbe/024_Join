@@ -32,18 +32,22 @@ async function renderTaskOverlay({ mode, status, task }) {
 
   // Template laden (wenn fehlt: Fallback anzeigen)
   let formHtml = "";
-  try {
-    const res = await fetch("./add_task_form.html");
-    if (!res.ok) throw new Error(`Template not found (${res.status})`);
-    formHtml = await res.text();
-  } catch (err) {
-    formHtml = `
-      <div style="padding:16px; border:1px dashed #d1d1d1; border-radius:12px;">
-        <p style="margin:0 0 8px 0;"><strong>Template fehlt oder lädt nicht.</strong></p>
-        <p style="margin:0;">Erwartet: <code>./add_task_form.html</code></p>
-        <p style="margin:8px 0 0 0;">Preset Status: <strong>${status}</strong></p>
-      </div>
-    `;
+  if (typeof getAddTaskFormTemplate === "function") {
+    formHtml = getAddTaskFormTemplate(status);
+  } else {
+    try {
+      const res = await fetch("./add_task_form.html", { cache: "no-store" });
+      if (!res.ok) throw new Error(`Template not found (${res.status})`);
+      formHtml = await res.text();
+    } catch (err) {
+      formHtml = `
+        <div style="padding:16px; border:1px dashed #d1d1d1; border-radius:12px;">
+          <p style="margin:0 0 8px 0;"><strong>Template fehlt oder lädt nicht.</strong></p>
+          <p style="margin:0;">Erwartet: <code>./add_task_form.html</code></p>
+          <p style="margin:8px 0 0 0;">Preset Status: <strong>${status}</strong></p>
+        </div>
+      `;
+    }
   }
 
   const title = mode === "edit" ? "Edit Task" : "Add Task";
