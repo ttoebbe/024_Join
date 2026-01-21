@@ -348,69 +348,6 @@ body{
   .kpi-date{ font-size: 17px; }
   .kpi-sub{ font-size: 16px; }
 
-
-  .nav_bar{
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    width: 100%;
-    max-width: none;
-    height: 88px;
-
-    padding: 0;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 999;
-    background: var(--color-primary);
-  }
-
-  .nav_logo{ display: none; }
-  .footer_links{ display: none; }
-
-  .nav_links{
-    height: auto;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .nav_links nav{
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    gap: 0;
-    padding: 0 4px;
-    box-sizing: border-box;
-  }
-
-  .nav_links nav a{
-    width: auto;
-    padding: 8px 10px;
-    gap: 4px;
-    border-radius: 16px;
-
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .nav_links nav img{
-    width: 26px;
-    height: 26px;
-  }
-
-  .nav_links nav p{
-    font-size: 16px;
-    margin: 0;
-  }
-
-  .nav_links nav a.nav-active{
-    background: var(--color-primary-active);
-  }
 }
 
 
@@ -505,20 +442,6 @@ body{
     font-size: 16px;
     line-height: 1.1;
     word-break: break-word;       
-  }
-
- 
-  .nav_links nav p{
-    font-size: 16px;
-  }
-
-  .nav_links nav img{
-    width: 26px;
-    height: 26px;
-  }
-
-  .nav_bar{
-    height: 84px;
   }
 
   .content{
