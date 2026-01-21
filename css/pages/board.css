@@ -336,17 +336,27 @@
 
   .board-actions {
     width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 12px;
   }
 
   .board-search {
-    width: 100%;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 65%;
+    height: 44px;
+    box-sizing: border-box;
   }
 
   .board-search-input {
-    width: auto;
     flex: 1 1 auto;
+    font-size: 16px;
+  }
+
+  .board-add-btn {
+    height: 44px;
+    white-space: nowrap;
   }
 }
 
@@ -369,16 +379,36 @@
 
   .board-actions {
     width: 100%;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .board-search {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 65%;
+    padding: 4px 8px;
+    height: 44px;
+    box-sizing: border-box;
+  }
+
+  .board-search-input {
+    font-size: 16px;
   }
 
   .board-add-btn {
-    width: 100%;
+    flex: 0 0 auto;
+    padding: 8px 10px;
+    font-size: 13px;
     justify-content: center;
     background: var(--color-primary);
+    white-space: nowrap;
+    height: 44px;
   }
 
   .board-add-plus {
-    font-size: 18px;
+    font-size: 14px;
   }
 
   .board-page {
@@ -397,6 +427,54 @@
   .board-card {
     flex: 0 0 252px;
     width: 252px;
+  }
+}
+
+@media (max-width: 520px) {
+  .board-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .board-actions {
+    display: contents;
+  }
+
+  .board-title {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .board-add-btn {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 10px;
+    font-size: 0;
+    justify-content: center;
+  }
+
+  .board-add-plus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 24px;
+    line-height: 1;
+    transform: translateX(-1px);
+  }
+
+  .board-search {
+    grid-column: 1 / -1;
+    grid-row: 2 / 3;
+    width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -755,5 +833,3 @@
     width: 100%;
   }
 }
-
-
