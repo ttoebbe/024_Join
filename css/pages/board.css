@@ -46,6 +46,7 @@
   gap: 8px;
   flex-wrap: nowrap;
   padding: 6px 10px;
+  height: 44px;
   border: 1px solid var(--color-border-light);
   background: var(--color-bg-surface);
   border-radius: 10px;
@@ -81,6 +82,7 @@
   gap: 8px;
   background: var(--color-primary);
   color: var(--color-text-white);
+  height: 44px;
 }
 
 .board-add-btn:hover {
