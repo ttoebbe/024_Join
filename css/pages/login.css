@@ -199,7 +199,20 @@ form img {
     margin-bottom: 40px;
     width: 100%;
     max-width: 422px;
-    max-height: 152px;
+    height: auto;
+}
+
+.input-field-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 6px;
+}
+
+.input-control {
+    position: relative;
+    height: 48px;
 }
 
 input::placeholder {
@@ -212,7 +225,7 @@ input::placeholder {
 .input-fields input {
     width: 100%;
     height: 48px;
-    padding: 10px 21px 10px 21px;
+    padding: 10px 48px 10px 21px;
     border: 1px solid #D1D1D1;
     border-radius: 10px;
     font-size: 1.25rem;
@@ -229,18 +242,16 @@ input::placeholder {
 
 .input-icon-email {
     position: absolute;
-    top: 24px;
+    top: 50%;
     right: 15px;
     transform: translateY(-50%);
-
 }
 
 .input-icon-password {
     position: absolute;
-    bottom: 0;
+    top: 50%;
     right: 15px;
     transform: translateY(-50%);
-
 }
 
 .visibilty-btn.d-none {
@@ -259,20 +270,17 @@ input::placeholder {
     font-size: 0.85rem;
     display: none;
     margin-top: 4px;
-    margin-bottom: 8px;
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .error-msg {
-    position: absolute;
-    top: 100%;
-    /* direkt unter dem Passwortfeld */
-    left: 0;
     color: red;
     font-size: 0.85rem;
-    white-space: nowrap;
     display: none;
     margin-top: 8px;
-    /* Standard: unsichtbar */
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .form-buttons {
@@ -522,35 +530,52 @@ footer a:hover {
 
 @media screen and (max-width: 428px) {
     .wrapper.max-width-1440 {
-        padding: 20px 11px 90px
+        padding: 32px 16px 80px;
     }
 
     section {
-        padding: 20px 11px;
+        padding: 40px 16px;
     }
 
     .login-page main {
-        max-width: 396px;
-        max-height: 475px;
+        width: 100%;
+        max-width: 350px;
+        height: auto;
     }
 
     .input-fields {
-        margin-bottom: 18px;
+        margin-bottom: 24px;
+        gap: 16px;
+    }
+
+    .input-fields input {
+        padding: 10px 38px 10px 14px;
     }
 
     .form-buttons {
         flex-direction: column;
-        gap: 15px;
+        gap: 16px;
+        max-width: 100%;
+        width: 100%;
+        padding: 0;
+        box-sizing: border-box;
     }
 
+    .form-buttons button,
     .btn-left,
     .btn-right {
         width: 100%;
-        max-width: 180px;
+        max-width: none;
+        box-sizing: border-box;
+    }
+
+    .input-icon-email,
+    .input-icon-password {
+        right: 10px;
     }
 
     footer {
-        transform: translate(-50%, -10%);
+        transform: translate(-50%, -6%);
     }
 
 }
