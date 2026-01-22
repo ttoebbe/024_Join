@@ -181,8 +181,20 @@ async function reloadSummaryData() {
 function redirectToLogin() {
   window.location.href = ROUTES.LOGIN;
 }
-document.addEventListener("DOMContentLoaded", () => {
-  initSummary().catch((err) => {
+document.addEventListener("DOMContentLoaded", handleSummaryReady);
+
+/**
+ * @returns {void}
+ */
+function handleSummaryReady() {
+  withPageReady(runSummaryInit);
+}
+
+/**
+ * @returns {Promise<void>}
+ */
+async function runSummaryInit() {
+  await initSummary().catch((err) => {
     console.error("Summary init error:", err);
   });
-});
+}

@@ -19,7 +19,14 @@ const boardState = {
   query: "",
   draggingTaskId: null,
 };
-document.addEventListener("DOMContentLoaded", initBoard);
+document.addEventListener("DOMContentLoaded", handleBoardReady);
+
+/**
+ * @returns {void}
+ */
+function handleBoardReady() {
+  withPageReady(initBoard);
+}
 /**
  * Initializes the board once.
  * - Wire UI events

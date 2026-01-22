@@ -8,7 +8,7 @@ function initAssignedDropdown(state) {
   const parts = getAssignedDropdownParts(dropdown);
   wireAssignedToggle(parts);
   wireAssignedOutsideClose(parts);
-  loadAssignedContacts(state, parts);
+  state.assignedReady = loadAssignedContacts(state, parts);
   onPageVisible(() => loadAssignedContacts(state, parts));
   return () => resetAssignedDropdown(parts);
 }

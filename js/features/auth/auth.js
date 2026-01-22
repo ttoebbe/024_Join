@@ -229,8 +229,20 @@ function wireSignupToggles() {
  * Bootstraps auth-related flows on DOM ready.
  * @returns {void}
  */
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", handleAuthReady);
+
+/**
+ * @returns {void}
+ */
+function handleAuthReady() {
+  withPageReady(runAuthInit);
+}
+
+/**
+ * @returns {void}
+ */
+function runAuthInit() {
   initAnimation();
   initLogin();
   initSignup();
-});
+}
