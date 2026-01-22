@@ -103,7 +103,7 @@
   align-items: center;
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.08);
   min-height: 0;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .contacts-header {
@@ -282,7 +282,7 @@
   display: flex;
   flex: 1;
   min-height: 0;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .contacts-page {
@@ -292,7 +292,7 @@
   gap: 32px;
   background: var(--contact-list-panel-color);
   min-height: 0;
-  overflow: hidden;
+  overflow: auto;
   margin: 0;
   max-width: none;
   align-items: stretch;

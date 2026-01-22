@@ -16,11 +16,11 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .board-content {
-  overflow: hidden;
+  overflow: auto;
 }
 
 @media (max-width: 1250px) {
@@ -443,7 +443,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
     padding-top: 4px;
     padding-bottom: 12px;
     padding-right: 4px;
