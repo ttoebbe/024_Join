@@ -2,7 +2,6 @@
  * Contacts Validation Module
  * Handles form validation and error display
  */
-
 /**
  * Clears contact form errors and messages.
  * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement}} elements
@@ -14,8 +13,6 @@ function clearContactFormErrors({ nameInput, emailInput, phoneInput }) {
   clearContactInputError(emailInput);
   clearContactInputError(phoneInput);
 }
-
-
 /**
  * Sets contact form message text.
  * @param {string} message
@@ -24,8 +21,6 @@ function clearContactFormErrors({ nameInput, emailInput, phoneInput }) {
 function setContactFormMsg(message) {
   setText("contactFormMsg", message || "");
 }
-
-
 /**
  * Removes input error class.
  * @param {HTMLInputElement} input
@@ -34,8 +29,6 @@ function setContactFormMsg(message) {
 function clearContactInputError(input) {
   if (input) input.classList.remove("input-error");
 }
-
-
 /**
  * Validates contact form values and sets UI errors.
  * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement}} inputs
@@ -50,8 +43,6 @@ function validateContactForm(inputs, values) {
   markContactValidationErrors(inputs, values);
   return false;
 }
-
-
 /**
  * Marks invalid contact fields.
  * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement}} inputs
@@ -63,8 +54,6 @@ function markContactValidationErrors(inputs, values) {
   if (!values.email || !isValidEmail(values.email)) addContactInputError(inputs.emailInput);
   if (!values.phone || !isValidPhone(values.phone)) addContactInputError(inputs.phoneInput);
 }
-
-
 /**
  * Adds input error class.
  * @param {HTMLInputElement} input
@@ -73,8 +62,6 @@ function markContactValidationErrors(inputs, values) {
 function addContactInputError(input) {
   if (input) input.classList.add("input-error");
 }
-
-
 /**
  * Collects contact form inputs.
  * @param {HTMLFormElement} form
@@ -88,8 +75,6 @@ function getContactFormInputs(form) {
   if (!nameInput || !emailInput || !phoneInput || !submitBtn) return null;
   return { nameInput, emailInput, phoneInput, submitBtn };
 }
-
-
 /**
  * Toggles submit button busy state.
  * @param {{submitBtn: HTMLButtonElement}} inputs

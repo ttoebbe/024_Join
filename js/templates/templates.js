@@ -9,8 +9,6 @@ function getTaskCardTemplate(task) {
   const data = buildTaskCardData(task);
   return buildTaskCardTemplate(task, data);
 }
-
-
 /**
  * @param {*} task
  * @returns {*}
@@ -21,8 +19,6 @@ function buildTaskCardData(task) {
     assignees: task.assignees || [],
   };
 }
-
-
 /**
  * @param {*} task
  * @param {*} data
@@ -42,8 +38,6 @@ function buildTaskCardTemplate(task, data) {
     </div>
   `;
 }
-
-
 /**
  * @param {*} assignees
  * @returns {*}
@@ -55,8 +49,6 @@ function buildAssigneeMarkup(assignees) {
   if (assignees.length > 3) list.push(buildAssigneeOverflow(assignees.length));
   return list.join("");
 }
-
-
 /**
  * @param {*} assignee
  * @returns {*}
@@ -68,8 +60,6 @@ function buildAssigneeAvatar(assignee) {
     </div>
   `;
 }
-
-
 /**
  * @param {*} count
  * @returns {*}
@@ -77,8 +67,6 @@ function buildAssigneeAvatar(assignee) {
 function buildAssigneeOverflow(count) {
   return `<div class="task-assignee-avatar">+${count - 3}</div>`;
 }
-
-
 /**
  * Template functions for contact views
  */
@@ -100,8 +88,6 @@ function getContactTemplate(contact, isActive = false) {
     </article>
   `;
 }
-
-
 /**
  * @param {*} letter
  * @returns {*}
@@ -113,8 +99,6 @@ function getContactGroupHeaderTemplate(letter) {
     </div>
   `;
 }
-
-
 /**
  * @param {*} contact
  * @returns {*}
@@ -127,8 +111,6 @@ function getContactDetailTemplate(contact) {
     buildContactMenuButton(),
   ].join("");
 }
-
-
 /**
  * @param {*} contact
  * @param {*} initials
@@ -146,8 +128,6 @@ function buildContactHero(contact, initials) {
     `  </div>\n` +
     `</div>\n`;
 }
-
-
 /**
  * @param {*} contact
  * @returns {*}
@@ -165,8 +145,6 @@ function buildContactDetails(contact) {
     `  </div>\n` +
     `</div>\n`;
 }
-
-
 /**
  * @returns {*}
  */
@@ -177,8 +155,6 @@ function buildContactMenuButton() {
     </button>
   `;
 }
-
-
 /**
  * Template functions for the add task form
  */
@@ -194,8 +170,6 @@ function getAddTaskFormTemplate(presetStatus = "todo") {
     getAddTaskFormClose(),
   ].join("");
 }
-
-
 /**
  * @param {*} presetStatus
  * @returns {*}
@@ -211,8 +185,6 @@ function getAddTaskFormOpen(presetStatus) {
         </div>
   `;
 }
-
-
 /**
  * @returns {*}
  */
@@ -226,8 +198,6 @@ function getAddTaskLeftFields() {
     <input id="taskDueDate" type="date" />
   `;
 }
-
-
 /**
  * @returns {*}
  */
@@ -242,8 +212,6 @@ function getAddTaskRightColumn() {
       </div>
   `;
 }
-
-
 /**
  * @returns {*}
  */
@@ -275,8 +243,6 @@ function getAddTaskPriorityBlock() {
     </div>
   `;
 }
-
-
 /**
  * @returns {*}
  */
@@ -292,8 +258,6 @@ function getAddTaskAssignedBlock() {
     </div>
   `;
 }
-
-
 /**
  * @returns {*}
  */
@@ -310,8 +274,6 @@ function getAddTaskCategoryBlock() {
     `  </div>\n` +
     `</div>\n`;
 }
-
-
 /**
  * @returns {*}
  */
@@ -325,8 +287,6 @@ function getAddTaskSubtaskBlock() {
     <div id="subtaskList"></div>
   `;
 }
-
-
 /**
  * @returns {*}
  */
@@ -340,8 +300,6 @@ function getAddTaskFormFooter() {
       </div>
   `;
 }
-
-
 /**
  * @returns {*}
  */
@@ -350,8 +308,6 @@ function getAddTaskFormClose() {
     </form>
   `;
 }
-
-
 /**
  * Shared UI templates
  */
@@ -367,8 +323,6 @@ function getLoadingTemplate(message = "Loading...") {
     </div>
   `;
 }
-
-
 /**
  * @param {*} message = "An error occurred"
  * @returns {*}

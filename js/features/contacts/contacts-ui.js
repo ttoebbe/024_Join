@@ -2,7 +2,6 @@
  * Contacts UI Module  
  * Handles rendering, display logic, mobile layouts, and contact selection
  */
-
 /**
  * Renders all contacts into the target container.
  * @param {HTMLElement} container
@@ -14,7 +13,6 @@ function renderContactList(container, data) {
   container.innerHTML = buildContactMarkup(sorted);
   wireContactEntries(container);
 }
-
 /**
  * @param {*} data
  * @returns {*}
@@ -22,7 +20,6 @@ function renderContactList(container, data) {
 function hasContacts(data) {
   return Array.isArray(data) && data.length > 0;
 }
-
 /**
  * @param {*} container
  * @returns {*}
@@ -30,7 +27,6 @@ function hasContacts(data) {
 function clearContactList(container) {
   container.innerHTML = "";
 }
-
 /**
  * @param {*} data
  * @returns {*}
@@ -40,7 +36,6 @@ function sortContacts(data) {
     return (a?.name || "").localeCompare(b?.name || "", "de", { sensitivity: "base" });
   });
 }
-
 /**
  * @param {*} sorted
  * @returns {*}
@@ -58,7 +53,6 @@ function buildContactMarkup(sorted) {
   });
   return markup.join("");
 }
-
 /**
  * @param {*} container
  * @returns {*}
@@ -69,7 +63,6 @@ function wireContactEntries(container) {
     entry.addEventListener("click", () => handleContactEntryClick(entry));
   });
 }
-
 /**
  * @param {*} entry
  * @returns {*}
@@ -79,7 +72,6 @@ function handleContactEntryClick(entry) {
   const contact = getContactById(contactId);
   if (contact) selectContact(contact, entry);
 }
-
 /**
  * Extracts a grouping key based on the contact's name.
  * @param {string} name
@@ -91,7 +83,6 @@ function getContactGroupKey(name) {
   const firstChar = trimmed[0].toUpperCase();
   return /[A-Z]/.test(firstChar) ? firstChar : "#";
 }
-
 /**
  * Handles contact selection and updates UI state.
  * @param {Object} contact
@@ -103,7 +94,6 @@ function selectContact(contact, element) {
   renderContactDetail(contact);
   openMobileDetailView();
 }
-
 /**
  * Selects a contact by ID.
  * @param {string} contactId
@@ -115,7 +105,6 @@ function selectContactById(contactId) {
   if (!element) return;
   selectContact(contact, element);
 }
-
 /**
  * Removes active state from all contact entries.
  */
@@ -126,7 +115,6 @@ function removeActiveStates() {
       entry.classList.remove("is-active");
     });
 }
-
 /**
  * Renders contact detail view in injection area.
  * @param {Object} contact
@@ -138,7 +126,6 @@ function renderContactDetail(contact) {
   setupDetailActions(contact?.id);
   setupMobileDetailButtons(contact?.id);
 }
-
 /**
  * Wires up edit/delete actions for the detail view.
  * @param {string} contactId
@@ -154,7 +141,6 @@ function setupDetailActions(contactId) {
     confirmDeleteContact(contactId);
   });
 }
-
 /**
  * @param {*} container
  * @returns {*}
@@ -165,7 +151,6 @@ function getDetailActionButtons(container) {
   const deleteButton = actionButtons[1];
   return { editButton, deleteButton };
 }
-
 /**
  * @param {*} contactId
  * @returns {*}
@@ -175,7 +160,6 @@ function confirmDeleteContact(contactId) {
   if (!confirmed) return;
   deleteContact(contactId);
 }
-
 /**
  * Wires up mobile-specific detail buttons.
  * @param {string} contactId
@@ -188,7 +172,6 @@ function setupMobileDetailButtons(contactId) {
     openEditContact(contactId);
   });
 }
-
 /**
  * Wires the header back button to close the detail view.
  */
@@ -199,7 +182,6 @@ function setupHeaderBackButton() {
   if (!headerBackButton) return;
   headerBackButton.addEventListener("click", closeMobileDetailView);
 }
-
 /**
  * Returns true when the mobile layout is active.
  * @returns {boolean}
@@ -207,7 +189,6 @@ function setupHeaderBackButton() {
 function isMobileLayout() {
   return window.matchMedia("(max-width: 800px)").matches;
 }
-
 /**
  * Toggles the mobile detail view state.
  * @param {boolean} isActive
@@ -217,14 +198,12 @@ function setMobileDetailState(isActive) {
   if (!page) return;
   page.classList.toggle("is-detail-open", isActive);
 }
-
 /**
  * Opens the detail view on mobile layouts.
  */
 function openMobileDetailView() {
   if (isMobileLayout()) setMobileDetailState(true);
 }
-
 /**
  * Closes the detail view on mobile layouts.
  */

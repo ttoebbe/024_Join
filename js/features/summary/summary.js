@@ -1,5 +1,4 @@
 "use strict";
-
 /**
  * @param {*} id
  * @returns {*}
@@ -7,14 +6,12 @@
 function $id(id) {
   return document.getElementById(id);
 }
-
 /**
  * @returns {*}
  */
 function loadCurrentUser() {
   return getCurrentUser();
 }
-
 /**
  * @returns {*}
  */
@@ -28,7 +25,6 @@ async function loadTasks() {
     return [];
   }
 }
-
 /**
  * @param {*} task
  * @returns {*}
@@ -37,7 +33,6 @@ function isUrgent(task) {
   const prio = String(task?.prio || "").toLowerCase().trim();
   return prio === "urgent" || prio === "high" || prio === "alta";
 }
-
 /**
  * @param {*} task
  * @returns {*}
@@ -48,7 +43,6 @@ function parseDueDate(task) {
   const d = new Date(raw);
   return Number.isNaN(d.getTime()) ? null : d;
 }
-
 /**
  * @param {*} dateObj
  * @returns {*}
@@ -64,7 +58,6 @@ function formatDateLong(dateObj) {
     return dateObj.toISOString().slice(0, 10);
   }
 }
-
 /**
  * @param {*} tasks
  * @returns {*}
@@ -78,7 +71,6 @@ function calcKPIs(tasks) {
   setNextUrgentDeadline(kpi, urgentOpenDates);
   return kpi;
 }
-
 /**
  * @param {*} tasks
  * @returns {*}
@@ -94,7 +86,6 @@ function initKpi(tasks) {
     nextUrgentDeadline: null,
   };
 }
-
 /**
  * @param {*} kpi
  * @param {*} task
@@ -106,7 +97,6 @@ function updateKpiForTask(kpi, task, urgentOpenDates) {
   incrementStatusCount(kpi, status);
   trackUrgentOpen(kpi, task, status, urgentOpenDates);
 }
-
 /**
  * @param {*} kpi
  * @param {*} status
@@ -118,7 +108,6 @@ function incrementStatusCount(kpi, status) {
   else if (status === "awaitfeedback") kpi.awaiting++;
   else if (status === "done") kpi.done++;
 }
-
 /**
  * @param {*} kpi
  * @param {*} task
@@ -132,7 +121,6 @@ function trackUrgentOpen(kpi, task, status, urgentOpenDates) {
   const d = parseDueDate(task);
   if (d) urgentOpenDates.push(d);
 }
-
 /**
  * @param {*} kpi
  * @param {*} urgentOpenDates
@@ -144,7 +132,6 @@ function setNextUrgentDeadline(kpi, urgentOpenDates) {
   });
   kpi.nextUrgentDeadline = urgentOpenDates[0] || null;
 }
-
 /**
  * @param {*} user
  * @returns {*}
@@ -155,7 +142,6 @@ function renderUser(user) {
   if ($id("userName")) setText("userName", user?.name || "Guest");
   if ($id("userInitials")) setText("userInitials", getInitials(user?.name || "Guest"));
 }
-
 /**
  * @param {*} kpi
  * @returns {*}
@@ -169,10 +155,9 @@ function renderKPIs(kpi) {
   if ($id("countBoard")) setText("countBoard", String(kpi.board));
   setText(
     "nextDeadlineDate",
-    kpi.nextUrgentDeadline ? formatDateLong(kpi.nextUrgentDeadline) : "—"
+    kpi.nextUrgentDeadline ? formatDateLong(kpi.nextUrgentDeadline) : "â€”"
   );
 }
-
 /**
  * @returns {*}
  */
@@ -183,7 +168,6 @@ async function initSummary() {
   await reloadSummaryData();
   onPageVisible(reloadSummaryData);
 }
-
 /**
  * @returns {*}
  */
@@ -191,14 +175,12 @@ async function reloadSummaryData() {
   const tasks = await loadTasks();
   renderKPIs(calcKPIs(tasks));
 }
-
 /**
  * @returns {*}
  */
 function redirectToLogin() {
   window.location.href = ROUTES.LOGIN;
 }
-
 document.addEventListener("DOMContentLoaded", () => {
   initSummary().catch((err) => {
     console.error("Summary init error:", err);

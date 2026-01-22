@@ -14,8 +14,6 @@ function setupPasswordToggle(inputId, lockId, eyeId) {
   wirePasswordToggle(parts);
   wirePasswordLock(parts);
 }
-
-
 /**
  * Reads input, lock, and eye elements.
  * @param {string} inputId
@@ -30,8 +28,6 @@ function getPasswordParts(inputId, lockId, eyeId) {
   if (!input || !lock || !eye) return null;
   return { input, lock, eye };
 }
-
-
 /**
  * Sets initial password input state for icons.
  * @param {{input: HTMLInputElement, lock: HTMLElement, eye: HTMLImageElement}} parts
@@ -42,8 +38,6 @@ function setPasswordInitialState({ input, lock, eye }) {
   lock.classList.remove("d-none");
   input.type = "password";
 }
-
-
 /**
  * Wires input event for password visibility toggle.
  * @param {{input: HTMLInputElement, lock: HTMLElement, eye: HTMLImageElement}} parts
@@ -55,8 +49,6 @@ function wirePasswordInput({ input, lock, eye }) {
     updatePasswordIcons(hasValue, input, lock, eye);
   });
 }
-
-
 /**
  * Updates lock/eye icons based on input state.
  * @param {boolean} hasValue
@@ -71,8 +63,6 @@ function updatePasswordIcons(hasValue, input, lock, eye) {
   eye.classList.add("d-none");
   input.type = "password";
 }
-
-
 /**
  * Shows eye icon and hides lock icon.
  * @param {HTMLInputElement} input
@@ -86,8 +76,6 @@ function showEyeIcon(input, lock, eye) {
   eye.classList.add("input-icon-password");
   eye.src = "/assets/img/icons/visibility_off.png";
 }
-
-
 /**
  * Wires eye click for password visibility toggle.
  * @param {{input: HTMLInputElement, eye: HTMLImageElement}} parts
@@ -99,8 +87,6 @@ function wirePasswordToggle({ input, eye }) {
     togglePasswordVisibility(input, eye);
   });
 }
-
-
 /**
  * Toggles between password and text input types.
  * @param {HTMLInputElement} input
@@ -112,8 +98,6 @@ function togglePasswordVisibility(input, eye) {
   input.type = isHidden ? "text" : "password";
   eye.src = isHidden ? "/assets/img/icons/visibility.png" : "/assets/img/icons/visibility_off.png";
 }
-
-
 /**
  * Stops propagation on lock icon.
  * @param {{lock: HTMLElement}} parts

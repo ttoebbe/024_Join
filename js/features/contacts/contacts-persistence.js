@@ -2,7 +2,6 @@
  * Contacts Persistence Module
  * Handles CRUD operations for contacts
  */
-
 /**
  * Reads contact values from the form.
  * @param {HTMLFormElement} form
@@ -16,8 +15,6 @@ function getContactFormValues(form) {
     phone: (formData.get("phone") || "").toString().trim(),
   };
 }
-
-
 /**
  * Applies contact values to an existing object.
  * @param {Object} target
@@ -28,8 +25,6 @@ function applyContactValues(target, values) {
   target.email = values.email;
   target.phone = values.phone;
 }
-
-
 /**
  * Builds a contact object from form values.
  * @param {{name: string, email: string, phone: string}} values
@@ -44,8 +39,6 @@ async function buildNewContact(values) {
     color: generateRandomColor(),
   };
 }
-
-
 /**
  * Updates an existing contact and refreshes UI.
  * @param {{name: string, email: string, phone: string}} values
@@ -69,8 +62,6 @@ async function updateExistingContact(values, overlay, form, listElement, current
     return false;
   }
 }
-
-
 /**
  * @param {*} currentId
  * @param {*} existing
@@ -80,8 +71,6 @@ function updateLocalContact(currentId, existing) {
   const index = getContactIndex(currentId);
   if (index !== -1) contacts[index] = existing;
 }
-
-
 /**
  * @param {*} listElement
  * @param {*} overlay
@@ -94,8 +83,6 @@ function refreshContactUI(listElement, overlay, form, contactId) {
   closeOverlay(overlay, form);
   selectContactById(contactId);
 }
-
-
 /**
  * Creates a new contact, stores it, and refreshes UI.
  * @param {{name: string, email: string, phone: string}} values
@@ -114,8 +101,6 @@ async function createNewContact(values, overlay, form, listElement) {
     console.error("Error creating contact:", error);
   }
 }
-
-
 /**
  * Deletes a contact and refreshes the UI.
  * @param {string} contactId
@@ -133,8 +118,6 @@ async function deleteContact(contactId) {
     console.error('Error deleting contact:', error);
   }
 }
-
-
 /**
  * Handles new contact form submission with validation.
  * @param {SubmitEvent} event
@@ -147,8 +130,6 @@ async function handleNewContactSubmit(event, overlay, form, listElement) {
   const inputs = getContactFormInputs(form);
   await submitContactForm(inputs, overlay, form, listElement);
 }
-
-
 /**
  * @param {*} values
  * @param {*} overlay
@@ -162,8 +143,6 @@ async function handleExistingContact(values, overlay, form, listElement, current
   if (updated) return;
   await createNewContact(values, overlay, form, listElement);
 }
-
-
 /**
  * Runs contact form validation and submission with busy state.
  * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement, submitBtn: HTMLButtonElement}|null} inputs
@@ -183,8 +162,6 @@ async function submitContactForm(inputs, overlay, form, listElement) {
     setContactSubmitBusy(inputs, false);
   }
 }
-
-
 /**
  * Persists the contact form values.
  * @param {{name: string, email: string, phone: string}} values

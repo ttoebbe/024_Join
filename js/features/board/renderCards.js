@@ -1,7 +1,6 @@
 /* =========================================================
    Card Rendering (2A + 2B + 2C)
    ========================================================= */
-
 /**
  * Creates a task card element.
  * Uses your existing CSS classes from board.css.
@@ -12,7 +11,6 @@ function createCard(task) {
   appendCardContent(el, task);
   return el;
 }
-
 /**
  * @returns {*}
  */
@@ -24,7 +22,6 @@ function createCardRoot() {
   el.draggable = true;
   return el;
 }
-
 /**
  * @param {*} el
  * @param {*} task
@@ -35,7 +32,6 @@ function attachCardMeta(el, task) {
   wireCardDragHandlers(el);
   wireCardOpenHandlers(el, task);
 }
-
 /**
  * @param {*} el
  * @param {*} task
@@ -48,7 +44,6 @@ function appendCardContent(el, task) {
   appendCardProgress(el, task);
   el.appendChild(createCardFooter(task));
 }
-
 /**
  * @param {*} task
  * @returns {*}
@@ -59,7 +54,6 @@ function createCardTitle(task) {
   title.textContent = task?.title || task?.name || "(No title)";
   return title;
 }
-
 /**
  * @param {*} task
  * @returns {*}
@@ -70,7 +64,6 @@ function createCardDescription(task) {
   desc.textContent = task?.description || task?.desc || "";
   return desc;
 }
-
 /**
  * @param {*} el
  * @param {*} task
@@ -80,24 +73,20 @@ function appendCardProgress(el, task) {
   const progress = createSubtaskProgress(task);
   if (progress) el.appendChild(progress);
 }
-
 /**
  * Category pill: "User Story" or "Technical Task"
  */
 function createCategoryPill(task) {
   const category = normalizeCategory(task?.category);
-
   const pill = document.createElement("div");
   pill.className =
     "board-card-label " +
     (category === "technical"
       ? "board-card-label--technical"
       : "board-card-label--userstory");
-
   pill.textContent = category === "technical" ? "Technical Task" : "User Story";
   return pill;
 }
-
 /**
  * Normalizes category into "technical" or "userstory".
  */
@@ -106,7 +95,6 @@ function normalizeCategory(value) {
   if (v.includes("technical")) return "technical";
   return "userstory";
 }
-
 /**
  * Subtasks progress block (x/y + bar).
  * Returns null if there are no subtasks.
@@ -116,7 +104,6 @@ function createSubtaskProgress(task) {
   if (!stats) return null;
   return buildProgressWrap(stats);
 }
-
 /**
  * @param {*} task
  * @returns {*}
@@ -129,7 +116,6 @@ function getSubtaskStats(task) {
   const percent = total === 0 ? 0 : Math.round((done / total) * 100);
   return { done, total, percent };
 }
-
 /**
  * @param {*} stats
  * @returns {*}
@@ -142,7 +128,6 @@ function buildProgressWrap(stats) {
   wrap.appendChild(buildProgressBar(stats));
   return wrap;
 }
-
 /**
  * @param {*} stats
  * @returns {*}
@@ -153,7 +138,6 @@ function buildProgressText(stats) {
   text.textContent = `${stats.done}/${stats.total} Subtasks`;
   return text;
 }
-
 /**
  * @param {*} stats
  * @returns {*}
@@ -164,7 +148,6 @@ function buildProgressBar(stats) {
   bar.appendChild(buildProgressFill(stats));
   return bar;
 }
-
 /**
  * @param {*} stats
  * @returns {*}
@@ -175,7 +158,6 @@ function buildProgressFill(stats) {
   fill.style.width = `${stats.percent}%`;
   return fill;
 }
-
 /**
  * Reads subtasks in a robust way.
  * Supports:
@@ -185,12 +167,10 @@ function buildProgressFill(stats) {
 function getSubtasks(task) {
   const a = task?.subtasks;
   const b = task?.subTasks;
-
   if (Array.isArray(a)) return a;
   if (Array.isArray(b)) return b;
   return [];
 }
-
 /**
  * Determines if a subtask is done (robust).
  */
@@ -198,7 +178,6 @@ function isSubtaskDone(subtask) {
   if (!subtask || typeof subtask !== "object") return false;
   return Boolean(subtask.done || subtask.completed || subtask.isDone);
 }
-
 /**
  * Card footer container:
  * left: assigned avatars
@@ -207,13 +186,10 @@ function isSubtaskDone(subtask) {
 function createCardFooter(task) {
   const footer = document.createElement("div");
   footer.className = "board-card-footer";
-
   footer.appendChild(createAssignedAvatars(task));
   footer.appendChild(createPrioBlock(task));
-
   return footer;
 }
-
 /**
  * Assigned avatars (max 4 +N).
  * Supports assigned values as:
@@ -227,7 +203,6 @@ function createAssignedAvatars(task) {
   appendAssignedBubbles(wrap, assigned);
   return wrap;
 }
-
 /**
  * @param {*} wrap
  * @param {*} assigned
@@ -237,7 +212,6 @@ function appendAssignedBubbles(wrap, assigned) {
   assigned.slice(0, 4).forEach((a) => wrap.appendChild(createAvatarBubble(a)));
   if (assigned.length > 4) addMoreBubble(wrap, assigned.length - 4);
 }
-
 /**
  * @param {*} wrap
  * @param {*} remaining
@@ -246,7 +220,6 @@ function appendAssignedBubbles(wrap, assigned) {
 function addMoreBubble(wrap, remaining) {
   wrap.appendChild(createMoreBubble(remaining));
 }
-
 /**
  * Extract assigned list in a robust way.
  */
@@ -257,7 +230,6 @@ function getAssigned(task) {
     .map((item) => normalizeAssignedItem(item))
     .filter((x) => x && String(x.name || "").trim().length > 0);
 }
-
 /**
  * @param {*} item
  * @returns {*}
@@ -268,7 +240,6 @@ function normalizeAssignedItem(item) {
   if (typeof item === "object") return buildAssignedObject(item);
   return null;
 }
-
 /**
  * @param {*} item
  * @returns {*}
@@ -278,23 +249,18 @@ function buildAssignedObject(item) {
   const color = item.color || null;
   return { name, color };
 }
-
 /**
  * Single avatar bubble with initials.
  */
 function createAvatarBubble(person) {
   const s = document.createElement("span");
   s.className = "board-avatar";
-
   const name = String(person?.name || "").trim();
   s.textContent = getInitials(name);
-
   // Fallback color if no color exists in dataset
   s.style.background = person?.color || "#2a3647";
-
   return s;
 }
-
 /**
  * +N bubble when more than 4 assigned users exist.
  */
@@ -305,8 +271,6 @@ function createMoreBubble(n) {
   s.style.background = "#2a3647";
   return s;
 }
-
-
 /**
  * Priority block (icon).
  * Uses your existing assets naming:
@@ -320,7 +284,6 @@ function createPrioBlock(task) {
   wrap.appendChild(buildPrioImage(task));
   return wrap;
 }
-
 /**
  * @param {*} task
  * @returns {*}
@@ -333,7 +296,6 @@ function buildPrioImage(task) {
   img.onerror = () => handlePrioImageError(img);
   return img;
 }
-
 /**
  * @param {*} img
  * @returns {*}
@@ -343,7 +305,6 @@ function handlePrioImageError(img) {
   img.dataset.prio = "medium";
   img.src = "/assets/img/icons/Prio-medium.png";
 }
-
 /**
  * Maps priority value to an icon path.
  * Supports: urgent/high/alta, medium/media, low/baja
@@ -354,7 +315,6 @@ function mapPrioToIcon(prio) {
   if (key === "low") return "/assets/img/icons/Prio-Low.png";
   return "/assets/img/icons/Prio-medium.png";
 }
-
 /**
  * Normalizes priority to a small set of keys.
  */
@@ -365,7 +325,6 @@ function normalizePrioKey(prio) {
   if (isMediumPrio(simple)) return "medium";
   return "medium";
 }
-
 /**
  * @param {*} prio
  * @returns {*}
@@ -373,7 +332,6 @@ function normalizePrioKey(prio) {
 function normalizePrioString(prio) {
   return String(prio || "medium").trim().toLowerCase().replace(/[^a-z]/g, "");
 }
-
 /**
  * @param {*} simple
  * @returns {*}
@@ -381,7 +339,6 @@ function normalizePrioString(prio) {
 function isUrgentPrio(simple) {
   return simple.includes("urgent") || simple.includes("high") || simple.includes("alta");
 }
-
 /**
  * @param {*} simple
  * @returns {*}
@@ -389,7 +346,6 @@ function isUrgentPrio(simple) {
 function isLowPrio(simple) {
   return simple.includes("low") || simple.includes("baja");
 }
-
 /**
  * @param {*} simple
  * @returns {*}

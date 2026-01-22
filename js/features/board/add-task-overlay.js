@@ -19,68 +19,40 @@ async function openEditTaskOverlay(task) {
   return renderTaskOverlay({ mode: "edit", status: presetStatus, task });
 }
 
-/**
- * @param {*} { mode
- * @param {*} status
- * @param {*} task }
- * @returns {*}
- */
 async function renderTaskOverlay({ mode, status, task }) {
   const root = ensureOverlayRoot();
   root.classList.remove("hidden");
   root.setAttribute("aria-hidden", "false");
-
-  // Template laden (wenn fehlt: Fallback anzeigen)
-  let formHtml = "";
-  if (typeof getAddTaskFormTemplate === "function") {
-    formHtml = getAddTaskFormTemplate(status);
-  } else {
-    try {
-      const res = await fetch("./add_task_form.html", { cache: "no-store" });
-      if (!res.ok) throw new Error(`Template not found (${res.status})`);
-      formHtml = await res.text();
-    } catch (err) {
-      formHtml = `
-        <div style="padding:16px; border:1px dashed #d1d1d1; border-radius:12px;">
-          <p style="margin:0 0 8px 0;"><strong>Template fehlt oder lädt nicht.</strong></p>
-          <p style="margin:0;">Erwartet: <code>./add_task_form.html</code></p>
-          <p style="margin:8px 0 0 0;">Preset Status: <strong>${status}</strong></p>
-        </div>
-      `;
-    }
-  }
-
+  const formHtml = await loadFormTemplate(status);
   const title = mode === "edit" ? "Edit Task" : "Add Task";
+  root.innerHTML = buildOverlayHTML(title, formHtml);
+  setupOverlayEvents(root, status, mode);
+  if (typeof initAddTaskForm === "function") {
+    initAddTaskForm({ onClose: closeAddTaskOverlay, status, mode, task });
+  }
+}
 
-  root.innerHTML = `
-    <div class="overlay-backdrop" data-overlay-close></div>
-    <div class="overlay-panel" role="dialog" aria-modal="true" aria-label="${title}">
-      <button class="overlay-close" type="button" data-overlay-close aria-label="Close">×</button>
-      <h2>${title}</h2>
-      ${formHtml}
-    </div>
-  `;
+async function loadFormTemplate(status) {
+  if (typeof getAddTaskFormTemplate === "function") return getAddTaskFormTemplate(status);
+  try {
+    const res = await fetch("./add_task_form.html", { cache: "no-store" });
+    if (!res.ok) throw new Error(`Template not found (${res.status})`);
+    return await res.text();
+  } catch (err) {
+    return `<div style="padding:16px; border:1px dashed #d1d1d1; border-radius:12px;"><p><strong>Template fehlt oder lädt nicht.</strong></p></div>`;
+  }
+}
 
-  root.querySelectorAll("[data-overlay-close]").forEach((el) =>
-    el.addEventListener("click", closeAddTaskOverlay)
-  );
+function buildOverlayHTML(title, formHtml) {
+  return `<div class="overlay-backdrop" data-overlay-close></div><div class="overlay-panel" role="dialog" aria-modal="true" aria-label="${title}"><button class="overlay-close" type="button" data-overlay-close aria-label="Close">×</button><h2>${title}</h2>${formHtml}</div>`;
+}
 
+function setupOverlayEvents(root, status, mode) {
+  root.querySelectorAll("[data-overlay-close]").forEach((el) => el.addEventListener("click", closeAddTaskOverlay));
   const statusField = root.querySelector("#taskStatusPreset");
   if (statusField) statusField.value = status;
-
   const createBtn = root.querySelector("#createBtn");
-  if (createBtn && mode === "edit") {
-    createBtn.textContent = "Save";
-  }
-
-  if (typeof initAddTaskForm === "function") {
-    initAddTaskForm({
-      onClose: closeAddTaskOverlay,
-      status,
-      mode,
-      task,
-    });
-  }
+  if (createBtn && mode === "edit") createBtn.textContent = "Save";
 }
 
 /**

@@ -45,7 +45,7 @@ section {
     height: 32px;
     border-top-left-radius: 30px;
     border-bottom-right-radius: 75px;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 100ms ease, box-shadow 100ms ease;
 }
 
 .form-decoration-top-left:hover {
@@ -125,7 +125,7 @@ input::placeholder {
     font-size: 1.25rem;
     font-weight: 400;
     font-style: normal;
-    transition: border-color 0.3s ease;
+    transition: border-color 100ms ease;
 }
 
 .input-fields input:focus {
@@ -200,7 +200,7 @@ input::placeholder {
     font-weight: 700;
     font-style: bold;
     margin-top: 20px;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 100ms ease, box-shadow 100ms ease;
 }
 
 .form-buttons button:hover {
@@ -249,7 +249,7 @@ footer a {
     align-items: center;
     justify-content: center;
     flex-grow: 1;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 100ms ease, box-shadow 100ms ease;
 }
 
 footer a:hover {

@@ -7,7 +7,6 @@ function wirePrioButtons(state) {
     btn.addEventListener("click", () => handlePrioButton(state, btn));
   });
 }
-
 /**
  * @param {*} state
  * @param {*} btn
@@ -18,7 +17,6 @@ function handlePrioButton(state, btn) {
   btn.classList.add("is-active");
   state.selectedPrio = btn.dataset.prio;
 }
-
 /**
  * @param {*} state
  * @returns {*}
@@ -28,7 +26,6 @@ function clearPrioActive(state) {
     b.classList.remove("is-active");
   });
 }
-
 /**
  * @param {*} state
  * @param {*} resets
@@ -39,7 +36,6 @@ function wireClearButton(state, resets) {
     clearAddTaskForm(state, resets);
   });
 }
-
 /**
  * @param {*} state
  * @param {*} resets
@@ -56,7 +52,6 @@ function clearAddTaskForm(state, resets) {
   clearAddTaskErrors(state);
   updateCreateButtonState(state);
 }
-
 /**
  * @param {*} state
  * @returns {*}
@@ -64,7 +59,6 @@ function clearAddTaskForm(state, resets) {
 function resetForm(state) {
   state.form.reset();
 }
-
 /**
  * @returns {*}
  */
@@ -72,7 +66,6 @@ function resetStatusPreset() {
   const statusField = document.getElementById("taskStatusPreset");
   if (statusField) statusField.value = statusField.value || "todo";
 }
-
 /**
  * @param {*} state
  * @returns {*}
@@ -82,7 +75,6 @@ function resetSelectionState(state) {
   state.selectedAssigned = [];
   state.selectedSubtasks = [];
 }
-
 /**
  * @param {*} state
  * @param {*} onClose
@@ -99,7 +91,6 @@ function wireSubmitHandler(state, onClose) {
     await handleSubmit(state, onClose);
   });
 }
-
 /**
  * @param {*} state
  * @param {*} onClose
@@ -110,7 +101,6 @@ async function handleSubmit(state, onClose) {
   if (!values) return;
   await submitTaskForm(state, values, onClose);
 }
-
 /**
  * @param {*} state
  * @returns {*}
@@ -123,7 +113,6 @@ function getTaskFormValues(state) {
   const description = document.getElementById("taskDescription")?.value.trim() || "";
   return { title, description, status, category, dueDate };
 }
-
 /**
  * @param {*} state
  * @returns {*}
@@ -136,7 +125,6 @@ function validateTaskForm(state) {
   showAddTaskError(state, values, error);
   return null;
 }
-
 /**
  * @param {*} values
  * @returns {*}
@@ -147,7 +135,6 @@ function getTaskValidationError(values) {
   if (!values.category) return "Please select a category.";
   return "";
 }
-
 /**
  * @param {*} state
  * @param {*} values
@@ -158,7 +145,6 @@ function showAddTaskError(state, values, error) {
   setAddTaskFormMsg(state, error);
   markMissingTaskFields(state, values);
 }
-
 /**
  * @param {*} state
  * @param {*} message
@@ -168,7 +154,6 @@ function setAddTaskFormMsg(state, message) {
   if (!state.formMsg) return;
   state.formMsg.textContent = message || "";
 }
-
 /**
  * @param {*} state
  * @param {*} values
@@ -179,7 +164,6 @@ function markMissingTaskFields(state, values) {
   if (!values.dueDate) addInputError(state.dueDateInput);
   if (!values.category) addInputError(state.categoryToggle);
 }
-
 /**
  * @param {*} element
  * @returns {*}
@@ -187,7 +171,6 @@ function markMissingTaskFields(state, values) {
 function addInputError(element) {
   if (element) element.classList.add("input-error");
 }
-
 /**
  * @param {*} state
  * @returns {*}
@@ -198,7 +181,6 @@ function clearAddTaskErrors(state) {
   clearInputError(state.dueDateInput);
   clearInputError(state.categoryToggle);
 }
-
 /**
  * @param {*} element
  * @returns {*}
@@ -206,7 +188,6 @@ function clearAddTaskErrors(state) {
 function clearInputError(element) {
   if (element) element.classList.remove("input-error");
 }
-
 /**
  * @param {*} state
  * @returns {*}
@@ -219,7 +200,6 @@ function wireValidationCleanup(state) {
     clearAddTaskErrors(state);
   });
 }
-
 /**
  * @param {*} state
  * @param {*} values
@@ -236,7 +216,6 @@ async function submitTaskForm(state, values, onClose) {
     setCreateButtonBusy(state, false);
   }
 }
-
 /**
  * @param {*} state
  * @param {*} values
@@ -246,7 +225,6 @@ async function persistTask(state, values) {
   if (state.mode === "edit" && state.task?.id) return updateExistingTask(state, values);
   return createNewTask(state, values);
 }
-
 /**
  * @param {*} state
  * @param {*} busy
@@ -257,7 +235,6 @@ function setCreateButtonBusy(state, busy) {
   if (busy) return void (state.createBtn.disabled = true);
   updateCreateButtonState(state);
 }
-
 /**
  * @param {*} state
  * @param {*} values
@@ -267,7 +244,6 @@ async function updateExistingTask(state, values) {
   const updatedTask = buildTaskPayload(state, values, state.task);
   await TaskService.update(state.task.id, updatedTask);
 }
-
 /**
  * @param {*} state
  * @param {*} values
@@ -278,7 +254,6 @@ async function createNewTask(state, values) {
   const newTask = buildTaskPayload(state, values, { id: taskId });
   await TaskService.create(newTask);
 }
-
 /**
  * @param {*} state
  * @param {*} values
@@ -298,7 +273,6 @@ function buildTaskPayload(state, values, base) {
     subtasks: state.selectedSubtasks,
   };
 }
-
 /**
  * @returns {*}
  */
@@ -307,7 +281,6 @@ async function refreshBoardIfNeeded() {
   await loadTasks();
   if (typeof renderBoard === "function") renderBoard();
 }
-
 /**
  * @param {*} state
  * @returns {*}
@@ -318,7 +291,6 @@ function wireCreateButtonState(state) {
   };
   attachCreateButtonListeners(state, handler);
 }
-
 function attachCreateButtonListeners(state, handler) {
   state.titleInput?.addEventListener("input", handler);
   state.dueDateInput?.addEventListener("input", handler);
@@ -326,7 +298,6 @@ function attachCreateButtonListeners(state, handler) {
   state.form.addEventListener("input", handler);
   state.form.addEventListener("change", handler);
 }
-
 /**
  * @param {*} state
  * @returns {*}

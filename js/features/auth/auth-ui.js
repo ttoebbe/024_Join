@@ -144,28 +144,22 @@ function setSignupButtonState({ nameEl, emailEl, pwEl, pw2El, policyEl, btn }) {
 
 function validateUsernameField(inputEl, errorId) {
   const value = inputEl.value.trim();
-  if (!value) {
-    showFieldError(errorId, "Username is required.", inputEl);
-    return false;
-  }
-  if (value.length < 2) {
-    showFieldError(errorId, "Username must be at least 2 characters.", inputEl);
-    return false;
-  }
-  if (!/^[a-zA-Z]/.test(value)) {
-    showFieldError(errorId, "Username must start with a letter.", inputEl);
-    return false;
-  }
-  if (/\s{2,}/.test(value)) {
-    showFieldError(errorId, "Username cannot contain multiple consecutive spaces.", inputEl);
-    return false;
-  }
-  if (!/^[a-zA-Z][a-zA-Z0-9_\- ]*$/.test(value)) {
-    showFieldError(errorId, "Username can only contain letters, numbers, single spaces, _ and -.", inputEl);
+  const error = getUsernameValidationError(value);
+  if (error) {
+    showFieldError(errorId, error, inputEl);
     return false;
   }
   clearFieldError(errorId, inputEl);
   return true;
+}
+
+function getUsernameValidationError(value) {
+  if (!value) return "Username is required.";
+  if (value.length < 2) return "Username must be at least 2 characters.";
+  if (!/^[a-zA-Z]/.test(value)) return "Username must start with a letter.";
+  if (/\s{2,}/.test(value)) return "Username cannot contain multiple consecutive spaces.";
+  if (!/^[a-zA-Z][a-zA-Z0-9_\- ]*$/.test(value)) return "Username can only contain letters, numbers, single spaces, _ and -.";
+  return null;
 }
 
 function validateEmailField(inputEl, errorId) {

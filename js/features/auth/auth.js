@@ -8,8 +8,6 @@ async function saveCurrentUser(user) {
   setCurrentUser(user);
   // No Firebase save here - just session storage
 }
-
-
 /**
  * Loads all users from Firebase.
  * @returns {Promise<Object[]>}
@@ -23,8 +21,6 @@ async function loadUsers() {
     return [];
   }
 }
-
-
 /* ================== LOGIN ================== */
 /**
  * Initializes login form events.
@@ -35,8 +31,6 @@ function initLogin() {
   if (!state) return;
   wireLoginForm(state);
 }
-
-
 /**
  * Collects login form elements.
  * @returns {{form: HTMLFormElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement, btnGuest: HTMLButtonElement|null}|null}
@@ -50,8 +44,6 @@ function getLoginState() {
   if (!form || !emailEl || !pwEl || !btnLogin) return null;
   return { form, emailEl, pwEl, btnLogin, btnGuest };
 }
-
-
 /**
  * Wires login form interactions.
  * @param {{form: HTMLFormElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement, btnGuest: HTMLButtonElement|null}} state
@@ -63,8 +55,6 @@ function wireLoginForm(state) {
   wireGuestLogin(state);
   setupPasswordToggle("password", "passwordLock", "visibilityImg");
 }
-
-
 /**
  * Wires login submit handler.
  * @param {{form: HTMLFormElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement}} state
@@ -76,8 +66,6 @@ function wireLoginSubmit(state) {
     await handleLoginSubmit(state);
   });
 }
-
-
 /**
  * Handles login submit.
  * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement}} state
@@ -87,8 +75,6 @@ async function handleLoginSubmit(state) {
   if (!validateLoginInputs(state)) return;
   await runLogin(state);
 }
-
-
 /**
  * Executes login with busy state.
  * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement}} state
@@ -102,8 +88,6 @@ async function runLogin(state) {
     setLoginBusy(state, false);
   }
 }
-
-
 /**
  * Attempts login and redirects on success.
  * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement}} state
@@ -121,8 +105,6 @@ async function attemptLogin({ emailEl, pwEl }) {
   await saveCurrentUser(found);
   window.location.href = ROUTES.SUMMARY;
 }
-
-
 /**
  * Wires guest login action.
  * @param {{btnGuest: HTMLButtonElement|null}} state
@@ -135,8 +117,6 @@ function wireGuestLogin({ btnGuest }) {
     window.location.href = ROUTES.SUMMARY;
   });
 }
-
-
 /* ================== SIGNUP ================== */
 /**
  * Initializes signup form events.
@@ -147,8 +127,6 @@ function initSignup() {
   if (!state) return;
   wireSignupForm(state);
 }
-
-
 /**
  * Collects signup form elements.
  * @returns {{form: HTMLFormElement, nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}|null}
@@ -164,8 +142,6 @@ function getSignupState() {
   if (!form || !nameEl || !emailEl || !pwEl || !pw2El || !policyEl || !btn) return null;
   return { form, nameEl, emailEl, pwEl, pw2El, policyEl, btn };
 }
-
-
 /**
  * Wires signup form interactions.
  * @param {{form: HTMLFormElement, nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
@@ -177,8 +153,6 @@ function wireSignupForm(state) {
   wireSignupSubmit(state);
   wireSignupToggles();
 }
-
-
 /**
  * Wires signup submit handler.
  * @param {{form: HTMLFormElement, nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement}} state
@@ -190,8 +164,6 @@ function wireSignupSubmit(state) {
     await handleSignupSubmit(state);
   });
 }
-
-
 /**
  * Handles signup submit.
  * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
@@ -201,8 +173,6 @@ async function handleSignupSubmit(state) {
   if (!validateSignupInputs(state)) return;
   await runSignup(state);
 }
-
-
 /**
  * Executes signup with busy state.
  * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
@@ -216,8 +186,6 @@ async function runSignup(state) {
     setSignupBusy(state, false);
   }
 }
-
-
 /**
  * Attempts signup and redirects on success.
  * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement}} state
@@ -231,8 +199,6 @@ async function attemptSignup({ nameEl, emailEl, pwEl }) {
   await UserService.create(newUser);
   setTimeout(() => { window.location.href = ROUTES.LOGIN; }, 300);
 }
-
-
 /**
  * Builds a new user payload.
  * @param {Object[]} users
@@ -250,8 +216,6 @@ function buildNewUser(users, name, email, pw) {
     color: generateRandomColor(),
   };
 }
-
-
 /**
  * Wires password toggles for signup form.
  * @returns {void}
@@ -260,8 +224,6 @@ function wireSignupToggles() {
   setupPasswordToggle("suPw", "lockPw", "eyePw");
   setupPasswordToggle("suPw2", "lockPw2", "eyePw2");
 }
-
-
 /* ================== GLOBAL INIT ================== */
 /**
  * Bootstraps auth-related flows on DOM ready.
