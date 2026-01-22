@@ -147,6 +147,9 @@ a:hover {
   transform: translateX(120%) translateY(var(--toast-offset, 0px));
   transition: transform var(--transition-normal);
   will-change: transform;
+  min-width: 250px;         
+  max-width: 400px;          
+  white-space: nowrap;    
 }
 
 .toast.toast-error {
