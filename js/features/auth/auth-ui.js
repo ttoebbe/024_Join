@@ -102,7 +102,7 @@ function showSuccessOverlay() {
  * @param {string} message
  * @returns {void}
  */
-function showLoginErrorState(emailEl, pwEl, message) {
+function showLoginErrorState(emailEl, pwEl, message = "Invalid email address or password") {
   if (message) showErrorToast(message);
   emailEl.classList.add("input-error");
   pwEl.classList.add("input-error");
@@ -131,7 +131,7 @@ function wireLoginErrorHandlers({ emailEl, pwEl }) {
   emailEl.addEventListener("input", () => clearFieldError("email-error", emailEl));
   pwEl.addEventListener("input", () => clearFieldError("password-error", pwEl));
   emailEl.addEventListener("blur", () => validateFieldWithAutoDismiss(emailEl, "email-error", validateEmailField));
-  pwEl.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, "password-error", validatePasswordField));
+  pwEl.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, "password-error", validateLoginPasswordField));
 }
 
 
@@ -144,7 +144,7 @@ function validateLoginInputs({ emailEl, pwEl }) {
   clearLoginErrorState(emailEl, pwEl);
   let valid = true;
   if (!validateEmailField(emailEl, "email-error")) valid = false;
-  if (!validatePasswordField(pwEl, "password-error")) valid = false;
+  if (!validateLoginPasswordField(pwEl, "password-error")) valid = false;
   return valid;
 }
 
@@ -326,7 +326,7 @@ function validateEmailField(inputEl, errorId) {
     return false;
   }
   if (!isValidEmail(value)) {
-    showFieldError(errorId, "Invalid email format.", inputEl);
+    showFieldError(errorId, "Invalid email address.", inputEl);
     return false;
   }
   clearFieldError(errorId, inputEl);
@@ -352,6 +352,23 @@ function validatePasswordField(inputEl, errorId) {
   }
   if (/\s/.test(value)) {
     showFieldError(errorId, "Password cannot contain spaces.", inputEl);
+    return false;
+  }
+  clearFieldError(errorId, inputEl);
+  return true;
+}
+
+
+/**
+ * Validates password field for login (only checks if not empty).
+ * @param {HTMLInputElement} inputEl
+ * @param {string} errorId
+ * @returns {boolean}
+ */
+function validateLoginPasswordField(inputEl, errorId) {
+  const value = inputEl.value.trim();
+  if (!value) {
+    showFieldError(errorId, "Password is required.", inputEl);
     return false;
   }
   clearFieldError(errorId, inputEl);

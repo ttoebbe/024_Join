@@ -113,8 +113,11 @@ async function attemptLogin({ emailEl, pwEl }) {
   const email = emailEl.value.trim();
   const pw = pwEl.value.trim();
   const users = await loadUsers();
+  if (!users || users.length === 0) {
+    return showLoginErrorState(emailEl, pwEl);
+  }
   const found = users.find((u) => u.email === email && u.pw === pw);
-  if (!found) return showLoginErrorState(emailEl, pwEl, "Check your email and password. Please try again.");
+  if (!found) return showLoginErrorState(emailEl, pwEl);
   await saveCurrentUser(found);
   window.location.href = ROUTES.SUMMARY;
 }
