@@ -277,7 +277,7 @@ function generateRandomColor() {
   return colors[Math.floor(Math.random() * colors.length)];
 }
 
-const TOAST_MAX_COUNT = 4;
+const TOAST_MAX_COUNT = 3;
 const TOAST_GAP_PX = 12;
 const toastState = { container: null, toasts: [] };
 
