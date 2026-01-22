@@ -1,74 +1,35 @@
-/* ================== HELPERS ================== */
-/**
- * Short-hand to access an element by id.
- * @param {string} id
- * @returns {HTMLElement|null}
- */
 const $ = (id) => getElementById(id);
 
-
-/* ================== ANIMATION ================== */
-/**
- * Initializes the logo animation with session storage check.
- * @returns {void}
- */
 function initAnimation() {
   const img = document.getElementById("img_animation");
   const bg = document.getElementById("bg");
-
   if (!img || !bg) return;
-
-  if (sessionStorage.getItem('animationShown') === 'true') {
+  if (sessionStorage.getItem("animationShown") === "true") {
     skipAnimation(img, bg);
     return;
   }
-
-  sessionStorage.setItem('animationShown', 'true');
-
-  if (window.innerWidth <= 480) {
-    img.src = "./assets/img/Capa%201.png";
-  }
-
-  setTimeout(() => {
-    startAnimation(img, bg);
-  }, 200);
+  sessionStorage.setItem("animationShown", "true");
+  if (window.innerWidth <= 480) img.src = "./assets/img/Capa%201.png";
+  setTimeout(() => startAnimation(img, bg), 200);
 }
 
-/**
- * Executes the logo animation.
- * @param {HTMLElement} img
- * @param {HTMLElement} bg
- * @returns {void}
- */
 function startAnimation(img, bg) {
   if (!img || !bg) return;
-
   img.classList.add("animiert");
   bg.classList.add("bg-animiert");
-
   if (window.innerWidth <= 480) {
     setTimeout(() => {
       img.src = "./assets/img/homepage_join.png";
     }, 500);
   }
-
   setTimeout(() => {
     bg.style.display = "none";
   }, 500);
 }
 
-
-/**
- * Skips animation and shows final state directly.
- * @param {HTMLElement} img
- * @param {HTMLElement} bg
- * @returns {void}
- */
 function skipAnimation(img, bg) {
   if (!img || !bg) return;
-
   img.src = "./assets/img/homepage_join.png";
-  
   if (window.innerWidth <= 480) {
     img.style.top = "30px";
     img.style.left = "30px";
@@ -76,56 +37,26 @@ function skipAnimation(img, bg) {
     img.style.top = "73px";
     img.style.left = "77px";
   }
-  
   img.style.transform = "translate(0, 0) scale(1)";
   bg.style.display = "none";
 }
 
-
-
-/* ================== OVERLAY ================== */
-/**
- * Shows the success overlay.
- * @returns {void}
- */
 function showSuccessOverlay() {
   const overlay = document.getElementById("successOverlay");
   if (overlay) overlay.style.display = "flex";
 }
 
-
-/* ================== LOGIN UI ================== */
-/**
- * Shows login error state with an optional message.
- * @param {HTMLInputElement} emailEl
- * @param {HTMLInputElement} pwEl
- * @param {string} message
- * @returns {void}
- */
 function showLoginErrorState(emailEl, pwEl, message = "Invalid email address or password") {
   if (message) showErrorToast(message);
   emailEl.classList.add("input-error");
   pwEl.classList.add("input-error");
 }
 
-
-/**
- * Clears login error state.
- * @param {HTMLInputElement} emailEl
- * @param {HTMLInputElement} pwEl
- * @returns {void}
- */
 function clearLoginErrorState(emailEl, pwEl) {
   emailEl.classList.remove("input-error");
   pwEl.classList.remove("input-error");
 }
 
-
-/**
- * Wires login error state clearing on input.
- * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement}} state
- * @returns {void}
- */
 function wireLoginErrorHandlers({ emailEl, pwEl }) {
   const clear = () => clearLoginErrorState(emailEl, pwEl);
   emailEl.addEventListener("input", () => clearFieldError("email-error", emailEl));
@@ -134,12 +65,6 @@ function wireLoginErrorHandlers({ emailEl, pwEl }) {
   pwEl.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, "password-error", validateLoginPasswordField));
 }
 
-
-/**
- * Validates login inputs and shows errors.
- * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement}} state
- * @returns {boolean}
- */
 function validateLoginInputs({ emailEl, pwEl }) {
   clearLoginErrorState(emailEl, pwEl);
   let valid = true;
@@ -148,51 +73,22 @@ function validateLoginInputs({ emailEl, pwEl }) {
   return valid;
 }
 
-
-/**
- * Toggles login button busy state.
- * @param {{btnLogin: HTMLButtonElement}} state
- * @param {boolean} busy
- * @returns {void}
- */
 function setLoginBusy({ btnLogin }, busy) {
   if (!btnLogin) return;
   btnLogin.disabled = busy;
 }
 
-
-/* ================== SIGNUP UI ================== */
-/**
- * Shows signup error state with an optional message.
- * @param {HTMLInputElement} pwEl
- * @param {HTMLInputElement} pw2El
- * @param {string} message
- * @returns {void}
- */
 function showSignupErrorState(pwEl, pw2El, message) {
   if (message) showErrorToast(message);
   pwEl.classList.add("input-error");
   pw2El.classList.add("input-error");
 }
 
-
-/**
- * Clears signup error state.
- * @param {HTMLInputElement} pwEl
- * @param {HTMLInputElement} pw2El
- * @returns {void}
- */
 function clearSignupErrorState(pwEl, pw2El) {
   pwEl.classList.remove("input-error");
   pw2El.classList.remove("input-error");
 }
 
-
-/**
- * Wires signup error state clearing.
- * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement}} state
- * @returns {void}
- */
 function wireSignupErrorHandlers({ nameEl, emailEl, pwEl, pw2El }) {
   const clear = () => clearSignupErrorState(pwEl, pw2El);
   nameEl.addEventListener("input", () => clearFieldError("username-error", nameEl));
@@ -205,12 +101,6 @@ function wireSignupErrorHandlers({ nameEl, emailEl, pwEl, pw2El }) {
   pw2El.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, pw2El, "suPw2-error", validateConfirmPasswordField));
 }
 
-
-/**
- * Validates signup inputs and shows errors.
- * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement}} state
- * @returns {boolean}
- */
 function validateSignupInputs({ nameEl, emailEl, pwEl, pw2El, policyEl }) {
   clearSignupErrorState(pwEl, pw2El);
   let valid = true;
@@ -225,36 +115,16 @@ function validateSignupInputs({ nameEl, emailEl, pwEl, pw2El, policyEl }) {
   return valid;
 }
 
-
-/**
- * Shows required-field error for signup.
- * @param {HTMLInputElement} pwEl
- * @param {HTMLInputElement} pw2El
- * @returns {boolean}
- */
 function showSignupRequiredError(pwEl, pw2El) {
   showSignupErrorState(pwEl, pw2El, "Please complete all required fields.");
   return false;
 }
 
-
-/**
- * Shows policy checkbox error for signup.
- * @param {HTMLInputElement} pwEl
- * @param {HTMLInputElement} pw2El
- * @returns {boolean}
- */
 function showSignupPolicyError(pwEl, pw2El) {
   showSignupErrorState(pwEl, pw2El, "Please accept the Privacy Policy.");
   return false;
 }
 
-
-/**
- * Wires signup button enabled state.
- * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
- * @returns {void}
- */
 function wireSignupButtonState(state) {
   const update = () => setSignupButtonState(state);
   [state.nameEl, state.emailEl, state.pwEl, state.pw2El].forEach((el) => el.addEventListener("input", update));
@@ -262,12 +132,6 @@ function wireSignupButtonState(state) {
   update();
 }
 
-
-/**
- * Sets signup button disabled state based on inputs.
- * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
- * @returns {void}
- */
 function setSignupButtonState({ nameEl, emailEl, pwEl, pw2El, policyEl, btn }) {
   btn.disabled = !(
     nameEl.value.trim() &&
@@ -278,14 +142,6 @@ function setSignupButtonState({ nameEl, emailEl, pwEl, pw2El, policyEl, btn }) {
   );
 }
 
-
-/* ================== FIELD VALIDATION ================== */
-/**
- * Validates username field.
- * @param {HTMLInputElement} inputEl
- * @param {string} errorId
- * @returns {boolean}
- */
 function validateUsernameField(inputEl, errorId) {
   const value = inputEl.value.trim();
   if (!value) {
@@ -312,13 +168,6 @@ function validateUsernameField(inputEl, errorId) {
   return true;
 }
 
-
-/**
- * Validates email field.
- * @param {HTMLInputElement} inputEl
- * @param {string} errorId
- * @returns {boolean}
- */
 function validateEmailField(inputEl, errorId) {
   const value = inputEl.value.trim();
   if (!value) {
@@ -333,13 +182,6 @@ function validateEmailField(inputEl, errorId) {
   return true;
 }
 
-
-/**
- * Validates password field.
- * @param {HTMLInputElement} inputEl
- * @param {string} errorId
- * @returns {boolean}
- */
 function validatePasswordField(inputEl, errorId) {
   const value = inputEl.value.trim();
   if (!value) {
@@ -358,13 +200,6 @@ function validatePasswordField(inputEl, errorId) {
   return true;
 }
 
-
-/**
- * Validates password field for login (only checks if not empty).
- * @param {HTMLInputElement} inputEl
- * @param {string} errorId
- * @returns {boolean}
- */
 function validateLoginPasswordField(inputEl, errorId) {
   const value = inputEl.value.trim();
   if (!value) {
@@ -375,14 +210,6 @@ function validateLoginPasswordField(inputEl, errorId) {
   return true;
 }
 
-
-/**
- * Validates confirm password field.
- * @param {HTMLInputElement} pwEl
- * @param {HTMLInputElement} pw2El
- * @param {string} errorId
- * @returns {boolean}
- */
 function validateConfirmPasswordField(pwEl, pw2El, errorId) {
   const value = pw2El.value.trim();
   if (!value) {
@@ -397,48 +224,20 @@ function validateConfirmPasswordField(pwEl, pw2El, errorId) {
   return true;
 }
 
-
-/**
- * Shows field error message.
- * @param {string} errorId
- * @param {string} message
- * @param {HTMLInputElement} inputEl
- * @returns {void}
- */
 function showFieldError(errorId, message, inputEl) {
   showErrorToast(message);
   inputEl.classList.add("input-error");
 }
 
-
-/**
- * Validates field with auto-dismiss after 3 seconds.
- * @param {...any} args
- * @returns {boolean}
- */
 function validateFieldWithAutoDismiss(...args) {
   const validationFn = args.length === 3 ? args[2] : args[3];
   return validationFn(...args);
 }
 
-
-/**
- * Clears field error message.
- * @param {string} errorId
- * @param {HTMLInputElement} inputEl
- * @returns {void}
- */
 function clearFieldError(errorId, inputEl) {
   inputEl.classList.remove("input-error");
 }
 
-
-/**
- * Toggles signup button busy state.
- * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
- * @param {boolean} busy
- * @returns {void}
- */
 function setSignupBusy(state, busy) {
   if (!state.btn) return;
   if (busy) return void (state.btn.disabled = true);
