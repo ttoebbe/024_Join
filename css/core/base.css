@@ -52,6 +52,12 @@ a:hover {
   color: var(--color-accent-secondary);
 }
 
+/* Input and Button reset */
+input,
+button {
+  border: unset;
+}
+
 /* Focus styles */
 :focus {
   outline: 2px solid var(--color-accent);
