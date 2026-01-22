@@ -300,8 +300,12 @@ function validateUsernameField(inputEl, errorId) {
     showFieldError(errorId, "Username must start with a letter.", inputEl);
     return false;
   }
-  if (!/^[a-zA-Z][a-zA-Z0-9_-]*$/.test(value)) {
-    showFieldError(errorId, "Username can only contain letters, numbers, _ and -.", inputEl);
+  if (/\s{2,}/.test(value)) {
+    showFieldError(errorId, "Username cannot contain multiple consecutive spaces.", inputEl);
+    return false;
+  }
+  if (!/^[a-zA-Z][a-zA-Z0-9_\- ]*$/.test(value)) {
+    showFieldError(errorId, "Username can only contain letters, numbers, single spaces, _ and -.", inputEl);
     return false;
   }
   clearFieldError(errorId, inputEl);

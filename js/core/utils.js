@@ -52,18 +52,6 @@ function isValidEmail(email) {
 }
 
 
-/**
- * Validates username format.
- * @param {string} username - The username to validate
- * @returns {boolean} - True if username is valid
- */
-function validateUsername(username) {
-  const trimmed = (username || "").trim();
-  if (trimmed.length < 2) return false;
-  const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_-]{1,}$/;
-  return usernameRegex.test(trimmed);
-}
-
 
 /**
  * Validates password format.
