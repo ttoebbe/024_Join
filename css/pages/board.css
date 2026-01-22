@@ -368,7 +368,7 @@
   .board-search {
     flex: 1 1 0;
     min-width: 0;
-    max-width: 420px;
+    max-width: 340px;
     height: 44px;
     box-sizing: border-box;
   }
@@ -411,7 +411,7 @@
   .board-search {
     flex: 1 1 0;
     min-width: 0;
-    max-width: 65%;
+    max-width: 240px;
     padding: 4px 8px;
     height: 44px;
     box-sizing: border-box;
@@ -500,7 +500,6 @@
     grid-column: 1 / -1;
     grid-row: 2 / 3;
     width: 100%;
-    max-width: 100%;
   }
 }
 
