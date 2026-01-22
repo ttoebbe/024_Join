@@ -1,11 +1,11 @@
 /**
  * @param {*} options = {}
- * @returns {*}
+ * @returns {Promise<void>}
  */
-function initAddTaskForm(options = {}) {
+async function initAddTaskForm(options = {}) {
   const state = createAddTaskState(options);
   if (!state.form) return;
-  setupAddTaskForm(state, options.onClose);
+  await setupAddTaskForm(state, options.onClose);
 }
 
 /**
@@ -72,19 +72,29 @@ function attachSubtaskInputs(state) {
 /**
  * @param {*} state
  * @param {*} onClose
- * @returns {*}
+ * @returns {Promise<void>}
  */
-function setupAddTaskForm(state, onClose) {
+async function setupAddTaskForm(state, onClose) {
   setDueDateMin(state.dueDateInput);
   wirePrioButtons(state);
   applyEditDefaults(state);
   const resets = initDropdowns(state);
   initSubtasks(state);
+  await waitForAssignedReady(state);
   wireCreateButtonState(state);
   wireValidationCleanup(state);
   updateCreateButtonState(state);
   wireClearButton(state, resets);
   wireSubmitHandler(state, onClose);
+}
+
+/**
+ * @param {*} state
+ * @returns {Promise<void>}
+ */
+async function waitForAssignedReady(state) {
+  if (!state?.assignedReady) return;
+  await state.assignedReady;
 }
 
 /**

@@ -94,17 +94,26 @@ const HEADER_TEMPLATE = `
   </header>
 `;
 
-document.addEventListener("DOMContentLoaded", () => {
-  if (shouldHideNavForGuest()) {
-    applyGuestMode();
-    return;
-  }
+document.addEventListener("DOMContentLoaded", handleComponentsReady);
+
+/**
+ * @returns {void}
+ */
+function handleComponentsReady() {
+  withPageReady(runComponentsInit);
+}
+
+/**
+ * @returns {void}
+ */
+function runComponentsInit() {
+  if (shouldHideNavForGuest()) return applyGuestMode();
   renderNavBar();
   renderHeader();
   setActiveNavLink();
   renderUserInitials();
   initUserMenu();
-});
+}
 
 
 /**

@@ -236,4 +236,11 @@ function getCurrentEditId() {
 }
 
 // Auto-initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', initContactsPage);
+document.addEventListener("DOMContentLoaded", handleContactsReady);
+
+/**
+ * @returns {void}
+ */
+function handleContactsReady() {
+  withPageReady(initContactsPage);
+}

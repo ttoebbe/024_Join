@@ -58,6 +58,12 @@ button {
   border: unset;
 }
 
+button.page-busy,
+[role="button"].page-busy {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* Focus styles */
 :focus {
   outline: 2px solid var(--color-accent);
