@@ -288,3 +288,107 @@ function onPageVisible(reloadFn) {
     }
   });
 }
+
+let pageBusyGuardReady = false;
+let pageBusyElements = [];
+let pageBusyCount = 0;
+
+async function withPageReady(task) {
+  startPageBusy();
+  try {
+    await task?.();
+  } finally {
+    stopPageBusy();
+  }
+}
+
+function startPageBusy() {
+  ensurePageBusyGuards();
+  pageBusyCount += 1;
+  if (pageBusyCount === 1) applyPageBusy();
+}
+
+function stopPageBusy() {
+  if (pageBusyCount === 0) return;
+  pageBusyCount -= 1;
+  if (pageBusyCount === 0) clearPageBusy();
+}
+
+function ensurePageBusyGuards() {
+  if (pageBusyGuardReady) return;
+  document.addEventListener("click", handleBusyClick, true);
+  document.addEventListener("submit", handleBusySubmit, true);
+  document.addEventListener("keydown", handleBusyKeydown, true);
+  pageBusyGuardReady = true;
+}
+
+function applyPageBusy() {
+  pageBusyElements = collectBusyElements();
+  pageBusyElements.forEach((el) => markBusyElement(el));
+}
+
+function clearPageBusy() {
+  pageBusyElements.forEach((el) => unmarkBusyElement(el));
+  pageBusyElements = [];
+}
+
+function collectBusyElements() {
+  return Array.from(document.querySelectorAll("button, [role='button']"));
+}
+
+function markBusyElement(el) {
+  if (!el || el.dataset.pageBusy === "1") return;
+  storeBusyAttr(el, "tabindex", "pageBusyTabindex");
+  storeBusyAttr(el, "aria-disabled", "pageBusyAria");
+  el.setAttribute("aria-disabled", "true");
+  el.setAttribute("tabindex", "-1");
+  el.classList.add("page-busy");
+  el.dataset.pageBusy = "1";
+}
+
+function unmarkBusyElement(el) {
+  if (!el || el.dataset.pageBusy !== "1") return;
+  restoreBusyAttr(el, "tabindex", "pageBusyTabindex");
+  restoreBusyAttr(el, "aria-disabled", "pageBusyAria");
+  el.classList.remove("page-busy");
+  delete el.dataset.pageBusy;
+}
+
+function storeBusyAttr(el, attr, key) {
+  if (el.dataset[key] !== undefined) return;
+  const value = el.getAttribute(attr);
+  el.dataset[key] = value === null ? "null" : value;
+}
+
+function restoreBusyAttr(el, attr, key) {
+  if (el.dataset[key] === undefined) return;
+  const value = el.dataset[key];
+  if (value === "null") el.removeAttribute(attr);
+  else el.setAttribute(attr, value);
+  delete el.dataset[key];
+}
+
+function getBusyTarget(target) {
+  if (pageBusyCount === 0 || !target?.closest) return null;
+  return target.closest("button, [role='button']");
+}
+
+function handleBusyClick(event) {
+  if (!getBusyTarget(event.target)) return;
+  event.preventDefault();
+  event.stopPropagation();
+}
+
+function handleBusySubmit(event) {
+  if (pageBusyCount === 0) return;
+  event.preventDefault();
+  event.stopPropagation();
+}
+
+function handleBusyKeydown(event) {
+  if (pageBusyCount === 0) return;
+  if (event.key !== "Enter" && event.key !== " ") return;
+  if (!getBusyTarget(event.target)) return;
+  event.preventDefault();
+  event.stopPropagation();
+}
