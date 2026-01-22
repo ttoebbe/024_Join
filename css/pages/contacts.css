@@ -252,7 +252,7 @@
   justify-content: center;
   background: rgba(0, 0, 0, 0.35);
   padding: 24px;
-  z-index: 20;
+  z-index: var(--z-modal);
 }
 
 .contact-overlay.is-visible {
