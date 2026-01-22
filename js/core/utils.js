@@ -263,7 +263,7 @@ function disableForGuests(button, originalHandler) {
       (event) => {
         event.preventDefault();
         event.stopPropagation();
-        showToast("Guest users are not allowed to perform this action.");
+        showToast("not allowed for Guest users.");
       },
       { capture: true }
     );
