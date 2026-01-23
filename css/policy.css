@@ -10,7 +10,7 @@
 }
 
 .policy {
-  max-width: none;
+  max-width: 1200px;
   margin: 0;
   color: var(--policy-text);
 }
