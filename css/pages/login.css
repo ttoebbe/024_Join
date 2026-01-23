@@ -259,20 +259,21 @@ input::placeholder {
 }
 
 .input-error {
-    border: 1px solid red !important;
+    border: 1px solid #ff3b3b !important;
     outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    box-shadow: none;
 }
 
+
 .field-error {
-    color: red;
+    color: #ff3b3b;
     font-size: 0.85rem;
-    display: none;
     margin-top: 4px;
-    word-wrap: break-word;
-    white-space: normal;
+    line-height: 1.2;
+    display: none;
 }
+
+
 
 .error-msg {
     color: red;
