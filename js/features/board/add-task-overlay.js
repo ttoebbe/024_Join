@@ -81,7 +81,7 @@ function ensureOverlayRoot() {
   return root;
 }
 
-// Optional: im Notfall global sichtbar machen
+// Optional: make available globally as a fallback
 window.openAddTaskOverlay = openAddTaskOverlay;
 window.openEditTaskOverlay = openEditTaskOverlay;
 window.closeAddTaskOverlay = closeAddTaskOverlay;
