@@ -258,7 +258,7 @@ body{
   }
 
   .greeting{
-    margin-top: 0;
+    display: none;
   }
 
   .summary-kpis{
@@ -278,18 +278,13 @@ body{
   
   .content{
     max-width: none;
-    padding-bottom: 96px; 
+    overflow-x: hidden;
   }
 
   .summary-body{
     padding: 28px 20px;
     gap: 18px;
     flex-direction: column;
-  }
-
-  
-  .greeting{
-    margin-top: 12px;
   }
 
   #greetingText{
