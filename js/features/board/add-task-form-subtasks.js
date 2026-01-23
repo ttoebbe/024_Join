@@ -3,21 +3,39 @@
  * @returns {*}
  */
 function initSubtasks(state) {
-  if (!state.subtaskInput || !state.subtaskAddBtn || !state.subtaskList) return;
-  state.subtaskAddBtn.addEventListener("click", () => {
-    addSubtaskFromInput(state);
-  });
+  if (!canInitSubtasks(state)) return;
+  wireSubtaskAdd(state);
+  wireSubtaskInput(state);
+  wireSubtaskList(state);
+  renderSubtasks(state);
+}
+
+function canInitSubtasks(state) {
+  return Boolean(state.subtaskInput && state.subtaskAddBtn && state.subtaskList);
+}
+
+function wireSubtaskAdd(state) {
+  state.subtaskAddBtn.addEventListener("click", () => addSubtaskFromInput(state));
+}
+
+function wireSubtaskInput(state) {
   state.subtaskInput.addEventListener("keydown", (e) => {
     handleSubtaskKeydown(e, state);
   });
+}
+
+function wireSubtaskList(state) {
   state.subtaskList.addEventListener("click", (e) => {
-    const removeBtn = e.target.closest(".subtask-remove");
-    if (!removeBtn) return;
-    const index = Number(removeBtn.dataset.index);
-    if (Number.isNaN(index)) return;
-    removeSubtask(state, index);
+    handleSubtaskListClick(e, state);
   });
-  renderSubtasks(state);
+}
+
+function handleSubtaskListClick(e, state) {
+  const removeBtn = e.target.closest(".subtask-remove");
+  if (!removeBtn) return;
+  const index = Number(removeBtn.dataset.index);
+  if (Number.isNaN(index)) return;
+  removeSubtask(state, index);
 }
 
 /**

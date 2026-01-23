@@ -156,22 +156,23 @@ function getTaskIdNumber(id) {
   return Number.isNaN(number) ? -1 : number;
 }
 
+const RANDOM_COLOR_POOL = [
+  "#FF7A00",
+  "#29ABE2",
+  "#02CF2F",
+  "#AF1616",
+  "#9327FF",
+  "#FF7527",
+  "#6E52FF",
+  "#FC71FF",
+  "#FFBB2B",
+  "#1FD7C1",
+  "#FFA35E",
+  "#C5FF7A"
+];
+
 function generateRandomColor() {
-  const colors = [
-    "#FF7A00",
-    "#29ABE2",
-    "#02CF2F",
-    "#AF1616",
-    "#9327FF",
-    "#FF7527",
-    "#6E52FF",
-    "#FC71FF",
-    "#FFBB2B",
-    "#1FD7C1",
-    "#FFA35E",
-    "#C5FF7A"
-  ];
-  return colors[Math.floor(Math.random() * colors.length)];
+  return RANDOM_COLOR_POOL[Math.floor(Math.random() * RANDOM_COLOR_POOL.length)];
 }
 
 const TOAST_MAX_COUNT = 3;
@@ -256,20 +257,19 @@ function isGuest() {
 
 function disableForGuests(button, originalHandler) {
   if (!button) return;
-  if (isGuest()) {
-    button.classList.add("disabled");
-    button.addEventListener(
-      "click",
-      (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        showToast("not allowed for Guest users.");
-      },
-      { capture: true }
-    );
-  } else if (originalHandler) {
-    button.addEventListener("click", originalHandler);
-  }
+  if (isGuest()) return applyGuestDisabled(button);
+  if (originalHandler) button.addEventListener("click", originalHandler);
+}
+
+function applyGuestDisabled(button) {
+  button.classList.add("disabled");
+  button.addEventListener("click", handleGuestBlockedClick, { capture: true });
+}
+
+function handleGuestBlockedClick(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  showToast("not allowed for Guest users.");
 }
 
 function getCurrentUser() {
