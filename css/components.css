@@ -67,8 +67,8 @@ body{
   padding: 0 72px;
   box-sizing: border-box;
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   height: 100%;
 }
 
