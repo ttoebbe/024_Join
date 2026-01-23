@@ -85,7 +85,7 @@ function registerOverlayButtons(elements, listElement) {
  * @param {Object} elements
  */
 function registerOverlayOpenButton(elements) {
-  disableForGuests(elements.openButton, () => {
+  elements.openButton?.addEventListener("click", () => {
     setOverlayMode(elements.form, false);
     setOverlayAvatarDefault();
     openOverlay(elements.overlay);
@@ -110,7 +110,7 @@ function registerOverlayCloseButtons(elements) {
  * @param {HTMLElement} listElement
  */
 function registerOverlayDeleteButton(elements, listElement) {
-  disableForGuests(elements.deleteButton, async () => {
+  elements.deleteButton?.addEventListener("click", async () => {
     const currentId = getCurrentEditId();
     if (!currentId) return;
     const confirmed = window.confirm("Do you really want to delete this contact?");
