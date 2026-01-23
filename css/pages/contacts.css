@@ -699,11 +699,16 @@ main {
 
   .contacts-main {
     flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
   }
 
   .contact-list-panel {
     flex: 1;
     min-width: 100%;
+    max-width: 560px;
+    align-items: center;
+    margin: 0 auto;
   }
 
   .contact-detail-panel {
@@ -776,6 +781,8 @@ main {
 
   .contacts-main {
     flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
   }
 
   .contacts-page {

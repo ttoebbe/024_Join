@@ -255,6 +255,8 @@ body{
   .summary-body{
     flex-direction: column;
     gap: 28px;
+    align-items: center;
+    margin: 0 auto;
   }
 
   .greeting{
