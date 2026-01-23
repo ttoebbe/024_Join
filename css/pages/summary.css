@@ -10,7 +10,6 @@ body{
   min-height: 100vh;
   overflow: auto;
   max-width: 1440px;
-  margin: 0 auto;
 }
 
 /* Sidebar active state */
@@ -44,6 +43,7 @@ body{
 
   display: flex;
   align-items: flex-start;
+  justify-content: flex-start;
   gap: 72px;
 }
 
@@ -255,8 +255,6 @@ body{
   .summary-body{
     flex-direction: column;
     gap: 28px;
-    align-items: center;
-    margin: 0 auto;
   }
 
   .greeting{
@@ -300,7 +298,6 @@ body{
   .summary-kpis{
     width: 100%;
     max-width: 560px;
-    margin: 0 auto; 
     gap: 16px;
   }
 
