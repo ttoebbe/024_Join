@@ -39,7 +39,7 @@ async function loadFormTemplate(status) {
     if (!res.ok) throw new Error(`Template not found (${res.status})`);
     return await res.text();
   } catch (err) {
-    return `<div style="padding:16px; border:1px dashed #d1d1d1; border-radius:12px;"><p><strong>Template fehlt oder lädt nicht.</strong></p></div>`;
+    return `<div style="padding:16px; border:1px dashed #d1d1d1; border-radius:12px;"><p><strong>Template is missing or failed to load.</strong></p></div>`;
   }
 }
 

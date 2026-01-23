@@ -140,7 +140,7 @@ function buildContactDetails(contact) {
     `    <a href="mailto:${contact.email}">${contact.email}</a>\n` +
     `  </div>\n` +
     `  <div class="detail-row">\n` +
-    `    <span class="detail-label">Telefon</span>\n` +
+    `    <span class="detail-label">Phone</span>\n` +
     `    <span>${contact.phone}</span>\n` +
     `  </div>\n` +
     `</div>\n`;

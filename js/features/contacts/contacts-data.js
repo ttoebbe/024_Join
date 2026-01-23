@@ -43,7 +43,7 @@ function getContactData() {
   if (typeof contacts !== "undefined" && Array.isArray(contacts)) {
     return contacts;
   }
-  console.warn("Keine Kontaktdaten verfugbar.");
+  console.warn("No contact data available.");
   return [];
 }
 
