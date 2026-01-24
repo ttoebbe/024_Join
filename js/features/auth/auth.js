@@ -53,7 +53,7 @@ function wireLoginForm(state) {
   wireLoginErrorHandlers(state);
   wireLoginSubmit(state);
   wireGuestLogin(state);
-  setupPasswordToggle("password", "passwordLock", "visibilityImg");
+  setupPasswordToggle("password", "lockPw", "eyePw");
 }
 /**
  * Wires login submit handler.
