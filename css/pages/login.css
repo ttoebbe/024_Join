@@ -583,11 +583,11 @@ footer a:hover {
 
 @media screen and (max-width: 375px) {
     .form-header h1 {
-        padding-bottom: 6px;
+        padding-bottom: 0px;
     }
 
     .login-page main {
-        max-height: 375px;
+        max-height: fit-content;
     }
 
     .underline_div {
