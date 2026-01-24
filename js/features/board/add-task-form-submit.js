@@ -210,9 +210,21 @@ async function submitTaskForm(state, values, onClose) {
   try {
     await persistTask(state, values);
     await refreshBoardIfNeeded();
-    onClose?.();
+    handleSubmitSuccess(state, onClose);
   } finally {
     setCreateButtonBusy(state, false);
+  }
+}
+
+function handleSubmitSuccess(state, onClose) {
+  if (state.mode !== "edit" && typeof showAddedToBoardToast === "function") {
+    showAddedToBoardToast();
+  }
+  if (!onClose) return;
+  if (document.body.classList.contains("addtask-page")) {
+    setTimeout(() => onClose(), 1200);
+  } else {
+    onClose();
   }
 }
 /**

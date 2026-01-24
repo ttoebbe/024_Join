@@ -187,6 +187,22 @@ function showErrorToast(message) {
   showToastInternal(message, "error");
 }
 
+const imageToastState = { container: null };
+
+function showAddedToBoardToast() {
+  showImageToast("/assets/img/icons/added-to-board.png", "Added to board");
+}
+
+function showImageToast(src, alt = "") {
+  if (!src) return;
+  const toast = createImageToast(src, alt);
+  const container = getImageToastContainer();
+  container.innerHTML = "";
+  container.appendChild(toast);
+  scheduleImageToastShow(toast);
+  scheduleImageToastHide(toast);
+}
+
 function showToastInternal(message, type) {
   if (!message) return;
   const toast = createToast(message, type);
@@ -216,8 +232,31 @@ function createToast(message, type) {
   return toast;
 }
 
+function getImageToastContainer() {
+  if (imageToastState.container) return imageToastState.container;
+  const container = document.createElement("div");
+  container.className = "toast-container toast-container--image";
+  document.body.appendChild(container);
+  imageToastState.container = container;
+  return container;
+}
+
+function createImageToast(src, alt) {
+  const toast = document.createElement("div");
+  toast.className = "toast toast-image";
+  const img = document.createElement("img");
+  img.src = src;
+  img.alt = alt;
+  toast.appendChild(img);
+  return toast;
+}
+
 function scheduleToastShow(toast) {
   setTimeout(() => toast.classList.add("show"), 100);
+}
+
+function scheduleImageToastShow(toast) {
+  setTimeout(() => toast.classList.add("show"), 50);
 }
 
 function scheduleToastHide(toast) {
@@ -225,6 +264,13 @@ function scheduleToastHide(toast) {
     toast.classList.remove("show");
     setTimeout(() => removeToast(toast), 300);
   }, 3000);
+}
+
+function scheduleImageToastHide(toast) {
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2000);
 }
 
 function trimToasts() {
