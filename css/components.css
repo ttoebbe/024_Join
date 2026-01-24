@@ -387,7 +387,7 @@ body{
 
 @media (max-width: 480px){
   .nav_links nav a{
-    padding: 1px 1px;
+    padding: 8px 5px;
     gap: 2px;
   }
 
