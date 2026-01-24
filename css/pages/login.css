@@ -266,11 +266,28 @@ input::placeholder {
 
 
 .field-error {
+    position: absolute;
+    /* absolute Positionierung */
+    top: 100%;
+    /* direkt unter dem Input */
+    left: 0;
+    font-size: 14px;
     color: #ff3b3b;
-    font-size: 0.85rem;
-    margin-top: 4px;
     line-height: 1.2;
-    display: none;
+    opacity: 0;
+    /* initial unsichtbar */
+    transform: translateY(-10px);
+    /* leicht nach oben */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* sanfte Animation */
+    pointer-events: none;
+    /* Input bleibt klickbar */
+}
+
+/* Fehler anzeigen: von oben nach unten */
+.field-error.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 

@@ -46,6 +46,8 @@ function showSuccessOverlay() {
   if (overlay) overlay.style.display = "flex";
 }
 
+
+
 function showLoginErrorState(emailEl, pwEl) {
   showFieldError("email-error", "Invalid email address or password", emailEl);
   showFieldError("password-error", "Invalid email address or password", pwEl);
@@ -245,7 +247,7 @@ function showFieldError(errorId, message, inputEl) {
   if (!errorEl) return;
 
   errorEl.textContent = message;
-  errorEl.style.display = "block";
+  errorEl.classList.add("show");  // Klasse zum Einblenden
   inputEl.classList.add("input-error");
 }
 
@@ -274,10 +276,15 @@ function wireLoginErrorHandlers({ emailEl, pwEl }) {
 
 function clearFieldError(errorId, inputEl) {
   const errorEl = document.getElementById(errorId);
-  if (errorEl) {
+  if (!errorEl) return;
+
+  // Ausblenden: durch Entfernen der Klasse
+  errorEl.classList.remove("show");
+
+  // Optional: Text nach Animation leeren, damit kein Flackern
+  setTimeout(() => {
     errorEl.textContent = "";
-    errorEl.style.display = "none";
-  }
+  }, 300); // 300ms = Dauer der Transition
   inputEl.classList.remove("input-error");
 }
 
