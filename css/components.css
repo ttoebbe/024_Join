@@ -396,7 +396,7 @@ body{
   }
 }
 
-.user-dropdown.open{
+.user-dropdown.open, .user-dropdown{
   max-width: none;
 }
 
