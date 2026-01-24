@@ -81,13 +81,12 @@ function resetSelectionState(state) {
  * @returns {*}
  */
 function wireSubmitHandler(state, onClose) {
-  disableForGuests(state.createBtn, async (e) => {
+  state.createBtn.addEventListener("click", async (e) => {
     e?.preventDefault();
     await handleSubmit(state, onClose);
   });
   state.form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (isGuest()) return;
     await handleSubmit(state, onClose);
   });
 }
