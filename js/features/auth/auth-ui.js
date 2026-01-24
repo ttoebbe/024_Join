@@ -46,10 +46,9 @@ function showSuccessOverlay() {
   if (overlay) overlay.style.display = "flex";
 }
 
-function showLoginErrorState(emailEl, pwEl, message = "Invalid email address or password") {
-  if (message) showErrorToast(message);
-  emailEl.classList.add("input-error");
-  pwEl.classList.add("input-error");
+function showLoginErrorState(emailEl, pwEl) {
+  showFieldError("email-error", "Invalid email address or password", emailEl);
+  showFieldError("password-error", "Invalid email address or password", pwEl);
 }
 
 function clearLoginErrorState(emailEl, pwEl) {
@@ -219,18 +218,46 @@ function validateConfirmPasswordField(pwEl, pw2El, errorId) {
 }
 
 function showFieldError(errorId, message, inputEl) {
-  showErrorToast(message);
+  const errorEl = document.getElementById(errorId);
+  if (!errorEl) return;
+
+  errorEl.textContent = message;
+  errorEl.style.display = "block";
   inputEl.classList.add("input-error");
 }
 
-function validateFieldWithAutoDismiss(...args) {
-  const validationFn = args.length === 3 ? args[2] : args[3];
-  return validationFn(...args);
+
+function wireLoginErrorHandlers({ emailEl, pwEl }) {
+
+  // Fehler beim Tippen entfernen
+  emailEl.addEventListener("input", () =>
+    clearFieldError("email-error", emailEl)
+  );
+
+  pwEl.addEventListener("input", () =>
+    clearFieldError("password-error", pwEl)
+  );
+
+  // Fehler beim Verlassen anzeigen
+  emailEl.addEventListener("blur", () =>
+    validateEmailField(emailEl, "email-error")
+  );
+
+  pwEl.addEventListener("blur", () =>
+    validateLoginPasswordField(pwEl, "password-error")
+  );
 }
 
+
 function clearFieldError(errorId, inputEl) {
+  const errorEl = document.getElementById(errorId);
+  if (errorEl) {
+    errorEl.textContent = "";
+    errorEl.style.display = "none";
+  }
   inputEl.classList.remove("input-error");
 }
+
 
 function setSignupBusy(state, busy) {
   if (!state.btn) return;

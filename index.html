@@ -22,7 +22,8 @@
 <body class="login-page">
     <div class="wrapper max-width-1440">
         <div class="background-overlay" id="bg"></div>
-        <a href="index.html"><img src="./assets/img/homepage_join.png" alt="" class="homepage-image" id="img_animation"> </a>
+        <a href="index.html"><img src="./assets/img/homepage_join.png" alt="" class="homepage-image" id="img_animation">
+        </a>
         <header>
             <p>Not a Join user? </p>
             <a href="./html/pages/sign_up.html" class="btn-signup">Sign Up</a>
@@ -38,30 +39,30 @@
                     <div class="input-fields">
                         <div class="input-field-wrapper">
                             <div class="input-control">
-                                <input type="email" id="email" name="email" placeholder="Email"  autocomplete="email">
-                                <img src="./assets/img/icons/mail.png" alt="" class="input-icon-email">
+                                <input type="email" id="email" name="email" placeholder="Email" autocomplete="email">
+                                <img src="./assets/img/icons/mail.png" class="input-icon-email">
                             </div>
+                            <div class="field-error" id="email-error"></div>
                         </div>
 
                         <div class="input-field-wrapper">
                             <div class="input-control">
-                                <input type="password" id="password" name="password" placeholder="Password" 
-                                    autocomplete="current-password">
-
-                                <!-- Schloss-Icon -->
-                                <img id="passwordLock" src="./assets/img/icons/lock.png" alt="" class="input-icon-password">
-
-                                <!-- Sichtbarkeit-Button -->
-                                <img id="visibilityImg" class="visibilty-btn d-none" src="/assets/img/icons/visibility_off.png"
-                                    alt="visibility_off">
+                                <input type="password" id="password" name="password" placeholder="Password">
+                                <!-- Lock-Icon immer sichtbar -->
+                                <img src="./assets/img/icons/lock.png" class="input-icon-password" id="lockPw">
+                                <!-- Eye-Icon zum Umschalten -->
+                                <img src="./assets/img/icons/visibility_off.png" class="input-icon-password d-none"
+                                    id="eyePw">
                             </div>
+                            <div class="field-error" id="password-error"></div>
                         </div>
-                    </div>
 
-                    <div class="form-buttons">
-                        <button type="submit" class="btn-left" id="btnLogin">Log In</button>
-                        <button class="btn-right" id="btnGuest">Guest Log In</button>
-                    </div>
+
+
+                        <div class="form-buttons">
+                            <button type="submit" class="btn-left" id="btnLogin">Log In</button>
+                            <button class="btn-right" id="btnGuest">Guest Log In</button>
+                        </div>
                 </form>
             </section>
         </main>
