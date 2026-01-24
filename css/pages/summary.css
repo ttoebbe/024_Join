@@ -8,7 +8,7 @@ body{
   background: var(--color-bg-primary);
   width: 100%;
   min-height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   max-width: 1920px;
 }
 
@@ -38,7 +38,7 @@ body{
 
 /* ===== Layout below topbar ===== */
 .summary-body{
-  padding: 32px 56px;
+  padding: 12px 56px;
   box-sizing: border-box;
 
   display: flex;
@@ -251,20 +251,23 @@ body{
   object-fit: contain;
 }
 
-@media (max-width: 1150px){
+@media (max-width: 930px){
   .summary-body{
     flex-direction: column;
     gap: 28px;
+    align-items: center;
   }
 
-  .greeting{
+  /* .greeting{
     display: none;
-  }
+  } */
 
   .summary-kpis{
     width: 100%;
   }
 }
+
+
 
 @media (max-width: 800px){
 

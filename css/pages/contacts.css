@@ -696,15 +696,15 @@ main {
     margin-top: -80px;
   }
 
-  .contacts-main {
+  /* .contacts-main {
     flex-direction: column;
-  }
+  } */
 
-  .contact-list-panel {
+  /* .contact-list-panel {
     flex: 1;
     min-width: 100%;
     max-width: 560px;
-  }
+  } */
 
   .contact-detail-panel {
     align-items: flex-start;
@@ -774,9 +774,9 @@ main {
     font-size: 32px;
   }
 
-  .contacts-main {
+  /* .contacts-main {
     flex-direction: column;
-  }
+  } */
 
   .contacts-page {
     padding: 0;
@@ -819,6 +819,11 @@ main {
 
   .contacts-page.is-detail-open .list-add-button {
     display: none;
+  }
+
+  .contact-list-panel {
+   min-width: 100%;
+   align-items: center;
   }
 
   .detail-actions {
