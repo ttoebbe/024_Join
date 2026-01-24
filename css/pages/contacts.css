@@ -822,8 +822,8 @@ main {
   }
 
   .contact-list-panel {
-   min-width: 100%;
-   align-items: center;
+    min-width: 100%;
+    align-items: center;
   }
 
   .detail-actions {
@@ -864,6 +864,14 @@ main {
 @media (max-width: 480px) {
   .contact-overlay {
     padding: 0;
+  }
+
+  * {
+    max-width: inherit;
+  }
+
+  .contacts-page{
+    max-width: 100%;
   }
 
   .contact-overlay-dialog {

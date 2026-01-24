@@ -396,6 +396,10 @@ body{
   }
 }
 
+.user-dropdown.open{
+  max-width: none;
+}
+
 @media (max-width: 360px){
   .nav_links nav img{
     width: 24px;
