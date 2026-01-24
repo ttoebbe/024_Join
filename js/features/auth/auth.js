@@ -171,6 +171,7 @@ function wireSignupSubmit(state) {
  */
 async function handleSignupSubmit(state) {
   if (!validateSignupInputs(state)) return;
+  if (await checkDuplicateEmail(state.emailEl)) return;
   await runSignup(state);
 }
 /**
@@ -194,7 +195,10 @@ async function runSignup(state) {
 async function attemptSignup({ nameEl, emailEl, pwEl }) {
   const users = await loadUsers();
   const email = emailEl.value.trim();
-  if (users.some((u) => u.email === email)) return alert("This email is already registered.");
+  if (users.some((u) => u.email === email)) {
+    showFieldError("suEmail-error", "This email is already registered.", emailEl);
+    return;
+  }
   const newUser = buildNewUser(users, nameEl.value.trim(), email, pwEl.value.trim());
   await UserService.create(newUser);
   setTimeout(() => { window.location.href = ROUTES.LOGIN; }, 300);

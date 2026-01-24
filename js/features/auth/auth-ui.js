@@ -78,7 +78,6 @@ function setLoginBusy({ btnLogin }, busy) {
 }
 
 function showSignupErrorState(pwEl, pw2El, message) {
-  if (message) showErrorToast(message);
   pwEl.classList.add("input-error");
   pw2El.classList.add("input-error");
 }
@@ -88,40 +87,64 @@ function clearSignupErrorState(pwEl, pw2El) {
   pw2El.classList.remove("input-error");
 }
 
-function wireSignupErrorHandlers({ nameEl, emailEl, pwEl, pw2El }) {
+function wireSignupErrorHandlers({ nameEl, emailEl, pwEl, pw2El, policyEl }) {
   const clear = () => clearSignupErrorState(pwEl, pw2El);
   nameEl.addEventListener("input", () => clearFieldError("username-error", nameEl));
   emailEl.addEventListener("input", () => clearFieldError("suEmail-error", emailEl));
   pwEl.addEventListener("input", () => clearFieldError("suPw-error", pwEl));
   pw2El.addEventListener("input", () => clearFieldError("suPw2-error", pw2El));
+  policyEl?.addEventListener("change", () => clearFieldError("suPolicy-error", policyEl));
   nameEl.addEventListener("blur", () => validateFieldWithAutoDismiss(nameEl, "username-error", validateUsernameField));
-  emailEl.addEventListener("blur", () => validateFieldWithAutoDismiss(emailEl, "suEmail-error", validateEmailField));
+  emailEl.addEventListener("blur", () => handleSignupEmailBlur(emailEl));
   pwEl.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, "suPw-error", validatePasswordField));
   pw2El.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, pw2El, "suPw2-error", validateConfirmPasswordField));
 }
 
 function validateSignupInputs({ nameEl, emailEl, pwEl, pw2El, policyEl }) {
   clearSignupErrorState(pwEl, pw2El);
+  clearFieldError("suPolicy-error", policyEl);
   let valid = true;
   if (!validateUsernameField(nameEl, "username-error")) valid = false;
   if (!validateEmailField(emailEl, "suEmail-error")) valid = false;
   if (!validatePasswordField(pwEl, "suPw-error")) valid = false;
   if (!validateConfirmPasswordField(pwEl, pw2El, "suPw2-error")) valid = false;
   if (!policyEl.checked) {
-    showSignupErrorState(pwEl, pw2El, "Please accept the Privacy Policy.");
-    return false;
+    showFieldError("suPolicy-error", "Please accept the Privacy Policy.", policyEl);
+    valid = false;
   }
   return valid;
 }
 
+function validateFieldWithAutoDismiss(arg1, arg2, arg3, arg4) {
+  if (typeof arg4 === "function") return arg4(arg1, arg2, arg3);
+  if (typeof arg3 === "function") return arg3(arg1, arg2);
+  return false;
+}
+
 function showSignupRequiredError(pwEl, pw2El) {
-  showSignupErrorState(pwEl, pw2El, "Please complete all required fields.");
+  showFieldError("suPw-error", "Please complete all required fields.", pwEl);
+  showFieldError("suPw2-error", "Please complete all required fields.", pw2El);
   return false;
 }
 
 function showSignupPolicyError(pwEl, pw2El) {
-  showSignupErrorState(pwEl, pw2El, "Please accept the Privacy Policy.");
+  showFieldError("suPolicy-error", "Please accept the Privacy Policy.", document.getElementById("suPolicy"));
   return false;
+}
+
+async function handleSignupEmailBlur(emailEl) {
+  if (!validateEmailField(emailEl, "suEmail-error")) return;
+  await checkDuplicateEmail(emailEl);
+}
+
+async function checkDuplicateEmail(emailEl) {
+  const email = emailEl.value.trim();
+  if (!email) return false;
+  const users = await loadUsers();
+  const exists = users.some((u) => u.email === email);
+  if (exists) showFieldError("suEmail-error", "This email is already registered.", emailEl);
+  else clearFieldError("suEmail-error", emailEl);
+  return exists;
 }
 
 function wireSignupButtonState(state) {
