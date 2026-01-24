@@ -106,3 +106,4 @@ function togglePasswordVisibility(input, eye) {
 function wirePasswordLock({ lock }) {
   lock.addEventListener("click", (e) => e.stopPropagation());
 }
+
