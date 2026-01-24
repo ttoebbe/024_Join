@@ -696,6 +696,10 @@ main {
     margin-top: -80px;
   }
 
+  .overlay-logo {
+    display: none !important;
+  }
+
   /* .contacts-main {
     flex-direction: column;
   } */
@@ -744,6 +748,10 @@ main {
     right: 20px;
     bottom: 16px;
     z-index: 2;
+  }
+
+  .overlay-logo {
+    display: none !important;
   }
 
   .contact-details h4 {
@@ -864,6 +872,10 @@ main {
 @media (max-width: 480px) {
   .contact-overlay {
     padding: 0;
+  }
+
+  .overlay-logo {
+    display: none;
   }
 
   * {
