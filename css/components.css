@@ -13,7 +13,6 @@ body{
   min-height: 100vh;
   display: flex;
   width: 100%;
-  max-width: 1920px;
   height: 100vh;
   overflow: hidden;
 }
@@ -477,4 +476,3 @@ body{
 .user-dropdown__logout{
   margin-top: 2px;
 }
-
