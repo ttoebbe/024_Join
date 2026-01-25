@@ -69,7 +69,7 @@ function wireLoginErrorHandlers({ emailEl, pwEl }) {
 function validateLoginInputs({ emailEl, pwEl }) {
   clearLoginErrorState(emailEl, pwEl);
   let valid = true;
-  if (!validateEmailField(emailEl, "email-error")) valid = false;
+  if (!validateLoginEmailField(emailEl, "email-error")) valid = false;
   if (!validateLoginPasswordField(pwEl, "password-error")) valid = false;
   return valid;
 }
@@ -200,6 +200,19 @@ function validateEmailField(inputEl, errorId) {
   return true;
 }
 
+function validateLoginEmailField(inputEl, errorId) {
+  const value = inputEl.value.trim();
+  if (!value) {
+    showFieldError(errorId, "Email is required.", inputEl);
+    return false;
+  }
+  if (!isValidEmail(value)) {
+    showFieldError(errorId, "Invalid email address.", inputEl);
+    return false;
+  }
+  return true;
+}
+
 function validatePasswordField(inputEl, errorId) {
   const value = inputEl.value.trim();
   if (!value) {
@@ -224,7 +237,6 @@ function validateLoginPasswordField(inputEl, errorId) {
     showFieldError(errorId, "Password is required.", inputEl);
     return false;
   }
-  clearFieldError(errorId, inputEl);
   return true;
 }
 
@@ -265,7 +277,7 @@ function wireLoginErrorHandlers({ emailEl, pwEl }) {
 
   // Fehler beim Verlassen anzeigen
   emailEl.addEventListener("blur", () =>
-    validateEmailField(emailEl, "email-error")
+    validateLoginEmailField(emailEl, "email-error")
   );
 
   pwEl.addEventListener("blur", () =>
