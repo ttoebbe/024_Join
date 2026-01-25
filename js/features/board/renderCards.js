@@ -38,7 +38,7 @@ function attachCardMeta(el, task) {
  * @returns {*}
  */
 function appendCardContent(el, task) {
-  el.appendChild(createCategoryPill(task));
+  el.appendChild(createCardMetaRow(task));
   el.appendChild(createCardTitle(task));
   el.appendChild(createCardDescription(task));
   appendCardProgress(el, task);
@@ -86,6 +86,56 @@ function createCategoryPill(task) {
       : "board-card-label--userstory");
   pill.textContent = category === "technical" ? "Technical Task" : "User Story";
   return pill;
+}
+
+function createCardMetaRow(task) {
+  const wrap = document.createElement("div");
+  wrap.className = "board-card-meta";
+  wrap.appendChild(createCategoryPill(task));
+  wrap.appendChild(createMoveToMenu(task));
+  return wrap;
+}
+
+function createMoveToMenu(task) {
+  const wrap = document.createElement("div");
+  wrap.className = "board-move";
+  wrap.appendChild(createMoveToButton(task));
+  wrap.appendChild(createMoveToList(task));
+  return wrap;
+}
+
+function createMoveToButton(task) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "board-move-btn";
+  btn.dataset.moveToggle = "true";
+  if (task?.id) btn.dataset.taskId = String(task.id);
+  const img = document.createElement("img");
+  img.src = "/assets/img/icons/move-to.png";
+  img.alt = "Move to";
+  btn.appendChild(img);
+  return btn;
+}
+
+function createMoveToList(task) {
+  const menu = document.createElement("div");
+  menu.className = "board-move-menu";
+  if (task?.id) menu.dataset.taskId = String(task.id);
+  menu.setAttribute("aria-hidden", "true");
+  menu.appendChild(createMoveToItem("todo", "To-do"));
+  menu.appendChild(createMoveToItem("inprogress", "In progress"));
+  menu.appendChild(createMoveToItem("awaitfeedback", "Await feedback"));
+  menu.appendChild(createMoveToItem("done", "Done"));
+  return menu;
+}
+
+function createMoveToItem(status, label) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "board-move-item";
+  btn.dataset.moveItem = status;
+  btn.textContent = label;
+  return btn;
 }
 /**
  * Normalizes category into "technical" or "userstory".

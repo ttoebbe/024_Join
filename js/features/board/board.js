@@ -52,6 +52,66 @@ function wireBoardUi() {
     });
   }
   wireAddTaskButtons();
+  wireMoveMenus();
+}
+
+function wireMoveMenus() {
+  const board = document.querySelector(".board-columns");
+  if (!board) return;
+  board.addEventListener("click", (e) => handleMoveMenuClick(e));
+  document.addEventListener("click", (e) => handleMoveMenuOutsideClick(e));
+}
+
+function handleMoveMenuClick(e) {
+  const toggle = e.target.closest("[data-move-toggle]");
+  if (toggle) {
+    e.stopPropagation();
+    const card = toggle.closest(".board-card");
+    const menu = card?.querySelector(".board-move-menu");
+    toggleMoveMenu(menu);
+    return;
+  }
+
+  const item = e.target.closest(".board-move-item");
+  if (item) {
+    e.stopPropagation();
+    const menu = item.closest(".board-move-menu");
+    const card = item.closest(".board-card");
+    const taskId = menu?.dataset.taskId || card?.dataset.taskId;
+    const status = item.dataset.moveItem;
+    closeAllMoveMenus();
+    if (!taskId || !status) return;
+    if (typeof updateTaskStatus === "function") {
+      updateTaskStatus(taskId, status);
+    } else if (TaskService?.update) {
+      const task = boardState.tasks.find((t) => String(t?.id) === String(taskId));
+      if (!task) return;
+      task.status = status;
+      renderBoard();
+      TaskService.update(task.id, task);
+    }
+  }
+}
+
+function handleMoveMenuOutsideClick(e) {
+  if (e.target.closest(".board-move")) return;
+  closeAllMoveMenus();
+}
+
+function toggleMoveMenu(menu) {
+  if (!menu) return;
+  const isOpen = menu.classList.contains("is-open");
+  closeAllMoveMenus();
+  if (isOpen) return;
+  menu.classList.add("is-open");
+  menu.setAttribute("aria-hidden", "false");
+}
+
+function closeAllMoveMenus() {
+  document.querySelectorAll(".board-move-menu.is-open").forEach((menu) => {
+    menu.classList.remove("is-open");
+    menu.setAttribute("aria-hidden", "true");
+  });
 }
 /**
  * Wires the main and column add-task buttons to open the overlay.

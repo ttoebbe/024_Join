@@ -22,11 +22,12 @@ function openOverlayWithStatus(status) {
 }
 
 function wireCardOpenHandlers(card, task) {
-  card.addEventListener("click", () => handleCardOpenClick(task));
+  card.addEventListener("click", (e) => handleCardOpenClick(e, task));
   card.addEventListener("keydown", (e) => handleCardOpenKeydown(e, task));
 }
 
-function handleCardOpenClick(task) {
+function handleCardOpenClick(e, task) {
+  if (e?.target?.closest(".board-move")) return;
   if (boardState.draggingTaskId) return;
   openTaskDetailOverlay(task?.id);
 }

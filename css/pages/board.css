@@ -192,6 +192,15 @@
   padding: 16px;
   box-shadow: 0 0 10px rgba(0,0,0,0.08);
   cursor: pointer;
+  position: relative;
+}
+
+.board-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
 .board-card-label {
@@ -200,7 +209,73 @@
   border-radius: 8px;
   font-size: 16px;
   color: var(--color-text-white);
-  margin-bottom: 10px;
+}
+
+.board-move {
+  position: relative;
+  display: none;
+}
+
+.board-move-btn {
+  border: none;
+  background: var(--color-bg-surface);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.board-move-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+.board-move-menu {
+  position: absolute;
+  right: 0;
+  top: 38px;
+  min-width: 140px;
+  background: #2a3647;
+  border-radius: 16px;
+  padding: 10px;
+  display: none;
+  gap: 8px;
+  flex-direction: column;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+.board-move-menu.is-open {
+  display: flex;
+}
+
+.board-move-menu::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 12px;
+  width: 12px;
+  height: 12px;
+  background: #2a3647;
+  transform: rotate(45deg);
+}
+
+.board-move-item {
+  border: none;
+  background: transparent;
+  color: var(--color-text-white);
+  text-align: left;
+  font-size: 16px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.board-move-item:hover {
+  background: rgba(255,255,255,0.12);
 }
 
 .board-card-label--userstory { background: var(--color-label-userstory); }
@@ -381,6 +456,10 @@
   .board-add-btn {
     height: 44px;
     white-space: nowrap;
+  }
+
+  .board-move {
+    display: block;
   }
 }
 
