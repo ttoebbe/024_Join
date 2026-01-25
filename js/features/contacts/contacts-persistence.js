@@ -119,6 +119,19 @@ async function deleteContact(contactId) {
     console.error('Error deleting contact:', error);
   }
 }
+
+function updateContactList() {
+  const listElement = document.querySelector(".contact-list");
+  if (!listElement) return;
+  renderContactList(listElement, getContactData());
+}
+
+function clearContactDetail() {
+  const container = document.getElementById("contact-detail-injection");
+  if (container) container.innerHTML = "";
+  if (typeof removeActiveStates === "function") removeActiveStates();
+  if (typeof closeMobileDetailView === "function") closeMobileDetailView();
+}
 /**
  * Handles new contact form submission with validation.
  * @param {SubmitEvent} event
