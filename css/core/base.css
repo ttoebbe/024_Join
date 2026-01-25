@@ -142,9 +142,13 @@ button.page-busy,
 .toast-container {
   position: fixed;
   top: var(--spacing-lg);
-  right: var(--spacing-lg);
+  left: 50%;
+  right: auto;
   z-index: var(--z-tooltip);
   pointer-events: none;
+  width: calc(100% - 64px);
+  max-width: 1440px;
+  transform: translateX(-50%);
 }
 
 .toast {
@@ -166,7 +170,11 @@ button.page-busy,
 
 .toast-container--image {
   top: 72px;
-  right: 152px;
+  left: 50%;
+  right: auto;
+  width: calc(100% - 64px);
+  max-width: 1440px;
+  transform: translateX(-50%);
 }
 
 .toast.toast-image {
