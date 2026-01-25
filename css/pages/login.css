@@ -613,7 +613,7 @@ footer a:hover {
 
     .input-fields {
         margin-bottom: 20px;
-        gap: 14px;
+        gap: 18px;
     }
 
     @keyframes startAnimationMobile {
