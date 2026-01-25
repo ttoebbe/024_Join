@@ -182,12 +182,21 @@ input::placeholder {
 }
 
 .field-error {
-    color: red;
-    font-size: 0.85rem;
-    display: none;
-    margin-top: 4px;
-    word-wrap: break-word;
-    white-space: normal;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-size: 14px;
+    color: #ff3b3b;
+    line-height: 1.2;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.field-error.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 
@@ -312,5 +321,3 @@ footer a:hover {
         bottom: 10px;
     }
 }
-
-
