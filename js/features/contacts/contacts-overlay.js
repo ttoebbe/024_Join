@@ -151,6 +151,7 @@ function registerOverlayBackdropClick(elements) {
  * @param {HTMLElement} overlay
  */
 function openOverlay(overlay) {
+  storeLastFocusedElement(overlay);
   overlay.classList.add("is-visible");
   overlay.setAttribute("aria-hidden", "false");
 }
@@ -162,11 +163,29 @@ function openOverlay(overlay) {
  * @param {HTMLFormElement} form
  */
 function closeOverlay(overlay, form) {
+  restoreLastFocusedElement(overlay);
   overlay.classList.remove("is-visible");
   overlay.setAttribute("aria-hidden", "true");
   setOverlayMode(form, false);
   setOverlayAvatarDefault();
   form?.reset();
+}
+
+let lastOverlayFocus = null;
+
+function storeLastFocusedElement(overlay) {
+  if (!overlay) return;
+  lastOverlayFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+}
+
+function restoreLastFocusedElement(overlay) {
+  if (!overlay) return;
+  const active = document.activeElement;
+  if (active instanceof HTMLElement && overlay.contains(active)) active.blur();
+  if (lastOverlayFocus && document.contains(lastOverlayFocus)) {
+    lastOverlayFocus.focus();
+  }
+  lastOverlayFocus = null;
 }
 
 
