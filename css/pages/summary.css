@@ -313,6 +313,7 @@ body {
     width: 100%;
     max-width: 560px;
     gap: 16px;
+    padding-top: 24px;
   }
 
 
@@ -388,6 +389,7 @@ body {
 
   .summary-kpis {
     gap: 12px;
+    padding-top: 24px;
   }
 
 
