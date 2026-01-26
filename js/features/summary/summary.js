@@ -165,6 +165,7 @@ async function initSummary() {
   const user = loadCurrentUser();
   if (!user) return redirectToLogin();
   renderUser(user);
+  runMobileGreeting(user);
   await reloadSummaryData();
   onPageVisible(reloadSummaryData);
 }
@@ -180,6 +181,47 @@ async function reloadSummaryData() {
  */
 function redirectToLogin() {
   window.location.href = ROUTES.LOGIN;
+}
+
+function runMobileGreeting(user) {
+  if (!shouldShowMobileGreeting()) return;
+  const data = getGreetingData(user);
+  const overlay = buildGreetingOverlay(data);
+  markMobileGreetingShown();
+  showGreetingOverlay(overlay);
+}
+
+function shouldShowMobileGreeting() {
+  return window.innerWidth <= 480 && sessionStorage.getItem("mobileGreetingShown") !== "true";
+}
+
+function markMobileGreetingShown() {
+  sessionStorage.setItem("mobileGreetingShown", "true");
+}
+
+function getGreetingData(user) {
+  const greeting = getTimeBasedGreeting(new Date());
+  return {
+    text: user?.guest ? `${greeting}!` : `${greeting},`,
+    name: user?.guest ? "" : user?.name || "Guest",
+  };
+}
+
+function buildGreetingOverlay(data) {
+  const overlay = document.createElement("div");
+  overlay.className = "greeting-overlay is-visible";
+  overlay.innerHTML = buildGreetingOverlayHtml(data);
+  return overlay;
+}
+
+function buildGreetingOverlayHtml({ text, name }) {
+  const nameHtml = name ? `<h2 class="greeting-overlay__name">${name}</h2>` : "";
+  return `<div class="greeting-overlay__content"><p class="greeting-overlay__text">${text}</p>${nameHtml}</div>`;
+}
+
+function showGreetingOverlay(overlay) {
+  document.body.appendChild(overlay);
+  setTimeout(() => overlay.remove(), 2000);
 }
 document.addEventListener("DOMContentLoaded", handleSummaryReady);
 

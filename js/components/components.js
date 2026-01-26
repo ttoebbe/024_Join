@@ -310,6 +310,7 @@ function closeOnEscape(e, parts) {
 function wireLogout(logoutBtn) {
   logoutBtn?.addEventListener("click", () => {
     setCurrentUser(null);
+    sessionStorage.removeItem("mobileGreetingShown");
     window.location.href = "/index.html";
   });
 }
