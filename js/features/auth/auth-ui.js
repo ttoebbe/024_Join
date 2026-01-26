@@ -293,10 +293,7 @@ function clearFieldError(errorId, inputEl) {
   // Ausblenden: durch Entfernen der Klasse
   errorEl.classList.remove("show");
 
-  // Optional: Text nach Animation leeren, damit kein Flackern
-  setTimeout(() => {
-    errorEl.textContent = "";
-  }, 300); // 300ms = Dauer der Transition
+  errorEl.textContent = "";
   inputEl.classList.remove("input-error");
 }
 
