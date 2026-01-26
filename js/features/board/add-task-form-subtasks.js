@@ -61,6 +61,7 @@ function wireSubtaskListFocus(state) {
 function handleSubtaskListClick(e, state) {
   if (handleSubtaskRemoveClick(e, state)) return;
 }
+
 function handleSubtaskRemoveClick(e, state) {
   const removeBtn = e.target.closest(".subtask-remove");
   if (!removeBtn) return false;
@@ -304,5 +305,3 @@ function buildSubtaskValue(item) {
     done: Boolean(item.done || item.completed || item.isDone),
   };
 }
-
-
