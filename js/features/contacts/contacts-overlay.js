@@ -80,6 +80,7 @@ function wireContactCounters(elements) {
   updateContactCounters(elements);
   elements.nameInput?.addEventListener("input", () => updateContactCounters(elements));
   elements.emailInput?.addEventListener("input", () => updateContactCounters(elements));
+  elements.phoneInput?.addEventListener("input", () => updateContactCounters(elements));
 }
 
 function updateContactCounters(elements) {
