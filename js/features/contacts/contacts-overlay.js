@@ -330,6 +330,7 @@ function openEditContact(contactId) {
   const elements = getContactOverlayElements();
   if (!elements) return;
   fillContactForm(elements, contact);
+  updateContactCounters(elements);
   setOverlayAvatarContact(contact);
   setOverlayMode(elements.form, true);
   setCurrentEditId(contactId);
