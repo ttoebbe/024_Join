@@ -255,6 +255,7 @@ function resetAssignedLabel(parts) {
  */
 function resetAssignedDropdown(parts) {
   resetAssignedLabel(parts);
+  clearAssignedMenuSelection(parts);
   parts.dropdown.classList.remove("is-open");
   if (parts.menu) parts.menu.hidden = true;
   if (parts.toggle) parts.toggle.setAttribute("aria-expanded", "false");
@@ -274,6 +275,15 @@ function clearAssignedAvatars(parts) {
   if (!parts.avatarsEl) return;
   parts.avatarsEl.innerHTML = "";
   parts.avatarsEl.hidden = true;
+}
+
+function clearAssignedMenuSelection(parts) {
+  if (!parts.menu) return;
+  parts.menu.querySelectorAll(".dropdown-item--assigned").forEach((item) => {
+    item.classList.remove("is-selected");
+    const check = item.querySelector(".assigned-check");
+    if (check) check.textContent = "";
+  });
 }
 
 /**
