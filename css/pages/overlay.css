@@ -51,12 +51,16 @@
   font-size: 32px;
   font-weight: 700;
   color: var(--color-overlay-dark);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .task-detail-desc {
   margin: 0 0 16px;
   color: var(--color-text-primary);
   font-size: 16px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .task-detail-meta {
@@ -176,4 +180,3 @@
     min-width: 0;
   }
 }
-
