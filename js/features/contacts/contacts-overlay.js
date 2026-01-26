@@ -37,9 +37,10 @@ function getOverlaySetupElements() {
   const base = getContactOverlayElements();
   const openButton = document.querySelector(".list-add-button");
   const deleteButton = document.getElementById("contact-delete");
-  const closeButton = document.querySelector("[data-overlay-close]");
+  const cancelButton = document.getElementById("contact-cancel");
+  const closeButtons = document.querySelectorAll("[data-overlay-close]");
   if (!base || !openButton) return null;
-  return { ...base, openButton, deleteButton, closeButton };
+  return { ...base, openButton, deleteButton, cancelButton, closeButtons };
 }
 
 
@@ -71,7 +72,12 @@ function registerOverlayInputHandlers(elements) {
     validateContactLength(elements.emailInput, CONTACT_EMAIL_MAX, "contact-email-error", "Email");
   });
   elements.phoneInput?.addEventListener("input", () => {
-    validateContactLength(elements.phoneInput, CONTACT_PHONE_MAX, "contact-phone-error", "Phone");
+    validatePhoneDigits(
+      elements.phoneInput,
+      CONTACT_PHONE_MIN,
+      CONTACT_PHONE_MAX,
+      "contact-phone-error"
+    );
   });
   wireContactCounters(elements);
 }
@@ -88,14 +94,20 @@ function updateContactCounters(elements) {
   updateContactFieldCounter(elements.nameInput, "contact-name-counter", CONTACT_NAME_MAX);
   enforceContactMax(elements.emailInput, CONTACT_EMAIL_MAX);
   updateContactFieldCounter(elements.emailInput, "contact-email-counter", CONTACT_EMAIL_MAX);
-  enforceContactMax(elements.phoneInput, CONTACT_PHONE_MAX);
-  updateContactFieldCounter(elements.phoneInput, "contact-phone-counter", CONTACT_PHONE_MAX);
+  trimPhoneToMaxDigits(elements.phoneInput, CONTACT_PHONE_MAX);
+  updateContactFieldCounter(
+    elements.phoneInput,
+    "contact-phone-counter",
+    CONTACT_PHONE_MAX,
+    getPhoneDigitsCount
+  );
 }
 
-function updateContactFieldCounter(input, counterId, max) {
+function updateContactFieldCounter(input, counterId, max, countFn = null) {
   const counter = document.getElementById(counterId);
   if (!counter) return;
-  const length = (input?.value || "").length;
+  const value = input?.value || "";
+  const length = typeof countFn === "function" ? countFn(value) : value.length;
   counter.textContent = `${length}/${max}`;
 }
 
@@ -141,9 +153,12 @@ function registerOverlayOpenButton(elements) {
  * @param {Object} elements
  */
 function registerOverlayCloseButtons(elements) {
-  elements.closeButton?.addEventListener("click", () =>
-    closeOverlay(elements.overlay, elements.form)
-  );
+  if (!elements.closeButtons) return;
+  elements.closeButtons.forEach((button) => {
+    button.addEventListener("click", () =>
+      closeOverlay(elements.overlay, elements.form)
+    );
+  });
 }
 
 
@@ -246,9 +261,10 @@ function setOverlayMode(form, isEdit) {
   const title = document.getElementById("contact-overlay-title");
   const submitButton = form?.querySelector('button[type="submit"]');
   const deleteButton = document.getElementById("contact-delete");
+  const cancelButton = document.getElementById("contact-cancel");
   const overlayLogo = document.querySelector(".overlay-logo");
   updateOverlayTexts(title, submitButton, isEdit);
-  updateOverlayVisibility(overlayLogo, deleteButton, isEdit);
+  updateOverlayVisibility(overlayLogo, deleteButton, cancelButton, isEdit);
   if (!isEdit) setCurrentEditId(null);
 }
 
@@ -261,7 +277,12 @@ function setOverlayMode(form, isEdit) {
  */
 function updateOverlayTexts(title, submitButton, isEdit) {
   if (title) title.textContent = isEdit ? "Edit contact" : "Add contact";
-  if (submitButton) submitButton.textContent = isEdit ? "Save changes" : "Create contact";
+  if (submitButton) {
+    const label = submitButton.querySelector("span");
+    const text = isEdit ? "Save changes" : "Create contact";
+    if (label) label.textContent = text;
+    else submitButton.textContent = text;
+  }
 }
 
 
@@ -271,9 +292,10 @@ function updateOverlayTexts(title, submitButton, isEdit) {
  * @param {HTMLElement} deleteButton
  * @param {boolean} isEdit
  */
-function updateOverlayVisibility(overlayLogo, deleteButton, isEdit) {
+function updateOverlayVisibility(overlayLogo, deleteButton, cancelButton, isEdit) {
   if (overlayLogo) overlayLogo.style.display = isEdit ? "none" : "flex";
   if (deleteButton) deleteButton.style.display = isEdit ? "inline-flex" : "none";
+  if (cancelButton) cancelButton.style.display = isEdit ? "none" : "inline-flex";
 }
 
 

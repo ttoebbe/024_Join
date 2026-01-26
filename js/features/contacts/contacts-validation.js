@@ -40,41 +40,76 @@ function clearContactInputError(input) {
  */
 function validateContactForm(inputs, values) {
   clearContactFormErrors(inputs);
-  const error = getContactValidationError(values);
-  if (!error) return true;
-  setContactFormMsg(error);
-  markContactValidationErrors(inputs, values);
+  const errors = getContactFieldErrors(values);
+  if (Object.keys(errors).length === 0) return true;
+  applyContactFieldErrors(inputs, errors);
   return false;
 }
-/**
- * Marks invalid contact fields.
- * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement}} inputs
- * @param {{name: string, email: string, phone: string}} values
- * @returns {void}
- */
-function markContactValidationErrors(inputs, values) {
-  if (!values.name) addContactInputError(inputs.nameInput);
-  if (!values.email || !isValidEmail(values.email)) addContactInputError(inputs.emailInput);
-  if (!values.phone || !isValidPhone(values.phone)) addContactInputError(inputs.phoneInput);
+
+function getContactFieldErrors(values) {
+  const errors = {};
+  if (!values.name || !isValidContactName(values.name)) {
+    errors.name = "Please enter your full name. Only letters are allowed.";
+  }
+  if (!values.email || !isValidEmail(values.email)) {
+    errors.email = "Please enter a valid email address.";
+  }
+  if (!values.phone || !isValidPhone(values.phone)) {
+    errors.phone = `Between ${CONTACT_PHONE_MIN} and ${CONTACT_PHONE_MAX} digits required.`;
+  }
+  return errors;
 }
-/**
- * Adds input error class.
- * @param {HTMLInputElement} input
- * @returns {void}
- */
-function addContactInputError(input) {
-  if (input) input.classList.add("input-error");
+
+function applyContactFieldErrors(inputs, errors) {
+  if (errors.name) {
+    setContactFieldError("contact-name-error", errors.name, inputs.nameInput);
+  }
+  if (errors.email) {
+    setContactFieldError("contact-email-error", errors.email, inputs.emailInput);
+  }
+  if (errors.phone) {
+    setContactFieldError("contact-phone-error", errors.phone, inputs.phoneInput);
+  }
 }
 
 const CONTACT_NAME_MAX = 50;
 const CONTACT_EMAIL_MAX = 50;
-const CONTACT_PHONE_MAX = 30;
+const CONTACT_PHONE_MIN = 6;
+const CONTACT_PHONE_MAX = 15;
+
+function getPhoneDigitsCount(value) {
+  return String(value || "").replace(/\D/g, "").length;
+}
+
+function trimPhoneToMaxDigits(input, max) {
+  if (!input) return;
+  const value = String(input.value || "");
+  let digits = 0;
+  let result = "";
+  for (const char of value) {
+    if (/\d/.test(char)) {
+      if (digits >= max) continue;
+      digits += 1;
+    }
+    result += char;
+  }
+  if (result !== value) input.value = result;
+}
 
 function validateContactLength(input, max, errorId, label) {
   const value = input?.value || "";
   if (!value) return clearContactFieldError(errorId, input);
-  if (value.length < max) return clearContactFieldError(errorId, input);
+  if (value.length <= max) return clearContactFieldError(errorId, input);
   setContactFieldError(errorId, `${label} is too long (max ${max} characters).`, input);
+}
+
+function validatePhoneDigits(input, min, max, errorId) {
+  const digits = getPhoneDigitsCount(input?.value || "");
+  if (!digits) return clearContactFieldError(errorId, input);
+  if (digits > max) {
+    return setContactFieldError(errorId, `Between ${min} and ${max} digits required.`, input);
+  }
+  return clearContactFieldError(errorId, input);
 }
 
 function setContactFieldError(errorId, message, input) {

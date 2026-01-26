@@ -194,11 +194,20 @@ function removeContactAtIndex(index) {
  * @param {string} phone
  * @returns {boolean}
  */
+function isValidContactName(name) {
+  const trimmed = (name || "").trim();
+  if (!trimmed) return false;
+  const namePattern = /^[A-Za-z]+(?:\s+[A-Za-z]+)*$/;
+  return namePattern.test(trimmed);
+}
+
 function isValidPhone(phone) {
   const trimmed = (phone || "").trim();
   if (!trimmed) return false;
   const phonePattern = /^[0-9+\-\s()]+$/;
-  return phonePattern.test(trimmed);
+  if (!phonePattern.test(trimmed)) return false;
+  const digits = trimmed.replace(/\D/g, "");
+  return digits.length >= 6 && digits.length <= 15;
 }
 
 /**
@@ -207,14 +216,14 @@ function isValidPhone(phone) {
  * @returns {string}
  */
 function getContactValidationError(values) {
-  if (!values.name) return "Please enter a name.";
-  if (!values.email) return "Please enter an email address.";
-  if (!isValidEmail(values.email)) {
+  if (!values.name || !isValidContactName(values.name)) {
+    return "Please enter your full name. Only letters are allowed.";
+  }
+  if (!values.email || !isValidEmail(values.email)) {
     return "Please enter a valid email address.";
   }
-  if (!values.phone) return "Please enter a phone number.";
-  if (!isValidPhone(values.phone)) {
-    return "Please enter a valid phone number.";
+  if (!values.phone || !isValidPhone(values.phone)) {
+    return "Between 6 and 15 digits required.";
   }
   return "";
 }

@@ -132,7 +132,7 @@ body{
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  padding: 0 72px;
+  padding: 0 56px 0 72px;
   box-sizing: border-box;
   width: 100%;
   max-width: calc(1440px - 232px);
@@ -366,7 +366,7 @@ body{
   }
 
   .topbar-inner{
-    padding: 0 16px;
+    padding: 0 8px 0 16px;
     grid-template-columns: auto 1fr auto;
     max-width: 100%;
   }

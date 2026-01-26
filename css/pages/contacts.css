@@ -9,13 +9,13 @@
 }
 
 .avatar-circle {
-  width: 104px;
-  height: 104px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   background: var(--color-bg-contacts);
   display: grid;
   place-items: center;
-  border: 6px solid var(--color-bg-surface);
+  border: 4px solid var(--color-bg-surface);
 }
 
 .avatar-circle svg {
@@ -260,9 +260,10 @@
 }
 
 .contact-overlay-dialog {
-  /* width: min(1040px, 100%); */
+  width: min(1040px, 100%);
+  max-height: 90vh;
   display: grid;
-  grid-template-columns: minmax(320px, 420px) 1fr;
+  grid-template-columns: minmax(320px, 420px) minmax(360px, 1fr);
   grid-template-rows: 1fr;
   background: #fff;
   border-radius: 24px;
@@ -377,6 +378,10 @@
   text-align: center;
 }
 
+.form-msg:empty {
+  display: none;
+}
+
 .overlay-form .input-error {
   border: 1px solid #ff3d00 !important;
 }
@@ -483,13 +488,10 @@ main {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
-  margin-top: 8px;
-  position: sticky;
-  bottom: 0;
-  background: linear-gradient(to top, rgba(255, 255, 255, 1) 80%, rgba(255, 255, 255, 0.95));
-  padding-top: 12px;
-  padding-bottom: 8px;
-  z-index: 10;
+  margin-top: 16px;
+  position: static;
+  background: transparent;
+  padding: 0;
 }
 
 .overlay-avatar {
@@ -497,7 +499,8 @@ main {
   display: flex;
   justify-content: flex-start;
   flex: 0 0 auto;
-  margin-top: 82px;
+  margin-top: 0;
+  align-self: center;
 }
 
 .overlay-brand {
@@ -518,11 +521,19 @@ main {
   font-weight: 600;
   border: 1px solid transparent;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   transition:
     transform 0.1s ease,
     box-shadow 0.2s ease,
     background 0.2s ease,
     color 0.2s ease;
+}
+
+.overlay-btn img {
+  width: 14px;
+  height: 14px;
 }
 
 .overlay-btn-primary {
@@ -539,7 +550,7 @@ main {
 .overlay-btn-secondary {
   background: #fff;
   color: var(--contacts-text);
-  border-color: #d5d9e6;
+  border-color: var(--contacts-text);
 }
 
 .overlay-btn-secondary:hover {
@@ -565,10 +576,10 @@ main {
 
 .overlay-form {
   flex: 1;
-  width: min(360px, 100%);
+  width: min(420px, 100%);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .field-group {
@@ -579,8 +590,8 @@ main {
 
 .overlay-form-row {
   display: flex;
-  align-items: flex-start;
-  gap: 24px;
+  align-items: center;
+  gap: 32px;
 }
 
 .overlay-input {
@@ -616,12 +627,12 @@ main {
 
 .overlay-panel-bottom {
   grid-column: 2;
-  background: #f8f8fb;
+  background: #fff;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 0;
-  padding: 40px 36px;
+  padding: 48px 56px;
   position: relative;
 }
 
@@ -700,6 +711,10 @@ main {
 }
 
 @media (max-width: 1150px) {
+  #contact-cancel {
+    display: none !important;
+  }
+
   .contact-overlay-dialog {
     display: grid;
     grid-template-columns: 1fr;
@@ -725,6 +740,14 @@ main {
   .overlay-avatar {
     justify-content: center;
     margin-top: -80px;
+  }
+
+  .overlay-form {
+    width: min(360px, 100%);
+  }
+
+  .overlay-actions {
+    justify-content: center;
   }
 
   .overlay-logo {
@@ -898,11 +921,58 @@ main {
   .list-add-button span:not(.button-icon) {
     display: none;
   }
+
+  .contact-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .contact-overlay-dialog {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border-radius: 0;
+  }
 }
 
 @media (max-width: 480px) {
-  .contact-overlay {
-    padding: 0;
+  .overlay-panel-top {
+    min-height: 170px;
+    padding: 28px 20px;
+  }
+
+  .overlay-panel-bottom {
+    padding: 20px 18px 24px;
+  }
+
+  .overlay-avatar {
+    margin-top: -52px;
+  }
+
+  .avatar-circle {
+    width: 88px;
+    height: 88px;
+  }
+
+  .overlay-form {
+    gap: 10px;
+  }
+
+  .field-group {
+    gap: 2px;
+  }
+
+  .field-error,
+  .field-counter {
+    font-size: 11px;
+  }
+
+  .overlay-actions {
+    margin-top: 6px;
+  }
+
+  .overlay-btn {
+    padding: 10px 14px;
   }
 
   .overlay-logo {
@@ -921,6 +991,60 @@ main {
     width: 100%;
     height: 100%;
     border-radius: 0;
+    max-height: none;
   }
 
+}
+
+@media (max-width: 1024px) and (max-height: 600px) {
+  .contact-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .contact-overlay-dialog {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border-radius: 0;
+  }
+
+  .overlay-panel-top {
+    min-height: 170px;
+    padding: 28px 24px;
+  }
+
+  .overlay-panel-bottom {
+    padding: 22px 24px 26px;
+  }
+
+  .overlay-avatar {
+    margin-top: -52px;
+  }
+
+  .avatar-circle {
+    width: 88px;
+    height: 88px;
+  }
+
+  .overlay-form {
+    gap: 10px;
+  }
+
+  .overlay-actions {
+    margin-top: 6px;
+  }
+
+  .overlay-btn {
+    padding: 10px 14px;
+  }
+
+  .field-group {
+    gap: 2px;
+  }
+
+  .field-error,
+  .field-counter {
+    font-size: 11px;
+  }
 }
