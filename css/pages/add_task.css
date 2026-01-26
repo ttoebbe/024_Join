@@ -294,6 +294,9 @@
   display: grid;
   gap: 8px;
   margin-top: 8px;
+  max-height: 132px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .subtask-item {
@@ -306,6 +309,12 @@
   background: #fff;
   font-size: 16px;
   color: #2a3647;
+}
+
+.subtask-text {
+  outline: none;
+  flex: 1;
+  margin-right: 8px;
 }
 
 .subtask-remove {

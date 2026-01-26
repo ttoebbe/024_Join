@@ -28,14 +28,29 @@ function wireSubtaskList(state) {
   state.subtaskList.addEventListener("click", (e) => {
     handleSubtaskListClick(e, state);
   });
+  state.subtaskList.addEventListener("keydown", (e) => {
+    handleSubtaskEditKeydown(e, state);
+  });
+  state.subtaskList.addEventListener("focusin", (e) => {
+    handleSubtaskFocus(e);
+  });
+  state.subtaskList.addEventListener(
+    "blur",
+    (e) => handleSubtaskBlur(e, state),
+    true
+  );
 }
 
 function handleSubtaskListClick(e, state) {
+  if (handleSubtaskRemoveClick(e, state)) return;
+}
+function handleSubtaskRemoveClick(e, state) {
   const removeBtn = e.target.closest(".subtask-remove");
-  if (!removeBtn) return;
+  if (!removeBtn) return false;
   const index = Number(removeBtn.dataset.index);
-  if (Number.isNaN(index)) return;
+  if (Number.isNaN(index)) return true;
   removeSubtask(state, index);
+  return true;
 }
 
 /**
@@ -94,6 +109,9 @@ function addTaskBuildSubtaskRow(state, subtask, index) {
  */
 function addTaskBuildSubtaskText(subtask) {
   const text = document.createElement("span");
+  text.className = "subtask-text";
+  text.contentEditable = "true";
+  text.spellcheck = false;
   text.textContent = subtask.title || "Subtask";
   return text;
 }
@@ -120,6 +138,46 @@ function addTaskBuildRemoveSubtaskButton(state, index) {
 function removeSubtask(state, index) {
   state.selectedSubtasks.splice(index, 1);
   renderSubtasks(state);
+}
+
+function handleSubtaskEditKeydown(e) {
+  if (!e.target?.classList?.contains("subtask-text")) return;
+  if (e.key === "Enter") {
+    e.preventDefault();
+    e.target.blur();
+  }
+  if (e.key === "Escape") revertSubtaskEdit(e.target);
+}
+
+function handleSubtaskFocus(e) {
+  if (!e.target?.classList?.contains("subtask-text")) return;
+  e.target.dataset.original = e.target.textContent || "";
+}
+
+function handleSubtaskBlur(e, state) {
+  if (!e.target?.classList?.contains("subtask-text")) return;
+  const index = getSubtaskIndexFromTarget(e.target);
+  if (index === null) return;
+  updateSubtaskTitle(state, index, e.target);
+}
+
+function getSubtaskIndexFromTarget(target) {
+  const row = target.closest(".subtask-item");
+  if (!row) return null;
+  const index = Number(row.dataset.index);
+  return Number.isNaN(index) ? null : index;
+}
+
+function updateSubtaskTitle(state, index, target) {
+  const value = (target.textContent || "").trim() || "Subtask";
+  state.selectedSubtasks[index].title = value;
+  target.textContent = value;
+}
+
+function revertSubtaskEdit(target) {
+  const original = target.dataset.original || target.textContent || "";
+  target.textContent = original;
+  target.blur();
 }
 
 /**
