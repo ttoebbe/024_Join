@@ -310,300 +310,299 @@ body {
   }
 }
 
-/* @media (max-width: 1500px) and (max-height: 800px) {
-  .summary-left {
+  @media (max-width: 800px) {
+
+    .greeting {
+      display: none;
+    }
+
+    .content {
+      max-width: none;
+      overflow-x: hidden;
+      padding-bottom: 92px;
+    }
+
+    .summary-body {
+      padding: 5px 16px 28px;
+      gap: 18px;
+      flex-direction: column;
+    }
+
+    .summary-left {
+      max-height: none;
+      overflow: visible;
+      padding-right: 0;
+      padding-bottom: 0;
+    }
+
+    .summary-headline {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1px;
+      margin-bottom: auto;
+    }
+
+    .summary-line {
+      width: 64px;
+      height: 3px;
+    }
+
+    .summary-h1 {
+      font-size: 48px;
+    }
+
+    .summary-sub {
+      font-size: 18px;
+    }
+
+    #greetingText {
+      font-size: 32px;
+    }
+
+    #userName {
+      font-size: 44px;
+    }
+
+    .summary-kpis {
+      width: 100%;
+      max-width: 560px;
+      gap: 16px;
+      padding-top: 0px;
+    }
+
+
+    .kpi-top {
+      height: 140px;
+      padding: 18px 18px;
+      border-radius: 26px;
+      gap: 14px;
+    }
+
+    .kpi-wide {
+      height: 140px;
+      padding: 18px 18px;
+      border-radius: 26px;
+      gap: 16px;
+    }
+
+    .kpi-bottom {
+      height: 124px;
+      padding: 16px 12px;
+      border-radius: 26px;
+    }
+
+    .kpi-icon {
+      width: 56px;
+      height: 56px;
+    }
+
+    .kpi-icon img {
+      width: 56px;
+      height: 56px;
+    }
+
+    .kpi-icon--stack {
+      width: 56px;
+      height: 56px;
+    }
+
+    .kpi-number {
+      font-size: 54px;
+    }
+
+    .kpi-label {
+      font-size: 16px;
+    }
+
+    .kpi-date {
+      font-size: 17px;
+    }
+
+    .kpi-sub {
+      font-size: 16px;
+    }
 
   }
-} */
 
+  @media (max-width: 600px) {
+    .summary-body {
+      padding: 5px 10px;
+      gap: 14px;
+    }
 
+    .summary-h1 {
+      font-size: 44px;
+    }
 
-@media (max-width: 800px) {
+    .summary-sub {
+      font-size: 16px;
+    }
 
-  .greeting {
-    display: none;
+    .summary-kpis {
+      gap: 12px;
+      padding-top: 18px;
+    }
+
+    .kpi-top {
+      height: 128px;
+      padding: 16px 14px;
+      border-radius: 24px;
+      gap: 12px;
+    }
+
+    .kpi-wide {
+      height: 128px;
+      padding: 16px 14px;
+      border-radius: 24px;
+      gap: 12px;
+    }
+
+    .kpi-bottom {
+      height: 112px;
+      padding: 14px 10px;
+      border-radius: 24px;
+    }
+
+    .kpi-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .kpi-icon img {
+      width: 48px;
+      height: 48px;
+    }
+
+    .kpi-icon--stack {
+      width: 48px;
+      height: 48px;
+    }
+
+    .kpi-number {
+      font-size: 48px;
+    }
+
+    .kpi-label,
+    .kpi-date,
+    .kpi-sub {
+      font-size: 15px;
+    }
+
+    .kpi-divider {
+      height: 56px;
+    }
   }
 
-  .content {
-    max-width: none;
-    overflow-x: hidden;
-    padding-bottom: 92px;
+
+  @media (max-width: 480px) {
+
+    .summary-body {
+      padding: 4px 10px;
+    }
+
+
+    .summary-h1 {
+      font-size: 40px;
+    }
+
+    .summary-sub {
+      font-size: 16px;
+    }
+
+
+    .summary-kpis {
+      gap: 12px;
+      padding-top: 0px;
+    }
+
+
+    .kpi-top {
+      height: 112px;
+      padding: 14px 12px;
+      gap: 10px;
+      border-radius: 22px;
+    }
+
+    .kpi-number {
+      font-size: 38px;
+    }
+
+    .greeting-overlay__text {
+      font-size: 28px;
+    }
+
+    .greeting-overlay__name {
+      font-size: 34px;
+    }
+
+    .kpi-label {
+      font-size: 16px;
+      line-height: 1.1;
+    }
+
+    .kpi-icon {
+      width: 42px;
+      height: 42px;
+    }
+
+    .kpi-icon img {
+      width: 42px;
+      height: 42px;
+    }
+
+    .kpi-icon--stack {
+      width: 42px;
+      height: 42px;
+    }
+
+
+    .kpi-wide {
+      height: auto;
+      padding: 14px 12px;
+      border-radius: 22px;
+      gap: 12px;
+    }
+
+    .kpi-divider {
+      height: 44px;
+    }
+
+    .kpi-wide-right {
+      min-width: 0;
+    }
+
+    .kpi-date {
+      font-size: 16px;
+    }
+
+    .kpi-sub {
+      font-size: 16px;
+    }
+
+
+    .kpi-bottom {
+      height: 104px;
+      padding: 12px 8px;
+      border-radius: 22px;
+    }
+
+    .kpi-bottom .kpi-number {
+      font-size: 34px;
+    }
+
+    .kpi-bottom .kpi-label {
+      font-size: 16px;
+      line-height: 1.1;
+    }
+
+    .content {
+      padding-bottom: 92px;
+    }
   }
 
-  .summary-body {
-    padding: 5px 16px 28px;
-    gap: 18px;
-    flex-direction: column;
-  }
-
-  .summary-left {
-    max-height: none;
-    overflow: visible;
-    padding-right: 0;
-    padding-bottom: 0;
-  }
-
-  .summary-headline {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1px;
-    margin-bottom: auto;
-  }
-
-  .summary-line {
-    width: 64px;
-    height: 3px;
-  }
-
-  .summary-h1 {
-    font-size: 48px;
-  }
-
-  .summary-sub {
-    font-size: 18px;
-  }
-
-  #greetingText {
-    font-size: 32px;
-  }
-
-  #userName {
-    font-size: 44px;
-  }
-
+  @media (max-width: 321px) and (max-height: 665px) {
   .summary-kpis {
-    width: 100%;
-    max-width: 560px;
-    gap: 16px;
-    padding-top: 0px;
-  }
-
-
-  .kpi-top {
-    height: 140px;
-    padding: 18px 18px;
-    border-radius: 26px;
-    gap: 14px;
-  }
-
-  .kpi-wide {
-    height: 140px;
-    padding: 18px 18px;
-    border-radius: 26px;
-    gap: 16px;
-  }
-
-  .kpi-bottom {
-    height: 124px;
-    padding: 16px 12px;
-    border-radius: 26px;
-  }
-
-  .kpi-icon {
-    width: 56px;
-    height: 56px;
-  }
-
-  .kpi-icon img {
-    width: 56px;
-    height: 56px;
-  }
-
-  .kpi-icon--stack {
-    width: 56px;
-    height: 56px;
-  }
-
-  .kpi-number {
-    font-size: 54px;
-  }
-
-  .kpi-label {
-    font-size: 16px;
-  }
-
-  .kpi-date {
-    font-size: 17px;
-  }
-
-  .kpi-sub {
-    font-size: 16px;
-  }
-
-}
-
-@media (max-width: 600px) {
-  .summary-body {
-    padding: 5px 10px;
-    gap: 14px;
-  }
-
-  .summary-h1 {
-    font-size: 44px;
-  }
-
-  .summary-sub {
-    font-size: 16px;
-  }
-
-  .summary-kpis {
-    gap: 12px;
-    padding-top: 18px;
-  }
-
-  .kpi-top {
-    height: 128px;
-    padding: 16px 14px;
-    border-radius: 24px;
-    gap: 12px;
-  }
-
-  .kpi-wide {
-    height: 128px;
-    padding: 16px 14px;
-    border-radius: 24px;
-    gap: 12px;
-  }
-
-  .kpi-bottom {
-    height: 112px;
-    padding: 14px 10px;
-    border-radius: 24px;
-  }
-
-  .kpi-icon {
-    width: 48px;
-    height: 48px;
-  }
-
-  .kpi-icon img {
-    width: 48px;
-    height: 48px;
-  }
-
-  .kpi-icon--stack {
-    width: 48px;
-    height: 48px;
-  }
-
-  .kpi-number {
-    font-size: 48px;
-  }
-
-  .kpi-label,
-  .kpi-date,
-  .kpi-sub {
-    font-size: 15px;
-  }
-
-  .kpi-divider {
-    height: 56px;
-  }
-}
-
-
-@media (max-width: 480px) {
-
-  .summary-body {
-    padding: 4px 10px;
-  }
-
-
-  .summary-h1 {
-    font-size: 40px;
-  }
-
-  .summary-sub {
-    font-size: 16px;
-  }
-
-
-  .summary-kpis {
-    gap: 12px;
-    padding-top: 0px;
-  }
-
-
-  .kpi-top {
-    height: 112px;
-    padding: 14px 12px;
-    gap: 10px;
-    border-radius: 22px;
-  }
-
-  .kpi-number {
-    font-size: 38px;
-  }
-
-  .greeting-overlay__text {
-    font-size: 28px;
-  }
-
-  .greeting-overlay__name {
-    font-size: 34px;
-  }
-
-  .kpi-label {
-    font-size: 16px;
-    line-height: 1.1;
-  }
-
-  .kpi-icon {
-    width: 42px;
-    height: 42px;
-  }
-
-  .kpi-icon img {
-    width: 42px;
-    height: 42px;
-  }
-
-  .kpi-icon--stack {
-    width: 42px;
-    height: 42px;
-  }
-
-
-  .kpi-wide {
-    height: auto;
-    padding: 14px 12px;
-    border-radius: 22px;
-    gap: 12px;
-  }
-
-  .kpi-divider {
-    height: 44px;
-  }
-
-  .kpi-wide-right {
-    min-width: 0;
-  }
-
-  .kpi-date {
-    font-size: 16px;
-  }
-
-  .kpi-sub {
-    font-size: 16px;
-  }
-
-
-  .kpi-bottom {
-    height: 104px;
-    padding: 12px 8px;
-    border-radius: 22px;
-  }
-
-  .kpi-bottom .kpi-number {
-    font-size: 34px;
-  }
-
-  .kpi-bottom .kpi-label {
-    font-size: 16px;
-    line-height: 1.1;
-  }
-
-  .content {
-    padding-bottom: 92px;
+    overflow-y: scroll !important;
+    max-height: 280px !important;
   }
 }
