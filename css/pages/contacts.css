@@ -274,14 +274,14 @@
 .field-error {
   color: #ff3d00;
   font-size: 12px;
-  margin: 4px 0 6px;
+  margin: 0;
   min-height: 14px;
 }
 
 .field-counter {
   color: #8a8a8a;
   font-size: 12px;
-  margin-top: 2px;
+  margin-top: 0;
   text-align: right;
 }
 
@@ -558,6 +558,12 @@ main {
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .overlay-form-row {
