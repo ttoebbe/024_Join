@@ -128,6 +128,9 @@ function registerOverlayOpenButton(elements) {
   elements.openButton?.addEventListener("click", () => {
     setOverlayMode(elements.form, false);
     setOverlayAvatarDefault();
+    elements.form?.reset();
+    clearContactFormErrors(elements);
+    updateContactCounters(elements);
     openOverlay(elements.overlay);
   });
 }
