@@ -44,6 +44,9 @@ function wireClearButton(state, resets) {
 function clearAddTaskForm(state, resets) {
   resetForm(state);
   updateAddTaskCounters(state);
+  clearTitleLimitState(state);
+  clearDescriptionLimitState();
+  clearSubtaskLimitState();
   resetStatusPreset();
   resetSelectionState(state);
   clearCategoryInput(state);
@@ -213,6 +216,25 @@ function showFieldError(errorId, message, inputEl) {
 
 function clearFieldError(errorId, inputEl) {
   showFieldError(errorId, "", inputEl);
+}
+
+function clearTitleLimitState(state) {
+  clearFieldError("taskTitle-error", state.titleInput);
+  clearInputError(state.titleInput);
+}
+
+function clearDescriptionLimitState() {
+  const desc = document.getElementById("taskDescription");
+  clearFieldError("taskDescription-error", desc);
+  clearInputError(desc);
+}
+
+function clearSubtaskLimitState() {
+  const input = document.getElementById("subtaskInput");
+  const errorEl = document.getElementById("subtask-error");
+  if (errorEl) errorEl.classList.remove("is-visible");
+  if (errorEl) errorEl.textContent = "";
+  clearInputError(input);
 }
 /**
  * @param {*} state
