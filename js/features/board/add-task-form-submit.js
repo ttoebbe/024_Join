@@ -209,7 +209,7 @@ function showFieldError(errorId, message, inputEl) {
   const errorEl = document.getElementById(errorId);
   if (!errorEl) return;
   errorEl.textContent = message || "";
-  errorEl.style.display = message ? "block" : "none";
+  errorEl.classList.toggle("is-visible", Boolean(message));
   if (inputEl) inputEl.classList.toggle("input-error", Boolean(message));
 }
 

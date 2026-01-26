@@ -14,6 +14,7 @@ function clearContactFormErrors({ nameInput, emailInput, phoneInput }) {
   clearContactInputError(phoneInput);
   clearContactFieldError("contact-name-error", nameInput);
   clearContactFieldError("contact-email-error", emailInput);
+  clearContactFieldError("contact-phone-error", phoneInput);
 }
 /**
  * Sets contact form message text.
@@ -67,6 +68,7 @@ function addContactInputError(input) {
 
 const CONTACT_NAME_MAX = 50;
 const CONTACT_EMAIL_MAX = 50;
+const CONTACT_PHONE_MAX = 30;
 
 function validateContactLength(input, max, errorId, label) {
   const value = input?.value || "";
@@ -79,7 +81,7 @@ function setContactFieldError(errorId, message, input) {
   const errorEl = document.getElementById(errorId);
   if (!errorEl) return;
   errorEl.textContent = message || "";
-  errorEl.style.display = message ? "block" : "none";
+  errorEl.classList.toggle("is-visible", Boolean(message));
   if (input) input.classList.toggle("input-error", Boolean(message));
 }
 

@@ -70,6 +70,9 @@ function registerOverlayInputHandlers(elements) {
   elements.emailInput?.addEventListener("input", () => {
     validateContactLength(elements.emailInput, CONTACT_EMAIL_MAX, "contact-email-error", "Email");
   });
+  elements.phoneInput?.addEventListener("input", () => {
+    validateContactLength(elements.phoneInput, CONTACT_PHONE_MAX, "contact-phone-error", "Phone");
+  });
   wireContactCounters(elements);
 }
 
@@ -84,6 +87,8 @@ function updateContactCounters(elements) {
   updateContactFieldCounter(elements.nameInput, "contact-name-counter", CONTACT_NAME_MAX);
   enforceContactMax(elements.emailInput, CONTACT_EMAIL_MAX);
   updateContactFieldCounter(elements.emailInput, "contact-email-counter", CONTACT_EMAIL_MAX);
+  enforceContactMax(elements.phoneInput, CONTACT_PHONE_MAX);
+  updateContactFieldCounter(elements.phoneInput, "contact-phone-counter", CONTACT_PHONE_MAX);
 }
 
 function updateContactFieldCounter(input, counterId, max) {

@@ -276,6 +276,11 @@
   font-size: 12px;
   margin: 0;
   min-height: 14px;
+  visibility: hidden;
+}
+
+.field-error.is-visible {
+  visibility: visible;
 }
 
 .field-counter {
