@@ -48,6 +48,7 @@ function clearAddTaskForm(state, resets) {
   clearDescriptionLimitState();
   clearSubtaskLimitState();
   resetStatusPreset();
+  resetPrioSelection(state);
   resetSelectionState(state);
   clearCategoryInput(state);
   resets.resetCategoryUi?.();
@@ -55,6 +56,11 @@ function clearAddTaskForm(state, resets) {
   renderSubtasks(state);
   clearAddTaskErrors(state);
   updateCreateButtonState(state);
+}
+
+function resetPrioSelection(state) {
+  state.selectedPrio = "medium";
+  applyPrioButtonStyles(state);
 }
 /**
  * @param {*} state

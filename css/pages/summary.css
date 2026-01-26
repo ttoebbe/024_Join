@@ -59,6 +59,11 @@ body {
   align-items: center;
   gap: 24px;
   margin-bottom: 32px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--color-bg-primary);
+  padding: 12px 0;
 }
 
 .summary-h1 {
@@ -278,6 +283,7 @@ body {
   object-fit: contain;
 }
 
+
 @media (max-width: 930px) {
   .summary-body {
     flex-direction: column;
@@ -294,7 +300,7 @@ body {
   }
 }
 
-@media (max-height: 840px) {
+@media (max-height: 700px) {
   .summary-left {
     max-height: 100vh;
     overflow-y: auto;
@@ -307,10 +313,6 @@ body {
 
 @media (max-width: 800px) {
 
-  .summary-headline {
-    display: none;
-  }
-
   .greeting {
     display: none;
   }
@@ -318,12 +320,40 @@ body {
   .content {
     max-width: none;
     overflow-x: hidden;
+    padding-bottom: 92px;
   }
 
   .summary-body {
-    padding: 28px 20px;
+    padding: 48px 16px 28px;
     gap: 18px;
     flex-direction: column;
+  }
+
+  .summary-left {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+
+  .summary-headline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+    margin-bottom: auto;
+  }
+
+  .summary-line {
+    width: 64px;
+    height: 3px;
+  }
+
+  .summary-h1 {
+    font-size: 48px;
+  }
+
+  .summary-sub {
+    font-size: 18px;
   }
 
   #greetingText {
@@ -395,11 +425,80 @@ body {
 
 }
 
+@media (max-width: 600px) {
+  .summary-body {
+    padding: 5px 10px;
+    gap: 14px;
+  }
+
+  .summary-h1 {
+    font-size: 44px;
+  }
+
+  .summary-sub {
+    font-size: 16px;
+  }
+
+  .summary-kpis {
+    gap: 12px;
+    padding-top: 18px;
+  }
+
+  .kpi-top {
+    height: 128px;
+    padding: 16px 14px;
+    border-radius: 24px;
+    gap: 12px;
+  }
+
+  .kpi-wide {
+    height: 128px;
+    padding: 16px 14px;
+    border-radius: 24px;
+    gap: 12px;
+  }
+
+  .kpi-bottom {
+    height: 112px;
+    padding: 14px 10px;
+    border-radius: 24px;
+  }
+
+  .kpi-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .kpi-icon img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .kpi-icon--stack {
+    width: 48px;
+    height: 48px;
+  }
+
+  .kpi-number {
+    font-size: 48px;
+  }
+
+  .kpi-label,
+  .kpi-date,
+  .kpi-sub {
+    font-size: 15px;
+  }
+
+  .kpi-divider {
+    height: 56px;
+  }
+}
+
 
 @media (max-width: 480px) {
 
   .summary-body {
-    padding: 18px 12px;
+    padding: 4px 10px;
   }
 
 
