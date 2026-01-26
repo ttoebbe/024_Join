@@ -261,14 +261,32 @@ function resetAssignedDropdown(parts) {
   if (parts.toggle) parts.toggle.setAttribute("aria-expanded", "false");
 }
 
+const MAX_ASSIGNED_AVATARS = 3;
+
 function renderAssignedAvatars(state, parts) {
   if (!parts.avatarsEl) return;
   parts.avatarsEl.innerHTML = "";
-  state.selectedAssigned.forEach((person) => {
+  const selected = state.selectedAssigned || [];
+  const visible = selected.slice(0, MAX_ASSIGNED_AVATARS);
+  visible.forEach((person) => {
     const avatar = buildAssignedAvatar(person, "assigned-avatar assigned-avatar--sm");
     parts.avatarsEl.appendChild(avatar);
   });
-  parts.avatarsEl.hidden = state.selectedAssigned.length === 0;
+  if (selected.length > MAX_ASSIGNED_AVATARS) {
+    const extra = selected.length - MAX_ASSIGNED_AVATARS;
+    const more = buildAssignedMoreBadge(extra);
+    parts.avatarsEl.appendChild(more);
+  }
+  parts.avatarsEl.hidden = selected.length === 0;
+}
+
+function buildAssignedMoreBadge(count) {
+  const badge = document.createElement("span");
+  badge.className = "assigned-avatar assigned-avatar--sm assigned-avatar--more";
+  badge.textContent = `+${count}`;
+  badge.setAttribute("aria-label", `${count} more assigned`);
+  badge.title = `${count} more assigned`;
+  return badge;
 }
 
 function clearAssignedAvatars(parts) {

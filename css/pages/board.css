@@ -842,6 +842,11 @@
   font-size: 10px;
 }
 
+.assigned-avatar--more {
+  background: var(--color-text-muted);
+  color: #fff;
+}
+
 .assigned-check {
   width: 18px;
   height: 18px;
