@@ -214,6 +214,38 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+}
+
+.assigned-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.assigned-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.assigned-selected {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 8px 0 4px;
+}
+
+.assigned-avatar--sm {
+  width: 24px;
+  height: 24px;
+  font-size: 10px;
 }
 
 .assigned-check {

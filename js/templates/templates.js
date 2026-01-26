@@ -258,6 +258,7 @@ function getAddTaskAssignedBlock() {
       </button>
       <div class="dropdown-menu" data-assigned-menu hidden></div>
     </div>
+    <div class="assigned-selected" data-assigned-avatars hidden></div>
   `;
 }
 /**

@@ -21,7 +21,14 @@ function getAssignedDropdownParts(dropdown) {
   const toggle = dropdown.querySelector("[data-assigned-toggle]");
   const menu = dropdown.querySelector("[data-assigned-menu]");
   const valueEl = dropdown.querySelector("[data-assigned-value]");
-  return { dropdown, toggle, menu, valueEl };
+  const avatarsEl = getAssignedAvatarsElement(dropdown);
+  return { dropdown, toggle, menu, valueEl, avatarsEl };
+}
+
+function getAssignedAvatarsElement(dropdown) {
+  const parent = dropdown.parentElement;
+  if (!parent) return null;
+  return parent.querySelector("[data-assigned-avatars]");
 }
 
 /**
@@ -105,10 +112,25 @@ function buildAssignedItem(contact) {
  */
 function buildAssignedLabel(contact) {
   const label = document.createElement("span");
-  label.textContent = contact.name || "";
+  label.className = "assigned-label";
+  label.appendChild(buildAssignedAvatar(contact));
+  label.appendChild(buildAssignedName(contact));
   return label;
 }
 
+function buildAssignedAvatar(contact, className = "assigned-avatar") {
+  const avatar = document.createElement("span");
+  avatar.className = className;
+  avatar.textContent = getInitials(contact?.name || "");
+  avatar.style.background = contact?.color || "#2a3647";
+  return avatar;
+}
+
+function buildAssignedName(contact) {
+  const name = document.createElement("span");
+  name.textContent = contact.name || "";
+  return name;
+}
 /**
  * @returns {*}
  */
@@ -206,6 +228,7 @@ function updateAssignedLabel(state, parts) {
   const more = names.length > 2 ? ` +${names.length - 2}` : "";
   parts.valueEl.textContent = `${shown}${more}`;
   parts.dropdown.classList.add("has-value");
+  renderAssignedAvatars(state, parts);
 }
 
 function collectAssignedNames(list) {
@@ -223,6 +246,7 @@ function collectAssignedNames(list) {
 function resetAssignedLabel(parts) {
   parts.valueEl.textContent = "Select contacts to assign";
   parts.dropdown.classList.remove("has-value");
+  clearAssignedAvatars(parts);
 }
 
 /**
@@ -234,6 +258,22 @@ function resetAssignedDropdown(parts) {
   parts.dropdown.classList.remove("is-open");
   if (parts.menu) parts.menu.hidden = true;
   if (parts.toggle) parts.toggle.setAttribute("aria-expanded", "false");
+}
+
+function renderAssignedAvatars(state, parts) {
+  if (!parts.avatarsEl) return;
+  parts.avatarsEl.innerHTML = "";
+  state.selectedAssigned.forEach((person) => {
+    const avatar = buildAssignedAvatar(person, "assigned-avatar assigned-avatar--sm");
+    parts.avatarsEl.appendChild(avatar);
+  });
+  parts.avatarsEl.hidden = state.selectedAssigned.length === 0;
+}
+
+function clearAssignedAvatars(parts) {
+  if (!parts.avatarsEl) return;
+  parts.avatarsEl.innerHTML = "";
+  parts.avatarsEl.hidden = true;
 }
 
 /**
