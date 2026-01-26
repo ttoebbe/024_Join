@@ -442,6 +442,7 @@
   color: #fff;
   background-color: var(--contacts-accent);
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .logo-bar {
