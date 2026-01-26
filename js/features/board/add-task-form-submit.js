@@ -355,8 +355,10 @@ function wireAddTaskCounters(state) {
 }
 
 function updateAddTaskCounters(state) {
+  enforceMaxLength(state.titleInput, TITLE_MAX_LENGTH);
   updateFieldCounter(state.titleInput, "taskTitle-counter", TITLE_MAX_LENGTH);
   const desc = document.getElementById("taskDescription");
+  enforceMaxLength(desc, DESCRIPTION_MAX_LENGTH);
   updateFieldCounter(desc, "taskDescription-counter", DESCRIPTION_MAX_LENGTH);
 }
 
@@ -365,6 +367,13 @@ function updateFieldCounter(input, counterId, max) {
   if (!counter) return;
   const length = (input?.value || "").length;
   counter.textContent = `${length}/${max}`;
+}
+
+function enforceMaxLength(input, max) {
+  if (!input) return;
+  const value = String(input.value || "");
+  if (value.length <= max) return;
+  input.value = value.slice(0, max);
 }
 /**
  * @param {*} state

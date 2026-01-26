@@ -80,7 +80,9 @@ function wireContactCounters(elements) {
 }
 
 function updateContactCounters(elements) {
+  enforceContactMax(elements.nameInput, CONTACT_NAME_MAX);
   updateContactFieldCounter(elements.nameInput, "contact-name-counter", CONTACT_NAME_MAX);
+  enforceContactMax(elements.emailInput, CONTACT_EMAIL_MAX);
   updateContactFieldCounter(elements.emailInput, "contact-email-counter", CONTACT_EMAIL_MAX);
 }
 
@@ -89,6 +91,13 @@ function updateContactFieldCounter(input, counterId, max) {
   if (!counter) return;
   const length = (input?.value || "").length;
   counter.textContent = `${length}/${max}`;
+}
+
+function enforceContactMax(input, max) {
+  if (!input) return;
+  const value = String(input.value || "");
+  if (value.length <= max) return;
+  input.value = value.slice(0, max);
 }
 
 
