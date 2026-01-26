@@ -183,6 +183,7 @@ function redirectToLogin() {
   window.location.href = ROUTES.LOGIN;
 }
 
+
 function runMobileGreeting(user) {
   if (!shouldShowMobileGreeting()) return;
   const data = getGreetingData(user);
