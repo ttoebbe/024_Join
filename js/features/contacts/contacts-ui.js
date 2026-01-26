@@ -155,8 +155,13 @@ function getDetailActionButtons(container) {
  * @param {*} contactId
  * @returns {*}
  */
-function confirmDeleteContact(contactId) {
-  const confirmed = window.confirm("Do you really want to delete this contact?");
+async function confirmDeleteContact(contactId) {
+  const confirmed = await showConfirmOverlay({
+    title: "Delete contact?",
+    message: "Do you really want to delete this contact?",
+    confirmText: "Delete",
+    cancelText: "Cancel",
+  });
   if (!confirmed) return;
   deleteContact(contactId);
 }

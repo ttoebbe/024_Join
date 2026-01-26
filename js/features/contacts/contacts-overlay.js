@@ -113,7 +113,12 @@ function registerOverlayDeleteButton(elements, listElement) {
   elements.deleteButton?.addEventListener("click", async () => {
     const currentId = getCurrentEditId();
     if (!currentId) return;
-    const confirmed = window.confirm("Do you really want to delete this contact?");
+    const confirmed = await showConfirmOverlay({
+      title: "Delete contact?",
+      message: "Do you really want to delete this contact?",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
     if (!confirmed) return;
     await deleteContact(currentId);
     closeOverlay(elements.overlay, elements.form);

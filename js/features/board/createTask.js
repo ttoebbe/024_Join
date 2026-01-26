@@ -264,7 +264,12 @@ function createDeleteButton(task) {
   del.className = "task-detail-btn";
   del.textContent = "Delete";
   del.addEventListener("click", async () => {
-    const ok = confirm("Delete this task?");
+    const ok = await showConfirmOverlay({
+      title: "Delete task?",
+      message: "Do you really want to delete this task?",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
     if (!ok) return;
     await deleteTaskAndRefresh(task?.id);
   });
