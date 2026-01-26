@@ -25,6 +25,7 @@ function wireSubtaskInput(state) {
   });
   state.subtaskInput.addEventListener("input", () => {
     enforceSubtaskMax(state);
+    updateSubtaskLimitState(state);
     updateSubtaskCounter(state);
   });
 }
@@ -150,6 +151,7 @@ const SUBTASK_MAX_LENGTH = 30;
 
 function wireSubtaskCounter(state) {
   enforceSubtaskMax(state);
+  updateSubtaskLimitState(state);
   updateSubtaskCounter(state);
 }
 
@@ -166,6 +168,23 @@ function enforceSubtaskMax(state) {
   const value = String(input.value || "");
   if (value.length <= SUBTASK_MAX_LENGTH) return;
   input.value = value.slice(0, SUBTASK_MAX_LENGTH);
+}
+
+function updateSubtaskLimitState(state) {
+  const input = state.subtaskInput;
+  const value = String(input?.value || "").trim();
+  if (!value) return setSubtaskError("");
+  if (value.length >= SUBTASK_MAX_LENGTH) return setSubtaskError("Subtask is too long (max 30 characters).");
+  setSubtaskError("");
+}
+
+function setSubtaskError(message) {
+  const errorEl = document.getElementById("subtask-error");
+  if (!errorEl) return;
+  errorEl.textContent = message || "";
+  errorEl.classList.toggle("is-visible", Boolean(message));
+  const input = document.getElementById("subtaskInput");
+  if (input) input.classList.toggle("input-error", Boolean(message));
 }
 
 function handleSubtaskEditKeydown(e) {

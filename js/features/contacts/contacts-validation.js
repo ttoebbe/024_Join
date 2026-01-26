@@ -72,8 +72,8 @@ function applyContactFieldErrors(inputs, errors) {
   }
 }
 
-const CONTACT_NAME_MAX = 50;
-const CONTACT_EMAIL_MAX = 50;
+const CONTACT_NAME_MAX = 30;
+const CONTACT_EMAIL_MAX = 30;
 const CONTACT_PHONE_MIN = 6;
 const CONTACT_PHONE_MAX = 15;
 

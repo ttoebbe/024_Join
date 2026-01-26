@@ -924,6 +924,18 @@
   border: 1px solid #ff3d00 !important;
 }
 
+.field-error {
+  color: #ff3d00;
+  font-size: 12px;
+  margin-top: 4px;
+  min-height: 14px;
+  visibility: hidden;
+}
+
+.field-error.is-visible {
+  visibility: visible;
+}
+
 .field-counter {
   color: #8a8a8a;
   font-size: 12px;

@@ -220,9 +220,10 @@ function getAddTaskLeftFields() {
       <label>Title<span class="req">*</span></label>
       <input id="taskTitle" type="text" placeholder="Enter a title" />
       <div class="field-error" id="taskTitle-error"></div>
-      <div class="field-counter" id="taskTitle-counter">0/60</div>
+      <div class="field-counter" id="taskTitle-counter">0/40</div>
       <label>Description</label>
       <textarea id="taskDescription" placeholder="Enter a Description"></textarea>
+      <div class="field-error" id="taskDescription-error"></div>
       <div class="field-counter" id="taskDescription-counter">0/200</div>
     <label>Due date<span class="req">*</span></label>
     <input id="taskDueDate" type="date" />
@@ -290,6 +291,7 @@ function getAddTaskSubtaskBlock() {
       <input id="subtaskInput" type="text" placeholder="Add new subtask" />
       <button type="button" id="subtaskAddBtn">+</button>
     </div>
+    <div class="field-error" id="subtask-error"></div>
     <div class="field-counter" id="subtask-counter">0/30</div>
     <div id="subtaskList"></div>
   `;

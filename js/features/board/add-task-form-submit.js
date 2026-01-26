@@ -177,10 +177,8 @@ function addInputError(element) {
  */
 function clearAddTaskErrors(state) {
   setAddTaskFormMsg(state, "");
-  clearInputError(state.titleInput);
   clearInputError(state.dueDateInput);
   clearInputError(state.categoryToggle);
-  clearFieldError("taskTitle-error", state.titleInput);
 }
 /**
  * @param {*} element
@@ -190,7 +188,7 @@ function clearInputError(element) {
   if (element) element.classList.remove("input-error");
 }
 
-const TITLE_MAX_LENGTH = 60;
+const TITLE_MAX_LENGTH = 40;
 const DESCRIPTION_MAX_LENGTH = 200;
 
 function isTitleAtLimit(title) {
@@ -351,11 +349,13 @@ function wireAddTaskCounters(state) {
   updateAddTaskCounters(state);
   state.titleInput?.addEventListener("input", () => updateAddTaskCounters(state));
   const desc = document.getElementById("taskDescription");
+  desc?.addEventListener("input", () => validateDescriptionLength(state));
   desc?.addEventListener("input", () => updateAddTaskCounters(state));
 }
 
 function updateAddTaskCounters(state) {
   enforceMaxLength(state.titleInput, TITLE_MAX_LENGTH);
+  validateTitleLength(state);
   updateFieldCounter(state.titleInput, "taskTitle-counter", TITLE_MAX_LENGTH);
   const desc = document.getElementById("taskDescription");
   enforceMaxLength(desc, DESCRIPTION_MAX_LENGTH);
@@ -374,6 +374,26 @@ function enforceMaxLength(input, max) {
   const value = String(input.value || "");
   if (value.length <= max) return;
   input.value = value.slice(0, max);
+}
+
+function validateDescriptionLength(state) {
+  const desc = document.getElementById("taskDescription");
+  const value = desc?.value.trim() || "";
+  if (!value) return clearFieldError("taskDescription-error", desc);
+  if (isDescriptionAtLimit(value)) return showDescriptionLimitError(desc);
+  clearFieldError("taskDescription-error", desc);
+}
+
+function isDescriptionAtLimit(value) {
+  return Boolean(value && value.length >= DESCRIPTION_MAX_LENGTH);
+}
+
+function showDescriptionLimitError(desc) {
+  showFieldError(
+    "taskDescription-error",
+    `Description is too long (max ${DESCRIPTION_MAX_LENGTH} characters).`,
+    desc
+  );
 }
 /**
  * @param {*} state
