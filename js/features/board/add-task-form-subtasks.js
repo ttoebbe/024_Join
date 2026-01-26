@@ -219,7 +219,8 @@ function getSubtaskIndexFromTarget(target) {
 }
 
 function updateSubtaskTitle(state, index, target) {
-  const value = (target.textContent || "").trim().slice(0, SUBTASK_MAX_LENGTH) || "Subtask";
+  const value = (target.textContent || "").trim().slice(0, SUBTASK_MAX_LENGTH);
+  if (!value) return removeSubtask(state, index);
   state.selectedSubtasks[index].title = value;
   target.textContent = value;
 }
