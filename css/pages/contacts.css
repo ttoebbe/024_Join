@@ -571,6 +571,8 @@ main {
   display: grid;
   place-items: center;
   cursor: pointer;
+  z-index: 2;
+  border: 1px solid #d0d6e4;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
