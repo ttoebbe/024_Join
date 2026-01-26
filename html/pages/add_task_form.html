@@ -5,11 +5,13 @@
   <div class="addtask-grid">
     <div>
       <label>Title<span class="req">*</span></label>
-      <input id="taskTitle" type="text" placeholder="Enter a title" />
+      <input id="taskTitle" type="text" placeholder="Enter a title" maxlength="60" />
       <div class="field-error" id="taskTitle-error"></div>
+      <div class="field-counter" id="taskTitle-counter">0/60</div>
 
       <label>Description</label>
-      <textarea id="taskDescription" placeholder="Enter a Description"></textarea>
+      <textarea id="taskDescription" placeholder="Enter a Description" maxlength="200"></textarea>
+      <div class="field-counter" id="taskDescription-counter">0/200</div>
 
       <label>Due date<span class="req">*</span></label>
       <input id="taskDueDate" type="date" />

@@ -187,6 +187,13 @@
   min-height: 14px;
 }
 
+.field-counter {
+  color: #8a8a8a;
+  font-size: 12px;
+  margin-top: 2px;
+  text-align: right;
+}
+
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 6px);

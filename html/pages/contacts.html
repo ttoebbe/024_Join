@@ -112,12 +112,15 @@
                       name="name"
                       type="text"
                       placeholder="Name"
+                      maxlength="50"
                       autocomplete="name"
                     />
                     <span class="input-icon" aria-hidden="true">
                       <img src="/assets/img/icons/person.png" alt="" />
                     </span>
                   </div>
+                  <div class="field-error" id="contact-name-error"></div>
+                  <div class="field-counter" id="contact-name-counter">0/50</div>
 
                   <label class="sr-only" for="contact-email">Email</label>
                   <div class="input-with-icon">
@@ -128,12 +131,15 @@
                       name="email"
                       type="email"
                       placeholder="Email"
+                      maxlength="50"
                       autocomplete="email"
                     />
                     <span class="input-icon" aria-hidden="true">
                       <img src="/assets/img/icons/mail.png" alt="" />
                     </span>
                   </div>
+                  <div class="field-error" id="contact-email-error"></div>
+                  <div class="field-counter" id="contact-email-counter">0/50</div>
 
                   <label class="sr-only" for="contact-phone">Phone</label>
                   <div class="input-with-icon">

@@ -271,6 +271,20 @@
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.16);
 }
 
+.field-error {
+  color: #ff3d00;
+  font-size: 12px;
+  margin: 4px 0 6px;
+  min-height: 14px;
+}
+
+.field-counter {
+  color: #8a8a8a;
+  font-size: 12px;
+  margin-top: 2px;
+  text-align: right;
+}
+
 .contacts-header h1 {
   margin: 0;
   font-size: 48px;

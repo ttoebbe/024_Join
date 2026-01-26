@@ -43,6 +43,7 @@ function wireClearButton(state, resets) {
  */
 function clearAddTaskForm(state, resets) {
   resetForm(state);
+  updateAddTaskCounters(state);
   resetStatusPreset();
   resetSelectionState(state);
   clearCategoryInput(state);
@@ -119,7 +120,6 @@ function getTaskFormValues(state) {
 function validateTaskForm(state) {
   clearAddTaskErrors(state);
   const values = getTaskFormValues(state);
-  if (isTitleTooLong(values.title)) return showTitleLimitError(state);
   const error = getTaskValidationError(values);
   if (!error) return values;
   showAddTaskError(state, values, error);
@@ -191,18 +191,18 @@ function clearInputError(element) {
 }
 
 const TITLE_MAX_LENGTH = 60;
+const DESCRIPTION_MAX_LENGTH = 200;
 
-function isTitleTooLong(title) {
-  return Boolean(title && title.length > TITLE_MAX_LENGTH);
+function isTitleAtLimit(title) {
+  return Boolean(title && title.length >= TITLE_MAX_LENGTH);
 }
 
-function getTitleTooLongMessage() {
+function getTitleLimitMessage() {
   return `Title is too long (max ${TITLE_MAX_LENGTH} characters).`;
 }
 
 function showTitleLimitError(state) {
-  showFieldError("taskTitle-error", getTitleTooLongMessage(), state.titleInput);
-  return null;
+  showFieldError("taskTitle-error", getTitleLimitMessage(), state.titleInput);
 }
 
 function showFieldError(errorId, message, inputEl) {
@@ -338,12 +338,33 @@ function attachCreateButtonListeners(state, handler) {
   state.dueDateInput?.addEventListener("change", handler);
   state.form.addEventListener("input", handler);
   state.form.addEventListener("change", handler);
+  wireAddTaskCounters(state);
 }
 function validateTitleLength(state) {
   const value = state.titleInput?.value.trim() || "";
   if (!value) return clearFieldError("taskTitle-error", state.titleInput);
-  if (isTitleTooLong(value)) return showTitleLimitError(state);
+  if (isTitleAtLimit(value)) return showTitleLimitError(state);
   clearFieldError("taskTitle-error", state.titleInput);
+}
+
+function wireAddTaskCounters(state) {
+  updateAddTaskCounters(state);
+  state.titleInput?.addEventListener("input", () => updateAddTaskCounters(state));
+  const desc = document.getElementById("taskDescription");
+  desc?.addEventListener("input", () => updateAddTaskCounters(state));
+}
+
+function updateAddTaskCounters(state) {
+  updateFieldCounter(state.titleInput, "taskTitle-counter", TITLE_MAX_LENGTH);
+  const desc = document.getElementById("taskDescription");
+  updateFieldCounter(desc, "taskDescription-counter", DESCRIPTION_MAX_LENGTH);
+}
+
+function updateFieldCounter(input, counterId, max) {
+  const counter = document.getElementById(counterId);
+  if (!counter) return;
+  const length = (input?.value || "").length;
+  counter.textContent = `${length}/${max}`;
 }
 /**
  * @param {*} state

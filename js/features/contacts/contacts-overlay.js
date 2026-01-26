@@ -64,6 +64,31 @@ function registerOverlayInputHandlers(elements) {
   elements.nameInput?.addEventListener("input", clear);
   elements.emailInput?.addEventListener("input", clear);
   elements.phoneInput?.addEventListener("input", clear);
+  elements.nameInput?.addEventListener("input", () => {
+    validateContactLength(elements.nameInput, CONTACT_NAME_MAX, "contact-name-error", "Name");
+  });
+  elements.emailInput?.addEventListener("input", () => {
+    validateContactLength(elements.emailInput, CONTACT_EMAIL_MAX, "contact-email-error", "Email");
+  });
+  wireContactCounters(elements);
+}
+
+function wireContactCounters(elements) {
+  updateContactCounters(elements);
+  elements.nameInput?.addEventListener("input", () => updateContactCounters(elements));
+  elements.emailInput?.addEventListener("input", () => updateContactCounters(elements));
+}
+
+function updateContactCounters(elements) {
+  updateContactFieldCounter(elements.nameInput, "contact-name-counter", CONTACT_NAME_MAX);
+  updateContactFieldCounter(elements.emailInput, "contact-email-counter", CONTACT_EMAIL_MAX);
+}
+
+function updateContactFieldCounter(input, counterId, max) {
+  const counter = document.getElementById(counterId);
+  if (!counter) return;
+  const length = (input?.value || "").length;
+  counter.textContent = `${length}/${max}`;
 }
 
 
