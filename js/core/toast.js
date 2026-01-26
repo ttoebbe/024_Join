@@ -125,3 +125,4 @@ if (!window.__toastInit) {
   window.showAddedToBoardToast = showAddedToBoardToast;
   window.showImageToast = showImageToast;
 }
+

@@ -81,7 +81,7 @@ form img {
     padding-bottom: 10px
 }
 
-.underline_div {
+.underline-div {
     width: 90px;
     height: 3px;
     background-color: var(--color-accent);
@@ -229,7 +229,7 @@ input::placeholder {
     padding: 0;
 }
 
-.label_link {
+.label-link {
     text-decoration: none;
     color: var(--color-accent);
     margin: 0;
@@ -266,12 +266,12 @@ footer a:hover {
     color: #29ABE2;
 }
 
-.footer_left {
+.footer-left {
     width: 121px;
     height: 35px;
 }
 
-.footer_right {
+.footer-right {
     width: 109px;
     height: 35px;
 }
@@ -321,3 +321,4 @@ footer a:hover {
         bottom: 10px;
     }
 }
+

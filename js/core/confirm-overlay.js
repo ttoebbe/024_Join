@@ -46,3 +46,4 @@ function wireConfirmOverlay(overlay, done) {
 function closeConfirmOverlay(overlay) {
   overlay.remove();
 }
+

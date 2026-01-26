@@ -215,3 +215,4 @@ function openMobileDetailView() {
 function closeMobileDetailView() {
   if (isMobileLayout()) setMobileDetailState(false);
 }
+

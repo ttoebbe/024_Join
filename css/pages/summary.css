@@ -13,24 +13,24 @@ body {
 }
 
 /* Sidebar active state */
-.nav_links nav a.nav-active {
+.nav-links nav a.nav-active {
   background: var(--color-primary-active);
 }
 
 /* Footer Links Farbe fix */
-.nav_bar .footer_links a,
-.nav_bar .footer_links a:visited {
+.nav-bar .footer-links a,
+.nav-bar .footer-links a:visited {
   color: var(--color-text-muted);
   text-decoration: none;
 }
 
-.nav_bar .footer_links a:hover {
+.nav-bar .footer-links a:hover {
   color: var(--color-accent);
   text-decoration: none;
 }
 
-.nav_bar .footer_links a:active,
-.nav_bar .footer_links a:focus {
+.nav-bar .footer-links a:active,
+.nav-bar .footer-links a:focus {
   color: var(--color-accent);
   outline: none;
 }
@@ -92,7 +92,7 @@ body {
   margin-top: 82px;
 }
 
-#greetingText {
+#greeting-text {
   margin: 0;
   font-size: 48px;
   font-weight: 500;
@@ -100,7 +100,7 @@ body {
   color: var(--color-text-primary);
 }
 
-#userName {
+#user-name {
   margin: 8px 0 0;
   font-size: 64px;
   font-weight: 700;
@@ -119,14 +119,14 @@ body {
   z-index: var(--z-modal);
 }
 
-.greeting-overlay__text {
+.greeting-overlay-text {
   margin: 0;
   font-size: 36px;
   font-weight: 500;
   color: var(--color-text-primary);
 }
 
-.greeting-overlay__name {
+.greeting-overlay-name {
   margin: 6px 0 0;
   font-size: 44px;
   font-weight: 700;
@@ -355,11 +355,11 @@ body {
       font-size: 18px;
     }
 
-    #greetingText {
+    #greeting-text {
       font-size: 32px;
     }
 
-    #userName {
+    #user-name {
       font-size: 44px;
     }
 
@@ -527,11 +527,11 @@ body {
       font-size: 38px;
     }
 
-    .greeting-overlay__text {
+    .greeting-overlay-text {
       font-size: 28px;
     }
 
-    .greeting-overlay__name {
+    .greeting-overlay-name {
       font-size: 34px;
     }
 
@@ -606,3 +606,4 @@ body {
     max-height: 280px !important;
   }
 }
+

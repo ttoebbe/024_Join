@@ -36,11 +36,11 @@ function initLogin() {
  * @returns {{form: HTMLFormElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement, loginButton: HTMLButtonElement, guestLoginButton: HTMLButtonElement|null}|null}
  */
 function getLoginState() {
-  const form = document.getElementById("loginForm");
+  const form = document.getElementById("login-form");
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
-  const loginButton = document.getElementById("loginButton");
-  const guestLoginButton = document.getElementById("guestLoginButton");
+  const loginButton = document.getElementById("login-button");
+  const guestLoginButton = document.getElementById("guest-login-button");
   if (!form || !emailInput || !passwordInput || !loginButton) return null;
   return { form, emailInput, passwordInput, loginButton, guestLoginButton };
 }
@@ -53,7 +53,7 @@ function wireLoginForm(state) {
   wireLoginErrorHandlers(state);
   wireLoginSubmit(state);
   wireGuestLogin(state);
-  setupPasswordToggle("password", "passwordLockIcon", "passwordVisibilityToggle");
+  setupPasswordToggle("password", "password-lock-icon", "password-visibility-toggle");
 }
 /**
  * Wires login submit handler.
@@ -132,13 +132,13 @@ function initSignup() {
  * @returns {{form: HTMLFormElement, nameInput: HTMLInputElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement, confirmPasswordInput: HTMLInputElement, policyCheckbox: HTMLInputElement, signUpButton: HTMLButtonElement}|null}
  */
 function getSignupState() {
-  const form = document.getElementById("signupForm");
-  const nameInput = document.getElementById("signUpName");
-  const emailInput = document.getElementById("signUpEmail");
-  const passwordInput = document.getElementById("signUpPassword");
-  const confirmPasswordInput = document.getElementById("signUpConfirmPassword");
-  const policyCheckbox = document.getElementById("signUpPolicy");
-  const signUpButton = document.getElementById("signUpButton");
+  const form = document.getElementById("sign-up-form");
+  const nameInput = document.getElementById("sign-up-name");
+  const emailInput = document.getElementById("sign-up-email");
+  const passwordInput = document.getElementById("sign-up-password");
+  const confirmPasswordInput = document.getElementById("sign-up-confirm-password");
+  const policyCheckbox = document.getElementById("sign-up-policy");
+  const signUpButton = document.getElementById("sign-up-button");
   if (!form || !nameInput || !emailInput || !passwordInput || !confirmPasswordInput || !policyCheckbox || !signUpButton) return null;
   return { form, nameInput, emailInput, passwordInput, confirmPasswordInput, policyCheckbox, signUpButton };
 }
@@ -196,7 +196,7 @@ async function attemptSignup({ nameInput, emailInput, passwordInput }) {
   const users = await loadUsers();
   const email = emailInput.value.trim();
   if (users.some((u) => u.email === email)) {
-    showFieldError("signUpEmail-error", "This email is already registered.", emailInput);
+    showFieldError("sign-up-email-error", "This email is already registered.", emailInput);
     return;
   }
   const newUser = buildNewUser(users, nameInput.value.trim(), email, passwordInput.value.trim());
@@ -226,14 +226,14 @@ function buildNewUser(users, name, email, password) {
  */
 function wireSignupToggles() {
   setupPasswordToggle(
-    "signUpPassword",
-    "signUpPasswordLockIcon",
-    "signUpPasswordVisibilityToggle"
+    "sign-up-password",
+    "sign-up-password-lock-icon",
+    "sign-up-password-visibility-toggle"
   );
   setupPasswordToggle(
-    "signUpConfirmPassword",
-    "signUpConfirmPasswordLockIcon",
-    "signUpConfirmPasswordVisibilityToggle"
+    "sign-up-confirm-password",
+    "sign-up-confirm-password-lock-icon",
+    "sign-up-confirm-password-visibility-toggle"
   );
 }
 /* ================== GLOBAL INIT ================== */
@@ -258,4 +258,5 @@ function runAuthInit() {
   initLogin();
   initSignup();
 }
+
 

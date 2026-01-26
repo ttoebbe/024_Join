@@ -38,7 +38,7 @@
 }
 
 /* Header */
-.policy__header {
+.policy-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -48,7 +48,7 @@
   margin-bottom: 18px;
 }
 
-.policy__title {
+.policy-title {
   font-size: clamp(40px, 5vw, 64px);
   line-height: 1.05;
   font-weight: 700;
@@ -56,13 +56,13 @@
   margin: 0;
 }
 
-.policy__meta {
+.policy-meta {
   margin: 10px 0 0;
   color: var(--policy-muted);
   font-size: 16px;
 }
 
-.policy__back {
+.policy-back {
   flex: 0 0 auto;
   width: 44px;
   height: 44px;
@@ -78,13 +78,13 @@
   transition: transform 120ms ease, background 120ms ease;
 }
 
-.policy__back:hover {
+.policy-back:hover {
   transform: translateY(-1px);
   background: var(--color-bg-surface-muted);
 }
 
 
-.policy__toc {
+.policy-toc {
   margin: 18px 0 24px;
   padding: 18px 22px;
   background: linear-gradient(180deg, rgba(41,171,226,0.07), rgba(255,255,255,1));
@@ -93,36 +93,36 @@
   box-shadow: 0 2px 10px rgba(0,0,0,0.06);
 }
 
-.policy__toc h2 {
+.policy-toc h2 {
   margin: 0 0 12px;
   font-size: 22px;
   line-height: 1.2;
 }
 
-.policy__toc ul {
+.policy-toc ul {
   margin: 0;
   padding-left: 18px;
   columns: 2;
   column-gap: 28px;
 }
 
-.policy__toc li {
+.policy-toc li {
   break-inside: avoid;
   margin: 6px 0;
 }
 
-.policy__toc a {
+.policy-toc a {
   color: var(--policy-link);
   text-decoration: none;
   font-weight: 600;
 }
 
-.policy__toc a:hover {
+.policy-toc a:hover {
   text-decoration: underline;
 }
 
 /* Sections as soft cards */
-.policy__section {
+.policy-section {
   margin-top: 18px;
   padding: 18px 20px 18px 24px;
   background: var(--color-bg-surface);
@@ -132,7 +132,7 @@
   position: relative;
 }
 
-.policy__section::before {
+.policy-section::before {
   content: "";
   position: absolute;
   left: 0;
@@ -144,7 +144,7 @@
 }
 
 /* Headings */
-.policy__section h2 {
+.policy-section h2 {
   font-size: 28px;
   line-height: 1.25;
   margin: 0 0 10px;
@@ -153,7 +153,7 @@
   border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
-.policy__section h3 {
+.policy-section h3 {
   font-size: 18px;
   line-height: 1.35;
   margin: 18px 0 8px;
@@ -161,13 +161,13 @@
 }
 
 
-.policy__section h2,
-.policy__section h3 {
+.policy-section h2,
+.policy-section h3 {
   scroll-margin-top: 96px;
 }
 
 
-.policy__section p {
+.policy-section p {
   margin: 10px 0;
   font-size: 16px;
   line-height: 1.65;
@@ -175,23 +175,23 @@
   max-width: none;
 }
 
-.policy__section ul {
+.policy-section ul {
   margin: 10px 0 12px;
   padding-left: 20px;
 }
 
-.policy__section li {
+.policy-section li {
   margin: 8px 0;
   line-height: 1.6;
 }
 
-.policy__section a {
+.policy-section a {
   color: var(--policy-link);
   overflow-wrap: anywhere;
   word-break: break-word;
 }
 
-.policy__footnote {
+.policy-footnote {
   margin-top: 18px;
   font-size: 16px;
   color: var(--policy-muted);
@@ -199,7 +199,7 @@
 
 
 @media (max-width: 800px) {
-  .policy__toc ul {
+  .policy-toc ul {
     columns: 1;
   }
 
@@ -208,16 +208,17 @@
     border-radius: 18px;
   }
 
-  .policy__section {
+  .policy-section {
     padding: 16px 16px 16px 24px;
     border-radius: 14px;
   }
 
-  .policy__back {
+  .policy-back {
     width: 40px;
     height: 40px;
     border-radius: 12px;
   }
 }
+
 
 

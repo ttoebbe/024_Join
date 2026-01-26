@@ -3,7 +3,7 @@
  * @returns {*}
  */
 function initAssignedDropdown(state) {
-  const dropdown = document.getElementById("assignedDropdown");
+  const dropdown = document.getElementById("assigned-dropdown");
   if (!dropdown) return null;
   const parts = getAssignedDropdownParts(dropdown);
   wireAssignedToggle(parts);
@@ -327,3 +327,4 @@ function normalizeToArray(data) {
   if (typeof data === "object") return Object.values(data).filter(Boolean);
   return [];
 }
+

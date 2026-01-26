@@ -203,9 +203,9 @@ function getAddTaskFormTemplate(presetStatus = "todo") {
  */
 function getAddTaskFormOpen(presetStatus) {
   return `
-    <form id="addTaskForm" class="addtask-form" novalidate>
-      <input type="hidden" id="taskStatusPreset" value="${presetStatus}" />
-      <input type="hidden" id="taskCategoryValue" value="" />
+    <form id="add-task-form" class="addtask-form" novalidate>
+      <input type="hidden" id="task-status-preset" value="${presetStatus}" />
+      <input type="hidden" id="task-category-value" value="" />
       <div class="addtask-grid">
         <div>
           ${getAddTaskLeftFields()}
@@ -218,15 +218,15 @@ function getAddTaskFormOpen(presetStatus) {
 function getAddTaskLeftFields() {
   return `
       <label>Title<span class="req">*</span></label>
-      <input id="taskTitle" type="text" placeholder="Enter a title" />
-      <div class="field-error" id="taskTitle-error"></div>
-      <div class="field-counter" id="taskTitle-counter">0/40</div>
+      <input id="task-title" type="text" placeholder="Enter a title" />
+      <div class="field-error" id="task-title-error"></div>
+      <div class="field-counter" id="task-title-counter">0/40</div>
       <label>Description</label>
-      <textarea id="taskDescription" placeholder="Enter a Description"></textarea>
-      <div class="field-error" id="taskDescription-error"></div>
-      <div class="field-counter" id="taskDescription-counter">0/200</div>
+      <textarea id="task-description" placeholder="Enter a Description"></textarea>
+      <div class="field-error" id="task-description-error"></div>
+      <div class="field-counter" id="task-description-counter">0/200</div>
     <label>Due date<span class="req">*</span></label>
-    <input id="taskDueDate" type="date" />
+    <input id="task-due-date" type="date" />
   `;
 }
 /**
@@ -255,7 +255,7 @@ function getAddTaskPriorityBlock() {
 function getAddTaskAssignedBlock() {
   return `
     <label>Assigned to</label>
-    <div class="dropdown dropdown--select" id="assignedDropdown">
+    <div class="dropdown dropdown--select" id="assigned-dropdown">
       <button type="button" class="dropdown-toggle" data-assigned-toggle aria-haspopup="listbox" aria-expanded="false">
         <span class="dropdown-placeholder" data-assigned-value>Select contacts to assign</span>
         <span class="dropdown-caret" aria-hidden="true"></span>
@@ -270,7 +270,7 @@ function getAddTaskAssignedBlock() {
  */
 function getAddTaskCategoryBlock() {
   return `<label>Category<span class="req">*</span></label>\n` +
-    `<div class="dropdown dropdown--select" id="categoryDropdown">\n` +
+    `<div class="dropdown dropdown--select" id="category-dropdown">\n` +
     `  <button type="button" class="dropdown-toggle" data-category-toggle aria-haspopup="listbox" aria-expanded="false">\n` +
     `    <span class="dropdown-placeholder" data-category-value>Select task category</span>\n` +
     `    <span class="dropdown-caret" aria-hidden="true"></span>\n` +
@@ -288,12 +288,12 @@ function getAddTaskSubtaskBlock() {
   return `
     <label>Subtasks</label>
     <div class="subtask-row">
-      <input id="subtaskInput" type="text" placeholder="Add new subtask" />
-      <button type="button" id="subtaskAddBtn">+</button>
+      <input id="subtask-input" type="text" placeholder="Add new subtask" />
+      <button type="button" id="subtask-add-btn">+</button>
     </div>
     <div class="field-error" id="subtask-error"></div>
     <div class="field-counter" id="subtask-counter">0/30</div>
-    <div id="subtaskList"></div>
+    <div id="subtask-list"></div>
   `;
 }
 /**
@@ -301,11 +301,11 @@ function getAddTaskSubtaskBlock() {
  */
 function getAddTaskFormFooter() {
   return `
-      <div id="addTaskFormMsg" class="form-msg" aria-live="polite"></div>
+      <div id="add-task-form-msg" class="form-msg" aria-live="polite"></div>
       <p class="req-note"><span class="req">*</span>This field is required</p>
       <div class="addtask-footer">
-        <button type="button" id="clearBtn">Clear</button>
-        <button type="submit" id="createBtn">Create Task</button>
+        <button type="button" id="clear-btn">Clear</button>
+        <button type="submit" id="create-btn">Create Task</button>
       </div>
   `;
 }
@@ -343,3 +343,4 @@ function getErrorTemplate(message = "An error occurred") {
     </div>
   `;
 }
+

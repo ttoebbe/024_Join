@@ -278,3 +278,4 @@ function normalizeStatus(value) {
   return "todo";
 }
 // Drag & Drop moved to js/board/draganddrop.js
+

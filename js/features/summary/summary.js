@@ -138,23 +138,23 @@ function setNextUrgentDeadline(kpi, urgentOpenDates) {
  */
 function renderUser(user) {
   const greeting = getTimeBasedGreeting(new Date());
-  setText("greetingText", user?.guest ? `${greeting}!` : `${greeting},`);
-  if ($id("userName")) setText("userName", user?.name || "Guest");
-  if ($id("userInitials")) setText("userInitials", getInitials(user?.name || "Guest"));
+  setText("greeting-text", user?.guest ? `${greeting}!` : `${greeting},`);
+  if ($id("user-name")) setText("user-name", user?.name || "Guest");
+  if ($id("user-initials")) setText("user-initials", getInitials(user?.name || "Guest"));
 }
 /**
  * @param {*} kpi
  * @returns {*}
  */
 function renderKPIs(kpi) {
-  setText("countTodo", String(kpi.todo));
-  setText("countDone", String(kpi.done));
-  setText("countInProgress", String(kpi.inProgress));
-  setText("countAwaiting", String(kpi.awaiting));
-  setText("countUrgent", String(kpi.urgentOpen));
-  if ($id("countBoard")) setText("countBoard", String(kpi.board));
+  setText("count-todo", String(kpi.todo));
+  setText("count-done", String(kpi.done));
+  setText("count-in-progress", String(kpi.inProgress));
+  setText("count-awaiting", String(kpi.awaiting));
+  setText("count-urgent", String(kpi.urgentOpen));
+  if ($id("count-board")) setText("count-board", String(kpi.board));
   setText(
-    "nextDeadlineDate",
+    "next-deadline-date",
     kpi.nextUrgentDeadline ? formatDateLong(kpi.nextUrgentDeadline) : "â€”"
   );
 }
@@ -216,8 +216,8 @@ function buildGreetingOverlay(data) {
 }
 
 function buildGreetingOverlayHtml({ text, name }) {
-  const nameHtml = name ? `<h2 class="greeting-overlay__name">${name}</h2>` : "";
-  return `<div class="greeting-overlay__content"><p class="greeting-overlay__text">${text}</p>${nameHtml}</div>`;
+  const nameHtml = name ? `<h2 class="greeting-overlay-name">${name}</h2>` : "";
+  return `<div class="greeting-overlay-content"><p class="greeting-overlay-text">${text}</p>${nameHtml}</div>`;
 }
 
 function showGreetingOverlay(overlay) {
@@ -241,3 +241,4 @@ async function runSummaryInit() {
     console.error("Summary init error:", err);
   });
 }
+

@@ -194,7 +194,7 @@ function setSubtaskError(message) {
   if (!errorEl) return;
   errorEl.textContent = message || "";
   errorEl.classList.toggle("is-visible", Boolean(message));
-  const input = document.getElementById("subtaskInput");
+  const input = document.getElementById("subtask-input");
   if (input) input.classList.toggle("input-error", Boolean(message));
 }
 
@@ -304,3 +304,4 @@ function buildSubtaskValue(item) {
     done: Boolean(item.done || item.completed || item.isDone),
   };
 }
+

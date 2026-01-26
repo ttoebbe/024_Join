@@ -171,3 +171,4 @@ function rollbackStatus(task, previous) {
   task.status = previous;
   renderBoard();
 }
+

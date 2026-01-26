@@ -32,7 +32,7 @@ function clearPrioActive(state) {
  * @returns {*}
  */
 function wireClearButton(state, resets) {
-  document.getElementById("clearBtn")?.addEventListener("click", () => {
+  document.getElementById("clear-btn")?.addEventListener("click", () => {
     clearAddTaskForm(state, resets);
   });
 }
@@ -73,7 +73,7 @@ function resetForm(state) {
  * @returns {*}
  */
 function resetStatusPreset() {
-  const statusField = document.getElementById("taskStatusPreset");
+  const statusField = document.getElementById("task-status-preset");
   if (statusField) statusField.value = statusField.value || "todo";
 }
 /**
@@ -115,11 +115,11 @@ async function handleSubmit(state, onClose) {
  * @returns {*}
  */
 function getTaskFormValues(state) {
-  const title = document.getElementById("taskTitle")?.value.trim();
-  const dueDate = document.getElementById("taskDueDate")?.value.trim();
+  const title = document.getElementById("task-title")?.value.trim();
+  const dueDate = document.getElementById("task-due-date")?.value.trim();
   const category = getSelectedCategoryValue(state);
-  const status = document.getElementById("taskStatusPreset")?.value || "todo";
-  const description = document.getElementById("taskDescription")?.value.trim() || "";
+  const status = document.getElementById("task-status-preset")?.value || "todo";
+  const description = document.getElementById("task-description")?.value.trim() || "";
   return { title, description, status, category, dueDate };
 }
 /**
@@ -209,7 +209,7 @@ function getTitleLimitMessage() {
 }
 
 function showTitleLimitError(state) {
-  showFieldError("taskTitle-error", getTitleLimitMessage(), state.titleInput);
+  showFieldError("task-title-error", getTitleLimitMessage(), state.titleInput);
 }
 
 function showFieldError(errorId, message, inputEl) {
@@ -225,18 +225,18 @@ function clearFieldError(errorId, inputEl) {
 }
 
 function clearTitleLimitState(state) {
-  clearFieldError("taskTitle-error", state.titleInput);
+  clearFieldError("task-title-error", state.titleInput);
   clearInputError(state.titleInput);
 }
 
 function clearDescriptionLimitState() {
-  const desc = document.getElementById("taskDescription");
-  clearFieldError("taskDescription-error", desc);
+  const desc = document.getElementById("task-description");
+  clearFieldError("task-description-error", desc);
   clearInputError(desc);
 }
 
 function clearSubtaskLimitState() {
-  const input = document.getElementById("subtaskInput");
+  const input = document.getElementById("subtask-input");
   const errorEl = document.getElementById("subtask-error");
   if (errorEl) errorEl.classList.remove("is-visible");
   if (errorEl) errorEl.textContent = "";
@@ -368,15 +368,15 @@ function attachCreateButtonListeners(state, handler) {
 }
 function validateTitleLength(state) {
   const value = state.titleInput?.value.trim() || "";
-  if (!value) return clearFieldError("taskTitle-error", state.titleInput);
+  if (!value) return clearFieldError("task-title-error", state.titleInput);
   if (isTitleAtLimit(value)) return showTitleLimitError(state);
-  clearFieldError("taskTitle-error", state.titleInput);
+  clearFieldError("task-title-error", state.titleInput);
 }
 
 function wireAddTaskCounters(state) {
   updateAddTaskCounters(state);
   state.titleInput?.addEventListener("input", () => updateAddTaskCounters(state));
-  const desc = document.getElementById("taskDescription");
+  const desc = document.getElementById("task-description");
   desc?.addEventListener("input", () => validateDescriptionLength(state));
   desc?.addEventListener("input", () => updateAddTaskCounters(state));
 }
@@ -384,10 +384,10 @@ function wireAddTaskCounters(state) {
 function updateAddTaskCounters(state) {
   enforceMaxLength(state.titleInput, TITLE_MAX_LENGTH);
   validateTitleLength(state);
-  updateFieldCounter(state.titleInput, "taskTitle-counter", TITLE_MAX_LENGTH);
-  const desc = document.getElementById("taskDescription");
+  updateFieldCounter(state.titleInput, "task-title-counter", TITLE_MAX_LENGTH);
+  const desc = document.getElementById("task-description");
   enforceMaxLength(desc, DESCRIPTION_MAX_LENGTH);
-  updateFieldCounter(desc, "taskDescription-counter", DESCRIPTION_MAX_LENGTH);
+  updateFieldCounter(desc, "task-description-counter", DESCRIPTION_MAX_LENGTH);
 }
 
 function updateFieldCounter(input, counterId, max) {
@@ -405,11 +405,11 @@ function enforceMaxLength(input, max) {
 }
 
 function validateDescriptionLength(state) {
-  const desc = document.getElementById("taskDescription");
+  const desc = document.getElementById("task-description");
   const value = desc?.value.trim() || "";
-  if (!value) return clearFieldError("taskDescription-error", desc);
+  if (!value) return clearFieldError("task-description-error", desc);
   if (isDescriptionAtLimit(value)) return showDescriptionLimitError(desc);
-  clearFieldError("taskDescription-error", desc);
+  clearFieldError("task-description-error", desc);
 }
 
 function isDescriptionAtLimit(value) {
@@ -418,7 +418,7 @@ function isDescriptionAtLimit(value) {
 
 function showDescriptionLimitError(desc) {
   showFieldError(
-    "taskDescription-error",
+    "task-description-error",
     `Description is too long (max ${DESCRIPTION_MAX_LENGTH} characters).`,
     desc
   );
@@ -437,3 +437,4 @@ function updateCreateButtonState(state) {
   state.createBtn.disabled = !isReady;
   state.createBtn.classList.toggle("is-active", isReady);
 }
+

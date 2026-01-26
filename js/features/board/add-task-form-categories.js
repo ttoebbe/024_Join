@@ -3,7 +3,7 @@
  * @returns {*}
  */
 function initCategoryDropdown(state) {
-  const dropdown = document.getElementById("categoryDropdown");
+  const dropdown = document.getElementById("category-dropdown");
   if (!dropdown) return null;
   const parts = getCategoryDropdownParts(dropdown);
   wireCategoryToggle(parts);
@@ -151,3 +151,4 @@ function getSelectedCategoryValue(state) {
 function clearCategoryInput(state) {
   if (state.categoryInput) state.categoryInput.value = "";
 }
+

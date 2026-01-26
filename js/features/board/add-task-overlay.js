@@ -49,9 +49,9 @@ function buildOverlayHTML(title, formHtml) {
 
 function setupOverlayEvents(root, status, mode) {
   root.querySelectorAll("[data-overlay-close]").forEach((el) => el.addEventListener("click", closeAddTaskOverlay));
-  const statusField = root.querySelector("#taskStatusPreset");
+  const statusField = root.querySelector("#task-status-preset");
   if (statusField) statusField.value = status;
-  const createBtn = root.querySelector("#createBtn");
+  const createBtn = root.querySelector("#create-btn");
   if (createBtn && mode === "edit") createBtn.textContent = "Save";
 }
 
@@ -85,3 +85,4 @@ function ensureOverlayRoot() {
 window.openAddTaskOverlay = openAddTaskOverlay;
 window.openEditTaskOverlay = openEditTaskOverlay;
 window.closeAddTaskOverlay = closeAddTaskOverlay;
+

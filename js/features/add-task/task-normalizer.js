@@ -136,7 +136,7 @@ function applyTaskDefaults(state, taskData) {
  * @returns {*}
  */
 function setTaskDescription(taskData) {
-  const descInput = document.getElementById("taskDescription");
+  const descInput = document.getElementById("task-description");
   if (descInput) descInput.value = taskData.description || "";
 }
 
@@ -150,3 +150,4 @@ function setNormalizedDueDate(state, value) {
   const normalizedDate = normalizeDueDateForInput(value);
   if (state.dueDateInput && normalizedDate) state.dueDateInput.value = normalizedDate;
 }
+

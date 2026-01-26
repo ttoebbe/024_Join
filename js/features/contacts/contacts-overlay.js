@@ -382,3 +382,4 @@ function openEditContact(contactId) {
   setCurrentEditId(contactId);
   openOverlay(elements.overlay);
 }
+

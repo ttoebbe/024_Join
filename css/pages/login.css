@@ -184,7 +184,7 @@ form img {
     padding-bottom: 10px;
 }
 
-.underline_div {
+.underline-div {
     width: 90px;
     height: 3px;
     background-color: #29ABE2;
@@ -380,12 +380,12 @@ footer a:hover {
     color: #29ABE2;
 }
 
-.footer_left {
+.footer-left {
     width: 121px;
     height: 35px;
 }
 
-.footer_right {
+.footer-right {
     width: 109px;
     height: 35px;
 }
@@ -607,7 +607,7 @@ footer a:hover {
         max-height: fit-content;
     }
 
-    .underline_div {
+    .underline-div {
         margin-bottom: 20px;
     }
 
@@ -665,5 +665,6 @@ footer a:hover {
         padding: 10px 11px 20px 11px;
     }
 }
+
 
 

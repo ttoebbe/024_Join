@@ -13,7 +13,7 @@ async function initAddTaskForm(options = {}) {
  * @returns {*}
  */
 function createAddTaskState(options = {}) {
-  const form = document.getElementById("addTaskForm");
+  const form = document.getElementById("add-task-form");
   const state = initAddTaskState(form, options);
   attachAddTaskElements(state);
   return state;
@@ -50,13 +50,13 @@ function attachAddTaskElements(state) {
  * @returns {*}
  */
 function attachMainInputs(state) {
-  state.createBtn = document.getElementById("createBtn");
-  state.titleInput = document.getElementById("taskTitle");
-  state.dueDateInput = document.getElementById("taskDueDate");
-  state.categoryInput = document.getElementById("taskCategoryValue");
-  state.categoryDropdown = document.getElementById("categoryDropdown");
+  state.createBtn = document.getElementById("create-btn");
+  state.titleInput = document.getElementById("task-title");
+  state.dueDateInput = document.getElementById("task-due-date");
+  state.categoryInput = document.getElementById("task-category-value");
+  state.categoryDropdown = document.getElementById("category-dropdown");
   state.categoryToggle = state.categoryDropdown?.querySelector("[data-category-toggle]");
-  state.formMsg = document.getElementById("addTaskFormMsg");
+  state.formMsg = document.getElementById("add-task-form-msg");
 }
 
 /**
@@ -64,9 +64,9 @@ function attachMainInputs(state) {
  * @returns {*}
  */
 function attachSubtaskInputs(state) {
-  state.subtaskInput = document.getElementById("subtaskInput");
-  state.subtaskAddBtn = document.getElementById("subtaskAddBtn");
-  state.subtaskList = document.getElementById("subtaskList");
+  state.subtaskInput = document.getElementById("subtask-input");
+  state.subtaskAddBtn = document.getElementById("subtask-add-btn");
+  state.subtaskList = document.getElementById("subtask-list");
 }
 
 /**
@@ -153,7 +153,7 @@ function applyTaskDefaults(state, taskData) {
  * @returns {*}
  */
 function setTaskDescription(taskData) {
-  const descInput = document.getElementById("taskDescription");
+  const descInput = document.getElementById("task-description");
   if (descInput) descInput.value = taskData.description || "";
 }
 
@@ -223,3 +223,4 @@ function applyPrioButtonStyles(state) {
     btn.classList.toggle("is-active", btn.dataset.prio === state.selectedPrio);
   });
 }
+

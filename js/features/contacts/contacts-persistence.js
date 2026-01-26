@@ -189,3 +189,4 @@ async function persistContactForm(values, overlay, form, listElement) {
   if (currentId) return handleExistingContact(values, overlay, form, listElement, currentId);
   await createNewContact(values, overlay, form, listElement);
 }
+

@@ -253,3 +253,4 @@ document.addEventListener("DOMContentLoaded", handleContactsReady);
 function handleContactsReady() {
   withPageReady(initContactsPage);
 }
+

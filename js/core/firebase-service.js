@@ -228,3 +228,4 @@ window.firebase = {
   getCurrentUser,
   setCurrentUser,
 };
+

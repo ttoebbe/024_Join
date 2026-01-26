@@ -302,7 +302,7 @@
   flex: 1;
 }
 
-#subtaskAddBtn {
+#subtask-add-btn {
   width: 44px;
   border: 1px solid #d1d1d1;
   border-radius: 10px;
@@ -311,7 +311,7 @@
   cursor: pointer;
 }
 
-#subtaskList {
+#subtask-list {
   display: grid;
   gap: 8px;
   margin-top: 8px;
@@ -371,7 +371,7 @@
   margin-top: 24px;
 }
 
-#clearBtn {
+#clear-btn {
   border: 1px solid #2a3647;
   background: #fff;
   border-radius: 10px;
@@ -380,7 +380,7 @@
   cursor: pointer;
 }
 
-#createBtn {
+#create-btn {
   border: none;
   background: #d1d1d1;
   color: #fff;
@@ -390,11 +390,11 @@
   cursor: pointer;
 }
 
-#createBtn:disabled {
+#create-btn:disabled {
   cursor: not-allowed;
 }
 
-#createBtn.is-active {
+#create-btn.is-active {
   background: #2a3647;
 }
 
@@ -448,3 +448,4 @@
     width: 100%;
   }
 }
+

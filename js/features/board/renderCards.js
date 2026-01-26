@@ -403,3 +403,4 @@ function isLowPrio(simple) {
 function isMediumPrio(simple) {
   return simple.includes("medium") || simple.includes("media");
 }
+

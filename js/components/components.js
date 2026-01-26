@@ -1,10 +1,10 @@
 const NAV_BAR_TEMPLATE = `
-  <div class="nav_bar">
-    <div class="nav_logo">
-      <img class="nav_img" src="../../assets/img/Capa 2.png" alt="Join Logo" />
+  <div class="nav-bar">
+    <div class="nav-logo">
+      <img class="nav-img" src="../../assets/img/Capa 2.png" alt="Join Logo" />
     </div>
 
-    <div class="nav_links">
+    <div class="nav-links">
       <nav>
         <a href="summary.html" data-route="summary">
           <img src="../../assets/img/icons/summary.png" alt="" />
@@ -24,7 +24,7 @@ const NAV_BAR_TEMPLATE = `
         </a>
       </nav>
 
-      <div class="footer_links">
+      <div class="footer-links">
         <a href="privacy_policy.html">Privacy Policy</a>
         <a href="legal_notice.html">Legal notice</a>
       </div>
@@ -33,12 +33,12 @@ const NAV_BAR_TEMPLATE = `
 `;
 
 const GUEST_NAV_TEMPLATE = `
-  <div class="nav_bar">
-    <div class="nav_logo">
-      <img class="nav_img" src="../../assets/img/Capa 2.png" alt="Join Logo" />
+  <div class="nav-bar">
+    <div class="nav-logo">
+      <img class="nav-img" src="../../assets/img/Capa 2.png" alt="Join Logo" />
     </div>
 
-    <div class="nav_links">
+    <div class="nav-links">
       <nav>
         <a href="../../index.html" data-route="login">
           <img src="../../assets/img/icons/lock.png" alt="" />
@@ -46,7 +46,7 @@ const GUEST_NAV_TEMPLATE = `
         </a>
       </nav>
 
-      <div class="footer_links">
+      <div class="footer-links">
         <a href="privacy_policy.html">Privacy Policy</a>
         <a href="legal_notice.html">Legal notice</a>
       </div>
@@ -78,15 +78,15 @@ const HEADER_TEMPLATE = `
       <div class="topbar-actions">
         <a class="topbar-help" href="help.html" aria-label="Help">?</a>
 
-        <div class="user-menu-wrap" id="userMenuWrap">
-          <button class="topbar-user" id="userMenuBtn" type="button" aria-label="User menu" aria-haspopup="menu" aria-expanded="false">
-            <span id="userInitials">G</span>
+        <div class="user-menu-wrap" id="user-menu-wrap">
+          <button class="topbar-user" id="user-menu-btn" type="button" aria-label="User menu" aria-haspopup="menu" aria-expanded="false">
+            <span id="user-initials">G</span>
           </button>
 
-          <div class="user-dropdown" id="userDropdown" role="menu" hidden>
-            <a class="user-dropdown__item" href="legal_notice.html" role="menuitem">Legal Notice</a>
-            <a class="user-dropdown__item" href="privacy_policy.html" role="menuitem">Privacy Policy</a>
-            <button class="user-dropdown__item user-dropdown__logout" type="button" id="userLogout" role="menuitem">Log out</button>
+          <div class="user-dropdown" id="user-dropdown" role="menu" hidden>
+            <a class="user-dropdown-item" href="legal_notice.html" role="menuitem">Legal Notice</a>
+            <a class="user-dropdown-item" href="privacy_policy.html" role="menuitem">Privacy Policy</a>
+            <button class="user-dropdown-item user-dropdown-logout" type="button" id="user-logout" role="menuitem">Log out</button>
           </div>
         </div>
       </div>
@@ -169,7 +169,7 @@ function renderHeader() {
  * @returns {*}
  */
 function setActiveNavLink() {
-  const nav = document.querySelector(".nav_links nav");
+  const nav = document.querySelector(".nav-links nav");
   if (!nav) return;
   resetNavActive(nav);
   const match = findActiveNavLink(nav);
@@ -200,7 +200,7 @@ function findActiveNavLink(nav) {
  * @returns {*}
  */
 function renderUserInitials() {
-  const el = document.getElementById("userInitials");
+  const el = document.getElementById("user-initials");
   if (!el) return;
   const current = getCurrentUser();
   const label = current?.name || current?.email || (current?.guest ? "Guest" : "") || "G";
@@ -222,10 +222,10 @@ function initUserMenu() {
  * @returns {*}
  */
 function getUserMenuParts() {
-  const wrap = document.getElementById("userMenuWrap");
-  const btn = document.getElementById("userMenuBtn");
-  const dropdown = document.getElementById("userDropdown");
-  const logoutBtn = document.getElementById("userLogout");
+  const wrap = document.getElementById("user-menu-wrap");
+  const btn = document.getElementById("user-menu-btn");
+  const dropdown = document.getElementById("user-dropdown");
+  const logoutBtn = document.getElementById("user-logout");
   if (!wrap || !btn || !dropdown) return null;
   return { wrap, btn, dropdown, logoutBtn };
 }
@@ -236,7 +236,7 @@ function getUserMenuParts() {
  */
 function setActiveDropdownLinks(dropdown) {
   const path = window.location.pathname.toLowerCase();
-  dropdown.querySelectorAll("a.user-dropdown__item").forEach((a) => {
+  dropdown.querySelectorAll("a.user-dropdown-item").forEach((a) => {
     const href = (a.getAttribute("href") || "").toLowerCase();
     if (href && path.endsWith(href)) a.classList.add("is-active");
   });
@@ -314,3 +314,4 @@ function wireLogout(logoutBtn) {
     window.location.href = "/index.html";
   });
 }
+

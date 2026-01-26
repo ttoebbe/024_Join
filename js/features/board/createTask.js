@@ -357,3 +357,4 @@ function normalizePrioLabel(value) {
   if (v === "low" || v === "baja") return "Low";
   return "Medium";
 }
+

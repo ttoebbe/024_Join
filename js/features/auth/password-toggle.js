@@ -107,3 +107,4 @@ function wirePasswordLock({ lock }) {
   lock.addEventListener("click", (e) => e.stopPropagation());
 }
 
+
