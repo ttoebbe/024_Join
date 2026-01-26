@@ -1,5 +1,5 @@
 /**
- * Setzt Mindest-Datum auf heute für Due-Date-Input
+ * Sets the minimum date to today for the due date input.
  * @param {*} input
  * @returns {*}
  */
@@ -13,7 +13,7 @@ function setDueDateMin(input) {
 }
 
 /**
- * Konvertiert Datum zu Input-Format (YYYY-MM-DD)
+ * Converts a date to input format (YYYY-MM-DD).
  * @param {*} value
  * @returns {*}
  */
@@ -27,7 +27,7 @@ function normalizeDueDateForInput(value) {
 }
 
 /**
- * Normalisiert Assigned-Daten von Task in Array-Format
+ * Normalizes assigned data from a task into array format.
  * @param {*} raw
  * @returns {*}
  */
@@ -39,7 +39,7 @@ function normalizeAssignedFromTask(raw) {
 }
 
 /**
- * Normalisiert einzelnes Assigned-Item
+ * Normalizes a single assigned item.
  * @param {*} item
  * @returns {*}
  */
@@ -51,7 +51,7 @@ function normalizeAssignedItem(item) {
 }
 
 /**
- * Erstellt Assigned-Wert-Objekt aus Item
+ * Builds an assigned value object from an item.
  * @param {*} item
  * @returns {*}
  */
@@ -64,7 +64,7 @@ function buildAssignedValue(item) {
 }
 
 /**
- * Normalisiert Subtasks von Task
+ * Normalizes subtasks from a task.
  * @param {*} raw
  * @returns {*}
  */
@@ -76,7 +76,7 @@ function normalizeSubtasksFromTask(raw) {
 }
 
 /**
- * Normalisiert einzelnes Subtask-Item
+ * Normalizes a single subtask item.
  * @param {*} item
  * @returns {*}
  */
@@ -88,7 +88,7 @@ function normalizeSubtaskItem(item) {
 }
 
 /**
- * Erstellt Subtask-Wert-Objekt aus Item
+ * Builds a subtask value object from an item.
  * @param {*} item
  * @returns {*}
  */
@@ -100,7 +100,7 @@ function buildSubtaskValue(item) {
 }
 
 /**
- * Konvertiert beliebige Daten zu Array
+ * Converts arbitrary data to an array.
  * @param {*} data
  * @returns {*}
  */
@@ -112,7 +112,7 @@ function normalizeToArray(data) {
 }
 
 /**
- * Wendet gespeicherte Task-Daten auf Formular an (Edit-Mode)
+ * Applies stored task data to the form (edit mode).
  * @param {*} state
  * @param {*} taskData
  * @returns {*}
@@ -131,7 +131,7 @@ function applyTaskDefaults(state, taskData) {
 }
 
 /**
- * Setzt Description in Input
+ * Sets the description in the input.
  * @param {*} taskData
  * @returns {*}
  */
@@ -141,7 +141,7 @@ function setTaskDescription(taskData) {
 }
 
 /**
- * Setzt normalisiertes Datum in Due-Date-Input
+ * Sets the normalized date on the due date input.
  * @param {*} state
  * @param {*} value
  * @returns {*}

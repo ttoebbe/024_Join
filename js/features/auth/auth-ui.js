@@ -15,8 +15,8 @@ function initAnimation() {
 
 function startAnimation(img, bg) {
   if (!img || !bg) return;
-  img.classList.add("animiert");
-  bg.classList.add("bg-animiert");
+  img.classList.add("animated");
+  bg.classList.add("bg-animated");
   if (window.innerWidth <= 480) {
     setTimeout(() => {
       img.src = "./assets/img/homepage_join.png";
@@ -307,4 +307,6 @@ function setSignupBusy(state, busy) {
   if (busy) return void (state.signUpButton.disabled = true);
   setSignupButtonState(state);
 }
+
+
 

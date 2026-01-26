@@ -177,24 +177,25 @@
 }
 
 /* ============================================================================
-   BREAKPOINTS (Desktop-First Approach)
+   BREAKPOINTS (Desktop-first approach)
    ============================================================================
-   ⚠️ CSS-Variablen funktionieren NICHT in Media Queries!
-   Diese Werte müssen hardcoded in @media Queries verwendet werden.
-   
-   HAUPT-BREAKPOINTS:
-   @media (max-width: 1150px) { } // Desktop → Tablet
-   @media (max-width: 800px) { }  // Tablet → Mobile
-   @media (max-width: 480px) { }  // Mobile → Small Mobile
-   
-   SONDERFÄLLE:
-   @media (max-width: 360px) { }  // Extra Small Mobile
-   @media (max-width: 900px) and (min-width: 645px) { }  // Tablet Mid Range
-   @media (min-width: 481px) and (max-width: 990px) { }  // Tablet Range
-   @media (max-width: 1024px) and (max-height: 600px) { }  // Landscape
-   @media (min-width: 801px) { }  // Desktop Only
-   
-   Bei Änderungen: Find & Replace über alle CSS-Dateien verwenden!
+   NOTE: CSS variables do NOT work inside media queries.
+   These values must be hardcoded in @media queries.
+
+   PRIMARY BREAKPOINTS:
+   @media (max-width: 1150px) { } // Desktop -> Tablet
+   @media (max-width: 800px)  { } // Tablet -> Mobile
+   @media (max-width: 480px)  { } // Mobile -> Small mobile
+
+   SPECIAL CASES:
+   @media (max-width: 360px) { } // Extra small mobile
+   @media (max-width: 900px) and (min-width: 645px) { } // Tablet mid range
+   @media (min-width: 481px) and (max-width: 990px) { } // Tablet range
+   @media (max-width: 1024px) and (max-height: 600px) { } // Landscape
+   @media (min-width: 801px) { } // Desktop only
+
+   If you change any values, update all CSS files consistently.
    ============================================================================ */
+
 
 

@@ -3,18 +3,18 @@
     inset: 0;
     /* top:0; right:0; bottom:0; left:0 */
     background-color: rgba(255, 255, 255, 1);
-    /* Start: unsichtbar */
+    /* Start: hidden */
     z-index: 1;
 }
 
-/* Bild */
+/* Image */
 .homepage-image {
     width: 100px;
     height: 122px;
     position: absolute;
     z-index: 2;
 
-    /* Startposition: Mitte */
+    /* Start position: center */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(2);
@@ -43,16 +43,16 @@
 
     100% {
         top: 73px;
-        /* oben */
+        /* top */
         left: 77px;
-        /* links */
+        /* left */
         transform: translate(0, 0) scale(1);
     }
 }
 
 
-/* Animationsklasse */
-.animiert {
+/* Animation class */
+.animated {
     animation: startAnimation 0.5s ease-in-out forwards;
 }
 
@@ -62,7 +62,7 @@
     transform: translate(0, 0) scale(1);
 }
 
-.bg-animiert {
+.bg-animated {
     animation: backgroundFadeOut 0.5s ease-in-out forwards;
 }
 
@@ -217,9 +217,9 @@ form img {
 
 input::placeholder {
     color: #999;
-    /* Optional: Farbe des Platzhalters ändern */
+    /* Optional: change placeholder color */
 
-    /* Abstand des Textes vom linken Rand des Feldes */
+    /* Text inset from the left edge of the field */
 }
 
 .input-fields input {
@@ -267,24 +267,24 @@ input::placeholder {
 
 .field-error {
     position: absolute;
-    /* absolute Positionierung */
+    /* absolute positioning */
     top: 100%;
-    /* direkt unter dem Input */
+    /* directly under the input */
     left: 0;
     font-size: 14px;
     color: #ff3b3b;
     line-height: 1.2;
     opacity: 0;
-    /* initial unsichtbar */
+    /* initially hidden */
     transform: translateY(-10px);
-    /* leicht nach oben */
+    /* slightly above */
     transition: opacity 0.3s ease, transform 0.3s ease;
-    /* sanfte Animation */
+    /* smooth animation */
     pointer-events: none;
-    /* Input bleibt klickbar */
+    /* input stays clickable */
 }
 
-/* Fehler anzeigen: von oben nach unten */
+/* Show error: slide down */
 .field-error.show {
     opacity: 1;
     transform: translateY(0);
@@ -419,7 +419,7 @@ footer a:hover {
         z-index: 1;
     }
 
-    .bg-animiert {
+    .bg-animated {
         animation: backgroundFadeOutMobile 500ms ease-in-out forwards;
     }
 
@@ -440,10 +440,10 @@ footer a:hover {
         z-index: 2;
     }
 
-    /* Logo startet NACH dem Background */
-    .animiert {
+    /* Logo starts AFTER the background */
+    .animated {
         animation-delay: 500ms;
-        /* exakt nach Background */
+        /* exactly after background */
         animation: startAnimationMobile 1000ms linear forwards;
     }
 
@@ -485,7 +485,7 @@ footer a:hover {
         z-index: 1;
     }
 
-    .bg-animiert {
+    .bg-animated {
         animation: backgroundFadeOutMobile 500ms ease-in-out forwards;
     }
 
@@ -507,10 +507,10 @@ footer a:hover {
         z-index: 2;
     }
 
-    /* Logo startet NACH dem Background */
-    .animiert {
+    /* Logo starts AFTER the background */
+    .animated {
         animation-delay: 500ms;
-        /* exakt nach Background */
+        /* exactly after background */
         animation: startAnimationMobile 1000ms linear forwards;
     }
 
@@ -655,9 +655,9 @@ footer a:hover {
         }
     }
 
-    .animiert {
+    .animated {
         animation-delay: 500ms;
-        /* exakt nach Background */
+        /* exactly after background */
         animation: startAnimationMobile 1000ms linear forwards;
     }
 
@@ -665,3 +665,5 @@ footer a:hover {
         padding: 10px 11px 20px 11px;
     }
 }
+
+
