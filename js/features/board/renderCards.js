@@ -151,7 +151,7 @@ function normalizeCategory(value) {
  */
 function createSubtaskProgress(task) {
   const stats = getSubtaskStats(task);
-  if (!stats) return null;
+  if (!stats || stats.done === 0) return null;
   return buildProgressWrap(stats);
 }
 /**
