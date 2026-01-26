@@ -371,7 +371,6 @@ body{
     max-width: 100%;
   }
 
-  .topbar-title{ display: none; }
   .topbar-help{
     display: inline-flex;
     align-items: center;
@@ -448,6 +447,12 @@ body{
 
   .nav-links nav p{
     font-size: 16px;
+  }
+}
+
+@media (max-width: 930px){
+  .topbar-title{
+    display: none;
   }
 }
 
