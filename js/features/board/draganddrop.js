@@ -172,3 +172,4 @@ function rollbackStatus(task, previous) {
   renderBoard();
 }
 
+

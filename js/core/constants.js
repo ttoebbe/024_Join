@@ -19,10 +19,10 @@ const ROUTES = {
   SUMMARY: '/html/pages/summary.html',
   BOARD: '/html/pages/board.html',
   CONTACTS: '/html/pages/contacts.html',
-  ADD_TASK: '/html/pages/add_task.html',
+  ADD_TASK: '/html/pages/add-task.html',
   HELP: '/html/pages/help.html',
-  LEGAL_NOTICE: '/html/pages/legal_notice.html',
-  PRIVACY_POLICY: '/html/pages/privacy_policy.html'
+  LEGAL_NOTICE: '/html/pages/legal-notice.html',
+  PRIVACY_POLICY: '/html/pages/privacy-policy.html'
 };
 
 // Task status constants
@@ -45,3 +45,4 @@ const API_CONFIG = {
   BASE_URL: 'https://remotestorage-67778-default-rtdb.europe-west1.firebasedatabase.app',
   TIMEOUT: 10000
 };
+

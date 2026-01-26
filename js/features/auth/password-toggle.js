@@ -74,7 +74,7 @@ function showEyeIcon(input, lock, eye) {
   lock.classList.add("d-none");
   eye.classList.remove("d-none");
   eye.classList.add("input-icon-password");
-  eye.src = "/assets/img/icons/visibility_off.png";
+  eye.src = "/assets/img/icons/visibility-off.png";
 }
 /**
  * Wires eye click for password visibility toggle.
@@ -96,7 +96,7 @@ function wirePasswordToggle({ input, eye }) {
 function togglePasswordVisibility(input, eye) {
   const isHidden = input.type === "password";
   input.type = isHidden ? "text" : "password";
-  eye.src = isHidden ? "/assets/img/icons/visibility.png" : "/assets/img/icons/visibility_off.png";
+  eye.src = isHidden ? "/assets/img/icons/visibility.png" : "/assets/img/icons/visibility-off.png";
 }
 /**
  * Stops propagation on lock icon.
@@ -106,5 +106,7 @@ function togglePasswordVisibility(input, eye) {
 function wirePasswordLock({ lock }) {
   lock.addEventListener("click", (e) => e.stopPropagation());
 }
+
+
 
 

@@ -346,7 +346,7 @@ function setOverlayAvatarDefault() {
 function ensureDefaultAvatarIcon(avatar) {
   if (avatar.querySelector("img")) return;
   const img = document.createElement("img");
-  img.src = "/assets/img/icons/Group 13.svg";
+  img.src = "/assets/img/icons/group-13.svg";
   img.alt = "User avatar";
   avatar.appendChild(img);
 }
@@ -382,4 +382,6 @@ function openEditContact(contactId) {
   setCurrentEditId(contactId);
   openOverlay(elements.overlay);
 }
+
+
 

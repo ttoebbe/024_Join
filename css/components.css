@@ -381,7 +381,7 @@ body{
   .topbar-logo{
     width: 32px;
     height: 40px;
-    background: url("/assets/img/homepage_join.png") no-repeat center / contain;
+    background: url("/assets/img/homepage-join.png") no-repeat center / contain;
   }
 
 
@@ -544,4 +544,6 @@ body{
 .user-dropdown-logout{
   margin-top: 2px;
 }
+
+
 

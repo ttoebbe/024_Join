@@ -1,7 +1,7 @@
 const NAV_BAR_TEMPLATE = `
   <div class="nav-bar">
     <div class="nav-logo">
-      <img class="nav-img" src="../../assets/img/Capa 2.png" alt="Join Logo" />
+      <img class="nav-img" src="../../assets/img/capa-2.png" alt="Join Logo" />
     </div>
 
     <div class="nav-links">
@@ -10,7 +10,7 @@ const NAV_BAR_TEMPLATE = `
           <img src="../../assets/img/icons/summary.png" alt="" />
           <p>Summary</p>
         </a>
-        <a href="add_task.html" data-route="add_task">
+        <a href="add-task.html" data-route="add_task">
           <img src="../../assets/img/icons/addtasks.png" alt="" />
           <p>Add Tasks</p>
         </a>
@@ -25,8 +25,8 @@ const NAV_BAR_TEMPLATE = `
       </nav>
 
       <div class="footer-links">
-        <a href="privacy_policy.html">Privacy Policy</a>
-        <a href="legal_notice.html">Legal notice</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="legal-notice.html">Legal notice</a>
       </div>
     </div>
   </div>
@@ -35,7 +35,7 @@ const NAV_BAR_TEMPLATE = `
 const GUEST_NAV_TEMPLATE = `
   <div class="nav-bar">
     <div class="nav-logo">
-      <img class="nav-img" src="../../assets/img/Capa 2.png" alt="Join Logo" />
+      <img class="nav-img" src="../../assets/img/capa-2.png" alt="Join Logo" />
     </div>
 
     <div class="nav-links">
@@ -47,8 +47,8 @@ const GUEST_NAV_TEMPLATE = `
       </nav>
 
       <div class="footer-links">
-        <a href="privacy_policy.html">Privacy Policy</a>
-        <a href="legal_notice.html">Legal notice</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="legal-notice.html">Legal notice</a>
       </div>
     </div>
   </div>
@@ -84,8 +84,8 @@ const HEADER_TEMPLATE = `
           </button>
 
           <div class="user-dropdown" id="user-dropdown" role="menu" hidden>
-            <a class="user-dropdown-item" href="legal_notice.html" role="menuitem">Legal Notice</a>
-            <a class="user-dropdown-item" href="privacy_policy.html" role="menuitem">Privacy Policy</a>
+            <a class="user-dropdown-item" href="legal-notice.html" role="menuitem">Legal Notice</a>
+            <a class="user-dropdown-item" href="privacy-policy.html" role="menuitem">Privacy Policy</a>
             <button class="user-dropdown-item user-dropdown-logout" type="button" id="user-logout" role="menuitem">Log out</button>
           </div>
         </div>
@@ -130,8 +130,8 @@ function shouldHideNavForGuest() {
  */
 function isPolicyPage() {
   const path = window.location.pathname.toLowerCase();
-  return path.endsWith("/legal_notice.html") || 
-         path.endsWith("/privacy_policy.html") ||
+  return path.endsWith("/legal-notice.html") || 
+         path.endsWith("/privacy-policy.html") ||
          path.endsWith("/help.html");
 }
 
@@ -314,4 +314,6 @@ function wireLogout(logoutBtn) {
     window.location.href = "/index.html";
   });
 }
+
+
 

@@ -139,7 +139,7 @@ function closeAllMoveMenus() {
 /**
  * Wires the main and column add-task buttons to open the overlay.
  */
-// moved to js/board/createTask.js
+// moved to js/board/create-task.js
 /**
  * Loads tasks from Firebase.
  */
@@ -278,4 +278,5 @@ function normalizeStatus(value) {
   return "todo";
 }
 // Drag & Drop moved to js/board/draganddrop.js
+
 

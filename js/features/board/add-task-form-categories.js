@@ -152,3 +152,4 @@ function clearCategoryInput(state) {
   if (state.categoryInput) state.categoryInput.value = "";
 }
 
+

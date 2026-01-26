@@ -9,7 +9,7 @@ function initAnimation() {
     return;
   }
   sessionStorage.setItem("animationShown", "true");
-  if (window.innerWidth <= 480) img.src = "./assets/img/Capa%201.png";
+  if (window.innerWidth <= 480) img.src = "./assets/img/capa-1.png";
   setTimeout(() => startAnimation(img, bg), 200);
 }
 
@@ -19,7 +19,7 @@ function startAnimation(img, bg) {
   bg.classList.add("bg-animated");
   if (window.innerWidth <= 480) {
     setTimeout(() => {
-      img.src = "./assets/img/homepage_join.png";
+      img.src = "./assets/img/homepage-join.png";
     }, 500);
   }
   setTimeout(() => {
@@ -29,7 +29,7 @@ function startAnimation(img, bg) {
 
 function skipAnimation(img, bg) {
   if (!img || !bg) return;
-  img.src = "./assets/img/homepage_join.png";
+  img.src = "./assets/img/homepage-join.png";
   if (window.innerWidth <= 480) {
     img.style.top = "30px";
     img.style.left = "30px";
@@ -307,6 +307,8 @@ function setSignupBusy(state, busy) {
   if (busy) return void (state.signUpButton.disabled = true);
   setSignupButtonState(state);
 }
+
+
 
 
 
