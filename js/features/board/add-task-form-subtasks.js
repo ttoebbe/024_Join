@@ -34,6 +34,9 @@ function wireSubtaskList(state) {
   state.subtaskList.addEventListener("click", (e) => {
     handleSubtaskListClick(e, state);
   });
+  state.subtaskList.addEventListener("input", (e) => {
+    handleSubtaskInput(e);
+  });
   state.subtaskList.addEventListener("keydown", (e) => {
     handleSubtaskEditKeydown(e, state);
   });
@@ -194,9 +197,6 @@ function handleSubtaskEditKeydown(e) {
     e.target.blur();
   }
   if (e.key === "Escape") revertSubtaskEdit(e.target);
-  if (e.target.textContent.length > SUBTASK_MAX_LENGTH) {
-    e.target.textContent = e.target.textContent.slice(0, SUBTASK_MAX_LENGTH);
-  }
 }
 
 function handleSubtaskFocus(e) {
@@ -228,6 +228,36 @@ function revertSubtaskEdit(target) {
   const original = target.dataset.original || target.textContent || "";
   target.textContent = original;
   target.blur();
+}
+
+function handleSubtaskInput(e) {
+  if (!e.target?.classList?.contains("subtask-text")) return;
+  enforceInlineSubtaskMax(e.target);
+  updateSubtaskInlineError(e.target);
+}
+
+function enforceInlineSubtaskMax(target) {
+  const value = String(target.textContent || "");
+  if (value.length <= SUBTASK_MAX_LENGTH) return;
+  target.textContent = value.slice(0, SUBTASK_MAX_LENGTH);
+  placeCaretAtEnd(target);
+}
+
+function updateSubtaskInlineError(target) {
+  const message =
+    target.textContent.length >= SUBTASK_MAX_LENGTH
+      ? "Subtask is too long (max 30 characters)."
+      : "";
+  setSubtaskError(message);
+}
+
+function placeCaretAtEnd(target) {
+  const range = document.createRange();
+  range.selectNodeContents(target);
+  range.collapse(false);
+  const sel = window.getSelection();
+  sel?.removeAllRanges();
+  sel?.addRange(range);
 }
 
 /**
