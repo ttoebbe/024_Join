@@ -484,6 +484,12 @@ main {
   gap: 12px;
   justify-content: flex-end;
   margin-top: 8px;
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(255, 255, 255, 1) 80%, rgba(255, 255, 255, 0.95));
+  padding-top: 12px;
+  padding-bottom: 8px;
+  z-index: 10;
 }
 
 .overlay-avatar {
