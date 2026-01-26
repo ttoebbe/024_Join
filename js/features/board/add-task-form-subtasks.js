@@ -7,6 +7,7 @@ function initSubtasks(state) {
   wireSubtaskAdd(state);
   wireSubtaskInput(state);
   wireSubtaskList(state);
+  wireSubtaskCounter(state);
   renderSubtasks(state);
 }
 
@@ -21,6 +22,10 @@ function wireSubtaskAdd(state) {
 function wireSubtaskInput(state) {
   state.subtaskInput.addEventListener("keydown", (e) => {
     handleSubtaskKeydown(e, state);
+  });
+  state.subtaskInput.addEventListener("input", () => {
+    enforceSubtaskMax(state);
+    updateSubtaskCounter(state);
   });
 }
 
@@ -73,6 +78,7 @@ function addSubtaskFromInput(state) {
   if (!value) return;
   state.selectedSubtasks.push({ title: value, done: false });
   state.subtaskInput.value = "";
+  updateSubtaskCounter(state);
   renderSubtasks(state);
 }
 
@@ -138,6 +144,28 @@ function addTaskBuildRemoveSubtaskButton(state, index) {
 function removeSubtask(state, index) {
   state.selectedSubtasks.splice(index, 1);
   renderSubtasks(state);
+}
+
+const SUBTASK_MAX_LENGTH = 30;
+
+function wireSubtaskCounter(state) {
+  enforceSubtaskMax(state);
+  updateSubtaskCounter(state);
+}
+
+function updateSubtaskCounter(state) {
+  const counter = document.getElementById("subtask-counter");
+  if (!counter) return;
+  const length = state.subtaskInput?.value.length || 0;
+  counter.textContent = `${length}/${SUBTASK_MAX_LENGTH}`;
+}
+
+function enforceSubtaskMax(state) {
+  const input = state.subtaskInput;
+  if (!input) return;
+  const value = String(input.value || "");
+  if (value.length <= SUBTASK_MAX_LENGTH) return;
+  input.value = value.slice(0, SUBTASK_MAX_LENGTH);
 }
 
 function handleSubtaskEditKeydown(e) {

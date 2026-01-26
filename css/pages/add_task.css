@@ -199,6 +199,10 @@
   text-align: right;
 }
 
+#subtask-counter {
+  width: calc(100% - 52px);
+}
+
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 6px);
