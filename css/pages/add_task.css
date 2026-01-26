@@ -180,6 +180,13 @@
   flex-shrink: 0;
 }
 
+.field-error {
+  color: #ff3d00;
+  font-size: 12px;
+  margin-top: 4px;
+  min-height: 14px;
+}
+
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 6px);

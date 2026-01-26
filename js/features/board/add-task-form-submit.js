@@ -119,6 +119,7 @@ function getTaskFormValues(state) {
 function validateTaskForm(state) {
   clearAddTaskErrors(state);
   const values = getTaskFormValues(state);
+  if (isTitleTooLong(values.title)) return showTitleLimitError(state);
   const error = getTaskValidationError(values);
   if (!error) return values;
   showAddTaskError(state, values, error);
@@ -179,6 +180,7 @@ function clearAddTaskErrors(state) {
   clearInputError(state.titleInput);
   clearInputError(state.dueDateInput);
   clearInputError(state.categoryToggle);
+  clearFieldError("taskTitle-error", state.titleInput);
 }
 /**
  * @param {*} element
@@ -186,6 +188,33 @@ function clearAddTaskErrors(state) {
  */
 function clearInputError(element) {
   if (element) element.classList.remove("input-error");
+}
+
+const TITLE_MAX_LENGTH = 60;
+
+function isTitleTooLong(title) {
+  return Boolean(title && title.length > TITLE_MAX_LENGTH);
+}
+
+function getTitleTooLongMessage() {
+  return `Title is too long (max ${TITLE_MAX_LENGTH} characters).`;
+}
+
+function showTitleLimitError(state) {
+  showFieldError("taskTitle-error", getTitleTooLongMessage(), state.titleInput);
+  return null;
+}
+
+function showFieldError(errorId, message, inputEl) {
+  const errorEl = document.getElementById(errorId);
+  if (!errorEl) return;
+  errorEl.textContent = message || "";
+  errorEl.style.display = message ? "block" : "none";
+  if (inputEl) inputEl.classList.toggle("input-error", Boolean(message));
+}
+
+function clearFieldError(errorId, inputEl) {
+  showFieldError(errorId, "", inputEl);
 }
 /**
  * @param {*} state
@@ -304,10 +333,17 @@ function wireCreateButtonState(state) {
 }
 function attachCreateButtonListeners(state, handler) {
   state.titleInput?.addEventListener("input", handler);
+  state.titleInput?.addEventListener("input", () => validateTitleLength(state));
   state.dueDateInput?.addEventListener("input", handler);
   state.dueDateInput?.addEventListener("change", handler);
   state.form.addEventListener("input", handler);
   state.form.addEventListener("change", handler);
+}
+function validateTitleLength(state) {
+  const value = state.titleInput?.value.trim() || "";
+  if (!value) return clearFieldError("taskTitle-error", state.titleInput);
+  if (isTitleTooLong(value)) return showTitleLimitError(state);
+  clearFieldError("taskTitle-error", state.titleInput);
 }
 /**
  * @param {*} state

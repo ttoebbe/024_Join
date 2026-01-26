@@ -287,6 +287,11 @@
   font-size: 16px;
   font-weight: 700;
   color: var(--color-overlay-dark);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
 }
 
 .board-card-desc {

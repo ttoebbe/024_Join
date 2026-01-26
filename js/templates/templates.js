@@ -217,8 +217,9 @@ function getAddTaskFormOpen(presetStatus) {
  */
 function getAddTaskLeftFields() {
   return `
-    <label>Title<span class="req">*</span></label>
-    <input id="taskTitle" type="text" placeholder="Enter a title" />
+      <label>Title<span class="req">*</span></label>
+      <input id="taskTitle" type="text" placeholder="Enter a title" />
+      <div class="field-error" id="taskTitle-error"></div>
     <label>Description</label>
     <textarea id="taskDescription" placeholder="Enter a Description"></textarea>
     <label>Due date<span class="req">*</span></label>
