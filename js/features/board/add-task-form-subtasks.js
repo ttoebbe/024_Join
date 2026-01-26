@@ -194,6 +194,9 @@ function handleSubtaskEditKeydown(e) {
     e.target.blur();
   }
   if (e.key === "Escape") revertSubtaskEdit(e.target);
+  if (e.target.textContent.length > SUBTASK_MAX_LENGTH) {
+    e.target.textContent = e.target.textContent.slice(0, SUBTASK_MAX_LENGTH);
+  }
 }
 
 function handleSubtaskFocus(e) {
@@ -216,7 +219,7 @@ function getSubtaskIndexFromTarget(target) {
 }
 
 function updateSubtaskTitle(state, index, target) {
-  const value = (target.textContent || "").trim() || "Subtask";
+  const value = (target.textContent || "").trim().slice(0, SUBTASK_MAX_LENGTH) || "Subtask";
   state.selectedSubtasks[index].title = value;
   target.textContent = value;
 }
