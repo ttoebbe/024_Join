@@ -158,7 +158,8 @@ function buildContactMenuButton() {
 /**
  * Template functions for the add task form
  */
-const ADD_TASK_PRIORITY_BLOCK_TEMPLATE = `
+function getAddTaskPriorityBlockTemplate() {
+  return `
     <label>Priority</label>
     <div class="prio-row">
       <button type="button" class="prio-btn" data-prio="urgent">
@@ -184,6 +185,7 @@ const ADD_TASK_PRIORITY_BLOCK_TEMPLATE = `
       </button>
     </div>
   `;
+}
 
 /**
  * @param {*} presetStatus = "todo"
@@ -247,7 +249,7 @@ function getAddTaskRightColumn() {
  * @returns {*}
  */
 function getAddTaskPriorityBlock() {
-  return ADD_TASK_PRIORITY_BLOCK_TEMPLATE;
+  return getAddTaskPriorityBlockTemplate();
 }
 /**
  * @returns {*}

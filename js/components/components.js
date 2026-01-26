@@ -1,4 +1,5 @@
-const NAV_BAR_TEMPLATE = `
+function getNavBarTemplate() {
+  return `
   <div class="nav-bar">
     <div class="nav-logo">
       <img class="nav-img" src="../../assets/img/capa-2.png" alt="Join Logo" />
@@ -31,8 +32,10 @@ const NAV_BAR_TEMPLATE = `
     </div>
   </div>
 `;
+}
 
-const GUEST_NAV_TEMPLATE = `
+function getGuestNavTemplate() {
+  return `
   <div class="nav-bar">
     <div class="nav-logo">
       <img class="nav-img" src="../../assets/img/capa-2.png" alt="Join Logo" />
@@ -53,8 +56,10 @@ const GUEST_NAV_TEMPLATE = `
     </div>
   </div>
 `;
+}
 
-const GUEST_HEADER_TEMPLATE = `
+function getGuestHeaderTemplate() {
+  return `
   <header class="topbar">
     <div class="topbar-inner">
       <div class="topbar-logo" aria-hidden="true"></div>
@@ -67,8 +72,10 @@ const GUEST_HEADER_TEMPLATE = `
     </div>
   </header>
 `;
+}
 
-const HEADER_TEMPLATE = `
+function getHeaderTemplate() {
+  return `
   <header class="topbar">
     <div class="topbar-inner">
       <div class="topbar-logo" aria-hidden="true"></div>
@@ -93,6 +100,7 @@ const HEADER_TEMPLATE = `
     </div>
   </header>
 `;
+}
 
 document.addEventListener("DOMContentLoaded", handleComponentsReady);
 
@@ -143,8 +151,8 @@ function applyGuestMode() {
   document.body.classList.add("guest-mode");
   const nav = document.getElementById("nav-bar-placeholder");
   const header = document.getElementById("header-placeholder");
-  if (nav) nav.innerHTML = GUEST_NAV_TEMPLATE;
-  if (header) header.innerHTML = GUEST_HEADER_TEMPLATE;
+  if (nav) nav.innerHTML = getGuestNavTemplate();
+  if (header) header.innerHTML = getGuestHeaderTemplate();
 }
 
 /**
@@ -153,7 +161,7 @@ function applyGuestMode() {
 function renderNavBar() {
   const host = document.getElementById("nav-bar-placeholder");
   if (!host) return;
-  host.innerHTML = NAV_BAR_TEMPLATE;
+  host.innerHTML = getNavBarTemplate();
 }
 
 /**
@@ -162,7 +170,7 @@ function renderNavBar() {
 function renderHeader() {
   const host = document.getElementById("header-placeholder");
   if (!host) return;
-  host.innerHTML = HEADER_TEMPLATE;
+  host.innerHTML = getHeaderTemplate();
 }
 
 /**
