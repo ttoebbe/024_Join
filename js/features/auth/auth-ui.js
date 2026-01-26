@@ -215,16 +215,20 @@ function validateLoginEmailField(inputEl, errorId) {
 
 function validatePasswordField(inputEl, errorId) {
   const value = inputEl.value.trim();
-  if (!value) {
-    showFieldError(errorId, "Password is required.", inputEl);
-    return false;
-  }
-  if (value.length < 4) {
-    showFieldError(errorId, "Password must be at least 4 characters.", inputEl);
-    return false;
-  }
-  if (/\s/.test(value)) {
-    showFieldError(errorId, "Password cannot contain spaces.", inputEl);
+  const error = getPasswordValidationError(value);
+  return applyPasswordValidationResult(errorId, inputEl, error);
+}
+
+function getPasswordValidationError(value) {
+  if (!value) return "Password is required.";
+  if (value.length < 4) return "Password must be at least 4 characters.";
+  if (/\s/.test(value)) return "Password cannot contain spaces.";
+  return "";
+}
+
+function applyPasswordValidationResult(errorId, inputEl, error) {
+  if (error) {
+    showFieldError(errorId, error, inputEl);
     return false;
   }
   clearFieldError(errorId, inputEl);

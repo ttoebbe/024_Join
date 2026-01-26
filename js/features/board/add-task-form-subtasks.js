@@ -31,23 +31,31 @@ function wireSubtaskInput(state) {
 }
 
 function wireSubtaskList(state) {
+  wireSubtaskListClick(state);
+  wireSubtaskListInput(state);
+  wireSubtaskListKeydown(state);
+  wireSubtaskListFocus(state);
+}
+
+function wireSubtaskListClick(state) {
   state.subtaskList.addEventListener("click", (e) => {
     handleSubtaskListClick(e, state);
   });
-  state.subtaskList.addEventListener("input", (e) => {
-    handleSubtaskInput(e);
-  });
+}
+
+function wireSubtaskListInput(state) {
+  state.subtaskList.addEventListener("input", handleSubtaskInput);
+}
+
+function wireSubtaskListKeydown(state) {
   state.subtaskList.addEventListener("keydown", (e) => {
     handleSubtaskEditKeydown(e, state);
   });
-  state.subtaskList.addEventListener("focusin", (e) => {
-    handleSubtaskFocus(e);
-  });
-  state.subtaskList.addEventListener(
-    "blur",
-    (e) => handleSubtaskBlur(e, state),
-    true
-  );
+}
+
+function wireSubtaskListFocus(state) {
+  state.subtaskList.addEventListener("focusin", handleSubtaskFocus);
+  state.subtaskList.addEventListener("blur", (e) => handleSubtaskBlur(e, state), true);
 }
 
 function handleSubtaskListClick(e, state) {

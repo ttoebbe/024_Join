@@ -62,15 +62,36 @@ function wireOverlayEvents(elements, listElement) {
  */
 function registerOverlayInputHandlers(elements) {
   const clear = () => clearContactFormErrors(elements);
+  registerOverlayClearHandlers(elements, clear);
+  registerOverlayValidationHandlers(elements);
+  wireContactCounters(elements);
+}
+
+function registerOverlayClearHandlers(elements, clear) {
   elements.nameInput?.addEventListener("input", clear);
   elements.emailInput?.addEventListener("input", clear);
   elements.phoneInput?.addEventListener("input", clear);
+}
+
+function registerOverlayValidationHandlers(elements) {
+  registerNameLengthValidation(elements);
+  registerEmailLengthValidation(elements);
+  registerPhoneValidation(elements);
+}
+
+function registerNameLengthValidation(elements) {
   elements.nameInput?.addEventListener("input", () => {
     validateContactLength(elements.nameInput, CONTACT_NAME_MAX, "contact-name-error", "Name");
   });
+}
+
+function registerEmailLengthValidation(elements) {
   elements.emailInput?.addEventListener("input", () => {
     validateContactLength(elements.emailInput, CONTACT_EMAIL_MAX, "contact-email-error", "Email");
   });
+}
+
+function registerPhoneValidation(elements) {
   elements.phoneInput?.addEventListener("input", () => {
     validatePhoneDigits(
       elements.phoneInput,
@@ -79,7 +100,6 @@ function registerOverlayInputHandlers(elements) {
       "contact-phone-error"
     );
   });
-  wireContactCounters(elements);
 }
 
 function wireContactCounters(elements) {

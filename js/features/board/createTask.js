@@ -258,33 +258,34 @@ function createDetailActions(task) {
   return actions;
 }
 
+function createDetailButton(label, onClick) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "task-detail-btn";
+  btn.textContent = label;
+  btn.addEventListener("click", onClick);
+  return btn;
+}
+
 function createDeleteButton(task) {
-  const del = document.createElement("button");
-  del.type = "button";
-  del.className = "task-detail-btn";
-  del.textContent = "Delete";
-  del.addEventListener("click", async () => {
-    const ok = await showConfirmOverlay({
-      title: "Delete task?",
-      message: "Do you really want to delete this task?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
-    });
-    if (!ok) return;
-    await deleteTaskAndRefresh(task?.id);
-  });
-  return del;
+  return createDetailButton("Delete", () => confirmDeleteTask(task?.id));
 }
 
 function createEditButton(task) {
-  const edit = document.createElement("button");
-  edit.type = "button";
-  edit.className = "task-detail-btn";
-  edit.textContent = "Edit";
-  edit.addEventListener("click", () => {
+  return createDetailButton("Edit", () => {
     if (typeof openEditTaskOverlay === "function") openEditTaskOverlay(task);
   });
-  return edit;
+}
+
+async function confirmDeleteTask(taskId) {
+  const ok = await showConfirmOverlay({
+    title: "Delete task?",
+    message: "Do you really want to delete this task?",
+    confirmText: "Delete",
+    cancelText: "Cancel",
+  });
+  if (!ok) return;
+  await deleteTaskAndRefresh(taskId);
 }
 
 async function deleteTaskAndRefresh(taskId) {

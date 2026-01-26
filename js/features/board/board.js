@@ -63,34 +63,57 @@ function wireMoveMenus() {
 }
 
 function handleMoveMenuClick(e) {
+  if (handleMoveToggleClick(e)) return;
+  handleMoveItemClick(e);
+}
+
+function handleMoveToggleClick(e) {
   const toggle = e.target.closest("[data-move-toggle]");
-  if (toggle) {
-    e.stopPropagation();
-    const card = toggle.closest(".board-card");
-    const menu = card?.querySelector(".board-move-menu");
-    toggleMoveMenu(menu);
+  if (!toggle) return false;
+  e.stopPropagation();
+  toggleMoveMenu(getMoveMenuFromToggle(toggle));
+  return true;
+}
+
+function getMoveMenuFromToggle(toggle) {
+  const card = toggle.closest(".board-card");
+  return card?.querySelector(".board-move-menu");
+}
+
+function handleMoveItemClick(e) {
+  const item = e.target.closest(".board-move-item");
+  if (!item) return;
+  e.stopPropagation();
+  const action = getMoveActionFromItem(item);
+  closeAllMoveMenus();
+  if (!action) return;
+  applyMoveAction(action);
+}
+
+function getMoveActionFromItem(item) {
+  const menu = item.closest(".board-move-menu");
+  const card = item.closest(".board-card");
+  const taskId = menu?.dataset.taskId || card?.dataset.taskId;
+  const status = item.dataset.moveItem;
+  if (!taskId || !status) return null;
+  return { taskId, status };
+}
+
+function applyMoveAction({ taskId, status }) {
+  if (typeof updateTaskStatus === "function") {
+    updateTaskStatus(taskId, status);
     return;
   }
+  if (!TaskService?.update) return;
+  const task = findBoardTask(taskId);
+  if (!task) return;
+  task.status = status;
+  renderBoard();
+  TaskService.update(task.id, task);
+}
 
-  const item = e.target.closest(".board-move-item");
-  if (item) {
-    e.stopPropagation();
-    const menu = item.closest(".board-move-menu");
-    const card = item.closest(".board-card");
-    const taskId = menu?.dataset.taskId || card?.dataset.taskId;
-    const status = item.dataset.moveItem;
-    closeAllMoveMenus();
-    if (!taskId || !status) return;
-    if (typeof updateTaskStatus === "function") {
-      updateTaskStatus(taskId, status);
-    } else if (TaskService?.update) {
-      const task = boardState.tasks.find((t) => String(t?.id) === String(taskId));
-      if (!task) return;
-      task.status = status;
-      renderBoard();
-      TaskService.update(task.id, task);
-    }
-  }
+function findBoardTask(taskId) {
+  return boardState.tasks.find((t) => String(t?.id) === String(taskId));
 }
 
 function handleMoveMenuOutsideClick(e) {
