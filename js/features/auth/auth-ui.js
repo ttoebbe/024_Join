@@ -48,70 +48,70 @@ function showSuccessOverlay() {
 
 
 
-function showLoginErrorState(emailEl, pwEl) {
-  showFieldError("email-error", "Invalid email address or password", emailEl);
-  showFieldError("password-error", "Invalid email address or password", pwEl);
+function showLoginErrorState(emailInput, passwordInput) {
+  showFieldError("email-error", "Invalid email address or password", emailInput);
+  showFieldError("password-error", "Invalid email address or password", passwordInput);
 }
 
-function clearLoginErrorState(emailEl, pwEl) {
-  emailEl.classList.remove("input-error");
-  pwEl.classList.remove("input-error");
+function clearLoginErrorState(emailInput, passwordInput) {
+  emailInput.classList.remove("input-error");
+  passwordInput.classList.remove("input-error");
 }
 
-function wireLoginErrorHandlers({ emailEl, pwEl }) {
-  const clear = () => clearLoginErrorState(emailEl, pwEl);
-  emailEl.addEventListener("input", () => clearFieldError("email-error", emailEl));
-  pwEl.addEventListener("input", () => clearFieldError("password-error", pwEl));
-  emailEl.addEventListener("blur", () => validateFieldWithAutoDismiss(emailEl, "email-error", validateEmailField));
-  pwEl.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, "password-error", validateLoginPasswordField));
+function wireLoginErrorHandlers({ emailInput, passwordInput }) {
+  const clear = () => clearLoginErrorState(emailInput, passwordInput);
+  emailInput.addEventListener("input", () => clearFieldError("email-error", emailInput));
+  passwordInput.addEventListener("input", () => clearFieldError("password-error", passwordInput));
+  emailInput.addEventListener("blur", () => validateFieldWithAutoDismiss(emailInput, "email-error", validateEmailField));
+  passwordInput.addEventListener("blur", () => validateFieldWithAutoDismiss(passwordInput, "password-error", validateLoginPasswordField));
 }
 
-function validateLoginInputs({ emailEl, pwEl }) {
-  clearLoginErrorState(emailEl, pwEl);
+function validateLoginInputs({ emailInput, passwordInput }) {
+  clearLoginErrorState(emailInput, passwordInput);
   let valid = true;
-  if (!validateLoginEmailField(emailEl, "email-error")) valid = false;
-  if (!validateLoginPasswordField(pwEl, "password-error")) valid = false;
+  if (!validateLoginEmailField(emailInput, "email-error")) valid = false;
+  if (!validateLoginPasswordField(passwordInput, "password-error")) valid = false;
   return valid;
 }
 
-function setLoginBusy({ btnLogin }, busy) {
-  if (!btnLogin) return;
-  btnLogin.disabled = busy;
+function setLoginBusy({ loginButton }, busy) {
+  if (!loginButton) return;
+  loginButton.disabled = busy;
 }
 
-function showSignupErrorState(pwEl, pw2El, message) {
-  pwEl.classList.add("input-error");
-  pw2El.classList.add("input-error");
+function showSignupErrorState(passwordInput, confirmPasswordInput, message) {
+  passwordInput.classList.add("input-error");
+  confirmPasswordInput.classList.add("input-error");
 }
 
-function clearSignupErrorState(pwEl, pw2El) {
-  pwEl.classList.remove("input-error");
-  pw2El.classList.remove("input-error");
+function clearSignupErrorState(passwordInput, confirmPasswordInput) {
+  passwordInput.classList.remove("input-error");
+  confirmPasswordInput.classList.remove("input-error");
 }
 
-function wireSignupErrorHandlers({ nameEl, emailEl, pwEl, pw2El, policyEl }) {
-  const clear = () => clearSignupErrorState(pwEl, pw2El);
-  nameEl.addEventListener("input", () => clearFieldError("username-error", nameEl));
-  emailEl.addEventListener("input", () => clearFieldError("suEmail-error", emailEl));
-  pwEl.addEventListener("input", () => clearFieldError("suPw-error", pwEl));
-  pw2El.addEventListener("input", () => clearFieldError("suPw2-error", pw2El));
-  policyEl?.addEventListener("change", () => clearFieldError("suPolicy-error", policyEl));
-  nameEl.addEventListener("blur", () => validateFieldWithAutoDismiss(nameEl, "username-error", validateUsernameField));
-  emailEl.addEventListener("blur", () => handleSignupEmailBlur(emailEl));
-  pwEl.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, "suPw-error", validatePasswordField));
-  pw2El.addEventListener("blur", () => validateFieldWithAutoDismiss(pwEl, pw2El, "suPw2-error", validateConfirmPasswordField));
+function wireSignupErrorHandlers({ nameInput, emailInput, passwordInput, confirmPasswordInput, policyCheckbox }) {
+  const clear = () => clearSignupErrorState(passwordInput, confirmPasswordInput);
+  nameInput.addEventListener("input", () => clearFieldError("username-error", nameInput));
+  emailInput.addEventListener("input", () => clearFieldError("signUpEmail-error", emailInput));
+  passwordInput.addEventListener("input", () => clearFieldError("signUpPassword-error", passwordInput));
+  confirmPasswordInput.addEventListener("input", () => clearFieldError("signUpConfirmPassword-error", confirmPasswordInput));
+  policyCheckbox?.addEventListener("change", () => clearFieldError("signUpPolicy-error", policyCheckbox));
+  nameInput.addEventListener("blur", () => validateFieldWithAutoDismiss(nameInput, "username-error", validateUsernameField));
+  emailInput.addEventListener("blur", () => handleSignupEmailBlur(emailInput));
+  passwordInput.addEventListener("blur", () => validateFieldWithAutoDismiss(passwordInput, "signUpPassword-error", validatePasswordField));
+  confirmPasswordInput.addEventListener("blur", () => validateFieldWithAutoDismiss(passwordInput, confirmPasswordInput, "signUpConfirmPassword-error", validateConfirmPasswordField));
 }
 
-function validateSignupInputs({ nameEl, emailEl, pwEl, pw2El, policyEl }) {
-  clearSignupErrorState(pwEl, pw2El);
-  clearFieldError("suPolicy-error", policyEl);
+function validateSignupInputs({ nameInput, emailInput, passwordInput, confirmPasswordInput, policyCheckbox }) {
+  clearSignupErrorState(passwordInput, confirmPasswordInput);
+  clearFieldError("signUpPolicy-error", policyCheckbox);
   let valid = true;
-  if (!validateUsernameField(nameEl, "username-error")) valid = false;
-  if (!validateEmailField(emailEl, "suEmail-error")) valid = false;
-  if (!validatePasswordField(pwEl, "suPw-error")) valid = false;
-  if (!validateConfirmPasswordField(pwEl, pw2El, "suPw2-error")) valid = false;
-  if (!policyEl.checked) {
-    showFieldError("suPolicy-error", "Please accept the Privacy Policy.", policyEl);
+  if (!validateUsernameField(nameInput, "username-error")) valid = false;
+  if (!validateEmailField(emailInput, "signUpEmail-error")) valid = false;
+  if (!validatePasswordField(passwordInput, "signUpPassword-error")) valid = false;
+  if (!validateConfirmPasswordField(passwordInput, confirmPasswordInput, "signUpConfirmPassword-error")) valid = false;
+  if (!policyCheckbox.checked) {
+    showFieldError("signUpPolicy-error", "Please accept the Privacy Policy.", policyCheckbox);
     valid = false;
   }
   return valid;
@@ -123,46 +123,46 @@ function validateFieldWithAutoDismiss(arg1, arg2, arg3, arg4) {
   return false;
 }
 
-function showSignupRequiredError(pwEl, pw2El) {
-  showFieldError("suPw-error", "Please complete all required fields.", pwEl);
-  showFieldError("suPw2-error", "Please complete all required fields.", pw2El);
+function showSignupRequiredError(passwordInput, confirmPasswordInput) {
+  showFieldError("signUpPassword-error", "Please complete all required fields.", passwordInput);
+  showFieldError("signUpConfirmPassword-error", "Please complete all required fields.", confirmPasswordInput);
   return false;
 }
 
-function showSignupPolicyError(pwEl, pw2El) {
-  showFieldError("suPolicy-error", "Please accept the Privacy Policy.", document.getElementById("suPolicy"));
+function showSignupPolicyError(passwordInput, confirmPasswordInput) {
+  showFieldError("signUpPolicy-error", "Please accept the Privacy Policy.", document.getElementById("signUpPolicy"));
   return false;
 }
 
-async function handleSignupEmailBlur(emailEl) {
-  if (!validateEmailField(emailEl, "suEmail-error")) return;
-  await checkDuplicateEmail(emailEl);
+async function handleSignupEmailBlur(emailInput) {
+  if (!validateEmailField(emailInput, "signUpEmail-error")) return;
+  await checkDuplicateEmail(emailInput);
 }
 
-async function checkDuplicateEmail(emailEl) {
-  const email = emailEl.value.trim();
+async function checkDuplicateEmail(emailInput) {
+  const email = emailInput.value.trim();
   if (!email) return false;
   const users = await loadUsers();
   const exists = users.some((u) => u.email === email);
-  if (exists) showFieldError("suEmail-error", "This email is already registered.", emailEl);
-  else clearFieldError("suEmail-error", emailEl);
+  if (exists) showFieldError("signUpEmail-error", "This email is already registered.", emailInput);
+  else clearFieldError("signUpEmail-error", emailInput);
   return exists;
 }
 
 function wireSignupButtonState(state) {
   const update = () => setSignupButtonState(state);
-  [state.nameEl, state.emailEl, state.pwEl, state.pw2El].forEach((el) => el.addEventListener("input", update));
-  state.policyEl.addEventListener("change", update);
+  [state.nameInput, state.emailInput, state.passwordInput, state.confirmPasswordInput].forEach((el) => el.addEventListener("input", update));
+  state.policyCheckbox.addEventListener("change", update);
   update();
 }
 
-function setSignupButtonState({ nameEl, emailEl, pwEl, pw2El, policyEl, btn }) {
-  btn.disabled = !(
-    nameEl.value.trim() &&
-    emailEl.value.trim() &&
-    pwEl.value.trim() &&
-    pw2El.value.trim() &&
-    policyEl.checked
+function setSignupButtonState({ nameInput, emailInput, passwordInput, confirmPasswordInput, policyCheckbox, signUpButton }) {
+  signUpButton.disabled = !(
+    nameInput.value.trim() &&
+    emailInput.value.trim() &&
+    passwordInput.value.trim() &&
+    confirmPasswordInput.value.trim() &&
+    policyCheckbox.checked
   );
 }
 
@@ -244,17 +244,17 @@ function validateLoginPasswordField(inputEl, errorId) {
   return true;
 }
 
-function validateConfirmPasswordField(pwEl, pw2El, errorId) {
-  const value = pw2El.value.trim();
+function validateConfirmPasswordField(passwordInput, confirmPasswordInput, errorId) {
+  const value = confirmPasswordInput.value.trim();
   if (!value) {
-    showFieldError(errorId, "Please confirm your password.", pw2El);
+    showFieldError(errorId, "Please confirm your password.", confirmPasswordInput);
     return false;
   }
-  if (value !== pwEl.value.trim()) {
-    showFieldError(errorId, "Passwords don't match.", pw2El);
+  if (value !== passwordInput.value.trim()) {
+    showFieldError(errorId, "Passwords don't match.", confirmPasswordInput);
     return false;
   }
-  clearFieldError(errorId, pw2El);
+  clearFieldError(errorId, confirmPasswordInput);
   return true;
 }
 
@@ -268,24 +268,24 @@ function showFieldError(errorId, message, inputEl) {
 }
 
 
-function wireLoginErrorHandlers({ emailEl, pwEl }) {
+function wireLoginErrorHandlers({ emailInput, passwordInput }) {
 
   // Fehler beim Tippen entfernen
-  emailEl.addEventListener("input", () =>
-    clearFieldError("email-error", emailEl)
+  emailInput.addEventListener("input", () =>
+    clearFieldError("email-error", emailInput)
   );
 
-  pwEl.addEventListener("input", () =>
-    clearFieldError("password-error", pwEl)
+  passwordInput.addEventListener("input", () =>
+    clearFieldError("password-error", passwordInput)
   );
 
   // Fehler beim Verlassen anzeigen
-  emailEl.addEventListener("blur", () =>
-    validateLoginEmailField(emailEl, "email-error")
+  emailInput.addEventListener("blur", () =>
+    validateLoginEmailField(emailInput, "email-error")
   );
 
-  pwEl.addEventListener("blur", () =>
-    validateLoginPasswordField(pwEl, "password-error")
+  passwordInput.addEventListener("blur", () =>
+    validateLoginPasswordField(passwordInput, "password-error")
   );
 }
 
@@ -303,7 +303,8 @@ function clearFieldError(errorId, inputEl) {
 
 
 function setSignupBusy(state, busy) {
-  if (!state.btn) return;
-  if (busy) return void (state.btn.disabled = true);
+  if (!state.signUpButton) return;
+  if (busy) return void (state.signUpButton.disabled = true);
   setSignupButtonState(state);
 }
+

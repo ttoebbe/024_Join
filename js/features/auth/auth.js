@@ -33,31 +33,31 @@ function initLogin() {
 }
 /**
  * Collects login form elements.
- * @returns {{form: HTMLFormElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement, btnGuest: HTMLButtonElement|null}|null}
+ * @returns {{form: HTMLFormElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement, loginButton: HTMLButtonElement, guestLoginButton: HTMLButtonElement|null}|null}
  */
 function getLoginState() {
   const form = document.getElementById("loginForm");
-  const emailEl = document.getElementById("email");
-  const pwEl = document.getElementById("password");
-  const btnLogin = document.getElementById("btnLogin");
-  const btnGuest = document.getElementById("btnGuest");
-  if (!form || !emailEl || !pwEl || !btnLogin) return null;
-  return { form, emailEl, pwEl, btnLogin, btnGuest };
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const loginButton = document.getElementById("loginButton");
+  const guestLoginButton = document.getElementById("guestLoginButton");
+  if (!form || !emailInput || !passwordInput || !loginButton) return null;
+  return { form, emailInput, passwordInput, loginButton, guestLoginButton };
 }
 /**
  * Wires login form interactions.
- * @param {{form: HTMLFormElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement, btnGuest: HTMLButtonElement|null}} state
+ * @param {{form: HTMLFormElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement, loginButton: HTMLButtonElement, guestLoginButton: HTMLButtonElement|null}} state
  * @returns {void}
  */
 function wireLoginForm(state) {
   wireLoginErrorHandlers(state);
   wireLoginSubmit(state);
   wireGuestLogin(state);
-  setupPasswordToggle("password", "lockPw", "eyePw");
+  setupPasswordToggle("password", "passwordLockIcon", "passwordVisibilityToggle");
 }
 /**
  * Wires login submit handler.
- * @param {{form: HTMLFormElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement}} state
+ * @param {{form: HTMLFormElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement, loginButton: HTMLButtonElement}} state
  * @returns {void}
  */
 function wireLoginSubmit(state) {
@@ -68,7 +68,7 @@ function wireLoginSubmit(state) {
 }
 /**
  * Handles login submit.
- * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement}} state
+ * @param {{emailInput: HTMLInputElement, passwordInput: HTMLInputElement, loginButton: HTMLButtonElement}} state
  * @returns {Promise<void>}
  */
 async function handleLoginSubmit(state) {
@@ -77,7 +77,7 @@ async function handleLoginSubmit(state) {
 }
 /**
  * Executes login with busy state.
- * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement, btnLogin: HTMLButtonElement}} state
+ * @param {{emailInput: HTMLInputElement, passwordInput: HTMLInputElement, loginButton: HTMLButtonElement}} state
  * @returns {Promise<void>}
  */
 async function runLogin(state) {
@@ -90,28 +90,28 @@ async function runLogin(state) {
 }
 /**
  * Attempts login and redirects on success.
- * @param {{emailEl: HTMLInputElement, pwEl: HTMLInputElement}} state
+ * @param {{emailInput: HTMLInputElement, passwordInput: HTMLInputElement}} state
  * @returns {Promise<void>}
  */
-async function attemptLogin({ emailEl, pwEl }) {
-  const email = emailEl.value.trim();
-  const pw = pwEl.value.trim();
+async function attemptLogin({ emailInput, passwordInput }) {
+  const email = emailInput.value.trim();
+  const passwordValue = passwordInput.value.trim();
   const users = await loadUsers();
   if (!users || users.length === 0) {
-    return showLoginErrorState(emailEl, pwEl);
+    return showLoginErrorState(emailInput, passwordInput);
   }
-  const found = users.find((u) => u.email === email && u.pw === pw);
-  if (!found) return showLoginErrorState(emailEl, pwEl);
+  const found = users.find((u) => u.email === email && u.pw === passwordValue);
+  if (!found) return showLoginErrorState(emailInput, passwordInput);
   await saveCurrentUser(found);
   window.location.href = ROUTES.SUMMARY;
 }
 /**
  * Wires guest login action.
- * @param {{btnGuest: HTMLButtonElement|null}} state
+ * @param {{guestLoginButton: HTMLButtonElement|null}} state
  * @returns {void}
  */
-function wireGuestLogin({ btnGuest }) {
-  btnGuest?.addEventListener("click", async (e) => {
+function wireGuestLogin({ guestLoginButton }) {
+  guestLoginButton?.addEventListener("click", async (e) => {
     e.preventDefault();
     await saveCurrentUser({ name: "Guest", guest: true });
     window.location.href = ROUTES.SUMMARY;
@@ -129,22 +129,22 @@ function initSignup() {
 }
 /**
  * Collects signup form elements.
- * @returns {{form: HTMLFormElement, nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}|null}
+ * @returns {{form: HTMLFormElement, nameInput: HTMLInputElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement, confirmPasswordInput: HTMLInputElement, policyCheckbox: HTMLInputElement, signUpButton: HTMLButtonElement}|null}
  */
 function getSignupState() {
   const form = document.getElementById("signupForm");
-  const nameEl = document.getElementById("suName");
-  const emailEl = document.getElementById("suEmail");
-  const pwEl = document.getElementById("suPw");
-  const pw2El = document.getElementById("suPw2");
-  const policyEl = document.getElementById("suPolicy");
-  const btn = document.getElementById("btnSignup");
-  if (!form || !nameEl || !emailEl || !pwEl || !pw2El || !policyEl || !btn) return null;
-  return { form, nameEl, emailEl, pwEl, pw2El, policyEl, btn };
+  const nameInput = document.getElementById("signUpName");
+  const emailInput = document.getElementById("signUpEmail");
+  const passwordInput = document.getElementById("signUpPassword");
+  const confirmPasswordInput = document.getElementById("signUpConfirmPassword");
+  const policyCheckbox = document.getElementById("signUpPolicy");
+  const signUpButton = document.getElementById("signUpButton");
+  if (!form || !nameInput || !emailInput || !passwordInput || !confirmPasswordInput || !policyCheckbox || !signUpButton) return null;
+  return { form, nameInput, emailInput, passwordInput, confirmPasswordInput, policyCheckbox, signUpButton };
 }
 /**
  * Wires signup form interactions.
- * @param {{form: HTMLFormElement, nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
+ * @param {{form: HTMLFormElement, nameInput: HTMLInputElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement, confirmPasswordInput: HTMLInputElement, policyCheckbox: HTMLInputElement, signUpButton: HTMLButtonElement}} state
  * @returns {void}
  */
 function wireSignupForm(state) {
@@ -155,7 +155,7 @@ function wireSignupForm(state) {
 }
 /**
  * Wires signup submit handler.
- * @param {{form: HTMLFormElement, nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement}} state
+ * @param {{form: HTMLFormElement, nameInput: HTMLInputElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement, confirmPasswordInput: HTMLInputElement}} state
  * @returns {void}
  */
 function wireSignupSubmit(state) {
@@ -166,17 +166,17 @@ function wireSignupSubmit(state) {
 }
 /**
  * Handles signup submit.
- * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
+ * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement, confirmPasswordInput: HTMLInputElement, policyCheckbox: HTMLInputElement, signUpButton: HTMLButtonElement}} state
  * @returns {Promise<void>}
  */
 async function handleSignupSubmit(state) {
   if (!validateSignupInputs(state)) return;
-  if (await checkDuplicateEmail(state.emailEl)) return;
+  if (await checkDuplicateEmail(state.emailInput)) return;
   await runSignup(state);
 }
 /**
  * Executes signup with busy state.
- * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement, pw2El: HTMLInputElement, policyEl: HTMLInputElement, btn: HTMLButtonElement}} state
+ * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement, confirmPasswordInput: HTMLInputElement, policyCheckbox: HTMLInputElement, signUpButton: HTMLButtonElement}} state
  * @returns {Promise<void>}
  */
 async function runSignup(state) {
@@ -189,17 +189,17 @@ async function runSignup(state) {
 }
 /**
  * Attempts signup and redirects on success.
- * @param {{nameEl: HTMLInputElement, emailEl: HTMLInputElement, pwEl: HTMLInputElement}} state
+ * @param {{nameInput: HTMLInputElement, emailInput: HTMLInputElement, passwordInput: HTMLInputElement}} state
  * @returns {Promise<void>}
  */
-async function attemptSignup({ nameEl, emailEl, pwEl }) {
+async function attemptSignup({ nameInput, emailInput, passwordInput }) {
   const users = await loadUsers();
-  const email = emailEl.value.trim();
+  const email = emailInput.value.trim();
   if (users.some((u) => u.email === email)) {
-    showFieldError("suEmail-error", "This email is already registered.", emailEl);
+    showFieldError("signUpEmail-error", "This email is already registered.", emailInput);
     return;
   }
-  const newUser = buildNewUser(users, nameEl.value.trim(), email, pwEl.value.trim());
+  const newUser = buildNewUser(users, nameInput.value.trim(), email, passwordInput.value.trim());
   await UserService.create(newUser);
   setTimeout(() => { window.location.href = ROUTES.LOGIN; }, 300);
 }
@@ -208,15 +208,15 @@ async function attemptSignup({ nameEl, emailEl, pwEl }) {
  * @param {Object[]} users
  * @param {string} name
  * @param {string} email
- * @param {string} pw
+ * @param {string} password
  * @returns {Object}
  */
-function buildNewUser(users, name, email, pw) {
+function buildNewUser(users, name, email, password) {
   return {
     id: generateNextUserId(users),
     name,
     email,
-    pw,
+    pw: password,
     color: generateRandomColor(),
   };
 }
@@ -225,8 +225,16 @@ function buildNewUser(users, name, email, pw) {
  * @returns {void}
  */
 function wireSignupToggles() {
-  setupPasswordToggle("suPw", "lockPw", "eyePw");
-  setupPasswordToggle("suPw2", "lockPw2", "eyePw2");
+  setupPasswordToggle(
+    "signUpPassword",
+    "signUpPasswordLockIcon",
+    "signUpPasswordVisibilityToggle"
+  );
+  setupPasswordToggle(
+    "signUpConfirmPassword",
+    "signUpConfirmPasswordLockIcon",
+    "signUpConfirmPasswordVisibilityToggle"
+  );
 }
 /* ================== GLOBAL INIT ================== */
 /**
@@ -250,3 +258,4 @@ function runAuthInit() {
   initLogin();
   initSignup();
 }
+
