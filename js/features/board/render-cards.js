@@ -1,48 +1,48 @@
 /* =========================================================
-   Card Rendering (2A + 2B + 2C)
+   Card Rendering: root, meta, content
    ========================================================= */
 /**
  * Creates a task card element.
  * Uses your existing CSS classes from board.css.
  */
 function createCard(task) {
-  const el = createCardRoot();
-  attachCardMeta(el, task);
-  appendCardContent(el, task);
-  return el;
+  const cardElement = createCardRoot();
+  attachCardMeta(cardElement, task);
+  appendCardContent(cardElement, task);
+  return cardElement;
 }
 /**
  * @returns {*}
  */
 function createCardRoot() {
-  const el = document.createElement("article");
-  el.className = "board-card";
-  el.setAttribute("role", "button");
-  el.tabIndex = 0;
-  el.draggable = true;
-  return el;
+  const cardElement = document.createElement("article");
+  cardElement.className = "board-card";
+  cardElement.setAttribute("role", "button");
+  cardElement.tabIndex = 0;
+  cardElement.draggable = true;
+  return cardElement;
 }
 /**
- * @param {*} el
+ * @param {*} cardElement
  * @param {*} task
  * @returns {*}
  */
-function attachCardMeta(el, task) {
-  if (task?.id) el.dataset.taskId = String(task.id);
-  wireCardDragHandlers(el);
-  wireCardOpenHandlers(el, task);
+function attachCardMeta(cardElement, task) {
+  if (task?.id) cardElement.dataset.taskId = String(task.id);
+  wireCardDragHandlers(cardElement);
+  wireCardOpenHandlers(cardElement, task);
 }
 /**
- * @param {*} el
+ * @param {*} cardElement
  * @param {*} task
  * @returns {*}
  */
-function appendCardContent(el, task) {
-  el.appendChild(createCardMetaRow(task));
-  el.appendChild(createCardTitle(task));
-  el.appendChild(createCardDescription(task));
-  appendCardProgress(el, task);
-  el.appendChild(createCardFooter(task));
+function appendCardContent(cardElement, task) {
+  cardElement.appendChild(createCardMetaRow(task));
+  cardElement.appendChild(createCardTitle(task));
+  cardElement.appendChild(createCardDescription(task));
+  appendCardProgress(cardElement, task);
+  cardElement.appendChild(createCardFooter(task));
 }
 /**
  * @param {*} task
@@ -59,19 +59,19 @@ function createCardTitle(task) {
  * @returns {*}
  */
 function createCardDescription(task) {
-  const desc = document.createElement("p");
-  desc.className = "board-card-desc";
-  desc.textContent = task?.description || task?.desc || "";
-  return desc;
+  const descriptionElement = document.createElement("p");
+  descriptionElement.className = "board-card-desc";
+  descriptionElement.textContent = task?.description || task?.desc || "";
+  return descriptionElement;
 }
 /**
- * @param {*} el
+ * @param {*} cardElement
  * @param {*} task
  * @returns {*}
  */
-function appendCardProgress(el, task) {
+function appendCardProgress(cardElement, task) {
   const progress = createSubtaskProgress(task);
-  if (progress) el.appendChild(progress);
+  if (progress) cardElement.appendChild(progress);
 }
 /**
  * Category pill: "User Story" or "Technical Task"
@@ -141,8 +141,8 @@ function createMoveToItem(status, label) {
  * Normalizes category into "technical" or "userstory".
  */
 function normalizeCategory(value) {
-  const v = String(value || "").toLowerCase();
-  if (v.includes("technical")) return "technical";
+  const normalizedCategory = String(value || "").toLowerCase();
+  if (normalizedCategory.includes("technical")) return "technical";
   return "userstory";
 }
 /**
@@ -215,10 +215,10 @@ function buildProgressFill(stats) {
  * - task.subTasks (array)
  */
 function getSubtasks(task) {
-  const a = task?.subtasks;
-  const b = task?.subTasks;
-  if (Array.isArray(a)) return a;
-  if (Array.isArray(b)) return b;
+  const primarySubtasks = task?.subtasks;
+  const fallbackSubtasks = task?.subTasks;
+  if (Array.isArray(primarySubtasks)) return primarySubtasks;
+  if (Array.isArray(fallbackSubtasks)) return fallbackSubtasks;
   return [];
 }
 /**
@@ -303,23 +303,23 @@ function buildAssignedObject(item) {
  * Single avatar bubble with initials.
  */
 function createAvatarBubble(person) {
-  const s = document.createElement("span");
-  s.className = "board-avatar";
+  const avatarElement = document.createElement("span");
+  avatarElement.className = "board-avatar";
   const name = String(person?.name || "").trim();
-  s.textContent = getInitials(name);
+  avatarElement.textContent = getInitials(name);
   // Fallback color if no color exists in dataset
-  s.style.background = person?.color || "#2a3647";
-  return s;
+  avatarElement.style.background = person?.color || "#2a3647";
+  return avatarElement;
 }
 /**
  * +N bubble when more than 4 assigned users exist.
  */
-function createMoreBubble(n) {
-  const s = document.createElement("span");
-  s.className = "board-avatar";
-  s.textContent = `+${n}`;
-  s.style.background = "#2a3647";
-  return s;
+function createMoreBubble(remainingCount) {
+  const avatarElement = document.createElement("span");
+  avatarElement.className = "board-avatar";
+  avatarElement.textContent = `+${remainingCount}`;
+  avatarElement.style.background = "#2a3647";
+  return avatarElement;
 }
 /**
  * Priority block (icon).
@@ -403,6 +403,4 @@ function isLowPrio(simple) {
 function isMediumPrio(simple) {
   return simple.includes("medium") || simple.includes("media");
 }
-
-
 
