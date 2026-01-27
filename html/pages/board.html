@@ -1,10 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Board</title>
-    <link rel="shortcut icon" href="/assets/img/homepage-join.png" type="image/x-icon" />
+    <link
+      rel="shortcut icon"
+      href="/assets/img/homepage-join.png"
+      type="image/x-icon"
+    />
 
     <!-- Global components + page styles -->
     <link rel="stylesheet" href="/css/core/variables.css" />
@@ -12,7 +16,6 @@
     <link rel="stylesheet" href="/css/components/index.css" />
     <link rel="stylesheet" href="/css/pages/board.css" />
     <link rel="stylesheet" href="/css/pages/overlay.css" />
-
   </head>
 
   <body>
@@ -51,7 +54,11 @@
                 </div>
 
                 <!-- Add Task (opens overlay) -->
-                <button id="boardAddTaskBtn" class="board-add-btn" type="button">
+                <button
+                  id="boardAddTaskBtn"
+                  class="board-add-btn"
+                  type="button"
+                >
                   Add task <span class="board-add-plus">+</span>
                 </button>
               </div>
@@ -72,13 +79,14 @@
                     class="board-column-add"
                     type="button"
                     aria-label="Add task to To do"
-                  ><img src="/assets/img/icons/plus-button-1.png" alt=""></button>
+                  >
+                    <img src="/assets/img/icons/plus-button-1.png" alt="" />
+                  </button>
                 </div>
 
                 <!-- IMPORTANT: data-board-body must be on the column body -->
                 <div class="board-column-body" data-board-body>
                   <div class="board-empty">No tasks To do</div>
-
                 </div>
               </section>
 
@@ -90,7 +98,9 @@
                     class="board-column-add"
                     type="button"
                     aria-label="Add task to In progress"
-                  ><img src="/assets/img/icons/plus-button-1.png" alt=""></button>
+                  >
+                    <img src="/assets/img/icons/plus-button-1.png" alt="" />
+                  </button>
                 </div>
 
                 <div class="board-column-body" data-board-body>
@@ -106,7 +116,9 @@
                     class="board-column-add"
                     type="button"
                     aria-label="Add task to Await feedback"
-                  ><img src="/assets/img/icons/plus-button-1.png" alt=""></button>
+                  >
+                    <img src="/assets/img/icons/plus-button-1.png" alt="" />
+                  </button>
                 </div>
 
                 <div class="board-column-body" data-board-body>
@@ -132,19 +144,18 @@
       </div>
     </div>
 
-<div id="overlayRoot" class="overlay-root hidden" aria-hidden="true"></div>
+    <div id="overlayRoot" class="overlay-root hidden" aria-hidden="true"></div>
 
     <!-- Scripts (order matters!) -->
-<script src="/js/core/constants.js"></script>
-<script src="/js/core/utils.js"></script>
-<script src="/js/core/confirm-overlay.js"></script>
-<script src="/js/core/toast.js"></script>
-<script src="/js/core/firebase-service.js"></script>
+    <script src="/js/core/constants.js"></script>
+    <script src="/js/core/utils.js"></script>
+    <script src="/js/core/confirm-overlay.js"></script>
+    <script src="/js/core/toast.js"></script>
+    <script src="/js/core/firebase-service.js"></script>
     <script src="/js/templates/board-templates.js"></script>
     <script src="/js/templates/add-task-templates.js"></script>
-    <!-- <script src="/js/templates/shared-templates.js"></script> -->
     <script src="/js/templates/components-templates.js"></script>
-<script src="/js/components/components.js"></script>
+    <script src="/js/components/components.js"></script>
     <script src="/js/features/board/add-task-form-state.js"></script>
     <script src="/js/features/board/add-task-form-categories.js"></script>
     <script src="/js/features/board/add-task-form-assigned.js"></script>
@@ -153,14 +164,9 @@
     <script src="/js/features/board/add-task-counters.js"></script>
     <script src="/js/features/board/add-task-form-submit.js"></script>
     <script src="/js/features/board/add-task-overlay.js"></script>
-<script src="/js/features/board/draganddrop.js"></script>
+    <script src="/js/features/board/draganddrop.js"></script>
     <script src="/js/features/board/create-task.js"></script>
     <script src="/js/features/board/render-cards.js"></script>
     <script src="/js/features/board/board.js"></script>
-
   </body>
 </html>
-
-
-
-
