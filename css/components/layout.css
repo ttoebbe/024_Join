@@ -1,0 +1,40 @@
+/* ===== App Layout ===== */
+.app-shell{
+  min-height: 100vh;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+#nav-bar-placeholder{
+  position: sticky;
+   flex: 0 0 232px;
+  top: 0;
+  height: 100vh;
+  align-self: flex-start;
+  background: var(--nav); 
+}
+
+
+
+
+.page-column{
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  min-height: 0;
+  overflow: hidden;
+}
+
+
+.content,
+.page-body{
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  background: var(--bg);
+}
