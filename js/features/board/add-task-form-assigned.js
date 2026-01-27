@@ -170,8 +170,8 @@ function isAssignedMatch(assigned, contact) {
  * @returns {*}
  */
 function toggleAssignedContact(state, contact, item, check, parts) {
-  const exists = state.selectedAssigned.find((a) => {
-    return a.id === contact.id;
+  const exists = state.selectedAssigned.find((assigned) => {
+    return isAssignedMatch(assigned, contact);
   });
   if (exists) {
     removeAssignedContact(state, contact, item, check);
@@ -189,11 +189,9 @@ function toggleAssignedContact(state, contact, item, check, parts) {
  * @returns {*}
  */
 function removeAssignedContact(state, contact, item, check) {
-  const remaining = [];
-  for (const itemRef of state.selectedAssigned) {
-    if (itemRef.id !== contact.id) remaining.push(itemRef);
-  }
-  state.selectedAssigned = remaining;
+  state.selectedAssigned = state.selectedAssigned.filter((assigned) => {
+    return !isAssignedMatch(assigned, contact);
+  });
   item.classList.remove("is-selected");
   check.textContent = "";
 }
@@ -327,5 +325,4 @@ function normalizeToArray(data) {
   if (typeof data === "object") return Object.values(data).filter(Boolean);
   return [];
 }
-
 
