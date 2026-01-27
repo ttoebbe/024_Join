@@ -1,0 +1,76 @@
+.topbar{
+  height: 96px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar-inner{
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 0 56px 0 72px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(1440px - 232px);
+  margin: 0;
+  height: 100%;
+}
+
+
+.topbar-logo{
+  width: 0;
+  height: 0;
+}
+
+.topbar-title{
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text);
+  text-align: left;
+  justify-self: start;
+}
+
+.topbar-actions{
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-help{
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+  text-decoration: none;
+
+  display: grid;
+  place-items: center;
+
+  font-size: 16px;
+  line-height: 1;
+}
+
+.topbar-user{
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid var(--text);
+  background: var(--card);
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+#user-initials{
+  font-weight: 700;
+  color: var(--accent);
+}

@@ -1,0 +1,90 @@
+.nav-bar{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--nav);
+  color: #fff;
+
+  padding: 64px 0 40px;
+
+  height: 100vh;
+  width: 232px;
+}
+
+.nav-logo{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 72px;
+}
+
+.nav-img{
+  width: 100px;
+  height: 122px;
+}
+
+.nav-links{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.nav-links nav{
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  width: 100%;
+  gap: 12px;
+}
+
+.nav-links nav a{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+
+  width: 100%;
+  padding: 10px 24px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.nav-links nav img{
+  width: 30px;
+  height: 30px;
+}
+
+.nav-links nav p{
+  margin: 0;
+}
+
+.nav-links nav a:hover{
+  background: var(--nav-hover);
+}
+
+.nav-links nav a.nav-active{
+  background: var(--nav-active);
+}
+
+
+.footer-links{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 8px;
+}
+
+.footer-links a,
+.footer-links a:visited{
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.footer-links a:hover{
+  color: var(--accent);
+}
