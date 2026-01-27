@@ -60,20 +60,10 @@ function openTaskOverlayRoot() {
 }
 
 function renderTaskDetailOverlay(root, task) {
-  setTaskDetailShell(root);
+  root.innerHTML = getTaskDetailShellTemplate();
   const detail = root.querySelector(".task-detail");
   if (!detail) return;
   fillTaskDetail(detail, task);
-}
-
-function setTaskDetailShell(root) {
-  root.innerHTML = `
-    <div class="overlay-backdrop" data-overlay-close></div>
-    <div class="overlay-panel overlay-panel--detail" role="dialog" aria-modal="true" aria-label="Task Details">
-      <button class="overlay-close" type="button" data-overlay-close aria-label="Close">×</button>
-      <div class="task-detail"></div>
-    </div>
-  `;
 }
 
 function fillTaskDetail(detail, task) {
