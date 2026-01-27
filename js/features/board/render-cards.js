@@ -353,7 +353,7 @@ function buildPrioImage(task) {
 function handlePrioImageError(img) {
   img.onerror = null;
   img.dataset.prio = "medium";
-  img.src = "/assets/img/icons/prio-medium.png";
+  img.src = "/assets/img/icons/Prio-medium.png";
 }
 /**
  * Maps priority value to an icon path.
@@ -361,9 +361,9 @@ function handlePrioImageError(img) {
  */
 function mapPrioToIcon(prio) {
   const key = normalizePrioKey(prio);
-  if (key === "urgent") return "/assets/img/icons/prio-urgent.png";
-  if (key === "low") return "/assets/img/icons/prio-low.png";
-  return "/assets/img/icons/prio-medium.png";
+  if (key === "urgent") return "/assets/img/icons/Prio-Urgent.png";
+  if (key === "low") return "/assets/img/icons/Prio-Low.png";
+  return "/assets/img/icons/Prio-medium.png";
 }
 /**
  * Normalizes priority to a small set of keys.
@@ -403,4 +403,3 @@ function isLowPrio(simple) {
 function isMediumPrio(simple) {
   return simple.includes("medium") || simple.includes("media");
 }
-
