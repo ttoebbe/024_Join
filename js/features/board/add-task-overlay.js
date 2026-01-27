@@ -52,7 +52,14 @@ function setupOverlayEvents(root, status, mode) {
   const statusField = root.querySelector("#task-status-preset");
   if (statusField) statusField.value = status;
   const createBtn = root.querySelector("#create-btn");
-  if (createBtn && mode === "edit") createBtn.textContent = "Save";
+  if (createBtn && mode === "edit") {
+    const label = createBtn.querySelector(".btn-label");
+    if (label) {
+      label.textContent = "Save";
+    } else {
+      createBtn.textContent = "Save";
+    }
+  }
 }
 
 /**

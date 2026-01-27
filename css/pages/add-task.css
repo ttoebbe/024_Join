@@ -440,12 +440,27 @@
   margin-top: 24px;
 }
 
+.addtask-footer button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.addtask-footer .btn-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  flex-shrink: 0;
+}
+
 #clear-btn {
   border: 1px solid #2a3647;
   background: #fff;
   border-radius: 10px;
   padding: 12px 18px;
   font-weight: 700;
+  color: #2a3647;
   cursor: pointer;
 }
 
