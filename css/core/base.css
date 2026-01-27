@@ -226,20 +226,4 @@ button.page-busy,
   padding: 0 var(--spacing-lg);
 }
 
-/* Main layout */
-.app-shell {
-  min-height: 100vh;
-  display: flex;
-  width: 100%;
-  font-family: var(--font-family-primary);
-  background: var(--color-bg-primary);
-}
-
-.main-content {
-  flex: 1;
-  padding: var(--spacing-lg);
-  margin-left: var(--nav-width);
-  margin-top: var(--header-height);
-}
-
 

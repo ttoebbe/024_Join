@@ -317,9 +317,26 @@ footer a:hover {
         left: 30px;
     }
 
-    footer {
+footer {
         bottom: 10px;
     }
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: green;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-modal-backdrop);
+}
+
+.overlay-content {
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    font-size: 1.2rem;
 }
 
 

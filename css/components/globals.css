@@ -1,9 +1,1 @@
-/* Uses centralized CSS variables from core/variables.css */
-
-*{ box-sizing: border-box; }
-
-body{
-  margin: 0;
-  font-family: var(--font-family-primary);
-  background: var(--bg);
-}
+/* Shared component-level globals live in core/base.css */
