@@ -2,7 +2,7 @@
  * @param {*} id
  * @returns {*}
  */
-function $id(id) {
+function getById(id) {
   return document.getElementById(id);
 }
 /**
@@ -29,18 +29,18 @@ async function loadTasks() {
  * @returns {*}
  */
 function isUrgent(task) {
-  const prio = String(task?.prio || "").toLowerCase().trim();
-  return prio === "urgent" || prio === "high" || prio === "alta";
+  const priorityValue = String(task?.prio || "").toLowerCase().trim();
+  return priorityValue === "urgent" || priorityValue === "high" || priorityValue === "alta";
 }
 /**
  * @param {*} task
  * @returns {*}
  */
 function parseDueDate(task) {
-  const raw = task?.dueDate;
-  if (!raw) return null;
-  const d = new Date(raw);
-  return Number.isNaN(d.getTime()) ? null : d;
+  const rawDueDate = task?.dueDate;
+  if (!rawDueDate) return null;
+  const parsedDate = new Date(rawDueDate);
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
 }
 /**
  * @param {*} dateObj
@@ -62,13 +62,13 @@ function formatDateLong(dateObj) {
  * @returns {*}
  */
 function calcKPIs(tasks) {
-  const kpi = initKpi(tasks);
+  const kpiData = initKpi(tasks);
   const urgentOpenDates = [];
   for (const task of tasks) {
-    updateKpiForTask(kpi, task, urgentOpenDates);
+    updateKpiForTask(kpiData, task, urgentOpenDates);
   }
-  setNextUrgentDeadline(kpi, urgentOpenDates);
-  return kpi;
+  setNextUrgentDeadline(kpiData, urgentOpenDates);
+  return kpiData;
 }
 /**
  * @param {*} tasks
@@ -91,21 +91,21 @@ function initKpi(tasks) {
  * @param {*} urgentOpenDates
  * @returns {*}
  */
-function updateKpiForTask(kpi, task, urgentOpenDates) {
+function updateKpiForTask(kpiData, task, urgentOpenDates) {
   const status = normalizeStatus(task?.status);
-  incrementStatusCount(kpi, status);
-  trackUrgentOpen(kpi, task, status, urgentOpenDates);
+  incrementStatusCount(kpiData, status);
+  trackUrgentOpen(kpiData, task, status, urgentOpenDates);
 }
 /**
  * @param {*} kpi
  * @param {*} status
  * @returns {*}
  */
-function incrementStatusCount(kpi, status) {
-  if (status === "todo") kpi.todo++;
-  else if (status === "inprogress") kpi.inProgress++;
-  else if (status === "awaitfeedback") kpi.awaiting++;
-  else if (status === "done") kpi.done++;
+function incrementStatusCount(kpiData, status) {
+  if (status === "todo") kpiData.todo++;
+  else if (status === "inprogress") kpiData.inProgress++;
+  else if (status === "awaitfeedback") kpiData.awaiting++;
+  else if (status === "done") kpiData.done++;
 }
 /**
  * @param {*} kpi
@@ -114,22 +114,22 @@ function incrementStatusCount(kpi, status) {
  * @param {*} urgentOpenDates
  * @returns {*}
  */
-function trackUrgentOpen(kpi, task, status, urgentOpenDates) {
+function trackUrgentOpen(kpiData, task, status, urgentOpenDates) {
   if (!isUrgent(task) || status === "done") return;
-  kpi.urgentOpen++;
-  const d = parseDueDate(task);
-  if (d) urgentOpenDates.push(d);
+  kpiData.urgentOpen++;
+  const dueDate = parseDueDate(task);
+  if (dueDate) urgentOpenDates.push(dueDate);
 }
 /**
  * @param {*} kpi
  * @param {*} urgentOpenDates
  * @returns {*}
  */
-function setNextUrgentDeadline(kpi, urgentOpenDates) {
+function setNextUrgentDeadline(kpiData, urgentOpenDates) {
   urgentOpenDates.sort((a, b) => {
     return a - b;
   });
-  kpi.nextUrgentDeadline = urgentOpenDates[0] || null;
+  kpiData.nextUrgentDeadline = urgentOpenDates[0] || null;
 }
 /**
  * @param {*} user
@@ -138,23 +138,23 @@ function setNextUrgentDeadline(kpi, urgentOpenDates) {
 function renderUser(user) {
   const greeting = getTimeBasedGreeting(new Date());
   setText("greeting-text", user?.guest ? `${greeting}!` : `${greeting},`);
-  if ($id("user-name")) setText("user-name", user?.name || "Guest");
-  if ($id("user-initials")) setText("user-initials", getInitials(user?.name || "Guest"));
+  if (getById("user-name")) setText("user-name", user?.name || "Guest");
+  if (getById("user-initials")) setText("user-initials", getInitials(user?.name || "Guest"));
 }
 /**
  * @param {*} kpi
  * @returns {*}
  */
-function renderKPIs(kpi) {
-  setText("count-todo", String(kpi.todo));
-  setText("count-done", String(kpi.done));
-  setText("count-in-progress", String(kpi.inProgress));
-  setText("count-awaiting", String(kpi.awaiting));
-  setText("count-urgent", String(kpi.urgentOpen));
-  if ($id("count-board")) setText("count-board", String(kpi.board));
+function renderKPIs(kpiData) {
+  setText("count-todo", String(kpiData.todo));
+  setText("count-done", String(kpiData.done));
+  setText("count-in-progress", String(kpiData.inProgress));
+  setText("count-awaiting", String(kpiData.awaiting));
+  setText("count-urgent", String(kpiData.urgentOpen));
+  if (getById("count-board")) setText("count-board", String(kpiData.board));
   setText(
     "next-deadline-date",
-    kpi.nextUrgentDeadline ? formatDateLong(kpi.nextUrgentDeadline) : "â€”"
+    kpiData.nextUrgentDeadline ? formatDateLong(kpiData.nextUrgentDeadline) : "â€”"
   );
 }
 /**
@@ -235,4 +235,3 @@ async function runSummaryInit() {
     console.error("Summary init error:", err);
   });
 }
-
