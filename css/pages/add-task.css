@@ -169,6 +169,42 @@
   background: #fff;
 }
 
+.assigned-dropdown .dropdown-toggle {
+  gap: 8px;
+  padding: 12px 14px;
+}
+
+.assigned-dropdown .assigned-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
+  font-size: 16px;
+  line-height: 28px;
+  height: 28px;
+  display: block;
+  caret-color: #2a3647;
+  color: #2a3647;
+}
+
+.assigned-dropdown .assigned-input::placeholder {
+  color: #d1d1d1;
+}
+
+.assigned-dropdown .dropdown-caret {
+  transition: transform 0.12s ease;
+}
+
+.assigned-dropdown.is-open .dropdown-caret {
+  transform: rotate(180deg);
+}
+
 .dropdown-toggle:focus {
   outline: 2px solid #29abe2;
   outline-offset: 2px;
@@ -224,10 +260,12 @@
   border: 1px solid #d1d1d1;
   border-radius: 10px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  padding: 6px;
+  padding: 10px 6px;
   z-index: 2;
   max-height: 240px;
   overflow-y: auto;
+  box-sizing: border-box;
+  scroll-padding-top: 10px;
 }
 
 .dropdown-item {
@@ -239,6 +277,16 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+}
+
+.dropdown-item:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.dropdown-item:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 .dropdown-item:hover {
@@ -265,8 +313,10 @@
   color: #fff;
   font-size: 12px;
   font-weight: 700;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   flex-shrink: 0;
 }
 
@@ -291,19 +341,26 @@
 .assigned-check {
   width: 18px;
   height: 18px;
-  border: 1px solid #d1d1d1;
+  border: 2px solid #d1d1d1;
   border-radius: 4px;
   display: grid;
   place-items: center;
   font-size: 16px;
   color: #fff;
+  position: relative;
   background: transparent;
 }
 
-.dropdown-item.is-selected .assigned-check {
+.dropdown-item.is-selected {
   background: #2a3647;
-  border-color: #2a3647;
+  color: #fff;
 }
+
+.dropdown-item.is-selected .assigned-check {
+  border: none;
+  background: url("/assets/img/icons/check-button.png") center / contain no-repeat;
+}
+
 
 .subtask-row {
   display: flex;

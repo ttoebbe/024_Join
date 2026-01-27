@@ -105,11 +105,11 @@ function getAddTaskPriorityBlock() {
 function getAddTaskAssignedBlock() {
   return `
     <label>Assigned to</label>
-    <div class="dropdown dropdown--select" id="assigned-dropdown">
-      <button type="button" class="dropdown-toggle" data-assigned-toggle aria-haspopup="listbox" aria-expanded="false">
-        <span class="dropdown-placeholder" data-assigned-value>Select contacts to assign</span>
+    <div class="dropdown dropdown--select assigned-dropdown" id="assigned-dropdown">
+      <div class="dropdown-toggle" data-assigned-toggle role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
+        <input type="text" class="assigned-input" data-assigned-input placeholder="Select contacts to assign" aria-label="Search contacts" autocomplete="off" />
         <span class="dropdown-caret" aria-hidden="true"></span>
-      </button>
+      </div>
       <div class="dropdown-menu" data-assigned-menu hidden></div>
     </div>
     <div class="assigned-selected" data-assigned-avatars hidden></div>

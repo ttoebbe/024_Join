@@ -6,8 +6,9 @@ function initAssignedDropdown(state) {
   const dropdown = document.getElementById("assigned-dropdown");
   if (!dropdown) return null;
   const parts = getAssignedDropdownParts(dropdown);
-  wireAssignedToggle(parts);
-  wireAssignedOutsideClose(parts);
+  wireAssignedToggle(state, parts);
+  wireAssignedOutsideClose(state, parts);
+  wireAssignedSearch(state, parts);
   state.assignedReady = loadAssignedContacts(state, parts);
   onPageVisible(() => loadAssignedContacts(state, parts));
   return () => resetAssignedDropdown(parts);
@@ -20,11 +21,17 @@ function initAssignedDropdown(state) {
 function getAssignedDropdownParts(dropdown) {
   const toggle = dropdown.querySelector("[data-assigned-toggle]");
   const menu = dropdown.querySelector("[data-assigned-menu]");
+  const input = dropdown.querySelector("[data-assigned-input]");
   const valueEl = dropdown.querySelector("[data-assigned-value]");
+  const caret = dropdown.querySelector(".dropdown-caret");
   const avatarsEl = getAssignedAvatarsElement(dropdown);
-  return { dropdown, toggle, menu, valueEl, avatarsEl };
+  return { dropdown, toggle, menu, input, valueEl, caret, avatarsEl };
 }
 
+/**
+ * @param {*} dropdown
+ * @returns {*}
+ */
 function getAssignedAvatarsElement(dropdown) {
   const parent = dropdown.parentElement;
   if (!parent) return null;
@@ -32,13 +39,27 @@ function getAssignedAvatarsElement(dropdown) {
 }
 
 /**
+ * @param {*} state
  * @param {*} parts
  * @returns {*}
  */
-function wireAssignedToggle(parts) {
-  parts.toggle?.addEventListener("click", () => {
-    setAssignedOpen(parts, parts.menu?.hidden);
+function wireAssignedToggle(state, parts) {
+  parts.toggle?.addEventListener("click", (event) => {
+    handleAssignedToggleClick(state, parts, event);
   });
+}
+
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @param {MouseEvent} event
+ * @returns {*}
+ */
+function handleAssignedToggleClick(state, parts, event) {
+  if (!parts.menu) return;
+  if (isAssignedCaretClick(parts, event)) return toggleAssignedDropdown(state, parts);
+  if (isAssignedInputClick(parts, event)) return openAssignedDropdown(state, parts);
+  toggleAssignedDropdown(state, parts);
 }
 
 /**
@@ -51,16 +72,85 @@ function setAssignedOpen(parts, open) {
   parts.menu.hidden = !open;
   parts.toggle.setAttribute("aria-expanded", String(open));
   parts.dropdown.classList.toggle("is-open", open);
+  updateAssignedInputState(parts, open);
+}
+
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @returns {*}
+ */
+function wireAssignedOutsideClose(state, parts) {
+  document.addEventListener("click", (e) => {
+    if (!parts.dropdown.contains(e.target)) closeAssignedDropdown(state, parts);
+  });
+}
+
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @returns {*}
+ */
+function wireAssignedSearch(state, parts) {
+  if (!parts.input) return;
+  wireAssignedInputClick(state, parts);
+  wireAssignedInputFocus(parts);
+  wireAssignedInputChange(parts);
+  wireAssignedInputEscape(state, parts);
+}
+
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @returns {*}
+ */
+function wireAssignedInputClick(state, parts) {
+  parts.input.addEventListener("click", (event) => {
+    handleAssignedInputClick(state, parts, event);
+  });
 }
 
 /**
  * @param {*} parts
  * @returns {*}
  */
-function wireAssignedOutsideClose(parts) {
-  document.addEventListener("click", (e) => {
-    if (!parts.dropdown.contains(e.target)) setAssignedOpen(parts, false);
+function wireAssignedInputFocus(parts) {
+  parts.input.addEventListener("focus", () => setAssignedOpen(parts, true));
+}
+
+/**
+ * @param {*} parts
+ * @returns {*}
+ */
+function wireAssignedInputChange(parts) {
+  parts.input.addEventListener("input", () => {
+    setAssignedOpen(parts, true);
+    filterAssignedItems(parts, parts.input.value);
   });
+}
+
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @returns {*}
+ */
+function wireAssignedInputEscape(state, parts) {
+  parts.input.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    closeAssignedDropdown(state, parts);
+    parts.input.blur();
+  });
+}
+
+/**
+ * @param {*} state
+ * @param {*} parts
+ * @param {MouseEvent} event
+ * @returns {*}
+ */
+function handleAssignedInputClick(state, parts, event) {
+  event.stopPropagation();
+  openAssignedDropdown(state, parts);
 }
 
 /**
@@ -101,6 +191,7 @@ function buildAssignedItem(contact) {
   item.type = "button";
   item.className = "dropdown-item dropdown-item--assigned";
   item.dataset.contactId = contact.id || "";
+  item.dataset.search = normalizeAssignedSearch(contact?.name || "");
   item.appendChild(buildAssignedLabel(contact));
   item.appendChild(buildAssignedCheck());
   return item;
@@ -118,6 +209,11 @@ function buildAssignedLabel(contact) {
   return label;
 }
 
+/**
+ * @param {*} contact
+ * @param {string} className
+ * @returns {*}
+ */
 function buildAssignedAvatar(contact, className = "assigned-avatar") {
   const avatar = document.createElement("span");
   avatar.className = className;
@@ -126,6 +222,10 @@ function buildAssignedAvatar(contact, className = "assigned-avatar") {
   return avatar;
 }
 
+/**
+ * @param {*} contact
+ * @returns {*}
+ */
 function buildAssignedName(contact) {
   const name = document.createElement("span");
   name.textContent = contact.name || "";
@@ -153,9 +253,14 @@ function setAssignedSelectionState(state, item, check, contact) {
   });
   if (!isSelected) return;
   item.classList.add("is-selected");
-  check.textContent = "x";
+  check.textContent = "";
 }
 
+/**
+ * @param {*} assigned
+ * @param {*} contact
+ * @returns {boolean}
+ */
 function isAssignedMatch(assigned, contact) {
   if (assigned?.id) return assigned.id === contact.id;
   return assigned?.name === contact.name;
@@ -176,7 +281,7 @@ function toggleAssignedContact(state, contact, item, check, parts) {
   if (exists) {
     removeAssignedContact(state, contact, item, check);
   } else {
-    addAssignedContact(state, contact, item, check);
+    addAssignedContact(state, contact, item, check, parts);
   }
   updateAssignedLabel(state, parts);
 }
@@ -203,14 +308,15 @@ function removeAssignedContact(state, contact, item, check) {
  * @param {*} check
  * @returns {*}
  */
-function addAssignedContact(state, contact, item, check) {
+function addAssignedContact(state, contact, item, check, parts) {
   state.selectedAssigned.push({
     id: contact.id,
     name: contact.name || "",
     color: contact.color || null,
   });
   item.classList.add("is-selected");
-  check.textContent = "x";
+  check.textContent = "";
+  clearAssignedSearch(parts);
 }
 
 /**
@@ -219,16 +325,22 @@ function addAssignedContact(state, contact, item, check) {
  * @returns {*}
  */
 function updateAssignedLabel(state, parts) {
-  if (!parts.valueEl) return;
+  if (!parts.valueEl && !parts.input) return;
   if (state.selectedAssigned.length === 0) return resetAssignedLabel(parts);
   const names = collectAssignedNames(state.selectedAssigned);
   const shown = names.slice(0, 2).join(", ");
   const more = names.length > 2 ? ` +${names.length - 2}` : "";
-  parts.valueEl.textContent = `${shown}${more}`;
+  if (parts.valueEl && !parts.dropdown.classList.contains("is-open")) {
+    setAssignedValue(parts, `${shown}${more}`);
+  }
   parts.dropdown.classList.add("has-value");
   renderAssignedAvatars(state, parts);
 }
 
+/**
+ * @param {Array} list
+ * @returns {Array}
+ */
 function collectAssignedNames(list) {
   const names = [];
   for (const item of list || []) {
@@ -242,7 +354,7 @@ function collectAssignedNames(list) {
  * @returns {*}
  */
 function resetAssignedLabel(parts) {
-  parts.valueEl.textContent = "Select contacts to assign";
+  if (parts.valueEl) setAssignedValue(parts, "Select contacts to assign");
   parts.dropdown.classList.remove("has-value");
   clearAssignedAvatars(parts);
 }
@@ -257,72 +369,5 @@ function resetAssignedDropdown(parts) {
   parts.dropdown.classList.remove("is-open");
   if (parts.menu) parts.menu.hidden = true;
   if (parts.toggle) parts.toggle.setAttribute("aria-expanded", "false");
+  filterAssignedItems(parts, "");
 }
-
-const MAX_ASSIGNED_AVATARS = 3;
-
-function renderAssignedAvatars(state, parts) {
-  if (!parts.avatarsEl) return;
-  parts.avatarsEl.innerHTML = "";
-  const selected = state.selectedAssigned || [];
-  const visible = selected.slice(0, MAX_ASSIGNED_AVATARS);
-  visible.forEach((person) => {
-    const avatar = buildAssignedAvatar(person, "assigned-avatar assigned-avatar--sm");
-    parts.avatarsEl.appendChild(avatar);
-  });
-  if (selected.length > MAX_ASSIGNED_AVATARS) {
-    const extra = selected.length - MAX_ASSIGNED_AVATARS;
-    const more = buildAssignedMoreBadge(extra);
-    parts.avatarsEl.appendChild(more);
-  }
-  parts.avatarsEl.hidden = selected.length === 0;
-}
-
-function buildAssignedMoreBadge(count) {
-  const badge = document.createElement("span");
-  badge.className = "assigned-avatar assigned-avatar--sm assigned-avatar--more";
-  badge.textContent = `+${count}`;
-  badge.setAttribute("aria-label", `${count} more assigned`);
-  badge.title = `${count} more assigned`;
-  return badge;
-}
-
-function clearAssignedAvatars(parts) {
-  if (!parts.avatarsEl) return;
-  parts.avatarsEl.innerHTML = "";
-  parts.avatarsEl.hidden = true;
-}
-
-function clearAssignedMenuSelection(parts) {
-  if (!parts.menu) return;
-  parts.menu.querySelectorAll(".dropdown-item--assigned").forEach((item) => {
-    item.classList.remove("is-selected");
-    const check = item.querySelector(".assigned-check");
-    if (check) check.textContent = "";
-  });
-}
-
-/**
- * @returns {*}
- */
-async function loadContacts() {
-  try {
-    const data = await ContactService.getAll();
-    const arr = normalizeToArray(data);
-    return arr.length > 0 ? arr : [];
-  } catch (err) {
-    return [];
-  }
-}
-
-/**
- * @param {*} data
- * @returns {*}
- */
-function normalizeToArray(data) {
-  if (!data) return [];
-  if (Array.isArray(data)) return data.filter(Boolean);
-  if (typeof data === "object") return Object.values(data).filter(Boolean);
-  return [];
-}
-
