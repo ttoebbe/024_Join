@@ -371,18 +371,11 @@
   flex: 1;
 }
 
-#subtask-add-btn {
-  width: 44px;
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
-  background: #fff;
-  font-size: 22px;
-  cursor: pointer;
-}
+
 
 #subtask-list {
   display: grid;
-  gap: 8px;
+  gap: 6px;
   margin-top: 8px;
   max-height: 132px;
   overflow-y: auto;
@@ -393,26 +386,85 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  border: 1px solid #d1d1d1;
+  padding: 4px 6px;
+  border: 1px solid transparent;
   border-radius: 8px;
-  background: #fff;
+  background: transparent;
   font-size: 16px;
   color: #2a3647;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.subtask-item:hover {
+  background: #f2f4f5;
+  border-color: #f2f4f5;
+}
+
+.subtask-bullet {
+  width: 16px;
+  display: inline-flex;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  color: #2a3647;
+  flex-shrink: 0;
 }
 
 .subtask-text {
   outline: none;
   flex: 1;
-  margin-right: 8px;
+  margin-right: 4px;
 }
 
-.subtask-remove {
+.subtask-actions {
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.subtask-item:hover .subtask-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.subtask-item.is-editing .subtask-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.subtask-action {
   border: none;
   background: transparent;
   cursor: pointer;
-  font-weight: 700;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.subtask-action img {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.subtask-edit-input {
+  flex: 1;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 16px;
   color: #2a3647;
+}
+
+.subtask-item.is-editing .subtask-bullet {
+  visibility: hidden;
+  width: 0;
+  margin-right: -6px;
 }
 
 .form-msg {

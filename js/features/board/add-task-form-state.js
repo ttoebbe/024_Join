@@ -33,6 +33,8 @@ function initAddTaskState(form, options) {
     selectedCategory: "",
     selectedAssigned: [],
     selectedSubtasks: [],
+    editingIndex: null,
+    editingValue: "",
   };
 }
 
@@ -223,5 +225,4 @@ function applyPrioButtonStyles(state) {
     btn.classList.toggle("is-active", btn.dataset.prio === state.selectedPrio);
   });
 }
-
 
