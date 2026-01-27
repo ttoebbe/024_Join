@@ -678,32 +678,43 @@
 .prio-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 4px;
+  gap: 10px;
+  margin-top: 8px;
 }
 
 .prio-btn {
-  border: 1px solid var(--color-border-light);
+  border: 1px solid #d1d1d1;
   border-radius: 10px;
-  padding: 12px 8px;
-  background: var(--color-bg-surface);
+  padding: 12px 18px;
+  min-height: 44px;
+  background: #fff;
   font-weight: 700;
+  font-size: 17px;
+  line-height: 1;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.08s ease, box-shadow 0.12s ease;
 }
 
 .prio-btn.is-active {
   color: var(--color-text-white);
+  box-shadow: none;
+  transform: translateY(1px);
 }
 
 .prio-btn .prio-icon {
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   display: block;
   flex-shrink: 0;
+}
+
+.prio-btn .prio-label {
+  font-size: 17px;
 }
 
 .prio-btn[data-prio="urgent"] .prio-icon {
@@ -1042,5 +1053,4 @@
     width: 100%;
   }
 }
-
 
