@@ -1,4 +1,3 @@
-"use strict";
 /**
  * @param {*} id
  * @returns {*}
@@ -236,5 +235,4 @@ async function runSummaryInit() {
     console.error("Summary init error:", err);
   });
 }
-
 
