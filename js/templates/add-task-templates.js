@@ -1,161 +1,4 @@
 /**
- * Template functions for board cards
- */
-/**
- * @param {*} task
- * @returns {*}
- */
-function getTaskCardTemplate(task) {
-  const data = buildTaskCardData(task);
-  return buildTaskCardTemplate(task, data);
-}
-/**
- * @param {*} task
- * @returns {*}
- */
-function buildTaskCardData(task) {
-  return {
-    priorityClass: task.priority ? `priority-${task.priority}` : "priority-low",
-    assignees: task.assignees || [],
-  };
-}
-/**
- * @param {*} task
- * @param {*} data
- * @returns {*}
- */
-function buildTaskCardTemplate(task, data) {
-  return `
-    <div class="task-card card ${data.priorityClass}" data-task-id="${task.id}">
-      <div class="task-title">${task.title || "Untitled Task"}</div>
-      <div class="task-description">${task.description || ""}</div>
-      <div class="task-meta">
-        <div class="task-assignees">
-          ${buildAssigneeMarkup(data.assignees)}
-        </div>
-        <div class="task-due-date">${task.dueDate || ""}</div>
-      </div>
-    </div>
-  `;
-}
-/**
- * @param {*} assignees
- * @returns {*}
- */
-function buildAssigneeMarkup(assignees) {
-  const list = assignees.slice(0, 3).map((assignee) => {
-    return buildAssigneeAvatar(assignee);
-  });
-  if (assignees.length > 3) list.push(buildAssigneeOverflow(assignees.length));
-  return list.join("");
-}
-/**
- * @param {*} assignee
- * @returns {*}
- */
-function buildAssigneeAvatar(assignee) {
-  return `
-    <div class="task-assignee-avatar" title="${assignee.name}">
-      ${assignee.initials || "U"}
-    </div>
-  `;
-}
-/**
- * @param {*} count
- * @returns {*}
- */
-function buildAssigneeOverflow(count) {
-  return `<div class="task-assignee-avatar">+${count - 3}</div>`;
-}
-/**
- * Template functions for contact views
- */
-/**
- * @param {*} contact
- * @param {*} isActive = false
- * @returns {*}
- */
-function getContactTemplate(contact, isActive = false) {
-  const initials = getInitials(contact.name);
-  const avatarColor = contact.color || "#2a3647";
-  return `
-    <article class="contact-entry" data-contact-id="${contact.id}">
-      <span class="contact-avatar" style="background:${avatarColor}">${initials}</span>
-      <div class="contact-meta">
-        <p class="contact-name">${contact.name}</p>
-        <p class="contact-email">${contact.email}</p>
-      </div>
-    </article>
-  `;
-}
-/**
- * @param {*} letter
- * @returns {*}
- */
-function getContactGroupHeaderTemplate(letter) {
-  return `
-    <div class="contact-group-header">
-      <span class="contact-group-letter">${letter}</span>
-    </div>
-  `;
-}
-/**
- * @param {*} contact
- * @returns {*}
- */
-function getContactDetailTemplate(contact) {
-  const initials = getInitials(contact.name);
-  return [
-    buildContactHero(contact, initials),
-    buildContactDetails(contact),
-    buildContactMenuButton(),
-  ].join("");
-}
-/**
- * @param {*} contact
- * @param {*} initials
- * @returns {*}
- */
-function buildContactHero(contact, initials) {
-  return `<div class="contact-hero">\n` +
-    `  <div class="contact-avatar contact-avatar-large" style="background-color: ${contact.color}">${initials}</div>\n` +
-    `  <div class="contact-info">\n` +
-    `    <h2>${contact.name}</h2>\n` +
-    `    <div class="detail-actions">\n` +
-    `      <button class="secondary-button">Edit</button>\n` +
-    `      <button class="secondary-button">Delete</button>\n` +
-    `    </div>\n` +
-    `  </div>\n` +
-    `</div>\n`;
-}
-/**
- * @param {*} contact
- * @returns {*}
- */
-function buildContactDetails(contact) {
-  return `<div class="contact-details">\n` +
-    `  <h4>Contact Information</h4>\n` +
-    `  <div class="detail-row">\n` +
-    `    <span class="detail-label">Email</span>\n` +
-    `    <a href="mailto:${contact.email}">${contact.email}</a>\n` +
-    `  </div>\n` +
-    `  <div class="detail-row">\n` +
-    `    <span class="detail-label">Phone</span>\n` +
-    `    <span>${contact.phone}</span>\n` +
-    `  </div>\n` +
-    `</div>\n`;
-}
-/**
- * @returns {*}
- */
-function buildContactMenuButton() {
-  return `
-    <button type="button" class="contact-menu-button" aria-label="Edit contact">
-      <img src="../../assets/img/icons/menu-contact-options.png" alt="" aria-hidden="true" />
-    </button>
-  `;
-}
-/**
  * Template functions for the add task form
  */
 function getAddTaskPriorityBlockTemplate() {
@@ -199,6 +42,7 @@ function getAddTaskFormTemplate(presetStatus = "todo") {
     getAddTaskFormClose(),
   ].join("");
 }
+
 /**
  * @param {*} presetStatus
  * @returns {*}
@@ -214,6 +58,7 @@ function getAddTaskFormOpen(presetStatus) {
         </div>
   `;
 }
+
 /**
  * @returns {*}
  */
@@ -231,6 +76,7 @@ function getAddTaskLeftFields() {
     <input id="task-due-date" type="date" />
   `;
 }
+
 /**
  * @returns {*}
  */
@@ -245,12 +91,14 @@ function getAddTaskRightColumn() {
       </div>
   `;
 }
+
 /**
  * @returns {*}
  */
 function getAddTaskPriorityBlock() {
   return getAddTaskPriorityBlockTemplate();
 }
+
 /**
  * @returns {*}
  */
@@ -267,6 +115,7 @@ function getAddTaskAssignedBlock() {
     <div class="assigned-selected" data-assigned-avatars hidden></div>
   `;
 }
+
 /**
  * @returns {*}
  */
@@ -283,6 +132,7 @@ function getAddTaskCategoryBlock() {
     `  </div>\n` +
     `</div>\n`;
 }
+
 /**
  * @returns {*}
  */
@@ -298,6 +148,7 @@ function getAddTaskSubtaskBlock() {
     <div id="subtask-list"></div>
   `;
 }
+
 /**
  * @returns {*}
  */
@@ -311,6 +162,7 @@ function getAddTaskFormFooter() {
       </div>
   `;
 }
+
 /**
  * @returns {*}
  */
@@ -319,32 +171,3 @@ function getAddTaskFormClose() {
     </form>
   `;
 }
-/**
- * Shared UI templates
- */
-/**
- * @param {*} message = "Loading..."
- * @returns {*}
- */
-function getLoadingTemplate(message = "Loading...") {
-  return `
-    <div class="loading-spinner">
-      <div class="spinner"></div>
-      <p>${message}</p>
-    </div>
-  `;
-}
-/**
- * @param {*} message = "An error occurred"
- * @returns {*}
- */
-function getErrorTemplate(message = "An error occurred") {
-  return `
-    <div class="error-message">
-      <p>${message}</p>
-    </div>
-  `;
-}
-
-
-
