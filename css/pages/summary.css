@@ -310,6 +310,86 @@ body {
   }
 }
 
+@media (min-width: 1600px) and (min-height: 900px) {
+  .summary-body {
+    min-height: calc(100vh - 96px);
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 0;
+    padding-bottom: 0;
+    gap: 84px;
+  }
+
+  .summary-headline {
+    margin-bottom: 40px;
+  }
+
+  .summary-h1 {
+    font-size: 72px;
+  }
+
+  .summary-sub {
+    font-size: 22px;
+  }
+
+  .summary-kpis {
+    width: 620px;
+    gap: 32px;
+  }
+
+  .kpi-top,
+  .kpi-wide {
+    height: 190px;
+    padding: 28px 32px;
+    border-radius: 32px;
+  }
+
+  .kpi-bottom {
+    height: 170px;
+    padding: 24px 20px;
+    border-radius: 32px;
+  }
+
+  .kpi-icon,
+  .kpi-icon img {
+    width: 72px;
+    height: 72px;
+  }
+
+  .kpi-icon--stack {
+    width: 72px;
+    height: 72px;
+  }
+
+  .kpi-number {
+    font-size: 72px;
+  }
+
+  .kpi-label {
+    font-size: 20px;
+  }
+
+  .kpi-date {
+    font-size: 22px;
+  }
+
+  .kpi-sub {
+    font-size: 18px;
+  }
+
+  .greeting {
+    margin-top: 0;
+  }
+
+  #greeting-text {
+    font-size: 56px;
+  }
+
+  #user-name {
+    font-size: 72px;
+  }
+}
+
   @media (max-width: 800px) {
 
     .greeting {
@@ -430,6 +510,10 @@ body {
       gap: 14px;
     }
 
+    .summary-headline {
+      margin-bottom: 12px;
+    }
+
     .summary-h1 {
       font-size: 44px;
     }
@@ -440,7 +524,7 @@ body {
 
     .summary-kpis {
       gap: 12px;
-      padding-top: 18px;
+      padding-top: 0;
     }
 
     .kpi-top {
@@ -606,5 +690,3 @@ body {
     max-height: 280px !important;
   }
 }
-
-
