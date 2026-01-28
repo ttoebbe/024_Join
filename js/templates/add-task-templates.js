@@ -1,6 +1,3 @@
-/**
- * Template functions for the add task form
- */
 function getAddTaskPriorityBlockTemplate() {
   return `
     <label>Priority</label>
@@ -31,8 +28,9 @@ function getAddTaskPriorityBlockTemplate() {
 }
 
 /**
- * @param {*} presetStatus = "todo"
- * @returns {*}
+ * Baut das Add-Task-Formular mit optionalem Status-Preset.
+ * @param {string} presetStatus
+ * @returns {string}
  */
 function getAddTaskFormTemplate(presetStatus = "todo") {
   return [
@@ -44,8 +42,9 @@ function getAddTaskFormTemplate(presetStatus = "todo") {
 }
 
 /**
- * @param {*} presetStatus
- * @returns {*}
+ * Baut den Formular-Header inklusive Preset-Status.
+ * @param {string} presetStatus
+ * @returns {string}
  */
 function getAddTaskFormOpen(presetStatus) {
   return `
@@ -59,9 +58,6 @@ function getAddTaskFormOpen(presetStatus) {
   `;
 }
 
-/**
- * @returns {*}
- */
 function getAddTaskLeftFields() {
   return `
       <label>Title<span class="req">*</span></label>
@@ -77,9 +73,6 @@ function getAddTaskLeftFields() {
   `;
 }
 
-/**
- * @returns {*}
- */
 function getAddTaskRightColumn() {
   return `
         <div>
@@ -92,16 +85,10 @@ function getAddTaskRightColumn() {
   `;
 }
 
-/**
- * @returns {*}
- */
 function getAddTaskPriorityBlock() {
   return getAddTaskPriorityBlockTemplate();
 }
 
-/**
- * @returns {*}
- */
 function getAddTaskAssignedBlock() {
   return `
     <label>Assigned to</label>
@@ -116,9 +103,6 @@ function getAddTaskAssignedBlock() {
   `;
 }
 
-/**
- * @returns {*}
- */
 function getAddTaskCategoryBlock() {
   return `<label>Category<span class="req">*</span></label>\n` +
     `<div class="dropdown dropdown--select" id="category-dropdown">\n` +
@@ -133,9 +117,6 @@ function getAddTaskCategoryBlock() {
     `</div>\n`;
 }
 
-/**
- * @returns {*}
- */
 function getAddTaskSubtaskBlock() {
   return `
   <label>Subtasks</label>
@@ -148,9 +129,6 @@ function getAddTaskSubtaskBlock() {
 `;
 }
 
-/**
- * @returns {*}
- */
 function getAddTaskFormFooter() {
   return `
       <div id="add-task-form-msg" class="form-msg" aria-live="polite"></div>
@@ -172,9 +150,6 @@ function getAddTaskFormFooter() {
   `;
 }
 
-/**
- * @returns {*}
- */
 function getAddTaskFormClose() {
   return `
     </form>

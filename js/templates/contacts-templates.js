@@ -1,10 +1,8 @@
 /**
- * Template functions for contact views
- */
-/**
+ * Rendert einen Kontakteintrag.
  * @param {*} contact
- * @param {*} isActive = false
- * @returns {*}
+ * @param {boolean} isActive
+ * @returns {string}
  */
 function getContactTemplate(contact, isActive = false) {
   const initials = getInitials(contact.name);
@@ -21,8 +19,9 @@ function getContactTemplate(contact, isActive = false) {
 }
 
 /**
- * @param {*} letter
- * @returns {*}
+ * Rendert den Buchstaben-Header einer Kontaktgruppe.
+ * @param {string} letter
+ * @returns {string}
  */
 function getContactGroupHeaderTemplate(letter) {
   return `
@@ -33,8 +32,9 @@ function getContactGroupHeaderTemplate(letter) {
 }
 
 /**
+ * Baut die Detailansicht eines Kontakts.
  * @param {*} contact
- * @returns {*}
+ * @returns {string}
  */
 function getContactDetailTemplate(contact) {
   const initials = getInitials(contact.name);
@@ -46,9 +46,10 @@ function getContactDetailTemplate(contact) {
 }
 
 /**
+ * Baut den Kopfbereich der Detailansicht.
  * @param {*} contact
- * @param {*} initials
- * @returns {*}
+ * @param {string} initials
+ * @returns {string}
  */
 function buildContactHero(contact, initials) {
   return `<div class="contact-hero">\n` +
@@ -64,8 +65,9 @@ function buildContactHero(contact, initials) {
 }
 
 /**
+ * Baut die Detailinformationen eines Kontakts.
  * @param {*} contact
- * @returns {*}
+ * @returns {string}
  */
 function buildContactDetails(contact) {
   return `<div class="contact-details">\n` +
@@ -81,9 +83,6 @@ function buildContactDetails(contact) {
     `</div>\n`;
 }
 
-/**
- * @returns {*}
- */
 function buildContactMenuButton() {
   return `
     <button type="button" class="contact-menu-button" aria-label="Edit contact">

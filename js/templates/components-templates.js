@@ -1,10 +1,3 @@
-/**
- * Template functions for navigation and header components
- */
-
-/**
- * @returns {string}
- */
 function getNavBarTemplate() {
   return `
   <div class="nav-bar">
@@ -41,9 +34,6 @@ function getNavBarTemplate() {
 `;
 }
 
-/**
- * @returns {string}
- */
 function getGuestNavTemplate() {
   return `
   <div class="nav-bar">
@@ -68,9 +58,6 @@ function getGuestNavTemplate() {
 `;
 }
 
-/**
- * @returns {string}
- */
 function getGuestHeaderTemplate() {
   return `
   <header class="topbar">
@@ -87,9 +74,6 @@ function getGuestHeaderTemplate() {
 `;
 }
 
-/**
- * @returns {string}
- */
 function getHeaderTemplate() {
   return `
   <header class="topbar">

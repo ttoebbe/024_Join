@@ -1,11 +1,6 @@
 /**
- * Template functions for summary page
- */
-
-/**
- * @param {Object} params
- * @param {string} params.text
- * @param {string} params.name
+ * Baut das HTML für das Greeting-Overlay.
+ * @param {{ text: string, name: string }} params
  * @returns {string}
  */
 function buildGreetingOverlayHtml({ text, name }) {
