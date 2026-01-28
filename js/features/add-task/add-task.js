@@ -1,19 +1,9 @@
-/**
- * Boots the add-task page form.
- * @returns {void}
- */
-window.addEventListener("DOMContentLoaded", handleAddTaskReady);
+window.addEventListener("DOMContentLoaded", handleAddTaskReady); // Init add-task page
 
-/**
- * @returns {void}
- */
 function handleAddTaskReady() {
   withPageReady(runAddTaskInit);
 }
 
-/**
- * @returns {Promise<void>}
- */
 async function runAddTaskInit() {
   await initAddTaskForm({
     onClose: () => {
@@ -21,5 +11,4 @@ async function runAddTaskInit() {
     },
   });
 }
-
 

@@ -1,8 +1,3 @@
-/**
- * Sets the minimum date to today for the due date input.
- * @param {*} input
- * @returns {*}
- */
 function setDueDateMin(input) {
   if (!input) return;
   const today = new Date();
@@ -12,11 +7,6 @@ function setDueDateMin(input) {
   input.min = `${yyyy}-${mm}-${dd}`;
 }
 
-/**
- * Converts a date to input format (YYYY-MM-DD).
- * @param {*} value
- * @returns {*}
- */
 function normalizeDueDateForInput(value) {
   if (!value) return "";
   const v = String(value).trim();
@@ -26,11 +16,6 @@ function normalizeDueDateForInput(value) {
   return "";
 }
 
-/**
- * Normalizes assigned data from a task into array format.
- * @param {*} raw
- * @returns {*}
- */
 function normalizeAssignedFromTask(raw) {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -38,11 +23,6 @@ function normalizeAssignedFromTask(raw) {
     .filter((x) => x && x.name);
 }
 
-/**
- * Normalizes a single assigned item.
- * @param {*} item
- * @returns {*}
- */
 function normalizeAssignedItem(item) {
   if (!item) return null;
   if (typeof item === "string") return { id: "", name: item, color: null };
@@ -50,11 +30,6 @@ function normalizeAssignedItem(item) {
   return null;
 }
 
-/**
- * Builds an assigned value object from an item.
- * @param {*} item
- * @returns {*}
- */
 function buildAssignedValue(item) {
   return {
     id: item.id || "",
@@ -63,11 +38,6 @@ function buildAssignedValue(item) {
   };
 }
 
-/**
- * Normalizes subtasks from a task.
- * @param {*} raw
- * @returns {*}
- */
 function normalizeSubtasksFromTask(raw) {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -75,11 +45,6 @@ function normalizeSubtasksFromTask(raw) {
     .filter((x) => x && x.title);
 }
 
-/**
- * Normalizes a single subtask item.
- * @param {*} item
- * @returns {*}
- */
 function normalizeSubtaskItem(item) {
   if (!item) return null;
   if (typeof item === "string") return { title: item, done: false };
@@ -87,11 +52,6 @@ function normalizeSubtaskItem(item) {
   return null;
 }
 
-/**
- * Builds a subtask value object from an item.
- * @param {*} item
- * @returns {*}
- */
 function buildSubtaskValue(item) {
   return {
     title: item.title || "",
@@ -99,11 +59,6 @@ function buildSubtaskValue(item) {
   };
 }
 
-/**
- * Converts arbitrary data to an array.
- * @param {*} data
- * @returns {*}
- */
 function normalizeToArray(data) {
   if (!data) return [];
   if (Array.isArray(data)) return data.filter(Boolean);
@@ -111,12 +66,6 @@ function normalizeToArray(data) {
   return [];
 }
 
-/**
- * Applies stored task data to the form (edit mode).
- * @param {*} state
- * @param {*} taskData
- * @returns {*}
- */
 function applyTaskDefaults(state, taskData) {
   if (state.titleInput) state.titleInput.value = taskData.title || "";
   setTaskDescription(taskData);
@@ -130,22 +79,11 @@ function applyTaskDefaults(state, taskData) {
   renderSubtasks(state);
 }
 
-/**
- * Sets the description in the input.
- * @param {*} taskData
- * @returns {*}
- */
 function setTaskDescription(taskData) {
   const descInput = document.getElementById("task-description");
   if (descInput) descInput.value = taskData.description || "";
 }
 
-/**
- * Sets the normalized date on the due date input.
- * @param {*} state
- * @param {*} value
- * @returns {*}
- */
 function setNormalizedDueDate(state, value) {
   const normalizedDate = normalizeDueDateForInput(value);
   if (state.dueDateInput && normalizedDate) state.dueDateInput.value = normalizedDate;
