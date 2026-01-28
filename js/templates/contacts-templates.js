@@ -86,7 +86,7 @@ function buildContactDetails(contact) {
 function buildContactMenuButton() {
   return `
     <button type="button" class="contact-menu-button" aria-label="Edit contact">
-      <img src="../../assets/img/icons/menu-contact-options.png" alt="" aria-hidden="true" />
+      <img src="../../assets/img/icons/menu-contact-options.svg" alt="" aria-hidden="true" />
     </button>
   `;
 }

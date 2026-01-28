@@ -23,7 +23,7 @@ function showErrorToast(message) {
  * Shows the "Added to board" image toast.
  */
 function showAddedToBoardToast() {
-  showImageToast("/assets/img/icons/added-to-board.png", "Added to board");
+  showImageToast("/assets/img/icons/added-to-board.svg", "Added to board");
 }
 
 /**

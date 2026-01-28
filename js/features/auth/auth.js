@@ -9,7 +9,7 @@ function initAnimation() {
     return;
   }
   sessionStorage.setItem("animationShown", "true");
-  if (window.innerWidth <= 480) img.src = "./assets/img/capa-1.png";
+  if (window.innerWidth <= 480) img.src = "./assets/img/capa-1.svg";
   setTimeout(() => startAnimation(img, bg), 200);
 }
 
@@ -19,7 +19,7 @@ function startAnimation(img, bg) {
   bg.classList.add("bg-animated");
   if (window.innerWidth <= 480) {
     setTimeout(() => {
-      img.src = "./assets/img/homepage-join.png";
+      img.src = "./assets/img/homepage-join.svg";
     }, 500);
   }
   setTimeout(() => {
@@ -29,7 +29,7 @@ function startAnimation(img, bg) {
 
 function skipAnimation(img, bg) {
   if (!img || !bg) return;
-  img.src = "./assets/img/homepage-join.png";
+  img.src = "./assets/img/homepage-join.svg";
   if (window.innerWidth <= 480) {
     img.style.top = "30px";
     img.style.left = "30px";
@@ -309,7 +309,7 @@ function showEyeIcon(input, lock, eye) {
   lock.classList.add("d-none");
   eye.classList.remove("d-none");
   eye.classList.add("input-icon-password");
-  eye.src = "/assets/img/icons/visibility-off.png";
+  eye.src = "/assets/img/icons/visibility_off.svg";
 }
 
 function wirePasswordToggle({ input, eye }) {
@@ -322,7 +322,7 @@ function wirePasswordToggle({ input, eye }) {
 function togglePasswordVisibility(input, eye) {
   const isHidden = input.type === "password";
   input.type = isHidden ? "text" : "password";
-  eye.src = isHidden ? "/assets/img/icons/visibility.png" : "/assets/img/icons/visibility-off.png";
+  eye.src = isHidden ? "/assets/img/icons/visibility.svg" : "/assets/img/icons/visibility_off.svg";
 }
 
 function wirePasswordLock({ lock }) {

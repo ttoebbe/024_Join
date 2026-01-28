@@ -81,15 +81,15 @@ function getSubtaskActions(isEditing) {
 
 function getSubtaskViewActions() {
   return [
-    { action: "edit", icon: "/assets/img/icons/edit.png", label: "Edit subtask" },
-    { action: "delete", icon: "/assets/img/icons/delete.png", label: "Delete subtask" },
+    { action: "edit", icon: "/assets/img/icons/edit.svg", label: "Edit subtask" },
+    { action: "delete", icon: "/assets/img/icons/delete.svg", label: "Delete subtask" },
   ];
 }
 
 function getSubtaskEditActions() {
   return [
-    { action: "delete", icon: "/assets/img/icons/delete.png", label: "Delete subtask" },
-    { action: "done", icon: "/assets/img/icons/done.png", label: "Save subtask" },
+    { action: "delete", icon: "/assets/img/icons/delete.svg", label: "Delete subtask" },
+    { action: "done", icon: "/assets/img/icons/done.svg", label: "Save subtask" },
   ];
 }
 

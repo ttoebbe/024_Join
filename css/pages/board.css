@@ -934,7 +934,7 @@
 
 .dropdown-item.is-selected .assigned-check {
   border: none;
-  background: url("/assets/img/icons/check-button.png") center / contain no-repeat;
+  background: url("/assets/img/icons/check-button.svg") center / contain no-repeat;
 }
 
 

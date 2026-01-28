@@ -82,7 +82,7 @@ function createMoveToButton(task) {
   btn.dataset.moveToggle = "true";
   if (task?.id) btn.dataset.taskId = String(task.id);
   const img = document.createElement("img");
-  img.src = "/assets/img/icons/move-to.png";
+  img.src = "/assets/img/icons/move-to.svg";
   img.alt = "Move to";
   btn.appendChild(img);
   return btn;
@@ -255,14 +255,14 @@ function buildPrioImage(task) {
 function handlePrioImageError(img) {
   img.onerror = null;
   img.dataset.prio = "medium";
-  img.src = "/assets/img/icons/Prio-medium.png";
+  img.src = "/assets/img/icons/Prio-medium.svg";
 }
 
 function mapPrioToIcon(prio) {
   const key = normalizePrioKey(prio);
-  if (key === "urgent") return "/assets/img/icons/Prio-Urgent.png";
-  if (key === "low") return "/assets/img/icons/Prio-Low.png";
-  return "/assets/img/icons/Prio-medium.png";
+  if (key === "urgent") return "/assets/img/icons/Prio-Urgent.svg";
+  if (key === "low") return "/assets/img/icons/Prio-Low.svg";
+  return "/assets/img/icons/Prio-medium.svg";
 }
 
 function normalizePrioKey(prio) {

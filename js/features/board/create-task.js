@@ -261,8 +261,8 @@ function appendDetailButtonContent(btn, label) {
 
 function getDetailActionIcon(label) {
   const key = String(label || "").toLowerCase();
-  if (key === "delete") return buildDetailIcon("/assets/img/icons/delete.png", "Delete");
-  if (key === "edit") return buildDetailIcon("/assets/img/icons/edit.png", "Edit");
+  if (key === "delete") return buildDetailIcon("/assets/img/icons/delete.svg", "Delete");
+  if (key === "edit") return buildDetailIcon("/assets/img/icons/edit.svg", "Edit");
   return null;
 }
 

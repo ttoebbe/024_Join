@@ -2,25 +2,25 @@ function getNavBarTemplate() {
   return `
   <div class="nav-bar">
     <div class="nav-logo">
-      <img class="nav-img" src="../../assets/img/capa-2.png" alt="Join Logo" />
+      <img class="nav-img" src="../../assets/img/capa-2.svg" alt="Join Logo" />
     </div>
 
     <div class="nav-links">
       <nav>
         <a href="summary.html" data-route="summary">
-          <img src="../../assets/img/icons/summary.png" alt="" />
+          <img src="../../assets/img/icons/summary.svg" alt="" />
           <p>Summary</p>
         </a>
         <a href="add-task.html" data-route="add_task">
-          <img src="../../assets/img/icons/addtasks.png" alt="" />
+          <img src="../../assets/img/icons/addtasks.svg" alt="" />
           <p>Add Tasks</p>
         </a>
         <a href="board.html" data-route="board">
-          <img src="../../assets/img/icons/board.png" alt="" />
+          <img src="../../assets/img/icons/board.svg" alt="" />
           <p>Board</p>
         </a>
         <a href="contacts.html" data-route="contacts">
-          <img src="../../assets/img/icons/contact.png" alt="" />
+          <img src="../../assets/img/icons/contact.svg" alt="" />
           <p>Contacts</p>
         </a>
       </nav>
@@ -38,13 +38,13 @@ function getGuestNavTemplate() {
   return `
   <div class="nav-bar">
     <div class="nav-logo">
-      <img class="nav-img" src="../../assets/img/capa-2.png" alt="Join Logo" />
+      <img class="nav-img" src="../../assets/img/capa-2.svg" alt="Join Logo" />
     </div>
 
     <div class="nav-links">
       <nav>
         <a href="../../index.html" data-route="login">
-          <img src="../../assets/img/icons/lock.png" alt="" />
+          <img src="../../assets/img/icons/lock.svg" alt="" />
           <p>Log In</p>
         </a>
       </nav>

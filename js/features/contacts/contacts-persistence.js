@@ -61,7 +61,7 @@ async function createNewContact(values, overlay, form, listElement) {
     if (!result) return;
     await loadContactsFromFirebase();
     refreshContactUI(listElement, overlay, form, newContact.id);
-    showImageToast("/assets/img/icons/contact-succesfull-create.png", "Contact created");
+    showImageToast("/assets/img/icons/contact-succesfull-create.svg", "Contact created");
   } catch (error) {
     console.error("Error creating contact:", error);
   }
