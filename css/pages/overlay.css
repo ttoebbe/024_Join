@@ -148,10 +148,19 @@
   color: var(--color-text-primary);
   font-weight: 700;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .task-detail-btn:hover {
   color: var(--color-accent);
+}
+
+.task-detail-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 @media (max-width: 800px) {
@@ -180,5 +189,4 @@
     min-width: 0;
   }
 }
-
 

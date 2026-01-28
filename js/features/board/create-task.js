@@ -252,9 +252,48 @@ function createDetailButton(label, onClick) {
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "task-detail-btn";
-  btn.textContent = label;
+  appendDetailButtonContent(btn, label);
   btn.addEventListener("click", onClick);
   return btn;
+}
+
+/**
+ * Builds button label + icon for task detail actions.
+ * @param {*} btn
+ * @param {string} label
+ * @returns {*}
+ */
+function appendDetailButtonContent(btn, label) {
+  const icon = getDetailActionIcon(label);
+  if (icon) btn.appendChild(icon);
+  btn.appendChild(document.createTextNode(label));
+}
+
+/**
+ * Returns the icon element for a detail action label.
+ * @param {string} label
+ * @returns {*}
+ */
+function getDetailActionIcon(label) {
+  const key = String(label || "").toLowerCase();
+  if (key === "delete") return buildDetailIcon("/assets/img/icons/delete.png", "Delete");
+  if (key === "edit") return buildDetailIcon("/assets/img/icons/edit.png", "Edit");
+  return null;
+}
+
+/**
+ * Builds an icon img for detail buttons.
+ * @param {string} src
+ * @param {string} label
+ * @returns {*}
+ */
+function buildDetailIcon(src, label) {
+  const img = document.createElement("img");
+  img.className = "task-detail-icon";
+  img.src = src;
+  img.alt = label;
+  img.setAttribute("aria-hidden", "true");
+  return img;
 }
 
 function createDeleteButton(task) {
@@ -347,5 +386,4 @@ function normalizePrioLabel(value) {
   if (v === "low" || v === "baja") return "Low";
   return "Medium";
 }
-
 
