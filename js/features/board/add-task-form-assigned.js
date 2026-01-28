@@ -190,7 +190,7 @@ function getAssignedAvatarsElement(dropdown) {
 }
 
 function wireAssignedToggle(state, parts) {
-  parts.toggle?.addEventListener("click", (event) => { // Toggle assigned dropdown
+  parts.toggle?.addEventListener("click", (event) => {
     handleAssignedToggleClick(state, parts, event);
   });
 }
@@ -211,7 +211,7 @@ function setAssignedOpen(parts, open) {
 }
 
 function wireAssignedOutsideClose(state, parts) {
-  document.addEventListener("click", (e) => { // Close assigned dropdown on outside click
+  document.addEventListener("click", (e) => {
     if (!parts.dropdown.contains(e.target)) closeAssignedDropdown(state, parts);
   });
 }
@@ -225,24 +225,24 @@ function wireAssignedSearch(state, parts) {
 }
 
 function wireAssignedInputClick(state, parts) {
-  parts.input.addEventListener("click", (event) => { // Open assigned dropdown
+  parts.input.addEventListener("click", (event) => {
     handleAssignedInputClick(state, parts, event);
   });
 }
 
 function wireAssignedInputFocus(parts) {
-  parts.input.addEventListener("focus", () => setAssignedOpen(parts, true)); // Open assigned dropdown on focus
+  parts.input.addEventListener("focus", () => setAssignedOpen(parts, true));
 }
 
 function wireAssignedInputChange(parts) {
-  parts.input.addEventListener("input", () => { // Filter assigned contacts
+  parts.input.addEventListener("input", () => {
     setAssignedOpen(parts, true);
     filterAssignedItems(parts, parts.input.value);
   });
 }
 
 function wireAssignedInputEscape(state, parts) {
-  parts.input.addEventListener("keydown", (e) => { // Close assigned dropdown on Escape
+  parts.input.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
     closeAssignedDropdown(state, parts);
     parts.input.blur();
@@ -266,7 +266,7 @@ function appendAssignedItem(state, parts, contact) {
   const item = buildAssignedItem(contact);
   const check = item.querySelector(".assigned-check");
   setAssignedSelectionState(state, item, check, contact);
-  item.addEventListener("click", () => { // Toggle assigned contact
+  item.addEventListener("click", () => {
     toggleAssignedContact(state, contact, item, check, parts);
   });
   parts.menu.appendChild(item);

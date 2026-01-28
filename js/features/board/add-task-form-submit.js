@@ -3,7 +3,7 @@ const DESCRIPTION_MAX_LENGTH = 200;
 
 function wirePrioButtons(state) {
   state.form.querySelectorAll(".prio-btn").forEach((btn) => {
-    btn.addEventListener("click", () => handlePrioButton(state, btn)); // Set priority
+    btn.addEventListener("click", () => handlePrioButton(state, btn));
   });
 }
 
@@ -20,7 +20,7 @@ function clearPrioActive(state) {
 }
 
 function wireClearButton(state, resets) {
-  document.getElementById("clear-btn")?.addEventListener("click", () => { // Clear form
+  document.getElementById("clear-btn")?.addEventListener("click", () => {
     clearAddTaskForm(state, resets);
   });
 }
@@ -54,11 +54,11 @@ function resetSelectionState(state) {
 }
 
 function wireSubmitHandler(state, onClose) {
-  state.createBtn.addEventListener("click", async (e) => { // Submit task
+  state.createBtn.addEventListener("click", async (e) => {
     e?.preventDefault();
     await handleSubmit(state, onClose);
   });
-  state.form.addEventListener("submit", async (e) => { // Submit task
+  state.form.addEventListener("submit", async (e) => {
     e.preventDefault();
     await handleSubmit(state, onClose);
   });
@@ -99,10 +99,10 @@ function clearSubtaskLimitState() {
 }
 
 function wireValidationCleanup(state) {
-  state.form.addEventListener("input", () => { // Clear validation on input
+  state.form.addEventListener("input", () => {
     clearAddTaskErrors(state);
   });
-  state.form.addEventListener("change", () => { // Clear validation on change
+  state.form.addEventListener("change", () => {
     clearAddTaskErrors(state);
   });
 }
@@ -180,12 +180,12 @@ function wireCreateButtonState(state) {
 }
 
 function attachCreateButtonListeners(state, handler) {
-  state.titleInput?.addEventListener("input", handler); // Update create button
-  state.titleInput?.addEventListener("input", () => validateTitleLength(state)); // Validate title
-  state.dueDateInput?.addEventListener("input", handler); // Update create button
-  state.dueDateInput?.addEventListener("change", handler); // Update create button
-  state.form.addEventListener("input", handler); // Update create button
-  state.form.addEventListener("change", handler); // Update create button
+  state.titleInput?.addEventListener("input", handler);
+  state.titleInput?.addEventListener("input", () => validateTitleLength(state));
+  state.dueDateInput?.addEventListener("input", handler);
+  state.dueDateInput?.addEventListener("change", handler);
+  state.form.addEventListener("input", handler);
+  state.form.addEventListener("change", handler);
   wireAddTaskCounters(state);
 }
 
@@ -300,9 +300,9 @@ function clearFieldError(errorId, inputEl) {
 
 function wireAddTaskCounters(state) {
   updateAddTaskCounters(state);
-  state.titleInput?.addEventListener("input", () => updateAddTaskCounters(state)); // Update counters
+  state.titleInput?.addEventListener("input", () => updateAddTaskCounters(state));
   const desc = document.getElementById("task-description");
-  desc?.addEventListener("input", () => updateAddTaskCounters(state)); // Update counters
+  desc?.addEventListener("input", () => updateAddTaskCounters(state));
 }
 
 function updateAddTaskCounters(state) {

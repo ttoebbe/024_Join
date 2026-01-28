@@ -1,15 +1,15 @@
 function wireDragAndDrop() {
   document.querySelectorAll(".board-column").forEach((column) => {
-    column.addEventListener("dragover", handleColumnDragOver); // Allow drop
-    column.addEventListener("dragenter", handleColumnDragEnter); // Highlight column
-    column.addEventListener("dragleave", handleColumnDragLeave); // Remove highlight
-    column.addEventListener("drop", handleColumnDrop); // Move card
+    column.addEventListener("dragover", handleColumnDragOver);
+    column.addEventListener("dragenter", handleColumnDragEnter);
+    column.addEventListener("dragleave", handleColumnDragLeave);
+    column.addEventListener("drop", handleColumnDrop);
   });
 }
 
 function wireCardDragHandlers(card) {
-  card.addEventListener("dragstart", handleCardDragStart); // Start drag
-  card.addEventListener("dragend", handleCardDragEnd); // End drag
+  card.addEventListener("dragstart", handleCardDragStart);
+  card.addEventListener("dragend", handleCardDragEnd);
 }
 
 function handleCardDragStart(e) {

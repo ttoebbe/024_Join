@@ -40,7 +40,7 @@ function buildOverlayHTML(title, formHtml) {
 }
 
 function setupOverlayEvents(root, status, mode) {
-  root.querySelectorAll("[data-overlay-close]").forEach((el) => el.addEventListener("click", closeAddTaskOverlay)); // Close overlay
+  root.querySelectorAll("[data-overlay-close]").forEach((el) => el.addEventListener("click", closeAddTaskOverlay));
   const statusField = root.querySelector("#task-status-preset");
   if (statusField) statusField.value = status;
   const createBtn = root.querySelector("#create-btn");

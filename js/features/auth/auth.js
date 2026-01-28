@@ -47,30 +47,30 @@ function showSuccessOverlay() {
 }
 
 function wireLoginErrorHandlers({ emailInput, passwordInput }) {
-  emailInput.addEventListener("input", () => clearFieldError("email-error", emailInput)); // Clear email error
-  passwordInput.addEventListener("input", () => clearFieldError("password-error", passwordInput)); // Clear password error
-  emailInput.addEventListener("blur", () => validateLoginEmailField(emailInput, "email-error")); // Validate email
-  passwordInput.addEventListener("blur", () => validateLoginPasswordField(passwordInput, "password-error")); // Validate password
+  emailInput.addEventListener("input", () => clearFieldError("email-error", emailInput));
+  passwordInput.addEventListener("input", () => clearFieldError("password-error", passwordInput));
+  emailInput.addEventListener("blur", () => validateLoginEmailField(emailInput, "email-error"));
+  passwordInput.addEventListener("blur", () => validateLoginPasswordField(passwordInput, "password-error"));
 }
 
 function wireSignupErrorHandlers({ nameInput, emailInput, passwordInput, confirmPasswordInput, policyCheckbox }) {
-  nameInput.addEventListener("input", () => clearFieldError("username-error", nameInput)); // Clear name error
-  emailInput.addEventListener("input", () => clearFieldError("sign-up-email-error", emailInput)); // Clear email error
-  passwordInput.addEventListener("input", () => clearFieldError("sign-up-password-error", passwordInput)); // Clear password error
-  confirmPasswordInput.addEventListener("input", () => clearFieldError("sign-up-confirm-password-error", confirmPasswordInput)); // Clear confirm error
-  policyCheckbox?.addEventListener("change", () => clearFieldError("sign-up-policy-error", policyCheckbox)); // Clear policy error
-  nameInput.addEventListener("blur", () => validateFieldWithAutoDismiss(nameInput, "username-error", validateUsernameField)); // Validate name
-  emailInput.addEventListener("blur", () => handleSignupEmailBlur(emailInput)); // Validate email
-  passwordInput.addEventListener("blur", () => validateFieldWithAutoDismiss(passwordInput, "sign-up-password-error", validatePasswordField)); // Validate password
-  confirmPasswordInput.addEventListener("blur", () => validateFieldWithAutoDismiss(passwordInput, confirmPasswordInput, "sign-up-confirm-password-error", validateConfirmPasswordField)); // Validate confirm
+  nameInput.addEventListener("input", () => clearFieldError("username-error", nameInput));
+  emailInput.addEventListener("input", () => clearFieldError("sign-up-email-error", emailInput));
+  passwordInput.addEventListener("input", () => clearFieldError("sign-up-password-error", passwordInput));
+  confirmPasswordInput.addEventListener("input", () => clearFieldError("sign-up-confirm-password-error", confirmPasswordInput));
+  policyCheckbox?.addEventListener("change", () => clearFieldError("sign-up-policy-error", policyCheckbox));
+  nameInput.addEventListener("blur", () => validateFieldWithAutoDismiss(nameInput, "username-error", validateUsernameField));
+  emailInput.addEventListener("blur", () => handleSignupEmailBlur(emailInput));
+  passwordInput.addEventListener("blur", () => validateFieldWithAutoDismiss(passwordInput, "sign-up-password-error", validatePasswordField));
+  confirmPasswordInput.addEventListener("blur", () => validateFieldWithAutoDismiss(passwordInput, confirmPasswordInput, "sign-up-confirm-password-error", validateConfirmPasswordField));
 }
 
 function wireSignupButtonState(state) {
   const update = () => setSignupButtonState(state);
   [state.nameInput, state.emailInput, state.passwordInput, state.confirmPasswordInput].forEach((el) =>
-    el.addEventListener("input", update) // Update signup button
+    el.addEventListener("input", update)
   );
-  state.policyCheckbox.addEventListener("change", update); // Update signup button
+  state.policyCheckbox.addEventListener("change", update);
   update();
 }
 
@@ -133,7 +133,7 @@ function wireLoginForm(state) {
 }
 
 function wireLoginSubmit(state) {
-  state.form.addEventListener("submit", async (e) => { // Submit login
+  state.form.addEventListener("submit", async (e) => {
     e.preventDefault();
     await handleLoginSubmit(state);
   });
@@ -167,7 +167,7 @@ async function attemptLogin({ emailInput, passwordInput }) {
 }
 
 function wireGuestLogin({ guestLoginButton }) {
-  guestLoginButton?.addEventListener("click", async (e) => { // Login as guest
+  guestLoginButton?.addEventListener("click", async (e) => {
     e.preventDefault();
     await saveCurrentUser({ name: "Guest", guest: true });
     window.location.href = ROUTES.SUMMARY;
@@ -200,7 +200,7 @@ function wireSignupForm(state) {
 }
 
 function wireSignupSubmit(state) {
-  state.form.addEventListener("submit", async (e) => { // Submit signup
+  state.form.addEventListener("submit", async (e) => {
     e.preventDefault();
     await handleSignupSubmit(state);
   });
@@ -292,7 +292,7 @@ function setPasswordInitialState({ input, lock, eye }) {
 }
 
 function wirePasswordInput({ input, lock, eye }) {
-  input.addEventListener("input", () => { // Toggle icons on input
+  input.addEventListener("input", () => {
     const hasValue = input.value.length > 0;
     updatePasswordIcons(hasValue, input, lock, eye);
   });
@@ -313,7 +313,7 @@ function showEyeIcon(input, lock, eye) {
 }
 
 function wirePasswordToggle({ input, eye }) {
-  eye.addEventListener("click", (e) => { // Toggle password visibility
+  eye.addEventListener("click", (e) => {
     e.stopPropagation();
     togglePasswordVisibility(input, eye);
   });
@@ -326,5 +326,5 @@ function togglePasswordVisibility(input, eye) {
 }
 
 function wirePasswordLock({ lock }) {
-  lock.addEventListener("click", (e) => e.stopPropagation()); // Prevent focus change
+  lock.addEventListener("click", (e) => e.stopPropagation());
 }

@@ -225,14 +225,14 @@ function canInitSubtasks(state) {
 
 function wireSubtaskAdd(state) {
   if (!state.subtaskAddBtn) return;
-  state.subtaskAddBtn.addEventListener("click", () => addSubtaskFromInput(state)); // Add subtask
+  state.subtaskAddBtn.addEventListener("click", () => addSubtaskFromInput(state));
 }
 
 function wireSubtaskInput(state) {
-  state.subtaskInput.addEventListener("keydown", (e) => { // Submit subtask on Enter
+  state.subtaskInput.addEventListener("keydown", (e) => {
     handleSubtaskKeydown(e, state);
   });
-  state.subtaskInput.addEventListener("input", () => { // Update subtask counter
+  state.subtaskInput.addEventListener("input", () => {
     enforceSubtaskMax(state);
     updateSubtaskLimitState(state);
     updateSubtaskCounter(state);
@@ -247,25 +247,25 @@ function wireSubtaskList(state) {
 }
 
 function wireSubtaskListClick(state) {
-  state.subtaskList.addEventListener("click", (e) => { // Handle subtask actions
+  state.subtaskList.addEventListener("click", (e) => {
     handleSubtaskListClick(e, state);
   });
 }
 
 function wireSubtaskListInput(state) {
-  state.subtaskList.addEventListener("input", (e) => { // Track subtask edits
+  state.subtaskList.addEventListener("input", (e) => {
     handleSubtaskEditInput(e, state);
   });
 }
 
 function wireSubtaskListKeydown(state) {
-  state.subtaskList.addEventListener("keydown", (e) => { // Handle edit keys
+  state.subtaskList.addEventListener("keydown", (e) => {
     handleSubtaskEditKeydown(e, state);
   });
 }
 
 function wireSubtaskListBlur(state) {
-  state.subtaskList.addEventListener("blur", (e) => { // Commit edits on blur
+  state.subtaskList.addEventListener("blur", (e) => {
     handleSubtaskEditBlur(e, state);
   }, true);
 }

@@ -204,7 +204,7 @@ function buildContactMarkup(sorted) {
 function wireContactEntries(container) {
   const contactEntries = container.querySelectorAll(".contact-entry");
   contactEntries.forEach((entry) => {
-    entry.addEventListener("click", () => handleContactEntryClick(entry)); // Select contact
+    entry.addEventListener("click", () => handleContactEntryClick(entry));
   });
 }
 
@@ -256,10 +256,10 @@ function setupDetailActions(contactId) {
   const container = document.getElementById("contact-detail-injection");
   if (!container || !contactId) return;
   const { editButton, deleteButton } = getDetailActionButtons(container);
-  editButton?.addEventListener("click", () => { // Open edit overlay
+  editButton?.addEventListener("click", () => {
     openEditContact(contactId);
   });
-  deleteButton?.addEventListener("click", () => { // Confirm delete
+  deleteButton?.addEventListener("click", () => {
     confirmDeleteContact(contactId);
   });
 }
@@ -286,7 +286,7 @@ function setupMobileDetailButtons(contactId) {
   const container = document.getElementById("contact-detail-injection");
   if (!container || !contactId) return;
   const menuButton = container.querySelector(".contact-menu-button");
-  menuButton?.addEventListener("click", () => { // Open edit overlay on mobile
+  menuButton?.addEventListener("click", () => {
     openEditContact(contactId);
   });
 }
@@ -296,7 +296,7 @@ function setupHeaderBackButton() {
     ".contacts-header .contact-back-button"
   );
   if (!headerBackButton) return;
-  headerBackButton.addEventListener("click", closeMobileDetailView); // Close detail view
+  headerBackButton.addEventListener("click", closeMobileDetailView);
 }
 
 function isMobileLayout() {

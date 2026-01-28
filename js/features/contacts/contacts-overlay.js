@@ -40,9 +40,9 @@ function registerOverlayInputHandlers(elements) {
 }
 
 function registerOverlayClearHandlers(elements, clear) {
-  elements.nameInput?.addEventListener("input", clear); // Clear errors on name input
-  elements.emailInput?.addEventListener("input", clear); // Clear errors on email input
-  elements.phoneInput?.addEventListener("input", clear); // Clear errors on phone input
+  elements.nameInput?.addEventListener("input", clear);
+  elements.emailInput?.addEventListener("input", clear);
+  elements.phoneInput?.addEventListener("input", clear);
 }
 
 function registerOverlayValidationHandlers(elements) {
@@ -52,19 +52,19 @@ function registerOverlayValidationHandlers(elements) {
 }
 
 function registerNameLengthValidation(elements) {
-  elements.nameInput?.addEventListener("input", () => { // Validate name length
+  elements.nameInput?.addEventListener("input", () => {
     validateContactLength(elements.nameInput, CONTACT_NAME_MAX, "contact-name-error", "Name");
   });
 }
 
 function registerEmailLengthValidation(elements) {
-  elements.emailInput?.addEventListener("input", () => { // Validate email length
+  elements.emailInput?.addEventListener("input", () => {
     validateContactLength(elements.emailInput, CONTACT_EMAIL_MAX, "contact-email-error", "Email");
   });
 }
 
 function registerPhoneValidation(elements) {
-  elements.phoneInput?.addEventListener("input", () => { // Validate phone digits
+  elements.phoneInput?.addEventListener("input", () => {
     validatePhoneDigits(
       elements.phoneInput,
       CONTACT_PHONE_MIN,
@@ -76,9 +76,9 @@ function registerPhoneValidation(elements) {
 
 function wireContactCounters(elements) {
   updateContactCounters(elements);
-  elements.nameInput?.addEventListener("input", () => updateContactCounters(elements)); // Update counters
-  elements.emailInput?.addEventListener("input", () => updateContactCounters(elements)); // Update counters
-  elements.phoneInput?.addEventListener("input", () => updateContactCounters(elements)); // Update counters
+  elements.nameInput?.addEventListener("input", () => updateContactCounters(elements));
+  elements.emailInput?.addEventListener("input", () => updateContactCounters(elements));
+  elements.phoneInput?.addEventListener("input", () => updateContactCounters(elements));
 }
 
 function updateContactCounters(elements) {
@@ -118,7 +118,7 @@ function registerOverlayButtons(elements, listElement) {
 }
 
 function registerOverlayOpenButton(elements) {
-  elements.openButton?.addEventListener("click", () => { // Open add contact overlay
+  elements.openButton?.addEventListener("click", () => {
     setOverlayMode(elements.form, false);
     setOverlayAvatarDefault();
     elements.form?.reset();
@@ -131,12 +131,12 @@ function registerOverlayOpenButton(elements) {
 function registerOverlayCloseButtons(elements) {
   if (!elements.closeButtons) return;
   elements.closeButtons.forEach((button) => {
-    button.addEventListener("click", () => closeOverlay(elements.overlay, elements.form)); // Close overlay
+    button.addEventListener("click", () => closeOverlay(elements.overlay, elements.form));
   });
 }
 
 function registerOverlayDeleteButton(elements, listElement) {
-  elements.deleteButton?.addEventListener("click", async () => { // Delete contact
+  elements.deleteButton?.addEventListener("click", async () => {
     const currentId = getCurrentEditId(); if (!currentId) return;
     const confirmed = await showConfirmOverlay({
       title: "Delete contact?",
@@ -149,13 +149,13 @@ function registerOverlayDeleteButton(elements, listElement) {
 }
 
 function registerOverlaySubmit(elements, listElement) {
-  elements.form.addEventListener("submit", async (event) => { // Submit contact form
+  elements.form.addEventListener("submit", async (event) => {
     await handleNewContactSubmit(event, elements.overlay, elements.form, listElement);
   });
 }
 
 function registerOverlayBackdropClick(elements) {
-  elements.overlay.addEventListener("click", (event) => { // Close overlay on backdrop click
+  elements.overlay.addEventListener("click", (event) => {
     if (event.target === elements.overlay) {
       closeOverlay(elements.overlay, elements.form);
     }

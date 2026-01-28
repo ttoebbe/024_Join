@@ -19,7 +19,7 @@ async function initBoard() {
 function wireBoardUi() {
   const input = document.getElementById("boardSearchInput");
   if (input) {
-    input.addEventListener("input", (e) => { // Update search query
+    input.addEventListener("input", (e) => {
       boardState.query = String(e.target.value || "").trim().toLowerCase();
       renderBoard();
     });
@@ -31,8 +31,8 @@ function wireBoardUi() {
 function wireMoveMenus() {
   const board = document.querySelector(".board-columns");
   if (!board) return;
-  board.addEventListener("click", (e) => handleMoveMenuClick(e)); // Handle move menu clicks
-  document.addEventListener("click", (e) => handleMoveMenuOutsideClick(e)); // Close move menu outside
+  board.addEventListener("click", (e) => handleMoveMenuClick(e));
+  document.addEventListener("click", (e) => handleMoveMenuOutsideClick(e));
 }
 
 function handleMoveMenuClick(e) {

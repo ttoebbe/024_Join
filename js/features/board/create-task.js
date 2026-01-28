@@ -1,8 +1,8 @@
 function wireAddTaskButtons() {
   const mainBtn = document.getElementById("boardAddTaskBtn");
-  mainBtn?.addEventListener("click", () => openOverlayWithStatus("todo")); // Open add task
+  mainBtn?.addEventListener("click", () => openOverlayWithStatus("todo"));
   document.querySelectorAll(".board-column-add").forEach((btn) => {
-    btn.addEventListener("click", () => handleColumnAddClick(btn)); // Open add task per column
+    btn.addEventListener("click", () => handleColumnAddClick(btn));
   });
 }
 
@@ -18,8 +18,8 @@ function openOverlayWithStatus(status) {
 }
 
 function wireCardOpenHandlers(card, task) {
-  card.addEventListener("click", (e) => handleCardOpenClick(e, task)); // Open detail on click
-  card.addEventListener("keydown", (e) => handleCardOpenKeydown(e, task)); // Open detail on key
+  card.addEventListener("click", (e) => handleCardOpenClick(e, task));
+  card.addEventListener("keydown", (e) => handleCardOpenKeydown(e, task));
 }
 
 function handleCardOpenClick(e, task) {
@@ -105,7 +105,7 @@ function createPriorityRow(task) {
 
 function wireTaskDetailClose(root) {
   root.querySelectorAll("[data-overlay-close]").forEach((el) => {
-    el.addEventListener("click", closeTaskOverlay); // Close detail overlay
+    el.addEventListener("click", closeTaskOverlay);
   });
 }
 
@@ -224,7 +224,7 @@ function buildSubtaskCheckbox(task, subtask, index) {
   const cb = document.createElement("input");
   cb.type = "checkbox";
   cb.checked = isSubtaskDone(subtask);
-  cb.addEventListener("change", () => { // Toggle subtask done
+  cb.addEventListener("change", () => {
     updateSubtaskDone(task?.id, index, cb.checked);
   });
   return cb;
@@ -249,7 +249,7 @@ function createDetailButton(label, onClick) {
   btn.type = "button";
   btn.className = "task-detail-btn";
   appendDetailButtonContent(btn, label);
-  btn.addEventListener("click", onClick); // Trigger detail action
+  btn.addEventListener("click", onClick);
   return btn;
 }
 

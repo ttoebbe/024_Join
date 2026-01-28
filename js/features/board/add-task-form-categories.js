@@ -19,7 +19,7 @@ function getCategoryDropdownParts(dropdown) {
 }
 
 function wireCategoryToggle(parts) {
-  parts.toggle?.addEventListener("click", () => { // Toggle category dropdown
+  parts.toggle?.addEventListener("click", () => {
     setCategoryOpen(parts, parts.menu?.hidden);
   });
 }
@@ -32,7 +32,7 @@ function setCategoryOpen(parts, open) {
 }
 
 function wireCategoryOutsideClose(parts) {
-  document.addEventListener("click", (e) => { // Close category dropdown on outside click
+  document.addEventListener("click", (e) => {
     if (!parts.dropdown.contains(e.target)) setCategoryOpen(parts, false);
   });
 }
@@ -42,7 +42,7 @@ function wireCategoryItems(state, parts) {
 }
 
 function wireCategoryItem(state, parts, item) {
-  item.addEventListener("click", () => { // Select category item
+  item.addEventListener("click", () => {
     setSelectedCategory(state, parts, item);
   });
 }
