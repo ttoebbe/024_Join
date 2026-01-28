@@ -1074,10 +1074,6 @@
   text-align: right;
 }
 
-#subtask-counter {
-  width: calc(100% - 52px);
-}
-
 .req-note {
   margin: 20px 0 0;
   color: #2a3647;

@@ -124,7 +124,6 @@ function getAddTaskSubtaskBlock() {
     <input id="subtask-input" type="text" placeholder="Add new subtask" />
   </div>
   <div class="field-error" id="subtask-error"></div>
-  <div class="field-counter" id="subtask-counter">0/30</div>
   <div id="subtask-list"></div>
 `;
 }

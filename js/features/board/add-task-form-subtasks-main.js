@@ -235,7 +235,6 @@ function wireSubtaskInput(state) {
   state.subtaskInput.addEventListener("input", () => {
     enforceSubtaskMax(state);
     updateSubtaskLimitState(state);
-    updateSubtaskCounter(state);
   });
 }
 
@@ -293,21 +292,12 @@ function addSubtaskFromInput(state) {
   if (!value) return;
   state.selectedSubtasks.push({ title: value, done: false });
   state.subtaskInput.value = "";
-  updateSubtaskCounter(state);
   renderSubtasks(state);
 }
 
 function wireSubtaskCounter(state) {
   enforceSubtaskMax(state);
   updateSubtaskLimitState(state);
-  updateSubtaskCounter(state);
-}
-
-function updateSubtaskCounter(state) {
-  const counter = document.getElementById("subtask-counter");
-  if (!counter) return;
-  const length = state.subtaskInput?.value.length || 0;
-  counter.textContent = `${length}/${SUBTASK_MAX_LENGTH}`;
 }
 
 function enforceSubtaskMax(state) {
