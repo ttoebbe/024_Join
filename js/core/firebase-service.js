@@ -1,7 +1,28 @@
-/**
- * Firebase service for data persistence (centralized Firebase access)
- * Replaces localStorage usage throughout the application
- */
+const UserService = {
+  getAll: () => loadData(COLLECTIONS.USERS),
+  get: (id) => loadData(COLLECTIONS.USERS, id),
+  create: (userData) => saveData(COLLECTIONS.USERS, userData, userData.id),
+  update: (id, userData) => updateData(COLLECTIONS.USERS, id, userData),
+  delete: (id) => deleteData(COLLECTIONS.USERS, id),
+};
+
+const TaskService = {
+  getAll: () => loadData(COLLECTIONS.TASKS),
+  get: (id) => loadData(COLLECTIONS.TASKS, id),
+  create: (taskData) => saveData(COLLECTIONS.TASKS, taskData, taskData.id),
+  update: (id, taskData) => updateData(COLLECTIONS.TASKS, id, taskData),
+  delete: (id) => deleteData(COLLECTIONS.TASKS, id),
+};
+
+const ContactService = {
+  getAll: () => loadData(COLLECTIONS.CONTACTS),
+  get: (id) => loadData(COLLECTIONS.CONTACTS, id),
+  create: (contactData) =>
+    saveData(COLLECTIONS.CONTACTS, contactData, contactData.id),
+  update: (id, contactData) =>
+    updateData(COLLECTIONS.CONTACTS, id, contactData),
+  delete: (id) => deleteData(COLLECTIONS.CONTACTS, id),
+};
 
 /**
  * Creates request options for Firebase requests.
@@ -65,7 +86,7 @@ async function firebaseRequest(path, { method = "GET", data, headers } = {}) {
 }
 
 /**
- * Gets current user from session storage (temporary fallback)
+ * Gets current user from session storage (temporary fallback).
  * @returns {Object|null} Current user or null
  */
 function getCurrentUser() {
@@ -77,7 +98,7 @@ function getCurrentUser() {
 }
 
 /**
- * Sets current user in session storage (temporary fallback)
+ * Sets current user in session storage (temporary fallback).
  * @param {Object} user - User object to store
  */
 function setCurrentUser(user) {
@@ -133,94 +154,6 @@ async function deleteData(collection, id) {
   return await firebaseRequest(`${collection}/${id}`, { method: "DELETE" });
 }
 
-// Collection-specific helper functions
-const UserService = {
-/**
- * @returns {*}
- */
-  getAll: () => loadData(COLLECTIONS.USERS),
-/**
- * @param {*} id
- * @returns {*}
- */
-  get: (id) => loadData(COLLECTIONS.USERS, id),
-/**
- * @param {*} userData
- * @returns {*}
- */
-  create: (userData) => saveData(COLLECTIONS.USERS, userData, userData.id),
-/**
- * @param {*} id
- * @param {*} userData
- * @returns {*}
- */
-  update: (id, userData) => updateData(COLLECTIONS.USERS, id, userData),
-/**
- * @param {*} id
- * @returns {*}
- */
-  delete: (id) => deleteData(COLLECTIONS.USERS, id),
-};
-
-const TaskService = {
-/**
- * @returns {*}
- */
-  getAll: () => loadData(COLLECTIONS.TASKS),
-/**
- * @param {*} id
- * @returns {*}
- */
-  get: (id) => loadData(COLLECTIONS.TASKS, id),
-/**
- * @param {*} taskData
- * @returns {*}
- */
-  create: (taskData) => saveData(COLLECTIONS.TASKS, taskData, taskData.id),
-/**
- * @param {*} id
- * @param {*} taskData
- * @returns {*}
- */
-  update: (id, taskData) => updateData(COLLECTIONS.TASKS, id, taskData),
-/**
- * @param {*} id
- * @returns {*}
- */
-  delete: (id) => deleteData(COLLECTIONS.TASKS, id),
-};
-
-const ContactService = {
-/**
- * @returns {*}
- */
-  getAll: () => loadData(COLLECTIONS.CONTACTS),
-/**
- * @param {*} id
- * @returns {*}
- */
-  get: (id) => loadData(COLLECTIONS.CONTACTS, id),
-/**
- * @param {*} contactData
- * @returns {*}
- */
-  create: (contactData) =>
-    saveData(COLLECTIONS.CONTACTS, contactData, contactData.id),
-/**
- * @param {*} id
- * @param {*} contactData
- * @returns {*}
- */
-  update: (id, contactData) =>
-    updateData(COLLECTIONS.CONTACTS, id, contactData),
-/**
- * @param {*} id
- * @returns {*}
- */
-  delete: (id) => deleteData(COLLECTIONS.CONTACTS, id),
-};
-
-// Expose to global scope for console access and debugging
 window.firebase = {
   UserService,
   TaskService,
