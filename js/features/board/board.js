@@ -1,16 +1,4 @@
-/* =========================================================
-   Board (Join) â€“ Clean rebuild (Render-focused)
-   - Load tasks via TaskService
-   - Normalize Firebase data (object/array -> array)
-   - Render 4 columns
-   - Empty-state per column
-   - Live search (title + description)
-   - Card rendering:
-     - Category pill
-     - Title + description preview
-     - Subtasks progress (x/y + bar)
-     - Footer: assigned initials (+N) + prio icon
-   ========================================================= */
+
 /**
  * Single source of truth for the board page.
  */
