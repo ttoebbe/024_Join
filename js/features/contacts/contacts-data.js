@@ -1,15 +1,6 @@
-/**
- * Contacts Data Management Module
- * Handles Firebase operations, data normalization, validation, and initialization
- */
-
-// Global state
 let currentEditId = null;
 let contacts = [];
 
-/**
- * Initializes the contact list once the page is ready.
- */
 async function initContactsPage() {
   const listElement = document.querySelector(".contact-list");
   if (!listElement) {
@@ -22,10 +13,6 @@ async function initContactsPage() {
   onPageVisible(() => reloadContactsData(listElement));
 }
 
-/**
- * @param {*} listElement
- * @returns {*}
- */
 async function reloadContactsData(listElement) {
   try {
     await loadContactsFromFirebase();
@@ -35,10 +22,6 @@ async function reloadContactsData(listElement) {
   }
 }
 
-/**
- * Returns available contacts from the dataset.
- * @returns {Array<Object>}
- */
 function getContactData() {
   if (typeof contacts !== "undefined" && Array.isArray(contacts)) {
     return contacts;
@@ -47,10 +30,6 @@ function getContactData() {
   return [];
 }
 
-/**
- * Loads contacts from Firebase and normalizes them into an array.
- * @returns {Promise<Array<Object>>}
- */
 async function loadContactsFromFirebase() {
   try {
     const data = await ContactService.getAll();
@@ -63,11 +42,6 @@ async function loadContactsFromFirebase() {
   }
 }
 
-/**
- * Normalizes Firebase contact data into a sorted array.
- * @param {any} data
- * @returns {Array<Object>}
- */
 function normalizeContacts(data) {
   if (!data) return [];
   if (Array.isArray(data)) {
@@ -78,11 +52,6 @@ function normalizeContacts(data) {
   return values;
 }
 
-/**
- * Returns sortable numeric contact id value.
- * @param {Object} contact
- * @returns {number}
- */
 function getContactSortValue(contact) {
   const numericPart = parseInt(
     String(contact?.id || "").replace(/\D/g, ""),
@@ -91,39 +60,21 @@ function getContactSortValue(contact) {
   return Number.isFinite(numericPart) ? numericPart : Number.MAX_SAFE_INTEGER;
 }
 
-/**
- * Finds a contact by id.
- * @param {string} contactId
- * @returns {Object|null}
- */
 function getContactById(contactId) {
   if (!Array.isArray(contacts)) return null;
   return contacts.find((contact) => contact.id === contactId) || null;
 }
 
-/**
- * Checks whether contacts array has entries.
- * @returns {boolean}
- */
 function hasContacts() {
   return Array.isArray(contacts) && contacts.length > 0;
 }
 
-/**
- * Extracts numeric id part from a contact.
- * @param {Object} contact
- * @returns {number}
- */
 function getContactIdNumber(contact) {
   const rawId = String(contact?.id || "");
   const numericPart = parseInt(rawId.replace(/\D/g, ""), 10);
   return Number.isFinite(numericPart) ? numericPart : -1;
 }
 
-/**
- * Returns the highest numeric contact id.
- * @returns {number}
- */
 function getHighestContactNumber() {
   return contacts.reduce((max, contact) => {
     const numericPart = getContactIdNumber(contact);
@@ -131,10 +82,6 @@ function getHighestContactNumber() {
   }, -1);
 }
 
-/**
- * Generates the next contact id based on existing entries.
- * @returns {Promise<string>}
- */
 async function getNextContactId() {
   try {
     const data = await ContactService.getAll();
@@ -159,21 +106,12 @@ function getHighestContactNumberFrom(list) {
   }, -1);
 }
 
-/**
- * Adds a contact to the in-memory list.
- * @param {Object} contact
- */
 function addContact(contact) {
   if (Array.isArray(contacts)) {
     contacts.push(contact);
   }
 }
 
-/**
- * Finds the contact index by id.
- * @param {string} contactId
- * @returns {number}
- */
 function getContactIndex(contactId) {
   if (!Array.isArray(contacts)) return -1;
   return contacts.findIndex((contact) => {
@@ -181,19 +119,10 @@ function getContactIndex(contactId) {
   });
 }
 
-/**
- * Removes a contact at the given index.
- * @param {number} index
- */
 function removeContactAtIndex(index) {
   contacts.splice(index, 1);
 }
 
-/**
- * Validates phone format (allows digits, spaces, +, -, (, )).
- * @param {string} phone
- * @returns {boolean}
- */
 function isValidContactName(name) {
   const trimmed = (name || "").trim();
   if (!trimmed) return false;
@@ -210,11 +139,6 @@ function isValidPhone(phone) {
   return digits.length >= 6 && digits.length <= 15;
 }
 
-/**
- * Returns a validation error message or an empty string.
- * @param {{name: string, email: string, phone: string}} values
- * @returns {string}
- */
 function getContactValidationError(values) {
   if (!values.name || !isValidContactName(values.name)) {
     return "Please enter your full name. Only letters are allowed.";
@@ -228,30 +152,167 @@ function getContactValidationError(values) {
   return "";
 }
 
-/**
- * Sets the current edit ID.
- * @param {string|null} id
- */
 function setCurrentEditId(id) {
   currentEditId = id;
 }
 
-/**
- * Gets the current edit ID.
- * @returns {string|null}
- */
 function getCurrentEditId() {
   return currentEditId;
 }
 
-// Auto-initialize when DOM is loaded
-document.addEventListener("DOMContentLoaded", handleContactsReady);
+document.addEventListener("DOMContentLoaded", handleContactsReady); // Init contacts page
 
-/**
- * @returns {void}
- */
 function handleContactsReady() {
   withPageReady(initContactsPage);
 }
 
+function renderContactList(container, data) {
+  if (!hasContacts(data)) return clearContactList(container);
+  const sorted = sortContacts(data);
+  container.innerHTML = buildContactMarkup(sorted);
+  wireContactEntries(container);
+}
 
+function hasContacts(data) {
+  return Array.isArray(data) && data.length > 0;
+}
+
+function clearContactList(container) {
+  container.innerHTML = "";
+}
+
+function sortContacts(data) {
+  return [...data].sort((a, b) => {
+    return (a?.name || "").localeCompare(b?.name || "", "de", { sensitivity: "base" });
+  });
+}
+
+function buildContactMarkup(sorted) {
+  let currentGroup = "";
+  const markup = [];
+  sorted.forEach((contact) => {
+    const groupKey = getContactGroupKey(contact?.name);
+    if (groupKey !== currentGroup) {
+      currentGroup = groupKey;
+      markup.push(getContactGroupHeaderTemplate(groupKey));
+    }
+    markup.push(getContactTemplate(contact));
+  });
+  return markup.join("");
+}
+
+function wireContactEntries(container) {
+  const contactEntries = container.querySelectorAll(".contact-entry");
+  contactEntries.forEach((entry) => {
+    entry.addEventListener("click", () => handleContactEntryClick(entry)); // Select contact
+  });
+}
+
+function handleContactEntryClick(entry) {
+  const contactId = entry.getAttribute("data-contact-id");
+  const contact = getContactById(contactId);
+  if (contact) selectContact(contact, entry);
+}
+
+function getContactGroupKey(name) {
+  const trimmed = (name || "").trim();
+  if (!trimmed) return "#";
+  const firstChar = trimmed[0].toUpperCase();
+  return /[A-Z]/.test(firstChar) ? firstChar : "#";
+}
+
+function selectContact(contact, element) {
+  removeActiveStates();
+  element.classList.add("is-active");
+  renderContactDetail(contact);
+  openMobileDetailView();
+}
+
+function selectContactById(contactId) {
+  const contact = getContactById(contactId);
+  if (!contact) return;
+  const element = document.querySelector(`[data-contact-id="${contactId}"]`);
+  if (!element) return;
+  selectContact(contact, element);
+}
+
+function removeActiveStates() {
+  document
+    .querySelectorAll(".contact-entry")
+    .forEach((entry) => {
+      entry.classList.remove("is-active");
+    });
+}
+
+function renderContactDetail(contact) {
+  const container = document.getElementById("contact-detail-injection");
+  if (!container) return;
+  container.innerHTML = getContactDetailTemplate(contact);
+  setupDetailActions(contact?.id);
+  setupMobileDetailButtons(contact?.id);
+}
+
+function setupDetailActions(contactId) {
+  const container = document.getElementById("contact-detail-injection");
+  if (!container || !contactId) return;
+  const { editButton, deleteButton } = getDetailActionButtons(container);
+  editButton?.addEventListener("click", () => { // Open edit overlay
+    openEditContact(contactId);
+  });
+  deleteButton?.addEventListener("click", () => { // Confirm delete
+    confirmDeleteContact(contactId);
+  });
+}
+
+function getDetailActionButtons(container) {
+  const actionButtons = container.querySelectorAll(".detail-actions .secondary-button");
+  const editButton = actionButtons[0];
+  const deleteButton = actionButtons[1];
+  return { editButton, deleteButton };
+}
+
+async function confirmDeleteContact(contactId) {
+  const confirmed = await showConfirmOverlay({
+    title: "Delete contact?",
+    message: "Do you really want to delete this contact?",
+    confirmText: "Delete",
+    cancelText: "Cancel",
+  });
+  if (!confirmed) return;
+  deleteContact(contactId);
+}
+
+function setupMobileDetailButtons(contactId) {
+  const container = document.getElementById("contact-detail-injection");
+  if (!container || !contactId) return;
+  const menuButton = container.querySelector(".contact-menu-button");
+  menuButton?.addEventListener("click", () => { // Open edit overlay on mobile
+    openEditContact(contactId);
+  });
+}
+
+function setupHeaderBackButton() {
+  const headerBackButton = document.querySelector(
+    ".contacts-header .contact-back-button"
+  );
+  if (!headerBackButton) return;
+  headerBackButton.addEventListener("click", closeMobileDetailView); // Close detail view
+}
+
+function isMobileLayout() {
+  return window.matchMedia("(max-width: 800px)").matches;
+}
+
+function setMobileDetailState(isActive) {
+  const page = document.querySelector(".contacts-page");
+  if (!page) return;
+  page.classList.toggle("is-detail-open", isActive);
+}
+
+function openMobileDetailView() {
+  if (isMobileLayout()) setMobileDetailState(true);
+}
+
+function closeMobileDetailView() {
+  if (isMobileLayout()) setMobileDetailState(false);
+}
