@@ -37,7 +37,7 @@
 
 .addtask-form label {
   display: block;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--color-text-primary);
   margin: 16px 0 6px;
 }
@@ -62,6 +62,7 @@
   border-radius: 10px;
   padding: 12px 14px;
   font-size: 16px;
+  font-weight: 400;
   background: var(--color-bg-surface);
   box-sizing: border-box;
 }
@@ -73,7 +74,8 @@
 
 .addtask-grid input::placeholder,
 .addtask-grid textarea::placeholder {
-  color: var(--color-border-light);
+  color: #d1d1d1;
+  font-weight: 400;
 }
 
 .req {
