@@ -1,31 +1,17 @@
-/* =========================================================
-   Drag & Drop (Board)
-   ========================================================= */
-
-/**
- * Wires drag/drop handlers for columns once.
- */
 function wireDragAndDrop() {
   document.querySelectorAll(".board-column").forEach((column) => {
-    column.addEventListener("dragover", handleColumnDragOver);
-    column.addEventListener("dragenter", handleColumnDragEnter);
-    column.addEventListener("dragleave", handleColumnDragLeave);
-    column.addEventListener("drop", handleColumnDrop);
+    column.addEventListener("dragover", handleColumnDragOver); // Allow drop
+    column.addEventListener("dragenter", handleColumnDragEnter); // Highlight column
+    column.addEventListener("dragleave", handleColumnDragLeave); // Remove highlight
+    column.addEventListener("drop", handleColumnDrop); // Move card
   });
 }
 
-/**
- * Adds drag handlers to a card.
- */
 function wireCardDragHandlers(card) {
-  card.addEventListener("dragstart", handleCardDragStart);
-  card.addEventListener("dragend", handleCardDragEnd);
+  card.addEventListener("dragstart", handleCardDragStart); // Start drag
+  card.addEventListener("dragend", handleCardDragEnd); // End drag
 }
 
-/**
- * @param {*} e
- * @returns {*}
- */
 function handleCardDragStart(e) {
   const card = e.currentTarget;
   const taskId = card?.dataset?.taskId || "";
@@ -37,10 +23,6 @@ function handleCardDragStart(e) {
   card.classList.add("is-dragging");
 }
 
-/**
- * @param {*} e
- * @returns {*}
- */
 function handleCardDragEnd(e) {
   const card = e.currentTarget;
   card.classList.remove("is-dragging");
@@ -48,28 +30,16 @@ function handleCardDragEnd(e) {
   clearDropTargets();
 }
 
-/**
- * @param {*} e
- * @returns {*}
- */
 function handleColumnDragOver(e) {
   e.preventDefault();
   if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
 }
 
-/**
- * @param {*} e
- * @returns {*}
- */
 function handleColumnDragEnter(e) {
   const column = e.currentTarget;
   column.classList.add("is-drop-target");
 }
 
-/**
- * @param {*} e
- * @returns {*}
- */
 function handleColumnDragLeave(e) {
   const column = e.currentTarget;
   const related = e.relatedTarget;
@@ -78,10 +48,6 @@ function handleColumnDragLeave(e) {
   column.classList.remove("is-drop-target");
 }
 
-/**
- * @param {*} e
- * @returns {*}
- */
 function handleColumnDrop(e) {
   e.preventDefault();
   const column = e.currentTarget;
@@ -95,9 +61,6 @@ function handleColumnDrop(e) {
   updateTaskStatus(taskId, status);
 }
 
-/**
- * @returns {*}
- */
 function clearDropTargets() {
   document
     .querySelectorAll(".board-column.is-drop-target")
@@ -106,9 +69,6 @@ function clearDropTargets() {
     });
 }
 
-/**
- * Updates task status, renders immediately, then persists.
- */
 async function updateTaskStatus(taskId, status) {
   const task = findTaskById(taskId);
   if (!task) return;
@@ -119,41 +79,21 @@ async function updateTaskStatus(taskId, status) {
   await persistStatusChange(task, previous, status);
 }
 
-/**
- * @param {*} taskId
- * @returns {*}
- */
 function findTaskById(taskId) {
   return boardState.tasks.find((t) => {
     return String(t?.id || "") === String(taskId);
   });
 }
 
-/**
- * @param {*} previous
- * @param {*} status
- * @returns {*}
- */
 function isSameStatus(previous, status) {
   return normalizeStatus(previous) === status;
 }
 
-/**
- * @param {*} task
- * @param {*} status
- * @returns {*}
- */
 function applyStatusChange(task, status) {
   task.status = status;
   renderBoard();
 }
 
-/**
- * @param {*} task
- * @param {*} previous
- * @param {*} status
- * @returns {*}
- */
 async function persistStatusChange(task, previous, status) {
   try {
     await TaskService.update(task.id, task);
@@ -162,14 +102,8 @@ async function persistStatusChange(task, previous, status) {
   }
 }
 
-/**
- * @param {*} task
- * @param {*} previous
- * @returns {*}
- */
 function rollbackStatus(task, previous) {
   task.status = previous;
   renderBoard();
 }
-
 

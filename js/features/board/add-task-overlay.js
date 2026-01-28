@@ -1,18 +1,10 @@
 let presetStatus = "todo";
 
-/**
- * @param {*} status = "todo"
- * @returns {*}
- */
 async function openAddTaskOverlay(status = "todo") {
   presetStatus = status;
   return renderTaskOverlay({ mode: "create", status: presetStatus });
 }
 
-/**
- * @param {*} task
- * @returns {*}
- */
 async function openEditTaskOverlay(task) {
   const status = task?.status || "todo";
   presetStatus = status;
@@ -48,7 +40,7 @@ function buildOverlayHTML(title, formHtml) {
 }
 
 function setupOverlayEvents(root, status, mode) {
-  root.querySelectorAll("[data-overlay-close]").forEach((el) => el.addEventListener("click", closeAddTaskOverlay));
+  root.querySelectorAll("[data-overlay-close]").forEach((el) => el.addEventListener("click", closeAddTaskOverlay)); // Close overlay
   const statusField = root.querySelector("#task-status-preset");
   if (statusField) statusField.value = status;
   const createBtn = root.querySelector("#create-btn");
@@ -62,9 +54,6 @@ function setupOverlayEvents(root, status, mode) {
   }
 }
 
-/**
- * @returns {*}
- */
 function closeAddTaskOverlay() {
   const root = document.getElementById("overlayRoot");
   if (!root) return;
@@ -73,9 +62,6 @@ function closeAddTaskOverlay() {
   root.innerHTML = "";
 }
 
-/**
- * @returns {*}
- */
 function ensureOverlayRoot() {
   let root = document.getElementById("overlayRoot");
   if (root) return root;
@@ -88,9 +74,7 @@ function ensureOverlayRoot() {
   return root;
 }
 
-// Optional: make available globally as a fallback
 window.openAddTaskOverlay = openAddTaskOverlay;
 window.openEditTaskOverlay = openEditTaskOverlay;
 window.closeAddTaskOverlay = closeAddTaskOverlay;
-
 

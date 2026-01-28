@@ -1,12 +1,8 @@
-/* =========================================================
-   Task overlays + create actions (Board)
-   ========================================================= */
-
 function wireAddTaskButtons() {
   const mainBtn = document.getElementById("boardAddTaskBtn");
-  mainBtn?.addEventListener("click", () => openOverlayWithStatus("todo"));
+  mainBtn?.addEventListener("click", () => openOverlayWithStatus("todo")); // Open add task
   document.querySelectorAll(".board-column-add").forEach((btn) => {
-    btn.addEventListener("click", () => handleColumnAddClick(btn));
+    btn.addEventListener("click", () => handleColumnAddClick(btn)); // Open add task per column
   });
 }
 
@@ -22,8 +18,8 @@ function openOverlayWithStatus(status) {
 }
 
 function wireCardOpenHandlers(card, task) {
-  card.addEventListener("click", (e) => handleCardOpenClick(e, task));
-  card.addEventListener("keydown", (e) => handleCardOpenKeydown(e, task));
+  card.addEventListener("click", (e) => handleCardOpenClick(e, task)); // Open detail on click
+  card.addEventListener("keydown", (e) => handleCardOpenKeydown(e, task)); // Open detail on key
 }
 
 function handleCardOpenClick(e, task) {
@@ -109,7 +105,7 @@ function createPriorityRow(task) {
 
 function wireTaskDetailClose(root) {
   root.querySelectorAll("[data-overlay-close]").forEach((el) => {
-    el.addEventListener("click", closeTaskOverlay);
+    el.addEventListener("click", closeTaskOverlay); // Close detail overlay
   });
 }
 
@@ -228,7 +224,7 @@ function buildSubtaskCheckbox(task, subtask, index) {
   const cb = document.createElement("input");
   cb.type = "checkbox";
   cb.checked = isSubtaskDone(subtask);
-  cb.addEventListener("change", () => {
+  cb.addEventListener("change", () => { // Toggle subtask done
     updateSubtaskDone(task?.id, index, cb.checked);
   });
   return cb;
@@ -253,27 +249,16 @@ function createDetailButton(label, onClick) {
   btn.type = "button";
   btn.className = "task-detail-btn";
   appendDetailButtonContent(btn, label);
-  btn.addEventListener("click", onClick);
+  btn.addEventListener("click", onClick); // Trigger detail action
   return btn;
 }
 
-/**
- * Builds button label + icon for task detail actions.
- * @param {*} btn
- * @param {string} label
- * @returns {*}
- */
 function appendDetailButtonContent(btn, label) {
   const icon = getDetailActionIcon(label);
   if (icon) btn.appendChild(icon);
   btn.appendChild(document.createTextNode(label));
 }
 
-/**
- * Returns the icon element for a detail action label.
- * @param {string} label
- * @returns {*}
- */
 function getDetailActionIcon(label) {
   const key = String(label || "").toLowerCase();
   if (key === "delete") return buildDetailIcon("/assets/img/icons/delete.png", "Delete");
@@ -281,12 +266,6 @@ function getDetailActionIcon(label) {
   return null;
 }
 
-/**
- * Builds an icon img for detail buttons.
- * @param {string} src
- * @param {string} label
- * @returns {*}
- */
 function buildDetailIcon(src, label) {
   const img = document.createElement("img");
   img.className = "task-detail-icon";
@@ -357,9 +336,7 @@ function getSubtaskAt(task, index) {
 async function persistSubtaskUpdate(task) {
   try {
     await TaskService.update(task.id, task);
-  } catch (error) {
-    // intentionally silent
-  }
+  } catch (error) {}
 }
 
 function setSubtaskDone(subtask, done) {
@@ -386,4 +363,3 @@ function normalizePrioLabel(value) {
   if (v === "low" || v === "baja") return "Low";
   return "Medium";
 }
-
