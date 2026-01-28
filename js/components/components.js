@@ -1,15 +1,12 @@
+/**
+ * Initialisiert die Komponenten nach DOM-Ready.
+ */
 document.addEventListener("DOMContentLoaded", handleComponentsReady);
 
-/**
- * @returns {void}
- */
 function handleComponentsReady() {
   withPageReady(runComponentsInit);
 }
 
-/**
- * @returns {void}
- */
 function runComponentsInit() {
   if (shouldHideNavForGuest()) return applyGuestMode();
   renderNavBar();
@@ -19,30 +16,18 @@ function runComponentsInit() {
   initUserMenu();
 }
 
-
-/**
- * @returns {*}
- */
 function shouldHideNavForGuest() {
   if (getCurrentUser()) return false;
   return isPolicyPage();
 }
 
-
-/**
- * @returns {*}
- */
 function isPolicyPage() {
   const path = window.location.pathname.toLowerCase();
-  return path.endsWith("/legal-notice.html") || 
+  return path.endsWith("/legal-notice.html") ||
          path.endsWith("/privacy-policy.html") ||
          path.endsWith("/help.html");
 }
 
-
-/**
- * @returns {*}
- */
 function applyGuestMode() {
   document.body.classList.add("guest-mode");
   const nav = document.getElementById("nav-bar-placeholder");
@@ -51,27 +36,18 @@ function applyGuestMode() {
   if (header) header.innerHTML = getGuestHeaderTemplate();
 }
 
-/**
- * @returns {*}
- */
 function renderNavBar() {
   const host = document.getElementById("nav-bar-placeholder");
   if (!host) return;
   host.innerHTML = getNavBarTemplate();
 }
 
-/**
- * @returns {*}
- */
 function renderHeader() {
   const host = document.getElementById("header-placeholder");
   if (!host) return;
   host.innerHTML = getHeaderTemplate();
 }
 
-/**
- * @returns {*}
- */
 function setActiveNavLink() {
   const nav = document.querySelector(".nav-links nav");
   if (!nav) return;
@@ -81,28 +57,26 @@ function setActiveNavLink() {
 }
 
 /**
- * @param {*} nav
- * @returns {*}
+ * Setzt den aktiven Zustand im Navigationsbereich zurück.
+ * @param {HTMLElement} nav
  */
 function resetNavActive(nav) {
-  nav.querySelectorAll("a").forEach((a) => a.classList.remove("nav-active"));
+  nav.querySelectorAll("a").forEach((link) => link.classList.remove("nav-active"));
 }
 
 /**
- * @param {*} nav
- * @returns {*}
+ * Ermittelt den passenden aktiven Navigationslink.
+ * @param {HTMLElement} nav
+ * @returns {HTMLElement | undefined}
  */
 function findActiveNavLink(nav) {
   const path = window.location.pathname.toLowerCase();
-  return [...nav.querySelectorAll("a")].find((a) => {
-    const href = (a.getAttribute("href") || "").toLowerCase();
+  return [...nav.querySelectorAll("a")].find((link) => {
+    const href = (link.getAttribute("href") || "").toLowerCase();
     return href && path.endsWith(href);
   });
 }
 
-/**
- * @returns {*}
- */
 function renderUserInitials() {
   const el = document.getElementById("user-initials");
   if (!el) return;
@@ -111,9 +85,6 @@ function renderUserInitials() {
   el.textContent = getInitials(label);
 }
 
-/**
- * @returns {*}
- */
 function initUserMenu() {
   const parts = getUserMenuParts();
   if (!parts) return;
@@ -122,9 +93,6 @@ function initUserMenu() {
   wireLogout(parts.logoutBtn);
 }
 
-/**
- * @returns {*}
- */
 function getUserMenuParts() {
   const wrap = document.getElementById("user-menu-wrap");
   const btn = document.getElementById("user-menu-btn");
@@ -135,40 +103,40 @@ function getUserMenuParts() {
 }
 
 /**
- * @param {*} dropdown
- * @returns {*}
+ * Markiert den aktiven Link im User-Menü.
+ * @param {HTMLElement} dropdown
  */
 function setActiveDropdownLinks(dropdown) {
   const path = window.location.pathname.toLowerCase();
-  dropdown.querySelectorAll("a.user-dropdown-item").forEach((a) => {
-    const href = (a.getAttribute("href") || "").toLowerCase();
-    if (href && path.endsWith(href)) a.classList.add("is-active");
+  dropdown.querySelectorAll("a.user-dropdown-item").forEach((link) => {
+    const href = (link.getAttribute("href") || "").toLowerCase();
+    if (href && path.endsWith(href)) link.classList.add("is-active");
   });
 }
 
 /**
- * @param {*} parts
- * @returns {*}
+ * Verdrahtet die User-Menü-Events.
+ * @param {{ wrap: HTMLElement, btn: HTMLElement, dropdown: HTMLElement, logoutBtn: (HTMLElement | null) }} parts
  */
 function wireUserMenuEvents(parts) {
-  parts.btn.addEventListener("click", (e) => toggleUserMenu(e, parts));
-  document.addEventListener("click", (e) => closeOnOutsideClick(e, parts));
-  document.addEventListener("keydown", (e) => closeOnEscape(e, parts));
+  parts.btn.addEventListener("click", (event) => toggleUserMenu(event, parts));
+  document.addEventListener("click", (event) => closeOnOutsideClick(event, parts));
+  document.addEventListener("keydown", (event) => closeOnEscape(event, parts));
 }
 
 /**
- * @param {*} e
- * @param {*} parts
- * @returns {*}
+ * Öffnet oder schließt das User-Menü.
+ * @param {MouseEvent} event
+ * @param {{ wrap: HTMLElement, btn: HTMLElement, dropdown: HTMLElement, logoutBtn: (HTMLElement | null) }} parts
  */
-function toggleUserMenu(e, parts) {
-  e.stopPropagation();
+function toggleUserMenu(event, parts) {
+  event.stopPropagation();
   parts.dropdown.hidden ? openUserMenu(parts) : closeUserMenu(parts);
 }
 
 /**
- * @param {*} parts
- * @returns {*}
+ * Öffnet das User-Menü.
+ * @param {{ btn: HTMLElement, dropdown: HTMLElement }} parts
  */
 function openUserMenu(parts) {
   parts.dropdown.hidden = false;
@@ -177,8 +145,8 @@ function openUserMenu(parts) {
 }
 
 /**
- * @param {*} parts
- * @returns {*}
+ * Schließt das User-Menü.
+ * @param {{ btn: HTMLElement, dropdown: HTMLElement }} parts
  */
 function closeUserMenu(parts) {
   parts.dropdown.classList.remove("open");
@@ -187,29 +155,29 @@ function closeUserMenu(parts) {
 }
 
 /**
- * @param {*} e
- * @param {*} parts
- * @returns {*}
+ * Schließt das Menü bei Klick außerhalb.
+ * @param {MouseEvent} event
+ * @param {{ wrap: HTMLElement, dropdown: HTMLElement }} parts
  */
-function closeOnOutsideClick(e, parts) {
+function closeOnOutsideClick(event, parts) {
   if (parts.dropdown.hidden) return;
-  if (parts.wrap.contains(e.target)) return;
+  if (parts.wrap.contains(event.target)) return;
   closeUserMenu(parts);
 }
 
 /**
- * @param {*} e
- * @param {*} parts
- * @returns {*}
+ * Schließt das Menü bei Escape.
+ * @param {KeyboardEvent} event
+ * @param {{ dropdown: HTMLElement }} parts
  */
-function closeOnEscape(e, parts) {
-  if (e.key !== "Escape" || parts.dropdown.hidden) return;
+function closeOnEscape(event, parts) {
+  if (event.key !== "Escape" || parts.dropdown.hidden) return;
   closeUserMenu(parts);
 }
 
 /**
- * @param {*} logoutBtn
- * @returns {*}
+ * Verdrahtet den Logout.
+ * @param {HTMLElement | null} logoutBtn
  */
 function wireLogout(logoutBtn) {
   logoutBtn?.addEventListener("click", () => {
@@ -218,6 +186,4 @@ function wireLogout(logoutBtn) {
     window.location.href = "/index.html";
   });
 }
-
-
 
