@@ -1,3 +1,4 @@
+// DOMContentLoaded listener for add-task init.
 window.addEventListener("DOMContentLoaded", handleAddTaskReady);
 
 function handleAddTaskReady() {

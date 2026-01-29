@@ -1,3 +1,8 @@
+﻿/**
+ * Shows the login error state.
+ * @param {HTMLInputElement} emailInput
+ * @param {HTMLInputElement} passwordInput
+ */
 function showLoginErrorState(emailInput, passwordInput) {
   showFieldError(
     "email-error",
@@ -11,11 +16,21 @@ function showLoginErrorState(emailInput, passwordInput) {
   );
 }
 
+/**
+ * Clears the login error state.
+ * @param {HTMLInputElement} emailInput
+ * @param {HTMLInputElement} passwordInput
+ */
 function clearLoginErrorState(emailInput, passwordInput) {
   emailInput?.classList.remove("input-error");
   passwordInput?.classList.remove("input-error");
 }
 
+/**
+ * Validates login inputs.
+ * @param {Object} fields
+ * @returns {boolean}
+ */
 function validateLoginInputs({ emailInput, passwordInput }) {
   clearLoginErrorState(emailInput, passwordInput);
   let valid = true;
@@ -25,16 +40,31 @@ function validateLoginInputs({ emailInput, passwordInput }) {
   return valid;
 }
 
+/**
+ * Shows the signup error state.
+ * @param {HTMLInputElement} passwordInput
+ * @param {HTMLInputElement} confirmPasswordInput
+ */
 function showSignupErrorState(passwordInput, confirmPasswordInput) {
   passwordInput?.classList.add("input-error");
   confirmPasswordInput?.classList.add("input-error");
 }
 
+/**
+ * Clears the signup error state.
+ * @param {HTMLInputElement} passwordInput
+ * @param {HTMLInputElement} confirmPasswordInput
+ */
 function clearSignupErrorState(passwordInput, confirmPasswordInput) {
   passwordInput?.classList.remove("input-error");
   confirmPasswordInput?.classList.remove("input-error");
 }
 
+/**
+ * Validates signup inputs.
+ * @param {Object} fields
+ * @returns {boolean}
+ */
 function validateSignupInputs({
   nameInput,
   emailInput,
@@ -68,12 +98,26 @@ function validateSignupInputs({
   return valid;
 }
 
+/**
+ * Runs a validator with optional auto-dismiss handler.
+ * @param {any} arg1
+ * @param {any} arg2
+ * @param {any} arg3
+ * @param {Function} arg4
+ * @returns {boolean}
+ */
 function validateFieldWithAutoDismiss(arg1, arg2, arg3, arg4) {
   if (typeof arg4 === "function") return arg4(arg1, arg2, arg3);
   if (typeof arg3 === "function") return arg3(arg1, arg2);
   return false;
 }
 
+/**
+ * Shows required field errors for signup.
+ * @param {HTMLInputElement} passwordInput
+ * @param {HTMLInputElement} confirmPasswordInput
+ * @returns {boolean}
+ */
 function showSignupRequiredError(passwordInput, confirmPasswordInput) {
   showFieldError(
     "sign-up-password-error",
@@ -88,6 +132,12 @@ function showSignupRequiredError(passwordInput, confirmPasswordInput) {
   return false;
 }
 
+/**
+ * Shows policy errors for signup.
+ * @param {HTMLInputElement} passwordInput
+ * @param {HTMLInputElement} confirmPasswordInput
+ * @returns {boolean}
+ */
 function showSignupPolicyError(passwordInput, confirmPasswordInput) {
   showFieldError(
     "sign-up-policy-error",
@@ -97,11 +147,20 @@ function showSignupPolicyError(passwordInput, confirmPasswordInput) {
   return false;
 }
 
+/**
+ * Handles email blur for signup.
+ * @param {HTMLInputElement} emailInput
+ */
 async function handleSignupEmailBlur(emailInput) {
   if (!validateEmailField(emailInput, "sign-up-email-error")) return;
   await checkDuplicateEmail(emailInput);
 }
 
+/**
+ * Checks if the email already exists.
+ * @param {HTMLInputElement} emailInput
+ * @returns {Promise<boolean>}
+ */
 async function checkDuplicateEmail(emailInput) {
   const email = emailInput.value.trim();
   if (!email) return false;
@@ -117,6 +176,12 @@ async function checkDuplicateEmail(emailInput) {
   return exists;
 }
 
+/**
+ * Validates the username field.
+ * @param {HTMLInputElement} inputEl
+ * @param {string} errorId
+ * @returns {boolean}
+ */
 function validateUsernameField(inputEl, errorId) {
   const value = inputEl.value.trim();
   const error = getUsernameValidationError(value);
@@ -128,6 +193,11 @@ function validateUsernameField(inputEl, errorId) {
   return true;
 }
 
+/**
+ * Gets the username validation error.
+ * @param {string} value
+ * @returns {string|null}
+ */
 function getUsernameValidationError(value) {
   if (!value) return "Username is required.";
   if (value.length < 2) return "Username must be at least 2 characters.";
@@ -140,6 +210,12 @@ function getUsernameValidationError(value) {
   return null;
 }
 
+/**
+ * Validates the signup email field.
+ * @param {HTMLInputElement} inputEl
+ * @param {string} errorId
+ * @returns {boolean}
+ */
 function validateEmailField(inputEl, errorId) {
   const value = inputEl.value.trim();
   if (!value) {
@@ -154,6 +230,12 @@ function validateEmailField(inputEl, errorId) {
   return true;
 }
 
+/**
+ * Validates the login email field.
+ * @param {HTMLInputElement} inputEl
+ * @param {string} errorId
+ * @returns {boolean}
+ */
 function validateLoginEmailField(inputEl, errorId) {
   const value = inputEl.value.trim();
   if (!value) {
@@ -167,12 +249,23 @@ function validateLoginEmailField(inputEl, errorId) {
   return true;
 }
 
+/**
+ * Validates the password field.
+ * @param {HTMLInputElement} inputEl
+ * @param {string} errorId
+ * @returns {boolean}
+ */
 function validatePasswordField(inputEl, errorId) {
   const value = inputEl.value.trim();
   const error = getPasswordValidationError(value);
   return applyPasswordValidationResult(errorId, inputEl, error);
 }
 
+/**
+ * Gets the password validation error.
+ * @param {string} value
+ * @returns {string}
+ */
 function getPasswordValidationError(value) {
   if (!value) return "Password is required.";
   if (value.length < 4) return "Password must be at least 4 characters.";
@@ -180,6 +273,13 @@ function getPasswordValidationError(value) {
   return "";
 }
 
+/**
+ * Applies the password validation result.
+ * @param {string} errorId
+ * @param {HTMLInputElement} inputEl
+ * @param {string} error
+ * @returns {boolean}
+ */
 function applyPasswordValidationResult(errorId, inputEl, error) {
   if (error) {
     showFieldError(errorId, error, inputEl);
@@ -189,6 +289,12 @@ function applyPasswordValidationResult(errorId, inputEl, error) {
   return true;
 }
 
+/**
+ * Validates the login password field.
+ * @param {HTMLInputElement} inputEl
+ * @param {string} errorId
+ * @returns {boolean}
+ */
 function validateLoginPasswordField(inputEl, errorId) {
   const value = inputEl.value.trim();
   if (!value) {
@@ -198,6 +304,13 @@ function validateLoginPasswordField(inputEl, errorId) {
   return true;
 }
 
+/**
+ * Validates the confirm password field.
+ * @param {HTMLInputElement} passwordInput
+ * @param {HTMLInputElement} confirmPasswordInput
+ * @param {string} errorId
+ * @returns {boolean}
+ */
 function validateConfirmPasswordField(
   passwordInput,
   confirmPasswordInput,
@@ -220,6 +333,12 @@ function validateConfirmPasswordField(
   return true;
 }
 
+/**
+ * Shows a field error.
+ * @param {string} errorId
+ * @param {string} message
+ * @param {HTMLElement} inputEl
+ */
 function showFieldError(errorId, message, inputEl) {
   const errorEl = document.getElementById(errorId);
   if (!errorEl) return;
@@ -228,6 +347,11 @@ function showFieldError(errorId, message, inputEl) {
   inputEl?.classList.add("input-error");
 }
 
+/**
+ * Clears a field error.
+ * @param {string} errorId
+ * @param {HTMLElement} inputEl
+ */
 function clearFieldError(errorId, inputEl) {
   const errorEl = document.getElementById(errorId);
   if (!errorEl) return;
