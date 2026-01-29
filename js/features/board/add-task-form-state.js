@@ -1,9 +1,18 @@
+/**
+ * Initializes the add-task form.
+ * @param {Object} options
+ */
 async function initAddTaskForm(options = {}) {
   const state = createAddTaskState(options);
   if (!state.form) return;
   await setupAddTaskForm(state, options.onClose);
 }
 
+/**
+ * Creates the add-task state object.
+ * @param {Object} options
+ * @returns {Object}
+ */
 function createAddTaskState(options = {}) {
   const form = document.getElementById("add-task-form");
   const state = initAddTaskState(form, options);
@@ -11,6 +20,12 @@ function createAddTaskState(options = {}) {
   return state;
 }
 
+/**
+ * Builds the initial add-task state.
+ * @param {HTMLFormElement} form
+ * @param {Object} options
+ * @returns {Object}
+ */
 function initAddTaskState(form, options) {
   return {
     form,
@@ -25,11 +40,19 @@ function initAddTaskState(form, options) {
   };
 }
 
+/**
+ * Attaches add-task elements to state.
+ * @param {Object} state
+ */
 function attachAddTaskElements(state) {
   attachMainInputs(state);
   attachSubtaskInputs(state);
 }
 
+/**
+ * Attaches main form inputs.
+ * @param {Object} state
+ */
 function attachMainInputs(state) {
   state.createBtn = document.getElementById("create-btn");
   state.titleInput = document.getElementById("task-title");
@@ -42,12 +65,21 @@ function attachMainInputs(state) {
   state.formMsg = document.getElementById("add-task-form-msg");
 }
 
+/**
+ * Attaches subtask inputs.
+ * @param {Object} state
+ */
 function attachSubtaskInputs(state) {
   state.subtaskInput = document.getElementById("subtask-input");
   state.subtaskAddBtn = document.getElementById("subtask-add-btn");
   state.subtaskList = document.getElementById("subtask-list");
 }
 
+/**
+ * Sets up add-task form behavior.
+ * @param {Object} state
+ * @param {Function} onClose
+ */
 async function setupAddTaskForm(state, onClose) {
   setDueDateMin(state.dueDateInput);
   wirePrioButtons(state);
@@ -62,16 +94,29 @@ async function setupAddTaskForm(state, onClose) {
   wireSubmitHandler(state, onClose);
 }
 
+/**
+ * Waits for assigned data readiness.
+ * @param {Object} state
+ */
 async function waitForAssignedReady(state) {
   if (!state?.assignedReady) return;
   await state.assignedReady;
 }
 
+/**
+ * Applies edit defaults for an existing task.
+ * @param {Object} state
+ */
 function applyEditDefaults(state) {
   if (state.mode !== "edit" || !state.task) return;
   applyTaskDefaults(state, state.task);
 }
 
+/**
+ * Initializes category/assigned dropdowns.
+ * @param {Object} state
+ * @returns {{ resetCategoryUi: Function, resetAssignedUi: Function }}
+ */
 function initDropdowns(state) {
   return {
     resetCategoryUi: initCategoryDropdown(state),
@@ -79,6 +124,10 @@ function initDropdowns(state) {
   };
 }
 
+/**
+ * Sets the minimum due date.
+ * @param {HTMLInputElement} input
+ */
 function setDueDateMin(input) {
   if (!input) return;
   const today = new Date();
@@ -88,6 +137,11 @@ function setDueDateMin(input) {
   input.min = `${yyyy}-${mm}-${dd}`;
 }
 
+/**
+ * Applies task data to the form state.
+ * @param {Object} state
+ * @param {Object} taskData
+ */
 function applyTaskDefaults(state, taskData) {
   if (state.titleInput) state.titleInput.value = taskData.title || "";
   setTaskDescription(taskData);
@@ -101,17 +155,31 @@ function applyTaskDefaults(state, taskData) {
   renderSubtasks(state);
 }
 
+/**
+ * Sets the task description input.
+ * @param {Object} taskData
+ */
 function setTaskDescription(taskData) {
   const descInput = document.getElementById("task-description");
   if (descInput) descInput.value = taskData.description || "";
 }
 
+/**
+ * Sets the normalized due date on the input.
+ * @param {Object} state
+ * @param {string} value
+ */
 function setNormalizedDueDate(state, value) {
   const normalizedDate = normalizeDueDateForInput(value);
   if (state.dueDateInput && normalizedDate)
     state.dueDateInput.value = normalizedDate;
 }
 
+/**
+ * Normalizes a due date string for the input.
+ * @param {string} value
+ * @returns {string}
+ */
 function normalizeDueDateForInput(value) {
   if (!value) return "";
   const v = String(value).trim();
@@ -121,6 +189,11 @@ function normalizeDueDateForInput(value) {
   return "";
 }
 
+/**
+ * Normalizes assigned users from task data.
+ * @param {any} raw
+ * @returns {Array}
+ */
 function normalizeAssignedFromTask(raw) {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -128,6 +201,11 @@ function normalizeAssignedFromTask(raw) {
     .filter((x) => x && x.name);
 }
 
+/**
+ * Normalizes a single assigned item.
+ * @param {any} item
+ * @returns {Object|null}
+ */
 function normalizeAssignedItem(item) {
   if (!item) return null;
   if (typeof item === "string") return { id: "", name: item, color: null };
@@ -135,6 +213,11 @@ function normalizeAssignedItem(item) {
   return null;
 }
 
+/**
+ * Builds a normalized assigned value.
+ * @param {Object} item
+ * @returns {Object}
+ */
 function buildAssignedValue(item) {
   return {
     id: item.id || "",
@@ -143,6 +226,10 @@ function buildAssignedValue(item) {
   };
 }
 
+/**
+ * Applies priority button styles.
+ * @param {Object} state
+ */
 function applyPrioButtonStyles(state) {
   state.form.querySelectorAll(".prio-btn").forEach((btn) => {
     btn.classList.toggle("is-active", btn.dataset.prio === state.selectedPrio);
