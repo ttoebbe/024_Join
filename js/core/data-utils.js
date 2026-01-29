@@ -40,10 +40,15 @@ function normalizeTasks(data) {
  * @returns {string} Normalized status
  */
 function normalizeStatus(value) {
-  const normalized = String(value || "").trim().toLowerCase().replace(/[\s_-]+/g, "-");
+  const normalized = String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_-]+/g, "-");
   if (normalized === "todo" || normalized === "to-do") return "todo";
-  if (normalized === "in-progress" || normalized === "inprogress") return "inprogress";
-  if (normalized === "await-feedback" || normalized === "awaitfeedback") return "awaitfeedback";
+  if (normalized === "in-progress" || normalized === "inprogress")
+    return "inprogress";
+  if (normalized === "await-feedback" || normalized === "awaitfeedback")
+    return "awaitfeedback";
   if (normalized === "done") return "done";
   return "todo";
 }

@@ -12,7 +12,8 @@ function getContactOverlayElements() {
   const nameInput = document.getElementById("contact-name");
   const emailInput = document.getElementById("contact-email");
   const phoneInput = document.getElementById("contact-phone");
-  if (!overlay || !form || !nameInput || !emailInput || !phoneInput) return null;
+  if (!overlay || !form || !nameInput || !emailInput || !phoneInput)
+    return null;
   return { overlay, form, nameInput, emailInput, phoneInput };
 }
 
@@ -53,13 +54,23 @@ function registerOverlayValidationHandlers(elements) {
 
 function registerNameLengthValidation(elements) {
   elements.nameInput?.addEventListener("input", () => {
-    validateContactLength(elements.nameInput, CONTACT_NAME_MAX, "contact-name-error", "Name");
+    validateContactLength(
+      elements.nameInput,
+      CONTACT_NAME_MAX,
+      "contact-name-error",
+      "Name",
+    );
   });
 }
 
 function registerEmailLengthValidation(elements) {
   elements.emailInput?.addEventListener("input", () => {
-    validateContactLength(elements.emailInput, CONTACT_EMAIL_MAX, "contact-email-error", "Email");
+    validateContactLength(
+      elements.emailInput,
+      CONTACT_EMAIL_MAX,
+      "contact-email-error",
+      "Email",
+    );
   });
 }
 
@@ -69,29 +80,43 @@ function registerPhoneValidation(elements) {
       elements.phoneInput,
       CONTACT_PHONE_MIN,
       CONTACT_PHONE_MAX,
-      "contact-phone-error"
+      "contact-phone-error",
     );
   });
 }
 
 function wireContactCounters(elements) {
   updateContactCounters(elements);
-  elements.nameInput?.addEventListener("input", () => updateContactCounters(elements));
-  elements.emailInput?.addEventListener("input", () => updateContactCounters(elements));
-  elements.phoneInput?.addEventListener("input", () => updateContactCounters(elements));
+  elements.nameInput?.addEventListener("input", () =>
+    updateContactCounters(elements),
+  );
+  elements.emailInput?.addEventListener("input", () =>
+    updateContactCounters(elements),
+  );
+  elements.phoneInput?.addEventListener("input", () =>
+    updateContactCounters(elements),
+  );
 }
 
 function updateContactCounters(elements) {
   enforceContactMax(elements.nameInput, CONTACT_NAME_MAX);
-  updateContactFieldCounter(elements.nameInput, "contact-name-counter", CONTACT_NAME_MAX);
+  updateContactFieldCounter(
+    elements.nameInput,
+    "contact-name-counter",
+    CONTACT_NAME_MAX,
+  );
   enforceContactMax(elements.emailInput, CONTACT_EMAIL_MAX);
-  updateContactFieldCounter(elements.emailInput, "contact-email-counter", CONTACT_EMAIL_MAX);
+  updateContactFieldCounter(
+    elements.emailInput,
+    "contact-email-counter",
+    CONTACT_EMAIL_MAX,
+  );
   trimPhoneToMaxDigits(elements.phoneInput, CONTACT_PHONE_MAX);
   updateContactFieldCounter(
     elements.phoneInput,
     "contact-phone-counter",
     CONTACT_PHONE_MAX,
-    getPhoneDigitsCount
+    getPhoneDigitsCount,
   );
 }
 
@@ -131,26 +156,36 @@ function registerOverlayOpenButton(elements) {
 function registerOverlayCloseButtons(elements) {
   if (!elements.closeButtons) return;
   elements.closeButtons.forEach((button) => {
-    button.addEventListener("click", () => closeOverlay(elements.overlay, elements.form));
+    button.addEventListener("click", () =>
+      closeOverlay(elements.overlay, elements.form),
+    );
   });
 }
 
 function registerOverlayDeleteButton(elements, listElement) {
   elements.deleteButton?.addEventListener("click", async () => {
-    const currentId = getCurrentEditId(); if (!currentId) return;
+    const currentId = getCurrentEditId();
+    if (!currentId) return;
     const confirmed = await showConfirmOverlay({
       title: "Delete contact?",
       message: "Do you really want to delete this contact?",
       confirmText: "Delete",
       cancelText: "Cancel",
-    }); if (!confirmed) return;
-    await deleteContact(currentId); closeOverlay(elements.overlay, elements.form);
+    });
+    if (!confirmed) return;
+    await deleteContact(currentId);
+    closeOverlay(elements.overlay, elements.form);
   });
 }
 
 function registerOverlaySubmit(elements, listElement) {
   elements.form.addEventListener("submit", async (event) => {
-    await handleNewContactSubmit(event, elements.overlay, elements.form, listElement);
+    await handleNewContactSubmit(
+      event,
+      elements.overlay,
+      elements.form,
+      listElement,
+    );
   });
 }
 
@@ -179,7 +214,10 @@ function closeOverlay(overlay, form) {
 
 function storeLastFocusedElement(overlay) {
   if (!overlay) return;
-  lastOverlayFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  lastOverlayFocus =
+    document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
 }
 
 function restoreLastFocusedElement(overlay) {
@@ -213,10 +251,17 @@ function updateOverlayTexts(title, submitButton, isEdit) {
   }
 }
 
-function updateOverlayVisibility(overlayLogo, deleteButton, cancelButton, isEdit) {
+function updateOverlayVisibility(
+  overlayLogo,
+  deleteButton,
+  cancelButton,
+  isEdit,
+) {
   if (overlayLogo) overlayLogo.style.display = isEdit ? "none" : "flex";
-  if (deleteButton) deleteButton.style.display = isEdit ? "inline-flex" : "none";
-  if (cancelButton) cancelButton.style.display = isEdit ? "none" : "inline-flex";
+  if (deleteButton)
+    deleteButton.style.display = isEdit ? "inline-flex" : "none";
+  if (cancelButton)
+    cancelButton.style.display = isEdit ? "none" : "inline-flex";
 }
 
 function fillContactForm(elements, contact) {

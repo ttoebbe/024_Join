@@ -1,6 +1,14 @@
 function showLoginErrorState(emailInput, passwordInput) {
-  showFieldError("email-error", "Invalid email address or password", emailInput);
-  showFieldError("password-error", "Invalid email address or password", passwordInput);
+  showFieldError(
+    "email-error",
+    "Invalid email address or password",
+    emailInput,
+  );
+  showFieldError(
+    "password-error",
+    "Invalid email address or password",
+    passwordInput,
+  );
 }
 
 function clearLoginErrorState(emailInput, passwordInput) {
@@ -12,7 +20,8 @@ function validateLoginInputs({ emailInput, passwordInput }) {
   clearLoginErrorState(emailInput, passwordInput);
   let valid = true;
   if (!validateLoginEmailField(emailInput, "email-error")) valid = false;
-  if (!validateLoginPasswordField(passwordInput, "password-error")) valid = false;
+  if (!validateLoginPasswordField(passwordInput, "password-error"))
+    valid = false;
   return valid;
 }
 
@@ -26,14 +35,36 @@ function clearSignupErrorState(passwordInput, confirmPasswordInput) {
   confirmPasswordInput?.classList.remove("input-error");
 }
 
-function validateSignupInputs({ nameInput, emailInput, passwordInput, confirmPasswordInput, policyCheckbox }) {
-  clearSignupErrorState(passwordInput, confirmPasswordInput); clearFieldError("sign-up-policy-error", policyCheckbox);
+function validateSignupInputs({
+  nameInput,
+  emailInput,
+  passwordInput,
+  confirmPasswordInput,
+  policyCheckbox,
+}) {
+  clearSignupErrorState(passwordInput, confirmPasswordInput);
+  clearFieldError("sign-up-policy-error", policyCheckbox);
   let valid = true;
   if (!validateUsernameField(nameInput, "username-error")) valid = false;
   if (!validateEmailField(emailInput, "sign-up-email-error")) valid = false;
-  if (!validatePasswordField(passwordInput, "sign-up-password-error")) valid = false;
-  if (!validateConfirmPasswordField(passwordInput, confirmPasswordInput, "sign-up-confirm-password-error")) valid = false;
-  if (!policyCheckbox.checked) { showFieldError("sign-up-policy-error", "Please accept the Privacy Policy.", policyCheckbox); valid = false; }
+  if (!validatePasswordField(passwordInput, "sign-up-password-error"))
+    valid = false;
+  if (
+    !validateConfirmPasswordField(
+      passwordInput,
+      confirmPasswordInput,
+      "sign-up-confirm-password-error",
+    )
+  )
+    valid = false;
+  if (!policyCheckbox.checked) {
+    showFieldError(
+      "sign-up-policy-error",
+      "Please accept the Privacy Policy.",
+      policyCheckbox,
+    );
+    valid = false;
+  }
   return valid;
 }
 
@@ -44,17 +75,25 @@ function validateFieldWithAutoDismiss(arg1, arg2, arg3, arg4) {
 }
 
 function showSignupRequiredError(passwordInput, confirmPasswordInput) {
-  showFieldError("sign-up-password-error", "Please complete all required fields.", passwordInput);
+  showFieldError(
+    "sign-up-password-error",
+    "Please complete all required fields.",
+    passwordInput,
+  );
   showFieldError(
     "sign-up-confirm-password-error",
     "Please complete all required fields.",
-    confirmPasswordInput
+    confirmPasswordInput,
   );
   return false;
 }
 
 function showSignupPolicyError(passwordInput, confirmPasswordInput) {
-  showFieldError("sign-up-policy-error", "Please accept the Privacy Policy.", document.getElementById("sign-up-policy"));
+  showFieldError(
+    "sign-up-policy-error",
+    "Please accept the Privacy Policy.",
+    document.getElementById("sign-up-policy"),
+  );
   return false;
 }
 
@@ -68,7 +107,12 @@ async function checkDuplicateEmail(emailInput) {
   if (!email) return false;
   const users = await loadUsers();
   const exists = users.some((u) => u.email === email);
-  if (exists) showFieldError("sign-up-email-error", "This email is already registered.", emailInput);
+  if (exists)
+    showFieldError(
+      "sign-up-email-error",
+      "This email is already registered.",
+      emailInput,
+    );
   else clearFieldError("sign-up-email-error", emailInput);
   return exists;
 }
@@ -88,7 +132,8 @@ function getUsernameValidationError(value) {
   if (!value) return "Username is required.";
   if (value.length < 2) return "Username must be at least 2 characters.";
   if (!/^[a-zA-Z]/.test(value)) return "Username must start with a letter.";
-  if (/\s{2,}/.test(value)) return "Username cannot contain multiple consecutive spaces.";
+  if (/\s{2,}/.test(value))
+    return "Username cannot contain multiple consecutive spaces.";
   if (!/^[a-zA-Z][a-zA-Z0-9_\- ]*$/.test(value)) {
     return "Username can only contain letters, numbers, single spaces, _ and -.";
   }
@@ -153,10 +198,18 @@ function validateLoginPasswordField(inputEl, errorId) {
   return true;
 }
 
-function validateConfirmPasswordField(passwordInput, confirmPasswordInput, errorId) {
+function validateConfirmPasswordField(
+  passwordInput,
+  confirmPasswordInput,
+  errorId,
+) {
   const value = confirmPasswordInput.value.trim();
   if (!value) {
-    showFieldError(errorId, "Please confirm your password.", confirmPasswordInput);
+    showFieldError(
+      errorId,
+      "Please confirm your password.",
+      confirmPasswordInput,
+    );
     return false;
   }
   if (value !== passwordInput.value.trim()) {

@@ -184,5 +184,3 @@ function updateToastPositions() {
     offset += toast.getBoundingClientRect().height + TOAST_GAP_PX;
   });
 }
-
-

@@ -1,4 +1,3 @@
-
 async function initAddTaskForm(options = {}) {
   const state = createAddTaskState(options);
   if (!state.form) return;
@@ -37,7 +36,9 @@ function attachMainInputs(state) {
   state.dueDateInput = document.getElementById("task-due-date");
   state.categoryInput = document.getElementById("task-category-value");
   state.categoryDropdown = document.getElementById("category-dropdown");
-  state.categoryToggle = state.categoryDropdown?.querySelector("[data-category-toggle]");
+  state.categoryToggle = state.categoryDropdown?.querySelector(
+    "[data-category-toggle]",
+  );
   state.formMsg = document.getElementById("add-task-form-msg");
 }
 
@@ -107,7 +108,8 @@ function setTaskDescription(taskData) {
 
 function setNormalizedDueDate(state, value) {
   const normalizedDate = normalizeDueDateForInput(value);
-  if (state.dueDateInput && normalizedDate) state.dueDateInput.value = normalizedDate;
+  if (state.dueDateInput && normalizedDate)
+    state.dueDateInput.value = normalizedDate;
 }
 
 function normalizeDueDateForInput(value) {
@@ -146,4 +148,3 @@ function applyPrioButtonStyles(state) {
     btn.classList.toggle("is-active", btn.dataset.prio === state.selectedPrio);
   });
 }
-

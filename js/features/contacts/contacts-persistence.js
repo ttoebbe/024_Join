@@ -28,7 +28,13 @@ async function buildNewContact(values) {
   };
 }
 
-async function updateExistingContact(values, overlay, form, listElement, currentId) {
+async function updateExistingContact(
+  values,
+  overlay,
+  form,
+  listElement,
+  currentId,
+) {
   try {
     const existing = getContactById(currentId);
     if (!existing) return false;
@@ -61,7 +67,10 @@ async function createNewContact(values, overlay, form, listElement) {
     if (!result) return;
     await loadContactsFromFirebase();
     refreshContactUI(listElement, overlay, form, newContact.id);
-    showImageToast("/assets/img/icons/contact-succesfull-create.svg", "Contact created");
+    showImageToast(
+      "/assets/img/icons/contact-succesfull-create.svg",
+      "Contact created",
+    );
   } catch (error) {
     console.error("Error creating contact:", error);
   }
@@ -77,7 +86,7 @@ async function deleteContact(contactId) {
     updateContactList();
     clearContactDetail();
   } catch (error) {
-    console.error('Error deleting contact:', error);
+    console.error("Error deleting contact:", error);
   }
 }
 
@@ -100,8 +109,20 @@ async function handleNewContactSubmit(event, overlay, form, listElement) {
   await submitContactForm(inputs, overlay, form, listElement);
 }
 
-async function handleExistingContact(values, overlay, form, listElement, currentId) {
-  const updated = await updateExistingContact(values, overlay, form, listElement, currentId);
+async function handleExistingContact(
+  values,
+  overlay,
+  form,
+  listElement,
+  currentId,
+) {
+  const updated = await updateExistingContact(
+    values,
+    overlay,
+    form,
+    listElement,
+    currentId,
+  );
   if (updated) return;
   await createNewContact(values, overlay, form, listElement);
 }
@@ -120,7 +141,8 @@ async function submitContactForm(inputs, overlay, form, listElement) {
 
 async function persistContactForm(values, overlay, form, listElement) {
   const currentId = getCurrentEditId();
-  if (currentId) return handleExistingContact(values, overlay, form, listElement, currentId);
+  if (currentId)
+    return handleExistingContact(values, overlay, form, listElement, currentId);
   await createNewContact(values, overlay, form, listElement);
 }
 
@@ -169,10 +191,18 @@ function applyContactFieldErrors(inputs, errors) {
     setContactFieldError("contact-name-error", errors.name, inputs.nameInput);
   }
   if (errors.email) {
-    setContactFieldError("contact-email-error", errors.email, inputs.emailInput);
+    setContactFieldError(
+      "contact-email-error",
+      errors.email,
+      inputs.emailInput,
+    );
   }
   if (errors.phone) {
-    setContactFieldError("contact-phone-error", errors.phone, inputs.phoneInput);
+    setContactFieldError(
+      "contact-phone-error",
+      errors.phone,
+      inputs.phoneInput,
+    );
   }
 }
 
@@ -199,14 +229,22 @@ function validateContactLength(input, max, errorId, label) {
   const value = input?.value || "";
   if (!value) return clearContactFieldError(errorId, input);
   if (value.length <= max) return clearContactFieldError(errorId, input);
-  setContactFieldError(errorId, `${label} is too long (max ${max} characters).`, input);
+  setContactFieldError(
+    errorId,
+    `${label} is too long (max ${max} characters).`,
+    input,
+  );
 }
 
 function validatePhoneDigits(input, min, max, errorId) {
   const digits = getPhoneDigitsCount(input?.value || "");
   if (!digits) return clearContactFieldError(errorId, input);
   if (digits > max) {
-    return setContactFieldError(errorId, `Between ${min} and ${max} digits required.`, input);
+    return setContactFieldError(
+      errorId,
+      `Between ${min} and ${max} digits required.`,
+      input,
+    );
   }
   return clearContactFieldError(errorId, input);
 }
@@ -227,7 +265,7 @@ function getContactFormInputs(form) {
   const nameInput = form.querySelector("#contact-name");
   const emailInput = form.querySelector("#contact-email");
   const phoneInput = form.querySelector("#contact-phone");
-  const submitBtn = form.querySelector("button[type=\"submit\"]");
+  const submitBtn = form.querySelector('button[type="submit"]');
   if (!nameInput || !emailInput || !phoneInput || !submitBtn) return null;
   return { nameInput, emailInput, phoneInput, submitBtn };
 }

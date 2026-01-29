@@ -99,7 +99,7 @@ function createPriorityRow(task) {
     "Priority",
     normalizePrioLabel(task?.prio),
     mapPrioToIcon(task?.prio),
-    normalizePrioKey(task?.prio)
+    normalizePrioKey(task?.prio),
   );
 }
 
@@ -200,7 +200,9 @@ function buildSubtasksList(task) {
   list.className = "task-detail-subtasks";
   const subtasks = getSubtasks(task);
   if (subtasks.length === 0) return appendSubtasksEmpty(list);
-  subtasks.forEach((s, index) => list.appendChild(buildSubtaskRow(task, s, index)));
+  subtasks.forEach((s, index) =>
+    list.appendChild(buildSubtaskRow(task, s, index)),
+  );
   return list;
 }
 
@@ -261,8 +263,10 @@ function appendDetailButtonContent(btn, label) {
 
 function getDetailActionIcon(label) {
   const key = String(label || "").toLowerCase();
-  if (key === "delete") return buildDetailIcon("/assets/img/icons/delete.svg", "Delete");
-  if (key === "edit") return buildDetailIcon("/assets/img/icons/edit.svg", "Edit");
+  if (key === "delete")
+    return buildDetailIcon("/assets/img/icons/delete.svg", "Delete");
+  if (key === "edit")
+    return buildDetailIcon("/assets/img/icons/edit.svg", "Edit");
   return null;
 }
 

@@ -23,9 +23,11 @@ function shouldHideNavForGuest() {
 
 function isPolicyPage() {
   const path = window.location.pathname.toLowerCase();
-  return path.endsWith("/legal-notice.html") ||
-         path.endsWith("/privacy-policy.html") ||
-         path.endsWith("/help.html");
+  return (
+    path.endsWith("/legal-notice.html") ||
+    path.endsWith("/privacy-policy.html") ||
+    path.endsWith("/help.html")
+  );
 }
 
 function applyGuestMode() {
@@ -61,7 +63,9 @@ function setActiveNavLink() {
  * @param {HTMLElement} nav
  */
 function resetNavActive(nav) {
-  nav.querySelectorAll("a").forEach((link) => link.classList.remove("nav-active"));
+  nav
+    .querySelectorAll("a")
+    .forEach((link) => link.classList.remove("nav-active"));
 }
 
 /**
@@ -81,7 +85,8 @@ function renderUserInitials() {
   const el = document.getElementById("user-initials");
   if (!el) return;
   const current = getCurrentUser();
-  const label = current?.name || current?.email || (current?.guest ? "Guest" : "") || "G";
+  const label =
+    current?.name || current?.email || (current?.guest ? "Guest" : "") || "G";
   el.textContent = getInitials(label);
 }
 
@@ -120,7 +125,9 @@ function setActiveDropdownLinks(dropdown) {
  */
 function wireUserMenuEvents(parts) {
   parts.btn.addEventListener("click", (event) => toggleUserMenu(event, parts));
-  document.addEventListener("click", (event) => closeOnOutsideClick(event, parts));
+  document.addEventListener("click", (event) =>
+    closeOnOutsideClick(event, parts),
+  );
   document.addEventListener("keydown", (event) => closeOnEscape(event, parts));
 }
 
@@ -151,7 +158,9 @@ function openUserMenu(parts) {
 function closeUserMenu(parts) {
   parts.dropdown.classList.remove("open");
   parts.btn.setAttribute("aria-expanded", "false");
-  setTimeout(() => { parts.dropdown.hidden = true; }, 120);
+  setTimeout(() => {
+    parts.dropdown.hidden = true;
+  }, 120);
 }
 
 /**
@@ -186,4 +195,3 @@ function wireLogout(logoutBtn) {
     window.location.href = "/index.html";
   });
 }
-

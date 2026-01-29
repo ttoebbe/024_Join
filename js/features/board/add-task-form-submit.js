@@ -26,11 +26,20 @@ function wireClearButton(state, resets) {
 }
 
 function clearAddTaskForm(state, resets) {
-  resetForm(state); updateAddTaskCounters(state); clearTitleLimitState(state);
-  clearDescriptionLimitState(); clearSubtaskLimitState();
-  resetStatusPreset(); resetPrioSelection(state); resetSelectionState(state);
-  clearCategoryInput(state); resets.resetCategoryUi?.(); resets.resetAssignedUi?.();
-  renderSubtasks(state); clearAddTaskErrors(state); updateCreateButtonState(state);
+  resetForm(state);
+  updateAddTaskCounters(state);
+  clearTitleLimitState(state);
+  clearDescriptionLimitState();
+  clearSubtaskLimitState();
+  resetStatusPreset();
+  resetPrioSelection(state);
+  resetSelectionState(state);
+  clearCategoryInput(state);
+  resets.resetCategoryUi?.();
+  resets.resetAssignedUi?.();
+  renderSubtasks(state);
+  clearAddTaskErrors(state);
+  updateCreateButtonState(state);
 }
 
 function resetPrioSelection(state) {
@@ -75,7 +84,8 @@ function getTaskFormValues(state) {
   const dueDate = document.getElementById("task-due-date")?.value.trim();
   const category = getSelectedCategoryValue(state);
   const status = document.getElementById("task-status-preset")?.value || "todo";
-  const description = document.getElementById("task-description")?.value.trim() || "";
+  const description =
+    document.getElementById("task-description")?.value.trim() || "";
   return { title, description, status, category, dueDate };
 }
 
@@ -131,7 +141,8 @@ function handleSubmitSuccess(state, onClose) {
 }
 
 async function persistTask(state, values) {
-  if (state.mode === "edit" && state.task?.id) return updateExistingTask(state, values);
+  if (state.mode === "edit" && state.task?.id)
+    return updateExistingTask(state, values);
   return createNewTask(state, values);
 }
 
@@ -189,13 +200,12 @@ function attachCreateButtonListeners(state, handler) {
   wireAddTaskCounters(state);
 }
 
-
 function updateCreateButtonState(state) {
   if (!state.createBtn) return;
   const isReady = Boolean(
     state.titleInput?.value.trim() &&
-      state.dueDateInput?.value.trim() &&
-      getSelectedCategoryValue(state)
+    state.dueDateInput?.value.trim() &&
+    getSelectedCategoryValue(state),
   );
   state.createBtn.disabled = !isReady;
   state.createBtn.classList.toggle("is-active", isReady);
@@ -282,7 +292,7 @@ function showDescriptionLimitError(desc) {
   showFieldError(
     "task-description-error",
     `Description is too long (max ${DESCRIPTION_MAX_LENGTH} characters).`,
-    desc
+    desc,
   );
 }
 
@@ -300,7 +310,9 @@ function clearFieldError(errorId, inputEl) {
 
 function wireAddTaskCounters(state) {
   updateAddTaskCounters(state);
-  state.titleInput?.addEventListener("input", () => updateAddTaskCounters(state));
+  state.titleInput?.addEventListener("input", () =>
+    updateAddTaskCounters(state),
+  );
   const desc = document.getElementById("task-description");
   desc?.addEventListener("input", () => updateAddTaskCounters(state));
 }
@@ -311,7 +323,8 @@ function updateAddTaskCounters(state) {
   updateFieldCounter(state.titleInput, "task-title-counter", TITLE_MAX_LENGTH);
   const desc = document.getElementById("task-description");
   enforceMaxLength(desc, DESCRIPTION_MAX_LENGTH);
-  if (typeof validateDescriptionLength === "function") validateDescriptionLength(state);
+  if (typeof validateDescriptionLength === "function")
+    validateDescriptionLength(state);
   updateFieldCounter(desc, "task-description-counter", DESCRIPTION_MAX_LENGTH);
 }
 

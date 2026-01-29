@@ -53,7 +53,7 @@ async function processFirebaseResponse(response) {
   if (!response.ok) {
     const text = await response.text().catch(() => "");
     console.error(
-      `Firebase Error (${response.status}): ${text || response.statusText}`
+      `Firebase Error (${response.status}): ${text || response.statusText}`,
     );
     showErrorToast("Connection error. Try again.");
     return null;
@@ -161,5 +161,3 @@ window.firebase = {
   getCurrentUser,
   setCurrentUser,
 };
-
-
