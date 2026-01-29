@@ -16,7 +16,6 @@ function renderSubtasks(state) {
  */
 function initSubtasks(state) {
   if (!canInitSubtasks(state)) return;
-  wireSubtaskAdd(state);
   wireSubtaskInput(state);
   wireSubtaskList(state);
   wireSubtaskCounter(state);
