@@ -3,6 +3,11 @@ const CONTACT_EMAIL_MAX = 30;
 const CONTACT_PHONE_MIN = 6;
 const CONTACT_PHONE_MAX = 15;
 
+/**
+ * Reads trimmed contact values from the form.
+ * @param {HTMLFormElement} form - Contact form element
+ * @returns {{ name: string, email: string, phone: string }}
+ */
 function getContactFormValues(form) {
   const formData = new FormData(form);
   return {
@@ -12,12 +17,20 @@ function getContactFormValues(form) {
   };
 }
 
+/**
+ * Applies form values to a contact object.
+ */
 function applyContactValues(target, values) {
   target.name = values.name;
   target.email = values.email;
   target.phone = values.phone;
 }
 
+/**
+ * Builds a new contact payload with ID and color.
+ * @param {{ name: string, email: string, phone: string }} values
+ * @returns {Promise<Object>}
+ */
 async function buildNewContact(values) {
   return {
     id: await getNextContactId(),
@@ -28,6 +41,10 @@ async function buildNewContact(values) {
   };
 }
 
+/**
+ * Updates an existing contact and refreshes the UI.
+ * @returns {Promise<boolean>}
+ */
 async function updateExistingContact(
   values,
   overlay,
@@ -49,17 +66,26 @@ async function updateExistingContact(
   }
 }
 
+/**
+ * Updates the local contacts cache by ID.
+ */
 function updateLocalContact(currentId, existing) {
   const index = getContactIndex(currentId);
   if (index !== -1) contacts[index] = existing;
 }
 
+/**
+ * Refreshes the contact list and focuses the updated contact.
+ */
 function refreshContactUI(listElement, overlay, form, contactId) {
   renderContactList(listElement, getContactData());
   closeOverlay(overlay, form);
   selectContactById(contactId);
 }
 
+/**
+ * Creates a new contact and refreshes the list.
+ */
 async function createNewContact(values, overlay, form, listElement) {
   try {
     const newContact = await buildNewContact(values);
@@ -76,6 +102,10 @@ async function createNewContact(values, overlay, form, listElement) {
   }
 }
 
+/**
+ * Deletes a contact and updates the UI.
+ * @param {string} contactId
+ */
 async function deleteContact(contactId) {
   try {
     await ContactService.delete(contactId);
@@ -103,12 +133,18 @@ function clearContactDetail() {
   if (typeof closeMobileDetailView === "function") closeMobileDetailView();
 }
 
+/**
+ * Handles new contact form submission.
+ */
 async function handleNewContactSubmit(event, overlay, form, listElement) {
   event.preventDefault();
   const inputs = getContactFormInputs(form);
   await submitContactForm(inputs, overlay, form, listElement);
 }
 
+/**
+ * Handles submit for existing or new contacts.
+ */
 async function handleExistingContact(
   values,
   overlay,
@@ -127,6 +163,9 @@ async function handleExistingContact(
   await createNewContact(values, overlay, form, listElement);
 }
 
+/**
+ * Validates and persists contact form input.
+ */
 async function submitContactForm(inputs, overlay, form, listElement) {
   if (!inputs) return;
   setContactSubmitBusy(inputs, true);
@@ -139,6 +178,9 @@ async function submitContactForm(inputs, overlay, form, listElement) {
   }
 }
 
+/**
+ * Persists a contact based on edit state.
+ */
 async function persistContactForm(values, overlay, form, listElement) {
   const currentId = getCurrentEditId();
   if (currentId)
@@ -146,6 +188,9 @@ async function persistContactForm(values, overlay, form, listElement) {
   await createNewContact(values, overlay, form, listElement);
 }
 
+/**
+ * Clears all contact form error messages.
+ */
 function clearContactFormErrors({ nameInput, emailInput, phoneInput }) {
   setContactFormMsg("");
   clearContactInputError(nameInput);
@@ -156,14 +201,24 @@ function clearContactFormErrors({ nameInput, emailInput, phoneInput }) {
   clearContactFieldError("contact-phone-error", phoneInput);
 }
 
+/**
+ * Sets the global contact form message.
+ */
 function setContactFormMsg(message) {
   setText("contactFormMsg", message || "");
 }
 
+/**
+ * Clears error styling from a contact input.
+ */
 function clearContactInputError(input) {
   if (input) input.classList.remove("input-error");
 }
 
+/**
+ * Validates contact form values and updates errors.
+ * @returns {boolean}
+ */
 function validateContactForm(inputs, values) {
   clearContactFormErrors(inputs);
   const errors = getContactFieldErrors(values);
@@ -172,6 +227,11 @@ function validateContactForm(inputs, values) {
   return false;
 }
 
+/**
+ * Builds validation errors for contact values.
+ * @param {{ name: string, email: string, phone: string }} values
+ * @returns {Object}
+ */
 function getContactFieldErrors(values) {
   const errors = {};
   if (!values.name || !isValidContactName(values.name)) {
@@ -186,6 +246,9 @@ function getContactFieldErrors(values) {
   return errors;
 }
 
+/**
+ * Applies field errors to the contact form.
+ */
 function applyContactFieldErrors(inputs, errors) {
   if (errors.name) {
     setContactFieldError("contact-name-error", errors.name, inputs.nameInput);
@@ -206,10 +269,18 @@ function applyContactFieldErrors(inputs, errors) {
   }
 }
 
+/**
+ * Counts digit characters in a value.
+ * @param {string} value
+ * @returns {number}
+ */
 function getPhoneDigitsCount(value) {
   return String(value || "").replace(/\D/g, "").length;
 }
 
+/**
+ * Trims an input to a maximum number of digits.
+ */
 function trimPhoneToMaxDigits(input, max) {
   if (!input) return;
   const value = String(input.value || "");
@@ -225,6 +296,9 @@ function trimPhoneToMaxDigits(input, max) {
   if (result !== value) input.value = result;
 }
 
+/**
+ * Validates max length for a contact field.
+ */
 function validateContactLength(input, max, errorId, label) {
   const value = input?.value || "";
   if (!value) return clearContactFieldError(errorId, input);
@@ -236,6 +310,9 @@ function validateContactLength(input, max, errorId, label) {
   );
 }
 
+/**
+ * Validates phone digit count for a field.
+ */
 function validatePhoneDigits(input, min, max, errorId) {
   const digits = getPhoneDigitsCount(input?.value || "");
   if (!digits) return clearContactFieldError(errorId, input);
@@ -249,6 +326,9 @@ function validatePhoneDigits(input, min, max, errorId) {
   return clearContactFieldError(errorId, input);
 }
 
+/**
+ * Sets a field error message and styling.
+ */
 function setContactFieldError(errorId, message, input) {
   const errorEl = document.getElementById(errorId);
   if (!errorEl) return;
@@ -257,10 +337,18 @@ function setContactFieldError(errorId, message, input) {
   if (input) input.classList.toggle("input-error", Boolean(message));
 }
 
+/**
+ * Clears a field error message and styling.
+ */
 function clearContactFieldError(errorId, input) {
   setContactFieldError(errorId, "", input);
 }
 
+/**
+ * Collects required inputs from the contact form.
+ * @param {HTMLFormElement} form
+ * @returns {{ nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement, submitBtn: HTMLButtonElement }|null}
+ */
 function getContactFormInputs(form) {
   const nameInput = form.querySelector("#contact-name");
   const emailInput = form.querySelector("#contact-email");
@@ -270,6 +358,9 @@ function getContactFormInputs(form) {
   return { nameInput, emailInput, phoneInput, submitBtn };
 }
 
+/**
+ * Toggles submit button busy state.
+ */
 function setContactSubmitBusy({ submitBtn }, busy) {
   if (!submitBtn) return;
   submitBtn.disabled = Boolean(busy);
