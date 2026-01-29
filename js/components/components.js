@@ -1,5 +1,5 @@
 /**
- * Initialisiert die Komponenten nach DOM-Ready.
+ * Initializes the components after DOM ready.
  */
 document.addEventListener("DOMContentLoaded", handleComponentsReady);
 
@@ -59,7 +59,7 @@ function setActiveNavLink() {
 }
 
 /**
- * Setzt den aktiven Zustand im Navigationsbereich zurück.
+ * Resets the active state in the navigation area.
  * @param {HTMLElement} nav
  */
 function resetNavActive(nav) {
@@ -69,7 +69,7 @@ function resetNavActive(nav) {
 }
 
 /**
- * Ermittelt den passenden aktiven Navigationslink.
+ * Determines the matching active navigation link.
  * @param {HTMLElement} nav
  * @returns {HTMLElement | undefined}
  */
@@ -108,7 +108,7 @@ function getUserMenuParts() {
 }
 
 /**
- * Markiert den aktiven Link im User-Menü.
+ * Marks the active link in the user menu.
  * @param {HTMLElement} dropdown
  */
 function setActiveDropdownLinks(dropdown) {
@@ -120,7 +120,7 @@ function setActiveDropdownLinks(dropdown) {
 }
 
 /**
- * Verdrahtet die User-Menü-Events.
+ * Wires the user menu events.
  * @param {{ wrap: HTMLElement, btn: HTMLElement, dropdown: HTMLElement, logoutBtn: (HTMLElement | null) }} parts
  */
 function wireUserMenuEvents(parts) {
@@ -132,7 +132,7 @@ function wireUserMenuEvents(parts) {
 }
 
 /**
- * Öffnet oder schließt das User-Menü.
+ * Opens or closes the user menu.
  * @param {MouseEvent} event
  * @param {{ wrap: HTMLElement, btn: HTMLElement, dropdown: HTMLElement, logoutBtn: (HTMLElement | null) }} parts
  */
@@ -142,7 +142,7 @@ function toggleUserMenu(event, parts) {
 }
 
 /**
- * Öffnet das User-Menü.
+ * Opens the user menu.
  * @param {{ btn: HTMLElement, dropdown: HTMLElement }} parts
  */
 function openUserMenu(parts) {
@@ -152,7 +152,7 @@ function openUserMenu(parts) {
 }
 
 /**
- * Schließt das User-Menü.
+ * Closes the user menu.
  * @param {{ btn: HTMLElement, dropdown: HTMLElement }} parts
  */
 function closeUserMenu(parts) {
@@ -164,7 +164,7 @@ function closeUserMenu(parts) {
 }
 
 /**
- * Schließt das Menü bei Klick außerhalb.
+ * Closes the menu on outside click.
  * @param {MouseEvent} event
  * @param {{ wrap: HTMLElement, dropdown: HTMLElement }} parts
  */
@@ -175,7 +175,7 @@ function closeOnOutsideClick(event, parts) {
 }
 
 /**
- * Schließt das Menü bei Escape.
+ * Closes the menu on escape.
  * @param {KeyboardEvent} event
  * @param {{ dropdown: HTMLElement }} parts
  */
@@ -185,7 +185,7 @@ function closeOnEscape(event, parts) {
 }
 
 /**
- * Verdrahtet den Logout.
+ * Wires the logout.
  * @param {HTMLElement | null} logoutBtn
  */
 function wireLogout(logoutBtn) {
