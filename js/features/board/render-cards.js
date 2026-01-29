@@ -261,7 +261,7 @@ function handlePrioImageError(img) {
 function mapPrioToIcon(prio) {
   const key = normalizePrioKey(prio);
   if (key === "urgent") return "/assets/img/icons/Prio-Urgent.svg";
-  if (key === "low") return "/assets/img/icons/Prio-Low.svg";
+  if (key === "low") return "/assets/img/icons/Prio-low.svg";
   return "/assets/img/icons/Prio-medium.svg";
 }
 

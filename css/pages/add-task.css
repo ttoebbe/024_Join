@@ -356,7 +356,9 @@
 
 .dropdown-item.is-selected .assigned-check {
   border: none;
-  background: url("/assets/img/icons/check-button.svg") center / contain no-repeat;
+  background-color: #fff;
+  -webkit-mask: url("/assets/img/icons/check-button.svg") center / contain no-repeat;
+  mask: url("/assets/img/icons/check-button.svg") center / contain no-repeat;
 }
 
 

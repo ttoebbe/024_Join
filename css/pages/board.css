@@ -196,6 +196,8 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.08);
   cursor: pointer;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .board-card-meta {
@@ -331,6 +333,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: auto;
+}
+
+.board-prio {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }
 
 .board-prio img {
@@ -338,14 +347,10 @@
 }
 
 .board-prio img[data-prio="urgent"],
-.board-prio img[data-prio="low"] {
-  width: 17px;
-  height: 12px;
-}
-
+.board-prio img[data-prio="low"],
 .board-prio img[data-prio="medium"] {
-  width: 17px;
-  height: 7px;
+  width: auto;
+  height: auto;
 }
 
 .board-avatars {
@@ -934,7 +939,9 @@
 
 .dropdown-item.is-selected .assigned-check {
   border: none;
-  background: url("/assets/img/icons/check-button.svg") center / contain no-repeat;
+  background-color: #fff;
+  -webkit-mask: url("/assets/img/icons/check-button.svg") center / contain no-repeat;
+  mask: url("/assets/img/icons/check-button.svg") center / contain no-repeat;
 }
 
 
