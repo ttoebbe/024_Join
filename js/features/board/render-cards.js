@@ -1,3 +1,8 @@
+/**
+ * Creates a task card element.
+ * @param {Object} task
+ * @returns {HTMLElement}
+ */
 function createCard(task) {
   const cardElement = createCardRoot();
   attachCardMeta(cardElement, task);
@@ -5,6 +10,10 @@ function createCard(task) {
   return cardElement;
 }
 
+/**
+ * Creates the card root element.
+ * @returns {HTMLElement}
+ */
 function createCardRoot() {
   const cardElement = document.createElement("article");
   cardElement.className = "board-card";
@@ -14,12 +23,22 @@ function createCardRoot() {
   return cardElement;
 }
 
+/**
+ * Attaches metadata and handlers to a card.
+ * @param {HTMLElement} cardElement
+ * @param {Object} task
+ */
 function attachCardMeta(cardElement, task) {
   if (task?.id) cardElement.dataset.taskId = String(task.id);
   wireCardDragHandlers(cardElement);
   wireCardOpenHandlers(cardElement, task);
 }
 
+/**
+ * Appends card content sections.
+ * @param {HTMLElement} cardElement
+ * @param {Object} task
+ */
 function appendCardContent(cardElement, task) {
   cardElement.appendChild(createCardMetaRow(task));
   cardElement.appendChild(createCardTitle(task));
@@ -28,6 +47,11 @@ function appendCardContent(cardElement, task) {
   cardElement.appendChild(createCardFooter(task));
 }
 
+/**
+ * Creates the card title element.
+ * @param {Object} task
+ * @returns {HTMLElement}
+ */
 function createCardTitle(task) {
   const title = document.createElement("h3");
   title.className = "board-card-title";
@@ -35,6 +59,11 @@ function createCardTitle(task) {
   return title;
 }
 
+/**
+ * Creates the card description element.
+ * @param {Object} task
+ * @returns {HTMLElement}
+ */
 function createCardDescription(task) {
   const descriptionElement = document.createElement("p");
   descriptionElement.className = "board-card-desc";
@@ -42,11 +71,21 @@ function createCardDescription(task) {
   return descriptionElement;
 }
 
+/**
+ * Appends progress info if available.
+ * @param {HTMLElement} cardElement
+ * @param {Object} task
+ */
 function appendCardProgress(cardElement, task) {
   const progress = createSubtaskProgress(task);
   if (progress) cardElement.appendChild(progress);
 }
 
+/**
+ * Creates the category pill element.
+ * @param {Object} task
+ * @returns {HTMLElement}
+ */
 function createCategoryPill(task) {
   const category = normalizeCategory(task?.category);
   const pill = document.createElement("div");
@@ -59,6 +98,11 @@ function createCategoryPill(task) {
   return pill;
 }
 
+/**
+ * Creates the card meta row.
+ * @param {Object} task
+ * @returns {HTMLElement}
+ */
 function createCardMetaRow(task) {
   const wrap = document.createElement("div");
   wrap.className = "board-card-meta";
@@ -67,6 +111,11 @@ function createCardMetaRow(task) {
   return wrap;
 }
 
+/**
+ * Creates the move-to menu wrapper.
+ * @param {Object} task
+ * @returns {HTMLElement}
+ */
 function createMoveToMenu(task) {
   const wrap = document.createElement("div");
   wrap.className = "board-move";
@@ -75,6 +124,11 @@ function createMoveToMenu(task) {
   return wrap;
 }
 
+/**
+ * Creates the move-to button.
+ * @param {Object} task
+ * @returns {HTMLButtonElement}
+ */
 function createMoveToButton(task) {
   const btn = document.createElement("button");
   btn.type = "button";
@@ -88,6 +142,11 @@ function createMoveToButton(task) {
   return btn;
 }
 
+/**
+ * Creates the move-to list.
+ * @param {Object} task
+ * @returns {HTMLElement}
+ */
 function createMoveToList(task) {
   const menu = document.createElement("div");
   menu.className = "board-move-menu";
@@ -100,6 +159,12 @@ function createMoveToList(task) {
   return menu;
 }
 
+/**
+ * Creates a move-to list item.
+ * @param {string} status
+ * @param {string} label
+ * @returns {HTMLButtonElement}
+ */
 function createMoveToItem(status, label) {
   const btn = document.createElement("button");
   btn.type = "button";
@@ -109,18 +174,33 @@ function createMoveToItem(status, label) {
   return btn;
 }
 
+/**
+ * Normalizes a category value.
+ * @param {string} value
+ * @returns {string}
+ */
 function normalizeCategory(value) {
   const normalizedCategory = String(value || "").toLowerCase();
   if (normalizedCategory.includes("technical")) return "technical";
   return "userstory";
 }
 
+/**
+ * Creates the subtask progress element.
+ * @param {Object} task
+ * @returns {HTMLElement|null}
+ */
 function createSubtaskProgress(task) {
   const stats = getSubtaskStats(task);
   if (!stats || stats.done === 0) return null;
   return buildProgressWrap(stats);
 }
 
+/**
+ * Calculates subtask stats.
+ * @param {Object} task
+ * @returns {Object|null}
+ */
 function getSubtaskStats(task) {
   const subtasks = getSubtasks(task);
   if (subtasks.length === 0) return null;
@@ -130,6 +210,11 @@ function getSubtaskStats(task) {
   return { done, total, percent };
 }
 
+/**
+ * Builds the progress wrapper.
+ * @param {Object} stats
+ * @returns {HTMLElement}
+ */
 function buildProgressWrap(stats) {
   const wrap = document.createElement("div");
   wrap.className = "board-progress";
@@ -139,6 +224,11 @@ function buildProgressWrap(stats) {
   return wrap;
 }
 
+/**
+ * Builds the progress text element.
+ * @param {Object} stats
+ * @returns {HTMLElement}
+ */
 function buildProgressText(stats) {
   const text = document.createElement("div");
   text.className = "board-progress-text";
@@ -146,6 +236,11 @@ function buildProgressText(stats) {
   return text;
 }
 
+/**
+ * Builds the progress bar element.
+ * @param {Object} stats
+ * @returns {HTMLElement}
+ */
 function buildProgressBar(stats) {
   const bar = document.createElement("div");
   bar.className = "board-progress-bar";
@@ -153,6 +248,11 @@ function buildProgressBar(stats) {
   return bar;
 }
 
+/**
+ * Builds the progress fill element.
+ * @param {Object} stats
+ * @returns {HTMLElement}
+ */
 function buildProgressFill(stats) {
   const fill = document.createElement("div");
   fill.className = "board-progress-fill";
@@ -160,6 +260,11 @@ function buildProgressFill(stats) {
   return fill;
 }
 
+/**
+ * Gets subtasks from a task.
+ * @param {Object} task
+ * @returns {Array}
+ */
 function getSubtasks(task) {
   const primarySubtasks = task?.subtasks;
   const fallbackSubtasks = task?.subTasks;
@@ -168,11 +273,21 @@ function getSubtasks(task) {
   return [];
 }
 
+/**
+ * Checks if a subtask is done.
+ * @param {Object} subtask
+ * @returns {boolean}
+ */
 function isSubtaskDone(subtask) {
   if (!subtask || typeof subtask !== "object") return false;
   return Boolean(subtask.done || subtask.completed || subtask.isDone);
 }
 
+/**
+ * Creates the card footer element.
+ * @param {Object} task
+ * @returns {HTMLElement}
+ */
 function createCardFooter(task) {
   const footer = document.createElement("div");
   footer.className = "board-card-footer";
@@ -181,6 +296,11 @@ function createCardFooter(task) {
   return footer;
 }
 
+/**
+ * Creates the assigned avatars container.
+ * @param {Object} task
+ * @returns {HTMLElement}
+ */
 function createAssignedAvatars(task) {
   const wrap = document.createElement("div");
   wrap.className = "board-avatars";
@@ -189,15 +309,30 @@ function createAssignedAvatars(task) {
   return wrap;
 }
 
+/**
+ * Appends assigned avatar bubbles.
+ * @param {HTMLElement} wrap
+ * @param {Array} assigned
+ */
 function appendAssignedBubbles(wrap, assigned) {
   assigned.slice(0, 4).forEach((a) => wrap.appendChild(createAvatarBubble(a)));
   if (assigned.length > 4) addMoreBubble(wrap, assigned.length - 4);
 }
 
+/**
+ * Adds a more-count bubble.
+ * @param {HTMLElement} wrap
+ * @param {number} remaining
+ */
 function addMoreBubble(wrap, remaining) {
   wrap.appendChild(createMoreBubble(remaining));
 }
 
+/**
+ * Normalizes assigned items.
+ * @param {Object} task
+ * @returns {Array}
+ */
 function getAssigned(task) {
   const raw = task?.assigned ?? task?.assignees ?? [];
   if (!Array.isArray(raw)) return [];
@@ -206,6 +341,11 @@ function getAssigned(task) {
     .filter((x) => x && String(x.name || "").trim().length > 0);
 }
 
+/**
+ * Normalizes a single assignee item.
+ * @param {any} item
+ * @returns {Object|null}
+ */
 function normalizeAssignedItem(item) {
   if (!item) return null;
   if (typeof item === "string") return { name: item, color: null };
@@ -213,12 +353,22 @@ function normalizeAssignedItem(item) {
   return null;
 }
 
+/**
+ * Builds a normalized assignee object.
+ * @param {Object} item
+ * @returns {Object}
+ */
 function buildAssignedObject(item) {
   const name = item.name || item.fullName || item.username || "";
   const color = item.color || null;
   return { name, color };
 }
 
+/**
+ * Creates an avatar bubble.
+ * @param {Object} person
+ * @returns {HTMLElement}
+ */
 function createAvatarBubble(person) {
   const avatarElement = document.createElement("span");
   avatarElement.className = "board-avatar";
@@ -228,6 +378,11 @@ function createAvatarBubble(person) {
   return avatarElement;
 }
 
+/**
+ * Creates a more-count bubble.
+ * @param {number} remainingCount
+ * @returns {HTMLElement}
+ */
 function createMoreBubble(remainingCount) {
   const avatarElement = document.createElement("span");
   avatarElement.className = "board-avatar";
@@ -236,6 +391,11 @@ function createMoreBubble(remainingCount) {
   return avatarElement;
 }
 
+/**
+ * Creates the priority block.
+ * @param {Object} task
+ * @returns {HTMLElement}
+ */
 function createPrioBlock(task) {
   const wrap = document.createElement("div");
   wrap.className = "board-prio";
@@ -243,6 +403,11 @@ function createPrioBlock(task) {
   return wrap;
 }
 
+/**
+ * Builds the priority image.
+ * @param {Object} task
+ * @returns {HTMLImageElement}
+ */
 function buildPrioImage(task) {
   const img = document.createElement("img");
   img.alt = "Priority";
@@ -252,12 +417,21 @@ function buildPrioImage(task) {
   return img;
 }
 
+/**
+ * Handles priority image load errors.
+ * @param {HTMLImageElement} img
+ */
 function handlePrioImageError(img) {
   img.onerror = null;
   img.dataset.prio = "medium";
   img.src = "/assets/img/icons/Prio-medium.svg";
 }
 
+/**
+ * Maps a priority to its icon.
+ * @param {string} prio
+ * @returns {string}
+ */
 function mapPrioToIcon(prio) {
   const key = normalizePrioKey(prio);
   if (key === "urgent") return "/assets/img/icons/Prio-Urgent.svg";
@@ -265,6 +439,11 @@ function mapPrioToIcon(prio) {
   return "/assets/img/icons/Prio-medium.svg";
 }
 
+/**
+ * Normalizes a priority key.
+ * @param {string} prio
+ * @returns {string}
+ */
 function normalizePrioKey(prio) {
   const simple = normalizePrioString(prio);
   if (isUrgentPrio(simple)) return "urgent";
@@ -273,6 +452,11 @@ function normalizePrioKey(prio) {
   return "medium";
 }
 
+/**
+ * Normalizes a priority string.
+ * @param {string} prio
+ * @returns {string}
+ */
 function normalizePrioString(prio) {
   return String(prio || "medium")
     .trim()
@@ -280,6 +464,11 @@ function normalizePrioString(prio) {
     .replace(/[^a-z]/g, "");
 }
 
+/**
+ * Checks for urgent priority.
+ * @param {string} simple
+ * @returns {boolean}
+ */
 function isUrgentPrio(simple) {
   return (
     simple.includes("urgent") ||
@@ -288,10 +477,20 @@ function isUrgentPrio(simple) {
   );
 }
 
+/**
+ * Checks for low priority.
+ * @param {string} simple
+ * @returns {boolean}
+ */
 function isLowPrio(simple) {
   return simple.includes("low") || simple.includes("baja");
 }
 
+/**
+ * Checks for medium priority.
+ * @param {string} simple
+ * @returns {boolean}
+ */
 function isMediumPrio(simple) {
   return simple.includes("medium") || simple.includes("media");
 }
