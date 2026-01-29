@@ -1,67 +1,9 @@
 const TITLE_MAX_LENGTH = 40;
 const DESCRIPTION_MAX_LENGTH = 200;
 
-function wirePrioButtons(state) {
-  state.form.querySelectorAll(".prio-btn").forEach((btn) => {
-    btn.addEventListener("click", () => handlePrioButton(state, btn));
-  });
-}
-
-function handlePrioButton(state, btn) {
-  clearPrioActive(state);
-  btn.classList.add("is-active");
-  state.selectedPrio = btn.dataset.prio;
-}
-
-function clearPrioActive(state) {
-  state.form.querySelectorAll(".prio-btn").forEach((b) => {
-    b.classList.remove("is-active");
-  });
-}
-
-function wireClearButton(state, resets) {
-  document.getElementById("clear-btn")?.addEventListener("click", () => {
-    clearAddTaskForm(state, resets);
-  });
-}
-
-function clearAddTaskForm(state, resets) {
-  resetForm(state);
-  updateAddTaskCounters(state);
-  clearTitleLimitState(state);
-  clearDescriptionLimitState();
-  clearSubtaskLimitState();
-  resetStatusPreset();
-  resetPrioSelection(state);
-  resetSelectionState(state);
-  clearCategoryInput(state);
-  resets.resetCategoryUi?.();
-  resets.resetAssignedUi?.();
-  renderSubtasks(state);
-  clearAddTaskErrors(state);
-  updateCreateButtonState(state);
-}
-
-function resetPrioSelection(state) {
-  state.selectedPrio = "medium";
-  applyPrioButtonStyles(state);
-}
-
-function resetForm(state) {
-  state.form.reset();
-}
-
-function resetStatusPreset() {
-  const statusField = document.getElementById("task-status-preset");
-  if (statusField) statusField.value = statusField.value || "todo";
-}
-
-function resetSelectionState(state) {
-  state.selectedCategory = "";
-  state.selectedAssigned = [];
-  state.selectedSubtasks = [];
-}
-
+/**
+ * Wires submit handlers for the form.
+ */
 function wireSubmitHandler(state, onClose) {
   state.createBtn.addEventListener("click", async (e) => {
     e?.preventDefault();
@@ -73,12 +15,19 @@ function wireSubmitHandler(state, onClose) {
   });
 }
 
+/**
+ * Handles the submit flow.
+ */
 async function handleSubmit(state, onClose) {
   const values = validateTaskForm(state);
   if (!values) return;
   await submitTaskForm(state, values, onClose);
 }
 
+/**
+ * Collects task form values.
+ * @returns {{ title: string, description: string, status: string, category: string, dueDate: string }}
+ */
 function getTaskFormValues(state) {
   const title = document.getElementById("task-title")?.value.trim();
   const dueDate = document.getElementById("task-due-date")?.value.trim();
@@ -89,34 +38,9 @@ function getTaskFormValues(state) {
   return { title, description, status, category, dueDate };
 }
 
-function clearTitleLimitState(state) {
-  clearFieldError("task-title-error", state.titleInput);
-  clearInputError(state.titleInput);
-}
-
-function clearDescriptionLimitState() {
-  const desc = document.getElementById("task-description");
-  clearFieldError("task-description-error", desc);
-  clearInputError(desc);
-}
-
-function clearSubtaskLimitState() {
-  const input = document.getElementById("subtask-input");
-  const errorEl = document.getElementById("subtask-error");
-  if (errorEl) errorEl.classList.remove("is-visible");
-  if (errorEl) errorEl.textContent = "";
-  clearInputError(input);
-}
-
-function wireValidationCleanup(state) {
-  state.form.addEventListener("input", () => {
-    clearAddTaskErrors(state);
-  });
-  state.form.addEventListener("change", () => {
-    clearAddTaskErrors(state);
-  });
-}
-
+/**
+ * Submits the task form and handles persistence.
+ */
 async function submitTaskForm(state, values, onClose) {
   setCreateButtonBusy(state, true);
   try {
@@ -128,6 +52,9 @@ async function submitTaskForm(state, values, onClose) {
   }
 }
 
+/**
+ * Handles a successful submit.
+ */
 function handleSubmitSuccess(state, onClose) {
   if (state.mode !== "edit" && typeof showAddedToBoardToast === "function") {
     showAddedToBoardToast();
@@ -140,29 +67,45 @@ function handleSubmitSuccess(state, onClose) {
   }
 }
 
+/**
+ * Persists a task based on mode.
+ */
 async function persistTask(state, values) {
   if (state.mode === "edit" && state.task?.id)
     return updateExistingTask(state, values);
   return createNewTask(state, values);
 }
 
+/**
+ * Sets busy state for the create button.
+ */
 function setCreateButtonBusy(state, busy) {
   if (!state.createBtn) return;
   if (busy) return void (state.createBtn.disabled = true);
   updateCreateButtonState(state);
 }
 
+/**
+ * Updates an existing task.
+ */
 async function updateExistingTask(state, values) {
   const updatedTask = buildTaskPayload(state, values, state.task);
   await TaskService.update(state.task.id, updatedTask);
 }
 
+/**
+ * Creates a new task.
+ */
 async function createNewTask(state, values) {
   const taskId = await generateTaskId();
   const newTask = buildTaskPayload(state, values, { id: taskId });
   await TaskService.create(newTask);
 }
 
+/**
+ * Builds the task payload.
+ * @returns {Object}
+ */
 function buildTaskPayload(state, values, base) {
   return {
     ...base,
@@ -177,167 +120,11 @@ function buildTaskPayload(state, values, base) {
   };
 }
 
+/**
+ * Reloads the board if available.
+ */
 async function refreshBoardIfNeeded() {
   if (typeof loadTasks !== "function") return;
   await loadTasks();
   if (typeof renderBoard === "function") renderBoard();
-}
-
-function wireCreateButtonState(state) {
-  const handler = function () {
-    updateCreateButtonState(state);
-  };
-  attachCreateButtonListeners(state, handler);
-}
-
-function attachCreateButtonListeners(state, handler) {
-  state.titleInput?.addEventListener("input", handler);
-  state.titleInput?.addEventListener("input", () => validateTitleLength(state));
-  state.dueDateInput?.addEventListener("input", handler);
-  state.dueDateInput?.addEventListener("change", handler);
-  state.form.addEventListener("input", handler);
-  state.form.addEventListener("change", handler);
-  wireAddTaskCounters(state);
-}
-
-function updateCreateButtonState(state) {
-  if (!state.createBtn) return;
-  const isReady = Boolean(
-    state.titleInput?.value.trim() &&
-    state.dueDateInput?.value.trim() &&
-    getSelectedCategoryValue(state),
-  );
-  state.createBtn.disabled = !isReady;
-  state.createBtn.classList.toggle("is-active", isReady);
-}
-
-function validateTaskForm(state) {
-  clearAddTaskErrors(state);
-  const values = getTaskFormValues(state);
-  const error = getTaskValidationError(values);
-  if (!error) return values;
-  showAddTaskError(state, values, error);
-  return null;
-}
-
-function getTaskValidationError(values) {
-  if (!values.title) return "Please enter a title.";
-  if (!values.dueDate) return "Please select a due date.";
-  if (!values.category) return "Please select a category.";
-  return "";
-}
-
-function showAddTaskError(state, values, error) {
-  setAddTaskFormMsg(state, error);
-  markMissingTaskFields(state, values);
-}
-
-function setAddTaskFormMsg(state, message) {
-  if (!state.formMsg) return;
-  state.formMsg.textContent = message || "";
-}
-
-function markMissingTaskFields(state, values) {
-  if (!values.title) addInputError(state.titleInput);
-  if (!values.dueDate) addInputError(state.dueDateInput);
-  if (!values.category) addInputError(state.categoryToggle);
-}
-
-function addInputError(element) {
-  if (element) element.classList.add("input-error");
-}
-
-function clearAddTaskErrors(state) {
-  setAddTaskFormMsg(state, "");
-  clearInputError(state.dueDateInput);
-  clearInputError(state.categoryToggle);
-}
-
-function clearInputError(element) {
-  if (element) element.classList.remove("input-error");
-}
-
-function isTitleAtLimit(title) {
-  return Boolean(title && title.length >= TITLE_MAX_LENGTH);
-}
-
-function getTitleLimitMessage() {
-  return `Title is too long (max ${TITLE_MAX_LENGTH} characters).`;
-}
-
-function isDescriptionAtLimit(value) {
-  return Boolean(value && value.length >= DESCRIPTION_MAX_LENGTH);
-}
-
-function validateTitleLength(state) {
-  const value = state.titleInput?.value.trim() || "";
-  if (!value) return clearFieldError("task-title-error", state.titleInput);
-  if (isTitleAtLimit(value)) return showTitleLimitError(state);
-  clearFieldError("task-title-error", state.titleInput);
-}
-
-function validateDescriptionLength(state) {
-  const desc = document.getElementById("task-description");
-  const value = desc?.value.trim() || "";
-  if (!value) return clearFieldError("task-description-error", desc);
-  if (isDescriptionAtLimit(value)) return showDescriptionLimitError(desc);
-  clearFieldError("task-description-error", desc);
-}
-
-function showTitleLimitError(state) {
-  showFieldError("task-title-error", getTitleLimitMessage(), state.titleInput);
-}
-
-function showDescriptionLimitError(desc) {
-  showFieldError(
-    "task-description-error",
-    `Description is too long (max ${DESCRIPTION_MAX_LENGTH} characters).`,
-    desc,
-  );
-}
-
-function showFieldError(errorId, message, inputEl) {
-  const errorEl = document.getElementById(errorId);
-  if (!errorEl) return;
-  errorEl.textContent = message || "";
-  errorEl.classList.toggle("is-visible", Boolean(message));
-  if (inputEl) inputEl.classList.toggle("input-error", Boolean(message));
-}
-
-function clearFieldError(errorId, inputEl) {
-  showFieldError(errorId, "", inputEl);
-}
-
-function wireAddTaskCounters(state) {
-  updateAddTaskCounters(state);
-  state.titleInput?.addEventListener("input", () =>
-    updateAddTaskCounters(state),
-  );
-  const desc = document.getElementById("task-description");
-  desc?.addEventListener("input", () => updateAddTaskCounters(state));
-}
-
-function updateAddTaskCounters(state) {
-  enforceMaxLength(state.titleInput, TITLE_MAX_LENGTH);
-  if (typeof validateTitleLength === "function") validateTitleLength(state);
-  updateFieldCounter(state.titleInput, "task-title-counter", TITLE_MAX_LENGTH);
-  const desc = document.getElementById("task-description");
-  enforceMaxLength(desc, DESCRIPTION_MAX_LENGTH);
-  if (typeof validateDescriptionLength === "function")
-    validateDescriptionLength(state);
-  updateFieldCounter(desc, "task-description-counter", DESCRIPTION_MAX_LENGTH);
-}
-
-function updateFieldCounter(input, counterId, max) {
-  const counter = document.getElementById(counterId);
-  if (!counter) return;
-  const length = (input?.value || "").length;
-  counter.textContent = `${length}/${max}`;
-}
-
-function enforceMaxLength(input, max) {
-  if (!input) return;
-  const value = String(input.value || "");
-  if (value.length <= max) return;
-  input.value = value.slice(0, max);
 }
