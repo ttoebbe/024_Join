@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", handleAddTaskReady); // Init add-task page
+window.addEventListener("DOMContentLoaded", handleAddTaskReady); 
 
 function handleAddTaskReady() {
   withPageReady(runAddTaskInit);

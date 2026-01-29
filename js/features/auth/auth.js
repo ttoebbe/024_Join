@@ -256,7 +256,7 @@ function wireSignupToggles() {
   );
 }
 
-document.addEventListener("DOMContentLoaded", handleAuthReady); // Init auth
+document.addEventListener("DOMContentLoaded", handleAuthReady);
 
 function handleAuthReady() {
   withPageReady(runAuthInit);
