@@ -26,16 +26,6 @@ function setText(id, text) {
   if (element) element.textContent = text || "";
 }
 
-// DEAD CODE - not used
-// /**
-//  * Gets an element by its ID.
-//  * @param {string} id - The element ID
-//  * @returns {HTMLElement|null} The element or null
-//  */
-// function getElementById(id) {
-//   return document.getElementById(id);
-// }
-
 /**
  * Generates initials from a name string.
  * @param {string} name - The full name
@@ -59,19 +49,6 @@ function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(trimmed);
 }
-
-// DEAD CODE - not used
-// /**
-//  * Validates a password (min 4 chars, no whitespace).
-//  * @param {string} password - Password to validate
-//  * @returns {boolean} True if valid
-//  */
-// function validatePassword(password) {
-//   const trimmed = (password || "").trim();
-//   if (trimmed.length < 4) return false;
-//   if (/\s/.test(trimmed)) return false;
-//   return true;
-// }
 
 /**
  * Returns a time-based greeting message.
@@ -144,53 +121,8 @@ function normalizeTaskEntry(id, value) {
   return { ...value, id };
 }
 
-// DEAD CODE - not used
-// /**
-//  * Creates a debounced version of a function.
-//  * @param {Function} func - Function to debounce
-//  * @param {number} delay - Delay in milliseconds
-//  * @returns {Function} Debounced function
-//  */
-// function debounce(func, delay) {
-//   let timeoutId;
-//   return function (...args) {
-//     clearTimeout(timeoutId);
-//     timeoutId = setTimeout(() => func.apply(this, args), delay);
-//   };
-// }
 
-// DEAD CODE - not used
-// /**
-//  * Generates a random ID string.
-//  * @returns {string} Random ID
-//  */
-// function generateId() {
-//   return Math.random().toString(36).substr(2, 9);
-// }
-
-// DEAD CODE - not used
-// /**
-//  * Generates a random user ID with 'u' prefix.
-//  * @returns {string} Random user ID
-//  */
-// function generateUserId() {
-//   return "u" + Math.random().toString(36).substr(2, 9);
-// }
-
-/**
- * Generates the next sequential user ID.
- * @param {Array} existingUsers - Array of existing users
- * @returns {string} Next user ID (e.g., "u0", "u1")
- */
-function generateNextUserId(existingUsers = []) {
-  if (!existingUsers || existingUsers.length === 0) return "u0";
-  const numbers = getUserNumbers(existingUsers);
-  const maxNumber = numbers.length ? Math.max(...numbers) : -1;
-  return `u${maxNumber + 1}`;
-}
-
-/**
- * Extracts numeric parts from user IDs.
+/* Extracts numeric parts from user IDs.
  * @param {Array} existingUsers - Array of users
  * @returns {Array<number>} Array of user numbers
  */
@@ -318,18 +250,6 @@ function isGuest() {
   return user?.guest === true;
 }
 
-// DEAD CODE - not used
-// /**
-//  * Disables a button for guest users with a blocking toast.
-//  * @param {HTMLElement} button - Button element to disable
-//  * @param {Function} originalHandler - Original click handler for non-guests
-//  */
-// function disableForGuests(button, originalHandler) {
-//   if (!button) return;
-//   if (isGuest()) return applyGuestDisabled(button);
-//   if (originalHandler) button.addEventListener("click", originalHandler);
-// }
-
 /**
  * Applies guest disabled styling and behavior to a button.
  * @param {HTMLElement} button - The button to disable
@@ -351,18 +271,6 @@ function handleGuestBlockedClick(event) {
 
 /**
  * Gets the current user from session storage.
- * @returns {Object|null} Current user or null
- */
-function getCurrentUser() {
-  try {
-    return JSON.parse(sessionStorage.getItem(CURRENT_USER_KEY));
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Executes a callback when the page becomes visible.
  * @param {Function} reloadFn - Async function to execute on page visible
  */
 function onPageVisible(reloadFn) {
@@ -533,5 +441,3 @@ function handleBusyKeydown(event) {
   event.preventDefault();
   event.stopPropagation();
 }
-
-
