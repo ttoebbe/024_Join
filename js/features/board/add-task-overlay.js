@@ -1,16 +1,30 @@
 let presetStatus = "todo";
 
+/**
+ * Opens the add-task overlay.
+ * @param {string} status
+ * @returns {Promise<void>}
+ */
 async function openAddTaskOverlay(status = "todo") {
   presetStatus = status;
   return renderTaskOverlay({ mode: "create", status: presetStatus });
 }
 
+/**
+ * Opens the edit-task overlay.
+ * @param {Object} task
+ * @returns {Promise<void>}
+ */
 async function openEditTaskOverlay(task) {
   const status = task?.status || "todo";
   presetStatus = status;
   return renderTaskOverlay({ mode: "edit", status: presetStatus, task });
 }
 
+/**
+ * Renders the overlay content and wires events.
+ * @returns {Promise<void>}
+ */
 async function renderTaskOverlay({ mode, status, task }) {
   const root = ensureOverlayRoot();
   root.classList.remove("hidden");
@@ -24,6 +38,11 @@ async function renderTaskOverlay({ mode, status, task }) {
   }
 }
 
+/**
+ * Loads the add-task form template.
+ * @param {string} status
+ * @returns {Promise<string>}
+ */
 async function loadFormTemplate(status) {
   if (typeof getAddTaskFormTemplate === "function")
     return getAddTaskFormTemplate(status);
@@ -36,10 +55,22 @@ async function loadFormTemplate(status) {
   }
 }
 
+/**
+ * Builds the overlay HTML string.
+ * @param {string} title
+ * @param {string} formHtml
+ * @returns {string}
+ */
 function buildOverlayHTML(title, formHtml) {
   return `<div class="overlay-backdrop" data-overlay-close></div><div class="overlay-panel" role="dialog" aria-modal="true" aria-label="${title}"><button class="overlay-close" type="button" data-overlay-close aria-label="Close">×</button><h2>${title}</h2>${formHtml}</div>`;
 }
 
+/**
+ * Wires overlay events and preset values.
+ * @param {HTMLElement} root
+ * @param {string} status
+ * @param {string} mode
+ */
 function setupOverlayEvents(root, status, mode) {
   root
     .querySelectorAll("[data-overlay-close]")
@@ -65,6 +96,10 @@ function closeAddTaskOverlay() {
   root.innerHTML = "";
 }
 
+/**
+ * Ensures the overlay root exists.
+ * @returns {HTMLElement}
+ */
 function ensureOverlayRoot() {
   let root = document.getElementById("overlayRoot");
   if (root) return root;
