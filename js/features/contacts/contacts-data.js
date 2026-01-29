@@ -160,7 +160,7 @@ function getCurrentEditId() {
   return currentEditId;
 }
 
-document.addEventListener("DOMContentLoaded", handleContactsReady); // Init contacts page
+document.addEventListener("DOMContentLoaded", handleContactsReady);
 
 function handleContactsReady() {
   withPageReady(initContactsPage);

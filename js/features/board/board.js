@@ -3,7 +3,7 @@ const boardState = {
   query: "",
   draggingTaskId: null,
 };
-document.addEventListener("DOMContentLoaded", handleBoardReady); // Init board on load
+document.addEventListener("DOMContentLoaded", handleBoardReady);
 
 function handleBoardReady() {
   withPageReady(initBoard);

@@ -164,7 +164,7 @@ function showGreetingOverlay(overlay) {
   setTimeout(() => overlay.remove(), 2000);
 }
 
-document.addEventListener("DOMContentLoaded", handleSummaryReady); // Init summary page
+document.addEventListener("DOMContentLoaded", handleSummaryReady);
 
 function handleSummaryReady() {
   withPageReady(runSummaryInit);
