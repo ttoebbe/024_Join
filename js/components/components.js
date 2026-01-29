@@ -16,11 +16,19 @@ function runComponentsInit() {
   initUserMenu();
 }
 
+/**
+ * Checks whether the navigation should be hidden for guests.
+ * @returns {boolean}
+ */
 function shouldHideNavForGuest() {
   if (getCurrentUser()) return false;
   return isPolicyPage();
 }
 
+/**
+ * Checks whether the current page is a policy page.
+ * @returns {boolean}
+ */
 function isPolicyPage() {
   const path = window.location.pathname.toLowerCase();
   return (
@@ -98,6 +106,10 @@ function initUserMenu() {
   wireLogout(parts.logoutBtn);
 }
 
+/**
+ * Returns the user menu elements when available.
+ * @returns {{ wrap: HTMLElement, btn: HTMLElement, dropdown: HTMLElement, logoutBtn: (HTMLElement | null) } | null}
+ */
 function getUserMenuParts() {
   const wrap = document.getElementById("user-menu-wrap");
   const btn = document.getElementById("user-menu-btn");

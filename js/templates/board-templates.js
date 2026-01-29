@@ -1,3 +1,7 @@
+/**
+ * Builds the task detail overlay shell HTML.
+ * @returns {string}
+ */
 function getTaskDetailShellTemplate() {
   return `
     <div class="overlay-backdrop" data-overlay-close></div>

@@ -1,3 +1,7 @@
+/**
+ * Builds the priority selection block HTML.
+ * @returns {string}
+ */
 function getAddTaskPriorityBlockTemplate() {
   return `
     <label>Priority</label>
@@ -58,6 +62,10 @@ function getAddTaskFormOpen(presetStatus) {
   `;
 }
 
+/**
+ * Builds the left column fields HTML.
+ * @returns {string}
+ */
 function getAddTaskLeftFields() {
   return `
       <label>Title<span class="req">*</span></label>
@@ -73,6 +81,10 @@ function getAddTaskLeftFields() {
   `;
 }
 
+/**
+ * Builds the right column container HTML.
+ * @returns {string}
+ */
 function getAddTaskRightColumn() {
   return `
         <div>
@@ -85,10 +97,18 @@ function getAddTaskRightColumn() {
   `;
 }
 
+/**
+ * Returns the priority block HTML.
+ * @returns {string}
+ */
 function getAddTaskPriorityBlock() {
   return getAddTaskPriorityBlockTemplate();
 }
 
+/**
+ * Builds the assigned-to block HTML.
+ * @returns {string}
+ */
 function getAddTaskAssignedBlock() {
   return `
     <label>Assigned to</label>
@@ -103,6 +123,10 @@ function getAddTaskAssignedBlock() {
   `;
 }
 
+/**
+ * Builds the category dropdown block HTML.
+ * @returns {string}
+ */
 function getAddTaskCategoryBlock() {
   return (
     `<label>Category<span class="req">*</span></label>\n` +
@@ -119,6 +143,10 @@ function getAddTaskCategoryBlock() {
   );
 }
 
+/**
+ * Builds the subtask input block HTML.
+ * @returns {string}
+ */
 function getAddTaskSubtaskBlock() {
   return `
   <label>Subtasks</label>
@@ -130,6 +158,10 @@ function getAddTaskSubtaskBlock() {
 `;
 }
 
+/**
+ * Builds the form footer HTML.
+ * @returns {string}
+ */
 function getAddTaskFormFooter() {
   return `
       <div id="add-task-form-msg" class="form-msg" aria-live="polite"></div>
@@ -151,6 +183,10 @@ function getAddTaskFormFooter() {
   `;
 }
 
+/**
+ * Builds the closing form tag HTML.
+ * @returns {string}
+ */
 function getAddTaskFormClose() {
   return `
     </form>

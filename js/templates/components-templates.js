@@ -1,3 +1,7 @@
+/**
+ * Builds the main navigation bar HTML.
+ * @returns {string}
+ */
 function getNavBarTemplate() {
   return `
   <div class="nav-bar">
@@ -34,6 +38,10 @@ function getNavBarTemplate() {
 `;
 }
 
+/**
+ * Builds the guest navigation bar HTML.
+ * @returns {string}
+ */
 function getGuestNavTemplate() {
   return `
   <div class="nav-bar">
@@ -58,6 +66,10 @@ function getGuestNavTemplate() {
 `;
 }
 
+/**
+ * Builds the guest header HTML.
+ * @returns {string}
+ */
 function getGuestHeaderTemplate() {
   return `
   <header class="topbar">
@@ -74,6 +86,10 @@ function getGuestHeaderTemplate() {
 `;
 }
 
+/**
+ * Builds the authenticated header HTML.
+ * @returns {string}
+ */
 function getHeaderTemplate() {
   return `
   <header class="topbar">
