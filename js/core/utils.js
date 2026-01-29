@@ -26,14 +26,15 @@ function setText(id, text) {
   if (element) element.textContent = text || "";
 }
 
-/**
- * Gets an element by its ID.
- * @param {string} id - The element ID
- * @returns {HTMLElement|null} The element or null
- */
-function getElementById(id) {
-  return document.getElementById(id);
-}
+// DEAD CODE - not used
+// /**
+//  * Gets an element by its ID.
+//  * @param {string} id - The element ID
+//  * @returns {HTMLElement|null} The element or null
+//  */
+// function getElementById(id) {
+//   return document.getElementById(id);
+// }
 
 /**
  * Generates initials from a name string.
@@ -59,17 +60,18 @@ function isValidEmail(email) {
   return emailRegex.test(trimmed);
 }
 
-/**
- * Validates a password (min 4 chars, no whitespace).
- * @param {string} password - Password to validate
- * @returns {boolean} True if valid
- */
-function validatePassword(password) {
-  const trimmed = (password || "").trim();
-  if (trimmed.length < 4) return false;
-  if (/\s/.test(trimmed)) return false;
-  return true;
-}
+// DEAD CODE - not used
+// /**
+//  * Validates a password (min 4 chars, no whitespace).
+//  * @param {string} password - Password to validate
+//  * @returns {boolean} True if valid
+//  */
+// function validatePassword(password) {
+//   const trimmed = (password || "").trim();
+//   if (trimmed.length < 4) return false;
+//   if (/\s/.test(trimmed)) return false;
+//   return true;
+// }
 
 /**
  * Returns a time-based greeting message.
@@ -142,35 +144,38 @@ function normalizeTaskEntry(id, value) {
   return { ...value, id };
 }
 
-/**
- * Creates a debounced version of a function.
- * @param {Function} func - Function to debounce
- * @param {number} delay - Delay in milliseconds
- * @returns {Function} Debounced function
- */
-function debounce(func, delay) {
-  let timeoutId;
-  return function (...args) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(this, args), delay);
-  };
-}
+// DEAD CODE - not used
+// /**
+//  * Creates a debounced version of a function.
+//  * @param {Function} func - Function to debounce
+//  * @param {number} delay - Delay in milliseconds
+//  * @returns {Function} Debounced function
+//  */
+// function debounce(func, delay) {
+//   let timeoutId;
+//   return function (...args) {
+//     clearTimeout(timeoutId);
+//     timeoutId = setTimeout(() => func.apply(this, args), delay);
+//   };
+// }
 
-/**
- * Generates a random ID string.
- * @returns {string} Random ID
- */
-function generateId() {
-  return Math.random().toString(36).substr(2, 9);
-}
+// DEAD CODE - not used
+// /**
+//  * Generates a random ID string.
+//  * @returns {string} Random ID
+//  */
+// function generateId() {
+//   return Math.random().toString(36).substr(2, 9);
+// }
 
-/**
- * Generates a random user ID with 'u' prefix.
- * @returns {string} Random user ID
- */
-function generateUserId() {
-  return "u" + Math.random().toString(36).substr(2, 9);
-}
+// DEAD CODE - not used
+// /**
+//  * Generates a random user ID with 'u' prefix.
+//  * @returns {string} Random user ID
+//  */
+// function generateUserId() {
+//   return "u" + Math.random().toString(36).substr(2, 9);
+// }
 
 /**
  * Generates the next sequential user ID.
@@ -313,16 +318,17 @@ function isGuest() {
   return user?.guest === true;
 }
 
-/**
- * Disables a button for guest users with a blocking toast.
- * @param {HTMLElement} button - Button element to disable
- * @param {Function} originalHandler - Original click handler for non-guests
- */
-function disableForGuests(button, originalHandler) {
-  if (!button) return;
-  if (isGuest()) return applyGuestDisabled(button);
-  if (originalHandler) button.addEventListener("click", originalHandler);
-}
+// DEAD CODE - not used
+// /**
+//  * Disables a button for guest users with a blocking toast.
+//  * @param {HTMLElement} button - Button element to disable
+//  * @param {Function} originalHandler - Original click handler for non-guests
+//  */
+// function disableForGuests(button, originalHandler) {
+//   if (!button) return;
+//   if (isGuest()) return applyGuestDisabled(button);
+//   if (originalHandler) button.addEventListener("click", originalHandler);
+// }
 
 /**
  * Applies guest disabled styling and behavior to a button.
