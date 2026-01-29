@@ -2,13 +2,6 @@
  * Wires subtask controls and renders the list.
  * @param {Object} state
  */
-function wireSubtaskAdd(state) {
-  if (!state.subtaskAddBtn) return;
-  state.subtaskAddBtn.addEventListener("click", () =>
-    addSubtaskFromInput(state),
-  );
-}
-
 /**
  * Wires subtask input handlers.
  * @param {Object} state
