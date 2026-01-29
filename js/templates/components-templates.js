@@ -101,3 +101,17 @@ function getHeaderTemplate() {
   </header>
 `;
 }
+
+/**
+ * Generates the HTML for the confirm overlay dialog.
+ * @param {Object} options - Title, message, and button texts
+ * @returns {string} HTML string
+ */
+function getConfirmOverlayTemplate({
+  title,
+  message,
+  confirmText,
+  cancelText,
+}) {
+  return `<div class="confirm-backdrop" data-confirm-cancel></div><div class="confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="confirmOverlayTitle"><h3 class="confirm-title" id="confirmOverlayTitle">${title}</h3><p class="confirm-message">${message}</p><div class="confirm-actions"><button type="button" class="confirm-btn confirm-btn-secondary" data-confirm-cancel>${cancelText}</button><button type="button" class="confirm-btn confirm-btn-primary" data-confirm-ok>${confirmText}</button></div></div>`;
+}
