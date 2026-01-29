@@ -1,11 +1,18 @@
 let lastOverlayFocus = null;
 
+/**
+ * Sets up the add-contact overlay wiring.
+ */
 function setupAddContactOverlay(listElement) {
   const elements = getOverlaySetupElements();
   if (!elements) return;
   wireOverlayEvents(elements, listElement);
 }
 
+/**
+ * Collects base overlay elements.
+ * @returns {{ overlay: HTMLElement, form: HTMLFormElement, nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement }|null}
+ */
 function getContactOverlayElements() {
   const overlay = document.getElementById("contact-overlay");
   const form = document.getElementById("contact-form");
@@ -17,6 +24,10 @@ function getContactOverlayElements() {
   return { overlay, form, nameInput, emailInput, phoneInput };
 }
 
+/**
+ * Collects overlay elements plus action buttons.
+ * @returns {{ overlay: HTMLElement, form: HTMLFormElement, nameInput: HTMLInputElement, emailInput: HTMLInputElement, phoneInput: HTMLInputElement, openButton: HTMLElement, deleteButton: HTMLElement|null, cancelButton: HTMLElement|null, closeButtons: NodeListOf<HTMLElement> }|null}
+ */
 function getOverlaySetupElements() {
   const base = getContactOverlayElements();
   const openButton = document.querySelector(".list-add-button");
@@ -27,12 +38,18 @@ function getOverlaySetupElements() {
   return { ...base, openButton, deleteButton, cancelButton, closeButtons };
 }
 
+/**
+ * Wires all overlay handlers.
+ */
 function wireOverlayEvents(elements, listElement) {
   registerOverlayInputHandlers(elements);
   registerOverlayButtons(elements, listElement);
   registerOverlayBackdropClick(elements);
 }
 
+/**
+ * Registers overlay input handlers.
+ */
 function registerOverlayInputHandlers(elements) {
   const clear = () => clearContactFormErrors(elements);
   registerOverlayClearHandlers(elements, clear);
@@ -40,18 +57,27 @@ function registerOverlayInputHandlers(elements) {
   wireContactCounters(elements);
 }
 
+/**
+ * Registers input clearing handlers.
+ */
 function registerOverlayClearHandlers(elements, clear) {
   elements.nameInput?.addEventListener("input", clear);
   elements.emailInput?.addEventListener("input", clear);
   elements.phoneInput?.addEventListener("input", clear);
 }
 
+/**
+ * Registers input validation handlers.
+ */
 function registerOverlayValidationHandlers(elements) {
   registerNameLengthValidation(elements);
   registerEmailLengthValidation(elements);
   registerPhoneValidation(elements);
 }
 
+/**
+ * Registers name length validation.
+ */
 function registerNameLengthValidation(elements) {
   elements.nameInput?.addEventListener("input", () => {
     validateContactLength(
@@ -63,6 +89,9 @@ function registerNameLengthValidation(elements) {
   });
 }
 
+/**
+ * Registers email length validation.
+ */
 function registerEmailLengthValidation(elements) {
   elements.emailInput?.addEventListener("input", () => {
     validateContactLength(
@@ -74,6 +103,9 @@ function registerEmailLengthValidation(elements) {
   });
 }
 
+/**
+ * Registers phone digit validation.
+ */
 function registerPhoneValidation(elements) {
   elements.phoneInput?.addEventListener("input", () => {
     validatePhoneDigits(
@@ -85,6 +117,9 @@ function registerPhoneValidation(elements) {
   });
 }
 
+/**
+ * Wires contact counters for all inputs.
+ */
 function wireContactCounters(elements) {
   updateContactCounters(elements);
   elements.nameInput?.addEventListener("input", () =>
@@ -98,6 +133,9 @@ function wireContactCounters(elements) {
   );
 }
 
+/**
+ * Updates all contact counters.
+ */
 function updateContactCounters(elements) {
   enforceContactMax(elements.nameInput, CONTACT_NAME_MAX);
   updateContactFieldCounter(
@@ -120,6 +158,9 @@ function updateContactCounters(elements) {
   );
 }
 
+/**
+ * Updates a single contact field counter.
+ */
 function updateContactFieldCounter(input, counterId, max, countFn = null) {
   const counter = document.getElementById(counterId);
   if (!counter) return;
@@ -128,6 +169,9 @@ function updateContactFieldCounter(input, counterId, max, countFn = null) {
   counter.textContent = `${length}/${max}`;
 }
 
+/**
+ * Enforces max length on an input.
+ */
 function enforceContactMax(input, max) {
   if (!input) return;
   const value = String(input.value || "");
@@ -135,6 +179,9 @@ function enforceContactMax(input, max) {
   input.value = value.slice(0, max);
 }
 
+/**
+ * Registers overlay buttons and submit handler.
+ */
 function registerOverlayButtons(elements, listElement) {
   registerOverlayOpenButton(elements);
   registerOverlayCloseButtons(elements);
@@ -142,6 +189,9 @@ function registerOverlayButtons(elements, listElement) {
   registerOverlaySubmit(elements, listElement);
 }
 
+/**
+ * Registers the open overlay button.
+ */
 function registerOverlayOpenButton(elements) {
   elements.openButton?.addEventListener("click", () => {
     setOverlayMode(elements.form, false);
@@ -153,6 +203,9 @@ function registerOverlayOpenButton(elements) {
   });
 }
 
+/**
+ * Registers close buttons for the overlay.
+ */
 function registerOverlayCloseButtons(elements) {
   if (!elements.closeButtons) return;
   elements.closeButtons.forEach((button) => {
@@ -162,6 +215,9 @@ function registerOverlayCloseButtons(elements) {
   });
 }
 
+/**
+ * Registers delete button handling.
+ */
 function registerOverlayDeleteButton(elements, listElement) {
   elements.deleteButton?.addEventListener("click", async () => {
     const currentId = getCurrentEditId();
@@ -178,6 +234,9 @@ function registerOverlayDeleteButton(elements, listElement) {
   });
 }
 
+/**
+ * Registers overlay submit handling.
+ */
 function registerOverlaySubmit(elements, listElement) {
   elements.form.addEventListener("submit", async (event) => {
     await handleNewContactSubmit(
@@ -189,6 +248,9 @@ function registerOverlaySubmit(elements, listElement) {
   });
 }
 
+/**
+ * Registers overlay backdrop click handling.
+ */
 function registerOverlayBackdropClick(elements) {
   elements.overlay.addEventListener("click", (event) => {
     if (event.target === elements.overlay) {
@@ -197,12 +259,18 @@ function registerOverlayBackdropClick(elements) {
   });
 }
 
+/**
+ * Opens the overlay and sets focus state.
+ */
 function openOverlay(overlay) {
   storeLastFocusedElement(overlay);
   overlay.classList.add("is-visible");
   overlay.setAttribute("aria-hidden", "false");
 }
 
+/**
+ * Closes the overlay and resets the form.
+ */
 function closeOverlay(overlay, form) {
   restoreLastFocusedElement(overlay);
   overlay.classList.remove("is-visible");
@@ -212,6 +280,9 @@ function closeOverlay(overlay, form) {
   form?.reset();
 }
 
+/**
+ * Stores the last focused element before opening.
+ */
 function storeLastFocusedElement(overlay) {
   if (!overlay) return;
   lastOverlayFocus =
@@ -220,6 +291,9 @@ function storeLastFocusedElement(overlay) {
       : null;
 }
 
+/**
+ * Restores focus after closing the overlay.
+ */
 function restoreLastFocusedElement(overlay) {
   if (!overlay) return;
   const active = document.activeElement;
@@ -230,6 +304,9 @@ function restoreLastFocusedElement(overlay) {
   lastOverlayFocus = null;
 }
 
+/**
+ * Updates overlay mode between add and edit.
+ */
 function setOverlayMode(form, isEdit) {
   const title = document.getElementById("contact-overlay-title");
   const submitButton = form?.querySelector('button[type="submit"]');
@@ -241,6 +318,9 @@ function setOverlayMode(form, isEdit) {
   if (!isEdit) setCurrentEditId(null);
 }
 
+/**
+ * Updates overlay texts for the active mode.
+ */
 function updateOverlayTexts(title, submitButton, isEdit) {
   if (title) title.textContent = isEdit ? "Edit contact" : "Add contact";
   if (submitButton) {
@@ -251,6 +331,9 @@ function updateOverlayTexts(title, submitButton, isEdit) {
   }
 }
 
+/**
+ * Updates visibility of overlay controls.
+ */
 function updateOverlayVisibility(
   overlayLogo,
   deleteButton,
@@ -264,16 +347,26 @@ function updateOverlayVisibility(
     cancelButton.style.display = isEdit ? "none" : "inline-flex";
 }
 
+/**
+ * Fills the overlay form with contact data.
+ */
 function fillContactForm(elements, contact) {
   elements.nameInput.value = contact.name || "";
   elements.emailInput.value = contact.email || "";
   elements.phoneInput.value = contact.phone || "";
 }
 
+/**
+ * Gets the overlay avatar circle element.
+ * @returns {HTMLElement|null}
+ */
 function getOverlayAvatarCircle() {
   return document.querySelector(".overlay-avatar .avatar-circle");
 }
 
+/**
+ * Resets the overlay avatar to default.
+ */
 function setOverlayAvatarDefault() {
   const avatar = getOverlayAvatarCircle();
   if (!avatar) return;
@@ -283,6 +376,9 @@ function setOverlayAvatarDefault() {
   ensureDefaultAvatarIcon(avatar);
 }
 
+/**
+ * Ensures the default avatar icon is present.
+ */
 function ensureDefaultAvatarIcon(avatar) {
   if (avatar.querySelector("img")) return;
   const img = document.createElement("img");
@@ -291,6 +387,9 @@ function ensureDefaultAvatarIcon(avatar) {
   avatar.appendChild(img);
 }
 
+/**
+ * Sets the overlay avatar from a contact.
+ */
 function setOverlayAvatarContact(contact) {
   const avatar = getOverlayAvatarCircle();
   if (!avatar) return;
@@ -300,11 +399,17 @@ function setOverlayAvatarContact(contact) {
   removeAvatarIcon(avatar);
 }
 
+/**
+ * Removes the avatar icon image.
+ */
 function removeAvatarIcon(avatar) {
   const img = avatar.querySelector("img");
   if (img) img.remove();
 }
 
+/**
+ * Opens the overlay in edit mode for a contact.
+ */
 function openEditContact(contactId) {
   const contact = getContactById(contactId);
   if (!contact) return;
