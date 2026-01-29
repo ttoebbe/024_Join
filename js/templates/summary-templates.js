@@ -1,5 +1,5 @@
 /**
- * Baut das HTML für das Greeting-Overlay.
+ * Builds the HTML for the greeting overlay.
  * @param {{ text: string, name: string }} params
  * @returns {string}
  */

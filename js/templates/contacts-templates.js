@@ -1,5 +1,5 @@
 /**
- * Rendert einen Kontakteintrag.
+ * Renders a contact entry.
  * @param {*} contact
  * @param {boolean} isActive
  * @returns {string}
@@ -19,7 +19,7 @@ function getContactTemplate(contact, isActive = false) {
 }
 
 /**
- * Rendert den Buchstaben-Header einer Kontaktgruppe.
+ * Renders the letter header of a contact group.
  * @param {string} letter
  * @returns {string}
  */
@@ -32,7 +32,7 @@ function getContactGroupHeaderTemplate(letter) {
 }
 
 /**
- * Baut die Detailansicht eines Kontakts.
+ * Builds the detail view of a contact.
  * @param {*} contact
  * @returns {string}
  */
@@ -46,7 +46,7 @@ function getContactDetailTemplate(contact) {
 }
 
 /**
- * Baut den Kopfbereich der Detailansicht.
+ * Builds the header area of the detail view.
  * @param {*} contact
  * @param {string} initials
  * @returns {string}
@@ -67,7 +67,7 @@ function buildContactHero(contact, initials) {
 }
 
 /**
- * Baut die Detailinformationen eines Kontakts.
+ * Builds the detail information of a contact.
  * @param {*} contact
  * @returns {string}
  */

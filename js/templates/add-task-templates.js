@@ -28,7 +28,7 @@ function getAddTaskPriorityBlockTemplate() {
 }
 
 /**
- * Baut das Add-Task-Formular mit optionalem Status-Preset.
+ * Builds the add-task form with an optional status preset.
  * @param {string} presetStatus
  * @returns {string}
  */
@@ -42,7 +42,7 @@ function getAddTaskFormTemplate(presetStatus = "todo") {
 }
 
 /**
- * Baut den Formular-Header inklusive Preset-Status.
+ * Builds the form header including the preset status.
  * @param {string} presetStatus
  * @returns {string}
  */
