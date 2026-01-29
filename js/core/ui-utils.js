@@ -10,7 +10,7 @@ const RANDOM_COLOR_POOL = [
   "#FFBB2B",
   "#1FD7C1",
   "#FFA35E",
-  "#C5FF7A"
+  "#C5FF7A",
 ];
 let pageBusyGuardReady = false;
 let pageBusyElements = [];
@@ -44,7 +44,9 @@ function getInitials(name) {
  * @returns {string} Random color hex code
  */
 function generateRandomColor() {
-  return RANDOM_COLOR_POOL[Math.floor(Math.random() * RANDOM_COLOR_POOL.length)];
+  return RANDOM_COLOR_POOL[
+    Math.floor(Math.random() * RANDOM_COLOR_POOL.length)
+  ];
 }
 
 /**
@@ -83,7 +85,9 @@ function onPageVisible(reloadFn) {
   if (typeof reloadFn !== "function") return;
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) {
-      reloadFn().catch((error) => console.error("Page visibility reload error:", error));
+      reloadFn().catch((error) =>
+        console.error("Page visibility reload error:", error),
+      );
     }
   });
 }

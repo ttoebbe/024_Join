@@ -274,11 +274,18 @@ function normalizePrioKey(prio) {
 }
 
 function normalizePrioString(prio) {
-  return String(prio || "medium").trim().toLowerCase().replace(/[^a-z]/g, "");
+  return String(prio || "medium")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z]/g, "");
 }
 
 function isUrgentPrio(simple) {
-  return simple.includes("urgent") || simple.includes("high") || simple.includes("alta");
+  return (
+    simple.includes("urgent") ||
+    simple.includes("high") ||
+    simple.includes("alta")
+  );
 }
 
 function isLowPrio(simple) {

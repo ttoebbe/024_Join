@@ -25,7 +25,8 @@ async function renderTaskOverlay({ mode, status, task }) {
 }
 
 async function loadFormTemplate(status) {
-  if (typeof getAddTaskFormTemplate === "function") return getAddTaskFormTemplate(status);
+  if (typeof getAddTaskFormTemplate === "function")
+    return getAddTaskFormTemplate(status);
   try {
     const res = await fetch("./add-task-form.html", { cache: "no-store" });
     if (!res.ok) throw new Error(`Template not found (${res.status})`);
@@ -40,7 +41,9 @@ function buildOverlayHTML(title, formHtml) {
 }
 
 function setupOverlayEvents(root, status, mode) {
-  root.querySelectorAll("[data-overlay-close]").forEach((el) => el.addEventListener("click", closeAddTaskOverlay));
+  root
+    .querySelectorAll("[data-overlay-close]")
+    .forEach((el) => el.addEventListener("click", closeAddTaskOverlay));
   const statusField = root.querySelector("#task-status-preset");
   if (statusField) statusField.value = status;
   const createBtn = root.querySelector("#create-btn");
@@ -77,4 +80,3 @@ function ensureOverlayRoot() {
 window.openAddTaskOverlay = openAddTaskOverlay;
 window.openEditTaskOverlay = openEditTaskOverlay;
 window.closeAddTaskOverlay = closeAddTaskOverlay;
-

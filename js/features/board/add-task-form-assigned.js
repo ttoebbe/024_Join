@@ -108,7 +108,10 @@ function getSelectedAssigned(state) {
 function appendAssignedAvatars(parts, selected) {
   const visible = selected.slice(0, MAX_ASSIGNED_AVATARS);
   visible.forEach((person) => {
-    const avatar = buildAssignedAvatar(person, "assigned-avatar assigned-avatar--sm");
+    const avatar = buildAssignedAvatar(
+      person,
+      "assigned-avatar assigned-avatar--sm",
+    );
     parts.avatarsEl.appendChild(avatar);
   });
 }
@@ -197,8 +200,10 @@ function wireAssignedToggle(state, parts) {
 
 function handleAssignedToggleClick(state, parts, event) {
   if (!parts.menu) return;
-  if (isAssignedCaretClick(parts, event)) return toggleAssignedDropdown(state, parts);
-  if (isAssignedInputClick(parts, event)) return openAssignedDropdown(state, parts);
+  if (isAssignedCaretClick(parts, event))
+    return toggleAssignedDropdown(state, parts);
+  if (isAssignedInputClick(parts, event))
+    return openAssignedDropdown(state, parts);
   toggleAssignedDropdown(state, parts);
 }
 

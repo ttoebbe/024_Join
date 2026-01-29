@@ -62,11 +62,9 @@ function handleColumnDrop(e) {
 }
 
 function clearDropTargets() {
-  document
-    .querySelectorAll(".board-column.is-drop-target")
-    .forEach((col) => {
-      col.classList.remove("is-drop-target");
-    });
+  document.querySelectorAll(".board-column.is-drop-target").forEach((col) => {
+    col.classList.remove("is-drop-target");
+  });
 }
 
 async function updateTaskStatus(taskId, status) {
@@ -106,4 +104,3 @@ function rollbackStatus(task, previous) {
   task.status = previous;
   renderBoard();
 }
-

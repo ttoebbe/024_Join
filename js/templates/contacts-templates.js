@@ -52,7 +52,8 @@ function getContactDetailTemplate(contact) {
  * @returns {string}
  */
 function buildContactHero(contact, initials) {
-  return `<div class="contact-hero">\n` +
+  return (
+    `<div class="contact-hero">\n` +
     `  <div class="contact-avatar contact-avatar-large" style="background-color: ${contact.color}">${initials}</div>\n` +
     `  <div class="contact-info">\n` +
     `    <h2>${contact.name}</h2>\n` +
@@ -61,7 +62,8 @@ function buildContactHero(contact, initials) {
     `      <button class="secondary-button">Delete</button>\n` +
     `    </div>\n` +
     `  </div>\n` +
-    `</div>\n`;
+    `</div>\n`
+  );
 }
 
 /**
@@ -70,7 +72,8 @@ function buildContactHero(contact, initials) {
  * @returns {string}
  */
 function buildContactDetails(contact) {
-  return `<div class="contact-details">\n` +
+  return (
+    `<div class="contact-details">\n` +
     `  <h4>Contact Information</h4>\n` +
     `  <div class="detail-row">\n` +
     `    <span class="detail-label">Email</span>\n` +
@@ -80,7 +83,8 @@ function buildContactDetails(contact) {
     `    <span class="detail-label">Phone</span>\n` +
     `    <span>${contact.phone}</span>\n` +
     `  </div>\n` +
-    `</div>\n`;
+    `</div>\n`
+  );
 }
 
 function buildContactMenuButton() {

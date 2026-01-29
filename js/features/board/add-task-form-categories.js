@@ -1,4 +1,3 @@
-
 function initCategoryDropdown(state) {
   const dropdown = document.getElementById("category-dropdown");
   if (!dropdown) return null;
@@ -57,14 +56,16 @@ function setSelectedCategory(state, parts, item) {
 
 function setCategoryValue(state, parts, item) {
   if (state.categoryInput) state.categoryInput.value = state.selectedCategory;
-  if (parts.valueEl) parts.valueEl.textContent = item.dataset.label || item.textContent || "";
+  if (parts.valueEl)
+    parts.valueEl.textContent = item.dataset.label || item.textContent || "";
   parts.dropdown.classList.toggle("has-value", Boolean(state.selectedCategory));
 }
 
 function applyCategoryDefault(state, parts) {
   if (!state.selectedCategory) return;
   if (state.categoryInput) state.categoryInput.value = state.selectedCategory;
-  if (parts.valueEl) parts.valueEl.textContent = getCategoryLabel(state.selectedCategory);
+  if (parts.valueEl)
+    parts.valueEl.textContent = getCategoryLabel(state.selectedCategory);
   parts.dropdown.classList.add("has-value");
 }
 

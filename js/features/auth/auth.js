@@ -47,34 +47,87 @@ function showSuccessOverlay() {
 }
 
 function wireLoginErrorHandlers({ emailInput, passwordInput }) {
-  emailInput.addEventListener("input", () => clearFieldError("email-error", emailInput));
-  passwordInput.addEventListener("input", () => clearFieldError("password-error", passwordInput));
-  emailInput.addEventListener("blur", () => validateLoginEmailField(emailInput, "email-error"));
-  passwordInput.addEventListener("blur", () => validateLoginPasswordField(passwordInput, "password-error"));
+  emailInput.addEventListener("input", () =>
+    clearFieldError("email-error", emailInput),
+  );
+  passwordInput.addEventListener("input", () =>
+    clearFieldError("password-error", passwordInput),
+  );
+  emailInput.addEventListener("blur", () =>
+    validateLoginEmailField(emailInput, "email-error"),
+  );
+  passwordInput.addEventListener("blur", () =>
+    validateLoginPasswordField(passwordInput, "password-error"),
+  );
 }
 
-function wireSignupErrorHandlers({ nameInput, emailInput, passwordInput, confirmPasswordInput, policyCheckbox }) {
-  nameInput.addEventListener("input", () => clearFieldError("username-error", nameInput));
-  emailInput.addEventListener("input", () => clearFieldError("sign-up-email-error", emailInput));
-  passwordInput.addEventListener("input", () => clearFieldError("sign-up-password-error", passwordInput));
-  confirmPasswordInput.addEventListener("input", () => clearFieldError("sign-up-confirm-password-error", confirmPasswordInput));
-  policyCheckbox?.addEventListener("change", () => clearFieldError("sign-up-policy-error", policyCheckbox));
-  nameInput.addEventListener("blur", () => validateFieldWithAutoDismiss(nameInput, "username-error", validateUsernameField));
+function wireSignupErrorHandlers({
+  nameInput,
+  emailInput,
+  passwordInput,
+  confirmPasswordInput,
+  policyCheckbox,
+}) {
+  nameInput.addEventListener("input", () =>
+    clearFieldError("username-error", nameInput),
+  );
+  emailInput.addEventListener("input", () =>
+    clearFieldError("sign-up-email-error", emailInput),
+  );
+  passwordInput.addEventListener("input", () =>
+    clearFieldError("sign-up-password-error", passwordInput),
+  );
+  confirmPasswordInput.addEventListener("input", () =>
+    clearFieldError("sign-up-confirm-password-error", confirmPasswordInput),
+  );
+  policyCheckbox?.addEventListener("change", () =>
+    clearFieldError("sign-up-policy-error", policyCheckbox),
+  );
+  nameInput.addEventListener("blur", () =>
+    validateFieldWithAutoDismiss(
+      nameInput,
+      "username-error",
+      validateUsernameField,
+    ),
+  );
   emailInput.addEventListener("blur", () => handleSignupEmailBlur(emailInput));
-  passwordInput.addEventListener("blur", () => validateFieldWithAutoDismiss(passwordInput, "sign-up-password-error", validatePasswordField));
-  confirmPasswordInput.addEventListener("blur", () => validateFieldWithAutoDismiss(passwordInput, confirmPasswordInput, "sign-up-confirm-password-error", validateConfirmPasswordField));
+  passwordInput.addEventListener("blur", () =>
+    validateFieldWithAutoDismiss(
+      passwordInput,
+      "sign-up-password-error",
+      validatePasswordField,
+    ),
+  );
+  confirmPasswordInput.addEventListener("blur", () =>
+    validateFieldWithAutoDismiss(
+      passwordInput,
+      confirmPasswordInput,
+      "sign-up-confirm-password-error",
+      validateConfirmPasswordField,
+    ),
+  );
 }
 
 function wireSignupButtonState(state) {
   const update = () => setSignupButtonState(state);
-  [state.nameInput, state.emailInput, state.passwordInput, state.confirmPasswordInput].forEach((el) =>
-    el.addEventListener("input", update)
-  );
+  [
+    state.nameInput,
+    state.emailInput,
+    state.passwordInput,
+    state.confirmPasswordInput,
+  ].forEach((el) => el.addEventListener("input", update));
   state.policyCheckbox.addEventListener("change", update);
   update();
 }
 
-function setSignupButtonState({ nameInput, emailInput, passwordInput, confirmPasswordInput, policyCheckbox, signUpButton }) {
+function setSignupButtonState({
+  nameInput,
+  emailInput,
+  passwordInput,
+  confirmPasswordInput,
+  policyCheckbox,
+  signUpButton,
+}) {
   signUpButton.disabled = !(
     nameInput.value.trim() &&
     emailInput.value.trim() &&
@@ -129,7 +182,11 @@ function wireLoginForm(state) {
   wireLoginErrorHandlers(state);
   wireLoginSubmit(state);
   wireGuestLogin(state);
-  setupPasswordToggle("password", "password-lock-icon", "password-visibility-toggle");
+  setupPasswordToggle(
+    "password",
+    "password-lock-icon",
+    "password-visibility-toggle",
+  );
 }
 
 function wireLoginSubmit(state) {
@@ -185,11 +242,30 @@ function getSignupState() {
   const nameInput = document.getElementById("sign-up-name");
   const emailInput = document.getElementById("sign-up-email");
   const passwordInput = document.getElementById("sign-up-password");
-  const confirmPasswordInput = document.getElementById("sign-up-confirm-password");
+  const confirmPasswordInput = document.getElementById(
+    "sign-up-confirm-password",
+  );
   const policyCheckbox = document.getElementById("sign-up-policy");
   const signUpButton = document.getElementById("sign-up-button");
-  if (!form || !nameInput || !emailInput || !passwordInput || !confirmPasswordInput || !policyCheckbox || !signUpButton) return null;
-  return { form, nameInput, emailInput, passwordInput, confirmPasswordInput, policyCheckbox, signUpButton };
+  if (
+    !form ||
+    !nameInput ||
+    !emailInput ||
+    !passwordInput ||
+    !confirmPasswordInput ||
+    !policyCheckbox ||
+    !signUpButton
+  )
+    return null;
+  return {
+    form,
+    nameInput,
+    emailInput,
+    passwordInput,
+    confirmPasswordInput,
+    policyCheckbox,
+    signUpButton,
+  };
 }
 
 function wireSignupForm(state) {
@@ -225,12 +301,23 @@ async function attemptSignup({ nameInput, emailInput, passwordInput }) {
   const users = await loadUsers();
   const email = emailInput.value.trim();
   if (users.some((u) => u.email === email)) {
-    showFieldError("sign-up-email-error", "This email is already registered.", emailInput);
+    showFieldError(
+      "sign-up-email-error",
+      "This email is already registered.",
+      emailInput,
+    );
     return;
   }
-  const newUser = buildNewUser(users, nameInput.value.trim(), email, passwordInput.value.trim());
+  const newUser = buildNewUser(
+    users,
+    nameInput.value.trim(),
+    email,
+    passwordInput.value.trim(),
+  );
   await UserService.create(newUser);
-  setTimeout(() => { window.location.href = ROUTES.LOGIN; }, 300);
+  setTimeout(() => {
+    window.location.href = ROUTES.LOGIN;
+  }, 300);
 }
 
 function buildNewUser(users, name, email, password) {
@@ -247,12 +334,12 @@ function wireSignupToggles() {
   setupPasswordToggle(
     "sign-up-password",
     "sign-up-password-lock-icon",
-    "sign-up-password-visibility-toggle"
+    "sign-up-password-visibility-toggle",
   );
   setupPasswordToggle(
     "sign-up-confirm-password",
     "sign-up-confirm-password-lock-icon",
-    "sign-up-confirm-password-visibility-toggle"
+    "sign-up-confirm-password-visibility-toggle",
   );
 }
 
@@ -322,7 +409,9 @@ function wirePasswordToggle({ input, eye }) {
 function togglePasswordVisibility(input, eye) {
   const isHidden = input.type === "password";
   input.type = isHidden ? "text" : "password";
-  eye.src = isHidden ? "/assets/img/icons/visibility.svg" : "/assets/img/icons/visibility_off.svg";
+  eye.src = isHidden
+    ? "/assets/img/icons/visibility.svg"
+    : "/assets/img/icons/visibility_off.svg";
 }
 
 function wirePasswordLock({ lock }) {

@@ -20,7 +20,9 @@ function wireBoardUi() {
   const input = document.getElementById("boardSearchInput");
   if (input) {
     input.addEventListener("input", (e) => {
-      boardState.query = String(e.target.value || "").trim().toLowerCase();
+      boardState.query = String(e.target.value || "")
+        .trim()
+        .toLowerCase();
       renderBoard();
     });
   }
@@ -145,7 +147,7 @@ async function deleteInvalidTasks(tasks) {
     tasks
       .map((task) => task?.id)
       .filter((id) => id !== undefined && id !== null && id !== "")
-      .map((id) => TaskService.delete(id))
+      .map((id) => TaskService.delete(id)),
   );
 }
 
@@ -177,7 +179,7 @@ function renderNoResults(show) {
 
 function renderColumn(status, tasks) {
   const body = document.querySelector(
-    `.board-column[data-status="${status}"] [data-board-body]`
+    `.board-column[data-status="${status}"] [data-board-body]`,
   );
   if (!body) return;
   removeOldCards(body);
@@ -197,12 +199,15 @@ function toggleEmptyState(body, show) {
 }
 
 function normalizeStatus(value) {
-  const v = String(value || "").trim().toLowerCase();
+  const v = String(value || "")
+    .trim()
+    .toLowerCase();
   const unified = v.replace(/[\s_-]+/g, "-");
   if (unified === "todo" || unified === "to-do") return "todo";
-  if (unified === "in-progress" || unified === "inprogress") return "inprogress";
-  if (unified === "await-feedback" || unified === "awaitfeedback") return "awaitfeedback";
+  if (unified === "in-progress" || unified === "inprogress")
+    return "inprogress";
+  if (unified === "await-feedback" || unified === "awaitfeedback")
+    return "awaitfeedback";
   if (unified === "done") return "done";
   return "todo";
 }
-

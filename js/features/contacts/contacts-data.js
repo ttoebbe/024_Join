@@ -55,7 +55,7 @@ function normalizeContacts(data) {
 function getContactSortValue(contact) {
   const numericPart = parseInt(
     String(contact?.id || "").replace(/\D/g, ""),
-    10
+    10,
   );
   return Number.isFinite(numericPart) ? numericPart : Number.MAX_SAFE_INTEGER;
 }
@@ -94,7 +94,8 @@ async function getNextContactId() {
 
 function buildNextContactId(data) {
   const firebaseContacts = normalizeContacts(data);
-  if (!Array.isArray(firebaseContacts) || firebaseContacts.length === 0) return "c0";
+  if (!Array.isArray(firebaseContacts) || firebaseContacts.length === 0)
+    return "c0";
   const highest = getHighestContactNumberFrom(firebaseContacts);
   return `c${highest + 1}`;
 }
@@ -183,7 +184,9 @@ function clearContactList(container) {
 
 function sortContacts(data) {
   return [...data].sort((a, b) => {
-    return (a?.name || "").localeCompare(b?.name || "", "de", { sensitivity: "base" });
+    return (a?.name || "").localeCompare(b?.name || "", "de", {
+      sensitivity: "base",
+    });
   });
 }
 
@@ -237,11 +240,9 @@ function selectContactById(contactId) {
 }
 
 function removeActiveStates() {
-  document
-    .querySelectorAll(".contact-entry")
-    .forEach((entry) => {
-      entry.classList.remove("is-active");
-    });
+  document.querySelectorAll(".contact-entry").forEach((entry) => {
+    entry.classList.remove("is-active");
+  });
 }
 
 function renderContactDetail(contact) {
@@ -265,7 +266,9 @@ function setupDetailActions(contactId) {
 }
 
 function getDetailActionButtons(container) {
-  const actionButtons = container.querySelectorAll(".detail-actions .secondary-button");
+  const actionButtons = container.querySelectorAll(
+    ".detail-actions .secondary-button",
+  );
   const editButton = actionButtons[0];
   const deleteButton = actionButtons[1];
   return { editButton, deleteButton };
@@ -293,7 +296,7 @@ function setupMobileDetailButtons(contactId) {
 
 function setupHeaderBackButton() {
   const headerBackButton = document.querySelector(
-    ".contacts-header .contact-back-button"
+    ".contacts-header .contact-back-button",
   );
   if (!headerBackButton) return;
   headerBackButton.addEventListener("click", closeMobileDetailView);

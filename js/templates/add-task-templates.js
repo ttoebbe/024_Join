@@ -104,7 +104,8 @@ function getAddTaskAssignedBlock() {
 }
 
 function getAddTaskCategoryBlock() {
-  return `<label>Category<span class="req">*</span></label>\n` +
+  return (
+    `<label>Category<span class="req">*</span></label>\n` +
     `<div class="dropdown dropdown--select" id="category-dropdown">\n` +
     `  <button type="button" class="dropdown-toggle" data-category-toggle aria-haspopup="listbox" aria-expanded="false">\n` +
     `    <span class="dropdown-placeholder" data-category-value>Select task category</span>\n` +
@@ -114,7 +115,8 @@ function getAddTaskCategoryBlock() {
     `    <button type="button" class="dropdown-item" data-category-item data-value="userstory" data-label="User Story">User Story</button>\n` +
     `    <button type="button" class="dropdown-item" data-category-item data-value="technical" data-label="Technical Task">Technical Task</button>\n` +
     `  </div>\n` +
-    `</div>\n`;
+    `</div>\n`
+  );
 }
 
 function getAddTaskSubtaskBlock() {

@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", handleAddTaskReady); 
+window.addEventListener("DOMContentLoaded", handleAddTaskReady);
 
 function handleAddTaskReady() {
   withPageReady(runAddTaskInit);
@@ -11,4 +11,3 @@ async function runAddTaskInit() {
     },
   });
 }
-

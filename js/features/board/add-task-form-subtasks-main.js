@@ -12,7 +12,9 @@ function resetSubtaskList(state) {
 
 function appendSubtaskRows(state) {
   state.selectedSubtasks.forEach((subtask, index) => {
-    state.subtaskList.appendChild(buildAddTaskSubtaskRow(state, subtask, index));
+    state.subtaskList.appendChild(
+      buildAddTaskSubtaskRow(state, subtask, index),
+    );
   });
 }
 
@@ -32,7 +34,8 @@ function createSubtaskRow(index) {
 }
 
 function appendSubtaskContent(row, state, subtask, index) {
-  if (!isSubtaskEditing(state, index)) return row.appendChild(buildAddTaskSubtaskText(subtask));
+  if (!isSubtaskEditing(state, index))
+    return row.appendChild(buildAddTaskSubtaskText(subtask));
   row.classList.add("is-editing");
   row.appendChild(buildSubtaskEditInput(state, subtask, index));
 }
@@ -81,15 +84,31 @@ function getSubtaskActions(isEditing) {
 
 function getSubtaskViewActions() {
   return [
-    { action: "edit", icon: "/assets/img/icons/edit.svg", label: "Edit subtask" },
-    { action: "delete", icon: "/assets/img/icons/delete.svg", label: "Delete subtask" },
+    {
+      action: "edit",
+      icon: "/assets/img/icons/edit.svg",
+      label: "Edit subtask",
+    },
+    {
+      action: "delete",
+      icon: "/assets/img/icons/delete.svg",
+      label: "Delete subtask",
+    },
   ];
 }
 
 function getSubtaskEditActions() {
   return [
-    { action: "delete", icon: "/assets/img/icons/delete.svg", label: "Delete subtask" },
-    { action: "done", icon: "/assets/img/icons/done.svg", label: "Save subtask" },
+    {
+      action: "delete",
+      icon: "/assets/img/icons/delete.svg",
+      label: "Delete subtask",
+    },
+    {
+      action: "done",
+      icon: "/assets/img/icons/done.svg",
+      label: "Save subtask",
+    },
   ];
 }
 
@@ -183,7 +202,9 @@ function getSubtaskTitle(state, index) {
 }
 
 function normalizeSubtaskValue(value) {
-  return String(value || "").trim().slice(0, SUBTASK_MAX_LENGTH);
+  return String(value || "")
+    .trim()
+    .slice(0, SUBTASK_MAX_LENGTH);
 }
 
 function updateSubtaskTitle(state, index, value) {
@@ -205,7 +226,9 @@ function clearEditingState(state) {
 }
 
 function focusEditingInput(state, index) {
-  const input = state.subtaskList?.querySelector(`.subtask-edit-input[data-index="${index}"]`);
+  const input = state.subtaskList?.querySelector(
+    `.subtask-edit-input[data-index="${index}"]`,
+  );
   input?.focus();
   input?.select?.();
 }
@@ -225,7 +248,9 @@ function canInitSubtasks(state) {
 
 function wireSubtaskAdd(state) {
   if (!state.subtaskAddBtn) return;
-  state.subtaskAddBtn.addEventListener("click", () => addSubtaskFromInput(state));
+  state.subtaskAddBtn.addEventListener("click", () =>
+    addSubtaskFromInput(state),
+  );
 }
 
 function wireSubtaskInput(state) {
@@ -264,9 +289,13 @@ function wireSubtaskListKeydown(state) {
 }
 
 function wireSubtaskListBlur(state) {
-  state.subtaskList.addEventListener("blur", (e) => {
-    handleSubtaskEditBlur(e, state);
-  }, true);
+  state.subtaskList.addEventListener(
+    "blur",
+    (e) => {
+      handleSubtaskEditBlur(e, state);
+    },
+    true,
+  );
 }
 
 function handleSubtaskListClick(e, state) {
@@ -277,7 +306,8 @@ function handleSubtaskListClick(e, state) {
 
 function handleSubtaskAction(state, action) {
   if (action.action === "edit") return startSubtaskEdit(state, action.index);
-  if (action.action === "delete") return removeSubtaskAndRender(state, action.index);
+  if (action.action === "delete")
+    return removeSubtaskAndRender(state, action.index);
   if (action.action === "done") return commitSubtaskEdit(state, action.index);
 }
 
@@ -312,7 +342,8 @@ function updateSubtaskLimitState(state) {
   const input = state.subtaskInput;
   const value = String(input?.value || "").trim();
   if (!value) return setSubtaskError("");
-  if (value.length >= SUBTASK_MAX_LENGTH) return setSubtaskError("Subtask is too long (max 30 characters).");
+  if (value.length >= SUBTASK_MAX_LENGTH)
+    return setSubtaskError("Subtask is too long (max 30 characters).");
   setSubtaskError("");
 }
 
