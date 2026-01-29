@@ -179,10 +179,6 @@ function renderKPIs(kpiData) {
   );
 }
 
-/**
- * Initializes the summary page.
- * @returns {Promise<void>} Resolves when summary is initialized
- */
 async function initSummary() {
   const user = loadCurrentUser();
   if (!user) return redirectToLogin();
@@ -192,10 +188,6 @@ async function initSummary() {
   onPageVisible(reloadSummaryData);
 }
 
-/**
- * Reloads tasks and renders KPI counters.
- * @returns {Promise<void>} Resolves when KPIs are updated
- */
 async function reloadSummaryData() {
   const tasks = await loadTasks();
   renderKPIs(calcKPIs(tasks));
@@ -263,16 +255,13 @@ function showGreetingOverlay(overlay) {
   setTimeout(() => overlay.remove(), 2000);
 }
 
+// Start summary init when the DOM is ready.
 document.addEventListener("DOMContentLoaded", handleSummaryReady);
 
 function handleSummaryReady() {
   withPageReady(runSummaryInit);
 }
 
-/**
- * Runs the summary initialization flow with error handling.
- * @returns {Promise<void>} Resolves when initialization finishes
- */
 async function runSummaryInit() {
   await initSummary().catch((err) => {
     console.error("Summary init error:", err);
