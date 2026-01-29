@@ -161,7 +161,6 @@ body {
 /* top cards */
 .kpi-top {
   grid-column: span 3;
-  height: 168px;
   padding: 24px 28px;
   box-sizing: border-box;
 
@@ -204,7 +203,6 @@ body {
 /* wide card (urgent + deadline) */
 .kpi-wide {
   grid-column: 1 / -1;
-  height: 168px;
   padding: 24px 28px;
   box-sizing: border-box;
 
@@ -247,7 +245,6 @@ body {
 /* bottom cards */
 .kpi-bottom {
   grid-column: span 2;
-  height: 150px;
   padding: 22px 18px;
   box-sizing: border-box;
 
@@ -298,6 +295,12 @@ body {
   .summary-kpis {
     width: 100%;
   }
+
+  .kpi-top,
+  .kpi-wide,
+  .kpi-bottom {
+    height: auto;
+  }
 }
 
 @media (max-height: 700px) {
@@ -339,13 +342,11 @@ body {
 
   .kpi-top,
   .kpi-wide {
-    height: 190px;
     padding: 28px 32px;
     border-radius: 32px;
   }
 
   .kpi-bottom {
-    height: 170px;
     padding: 24px 20px;
     border-radius: 32px;
   }
@@ -453,21 +454,21 @@ body {
 
 
     .kpi-top {
-      height: 140px;
+      height: auto;
       padding: 18px 18px;
       border-radius: 26px;
       gap: 14px;
     }
 
     .kpi-wide {
-      height: 140px;
+      height: auto;
       padding: 18px 18px;
       border-radius: 26px;
       gap: 16px;
     }
 
     .kpi-bottom {
-      height: 124px;
+      height: auto;
       padding: 16px 12px;
       border-radius: 26px;
     }
@@ -529,21 +530,21 @@ body {
     }
 
     .kpi-top {
-      height: 128px;
+      height: auto;
       padding: 16px 14px;
       border-radius: 24px;
       gap: 12px;
     }
 
     .kpi-wide {
-      height: 128px;
+      height: auto;
       padding: 16px 14px;
       border-radius: 24px;
       gap: 12px;
     }
 
     .kpi-bottom {
-      height: 112px;
+      height: auto;
       padding: 14px 10px;
       border-radius: 24px;
     }
@@ -602,7 +603,7 @@ body {
 
 
     .kpi-top {
-      height: 112px;
+      height: auto;
       padding: 14px 12px;
       gap: 10px;
       border-radius: 22px;
@@ -666,7 +667,7 @@ body {
 
 
     .kpi-bottom {
-      height: 104px;
+      height: auto;
       padding: 12px 8px;
       border-radius: 22px;
     }
