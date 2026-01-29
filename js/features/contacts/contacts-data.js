@@ -1,29 +1,5 @@
-let currentEditId = null;
+﻿let currentEditId = null;
 let contacts = [];
-
-async function initContactsPage() {
-  const listElement = document.querySelector(".contact-list");
-  if (!listElement) {
-    return;
-  }
-  await loadContactsFromFirebase();
-  renderContactList(listElement, getContactData());
-  setupAddContactOverlay(listElement);
-  setupHeaderBackButton();
-  onPageVisible(() => reloadContactsData(listElement));
-}
-
-/**
- * Reloads contacts from Firebase and updates the list.
- */
-async function reloadContactsData(listElement) {
-  try {
-    await loadContactsFromFirebase();
-    renderContactList(listElement, getContactData());
-  } catch (error) {
-    console.error("Error reloading contacts:", error);
-  }
-}
 
 /**
  * Gets the current contacts array.
@@ -92,14 +68,6 @@ function getContactById(contactId) {
 }
 
 /**
- * Checks if any contacts are loaded.
- * @returns {boolean}
- */
-function hasContacts() {
-  return Array.isArray(contacts) && contacts.length > 0;
-}
-
-/**
  * Extracts the numeric part of a contact ID.
  * @param {Object} contact
  * @returns {number}
@@ -162,6 +130,7 @@ function getHighestContactNumberFrom(list) {
 
 /**
  * Adds a contact to the local list.
+ * @param {Object} contact
  */
 function addContact(contact) {
   if (Array.isArray(contacts)) {
@@ -183,6 +152,7 @@ function getContactIndex(contactId) {
 
 /**
  * Removes a contact by array index.
+ * @param {number} index
  */
 function removeContactAtIndex(index) {
   contacts.splice(index, 1);
@@ -234,6 +204,7 @@ function getContactValidationError(values) {
 
 /**
  * Sets the current edit contact ID.
+ * @param {string|null} id
  */
 function setCurrentEditId(id) {
   currentEditId = id;
@@ -245,226 +216,4 @@ function setCurrentEditId(id) {
  */
 function getCurrentEditId() {
   return currentEditId;
-}
-
-// Run contacts init when the DOM is ready.
-document.addEventListener("DOMContentLoaded", handleContactsReady);
-
-function handleContactsReady() {
-  withPageReady(initContactsPage);
-}
-
-/**
- * Renders the contact list and wires entries.
- */
-function renderContactList(container, data) {
-  if (!hasContacts(data)) return clearContactList(container);
-  const sorted = sortContacts(data);
-  container.innerHTML = buildContactMarkup(sorted);
-  wireContactEntries(container);
-}
-
-/**
- * Checks whether the provided list has contacts.
- * @param {Array} data
- * @returns {boolean}
- */
-function hasContacts(data) {
-  return Array.isArray(data) && data.length > 0;
-}
-
-/**
- * Clears the contact list container.
- */
-function clearContactList(container) {
-  container.innerHTML = "";
-}
-
-/**
- * Sorts contacts by name.
- * @param {Array} data
- * @returns {Array}
- */
-function sortContacts(data) {
-  return [...data].sort((a, b) => {
-    return (a?.name || "").localeCompare(b?.name || "", "de", {
-      sensitivity: "base",
-    });
-  });
-}
-
-/**
- * Builds the HTML markup for the contact list.
- * @param {Array} sorted
- * @returns {string}
- */
-function buildContactMarkup(sorted) {
-  let currentGroup = "";
-  const markup = [];
-  sorted.forEach((contact) => {
-    const groupKey = getContactGroupKey(contact?.name);
-    if (groupKey !== currentGroup) {
-      currentGroup = groupKey;
-      markup.push(getContactGroupHeaderTemplate(groupKey));
-    }
-    markup.push(getContactTemplate(contact));
-  });
-  return markup.join("");
-}
-
-/**
- * Wires click handlers for contact entries.
- */
-function wireContactEntries(container) {
-  const contactEntries = container.querySelectorAll(".contact-entry");
-  contactEntries.forEach((entry) => {
-    entry.addEventListener("click", () => handleContactEntryClick(entry));
-  });
-}
-
-/**
- * Handles a contact entry click.
- */
-function handleContactEntryClick(entry) {
-  const contactId = entry.getAttribute("data-contact-id");
-  const contact = getContactById(contactId);
-  if (contact) selectContact(contact, entry);
-}
-
-/**
- * Gets the group key for a contact name.
- * @param {string} name
- * @returns {string}
- */
-function getContactGroupKey(name) {
-  const trimmed = (name || "").trim();
-  if (!trimmed) return "#";
-  const firstChar = trimmed[0].toUpperCase();
-  return /[A-Z]/.test(firstChar) ? firstChar : "#";
-}
-
-/**
- * Selects a contact and renders details.
- */
-function selectContact(contact, element) {
-  removeActiveStates();
-  element.classList.add("is-active");
-  renderContactDetail(contact);
-  openMobileDetailView();
-}
-
-/**
- * Selects a contact by ID.
- */
-function selectContactById(contactId) {
-  const contact = getContactById(contactId);
-  if (!contact) return;
-  const element = document.querySelector(`[data-contact-id="${contactId}"]`);
-  if (!element) return;
-  selectContact(contact, element);
-}
-
-function removeActiveStates() {
-  document.querySelectorAll(".contact-entry").forEach((entry) => {
-    entry.classList.remove("is-active");
-  });
-}
-
-/**
- * Renders the contact detail view.
- */
-function renderContactDetail(contact) {
-  const container = document.getElementById("contact-detail-injection");
-  if (!container) return;
-  container.innerHTML = getContactDetailTemplate(contact);
-  setupDetailActions(contact?.id);
-  setupMobileDetailButtons(contact?.id);
-}
-
-/**
- * Wires edit/delete actions in the detail view.
- */
-function setupDetailActions(contactId) {
-  const container = document.getElementById("contact-detail-injection");
-  if (!container || !contactId) return;
-  const { editButton, deleteButton } = getDetailActionButtons(container);
-  editButton?.addEventListener("click", () => {
-    openEditContact(contactId);
-  });
-  deleteButton?.addEventListener("click", () => {
-    confirmDeleteContact(contactId);
-  });
-}
-
-/**
- * Gets detail action buttons from the container.
- * @param {HTMLElement} container
- * @returns {{ editButton: HTMLElement, deleteButton: HTMLElement }}
- */
-function getDetailActionButtons(container) {
-  const actionButtons = container.querySelectorAll(
-    ".detail-actions .secondary-button",
-  );
-  const editButton = actionButtons[0];
-  const deleteButton = actionButtons[1];
-  return { editButton, deleteButton };
-}
-
-/**
- * Confirms contact deletion.
- */
-async function confirmDeleteContact(contactId) {
-  const confirmed = await showConfirmOverlay({
-    title: "Delete contact?",
-    message: "Do you really want to delete this contact?",
-    confirmText: "Delete",
-    cancelText: "Cancel",
-  });
-  if (!confirmed) return;
-  deleteContact(contactId);
-}
-
-/**
- * Wires mobile detail buttons.
- */
-function setupMobileDetailButtons(contactId) {
-  const container = document.getElementById("contact-detail-injection");
-  if (!container || !contactId) return;
-  const menuButton = container.querySelector(".contact-menu-button");
-  menuButton?.addEventListener("click", () => {
-    openEditContact(contactId);
-  });
-}
-
-function setupHeaderBackButton() {
-  const headerBackButton = document.querySelector(
-    ".contacts-header .contact-back-button",
-  );
-  if (!headerBackButton) return;
-  headerBackButton.addEventListener("click", closeMobileDetailView);
-}
-
-/**
- * Checks whether the layout is mobile.
- * @returns {boolean}
- */
-function isMobileLayout() {
-  return window.matchMedia("(max-width: 800px)").matches;
-}
-
-/**
- * Sets the mobile detail panel state.
- */
-function setMobileDetailState(isActive) {
-  const page = document.querySelector(".contacts-page");
-  if (!page) return;
-  page.classList.toggle("is-detail-open", isActive);
-}
-
-function openMobileDetailView() {
-  if (isMobileLayout()) setMobileDetailState(true);
-}
-
-function closeMobileDetailView() {
-  if (isMobileLayout()) setMobileDetailState(false);
 }
