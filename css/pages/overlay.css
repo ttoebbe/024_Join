@@ -91,13 +91,13 @@
 
 .task-detail-prio-icon[data-prio="urgent"],
 .task-detail-prio-icon[data-prio="low"] {
-  width: 17px;
-  height: 12px;
+  width: auto;
+  height: auto;
 }
 
 .task-detail-prio-icon[data-prio="medium"] {
-  width: 17px;
-  height: 7px;
+  width: auto;
+  height: auto;
 }
 
 .task-detail-section {
@@ -189,4 +189,3 @@
     min-width: 0;
   }
 }
-
