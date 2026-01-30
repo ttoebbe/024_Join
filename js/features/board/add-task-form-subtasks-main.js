@@ -8,6 +8,7 @@ function renderSubtasks(state) {
   if (!state.subtaskList) return;
   resetSubtaskList(state);
   appendSubtaskRows(state);
+  updateSubtaskInputActions(state);
 }
 
 /**

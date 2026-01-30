@@ -670,6 +670,47 @@
   box-sizing: border-box;
 }
 
+.subtask-row {
+  position: relative;
+}
+
+.subtask-input-actions {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.subtask-row.has-actions .subtask-input-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.subtask-input-action {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.subtask-input-action img {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.subtask-row input {
+  padding-right: 64px;
+}
+
 .addtask-grid textarea {
   min-height: 110px;
   resize: vertical;

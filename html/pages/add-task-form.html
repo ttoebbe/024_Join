@@ -104,6 +104,24 @@
 
   <label>Subtasks</label>
   <div class="subtask-row">
+    <div class="subtask-input-actions">
+      <button
+        type="button"
+        class="subtask-input-action"
+        data-subtask-input-action="clear"
+        aria-label="Clear subtask"
+      >
+        <img src="/assets/img/icons/delete.svg" alt="" aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        class="subtask-input-action"
+        data-subtask-input-action="save"
+        aria-label="Save subtask"
+      >
+        <img src="/assets/img/icons/done.svg" alt="" aria-hidden="true" />
+      </button>
+    </div>
     <input id="subtask-input" type="text" placeholder="Add new subtask" />
   </div>
   <div class="field-error" id="subtask-error"></div>

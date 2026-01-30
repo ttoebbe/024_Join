@@ -13,7 +13,93 @@ function wireSubtaskInput(state) {
   state.subtaskInput.addEventListener("input", () => {
     enforceSubtaskMax(state);
     updateSubtaskLimitState(state);
+    updateSubtaskInputActions(state);
   });
+  wireSubtaskInputActions(state);
+}
+
+/**
+ * Wires input action buttons.
+ * @param {Object} state
+ */
+function wireSubtaskInputActions(state) {
+  const row = getSubtaskRow(state);
+  if (!row) return;
+  row.addEventListener("click", (e) => {
+    handleSubtaskInputActionClick(e, state);
+  });
+}
+
+/**
+ * Handles input action clicks.
+ * @param {Event} e
+ * @param {Object} state
+ */
+function handleSubtaskInputActionClick(e, state) {
+  const action = getSubtaskInputAction(e);
+  if (!action) return;
+  handleSubtaskInputAction(state, action);
+}
+
+/**
+ * Gets the input action name.
+ * @param {Event} event
+ * @returns {string}
+ */
+function getSubtaskInputAction(event) {
+  const button = event.target.closest("[data-subtask-input-action]");
+  if (!button) return "";
+  return button.dataset.subtaskInputAction || "";
+}
+
+/**
+ * Handles input action.
+ * @param {Object} state
+ * @param {string} action
+ */
+function handleSubtaskInputAction(state, action) {
+  if (action === "clear") return clearSubtaskInput(state);
+  if (action === "save") return addSubtaskFromInput(state);
+}
+
+/**
+ * Clears the subtask input.
+ * @param {Object} state
+ */
+function clearSubtaskInput(state) {
+  if (!state.subtaskInput) return;
+  state.subtaskInput.value = "";
+  setSubtaskError("");
+  updateSubtaskInputActions(state);
+  state.subtaskInput.focus();
+}
+
+/**
+ * Updates input action visibility.
+ * @param {Object} state
+ */
+function updateSubtaskInputActions(state) {
+  const row = getSubtaskRow(state);
+  if (!row) return;
+  row.classList.toggle("has-actions", hasSubtaskInputValue(state));
+}
+
+/**
+ * Gets the subtask row element.
+ * @param {Object} state
+ * @returns {Element|null}
+ */
+function getSubtaskRow(state) {
+  return state.subtaskInput?.closest(".subtask-row") || null;
+}
+
+/**
+ * Checks if input has a value.
+ * @param {Object} state
+ * @returns {boolean}
+ */
+function hasSubtaskInputValue(state) {
+  return Boolean(state.subtaskInput?.value.trim());
 }
 
 /**
@@ -115,6 +201,8 @@ function addSubtaskFromInput(state) {
   state.selectedSubtasks.push({ title: value, done: false });
   state.subtaskInput.value = "";
   renderSubtasks(state);
+  updateSubtaskInputActions(state);
+  state.subtaskInput.focus();
 }
 
 /**
@@ -124,6 +212,7 @@ function addSubtaskFromInput(state) {
 function wireSubtaskCounter(state) {
   enforceSubtaskMax(state);
   updateSubtaskLimitState(state);
+  updateSubtaskInputActions(state);
 }
 
 /**
